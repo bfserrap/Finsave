@@ -412,8 +412,8 @@ tr:last-child td{border-bottom:none}
       <h2>💰 <em>Fin</em>save</h2>
       <p>Tu billetera digital chilena</p>
     </div>
-    <div class="auth-tabs">
-      <div class="auth-tab active" id="at-login" onclick="switchTab('login')">Ingresar</div>
+<div class="auth-tabs" id="auth-tabs">
+  <div class="auth-tab active" id="at-login" onclick="switchTab('login')">Ingresar</div>
       <div class="auth-tab" id="at-reg" onclick="switchTab('register')">Crear cuenta</div>
     </div>
     <div id="auth-err" class="err-box"></div>
@@ -429,6 +429,7 @@ tr:last-child td{border-bottom:none}
       </div>
       <button class="btn btn-prim btn-full" id="btn-ingresar" onclick="doLogin()">Ingresar →</button>
       <div class="auth-link">¿No tienes cuenta? <a href="#" onclick="switchTab('register');return false">Créala gratis</a></div>
+      <div class="auth-link" style="margin-top:-6px"><a href="#" onclick="switchTab('forgot');return false">¿Olvidaste tu contraseña?</a></div>
     </div>
     <div id="f-reg" class="hidden">
       <div class="fg"><label>Nombre completo</label><input type="text" id="rg-name" placeholder="Juan Pérez" autocomplete="name"></div>
@@ -442,6 +443,24 @@ tr:last-child td{border-bottom:none}
       </div>
       <button class="btn btn-prim btn-full" onclick="doRegister()">Crear cuenta gratis →</button>
       <div class="auth-link">¿Ya tienes cuenta? <a href="#" onclick="switchTab('login');return false">Ingresa aquí</a></div>
+    </div>
+    <div id="f-forgot" class="hidden">
+      <p style="color:#9aa0ac;font-size:.9rem;margin-bottom:14px">Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña.</p>
+      <div class="fg"><label>Correo</label><input type="email" id="fp-email" placeholder="tu@correo.com" autocomplete="email"></div>
+      <button class="btn btn-prim btn-full" id="btn-recuperar" onclick="doForgotPassword()">Enviar enlace →</button>
+      <div class="auth-link">¿Recordaste tu contraseña? <a href="#" onclick="switchTab('login');return false">Volver a ingresar</a></div>
+    </div>
+    <div id="f-reset" class="hidden">
+      <p style="color:#9aa0ac;font-size:.9rem;margin-bottom:14px">Escribe tu nueva contraseña.</p>
+      <div class="fg">
+        <label>Nueva contraseña</label>
+        <div class="pass-wrap">
+          <input type="password" id="rs-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+          <button type="button" class="pass-toggle" onclick="togglePass('rs-pass',this)">👁️</button>
+        </div>
+      </div>
+      <div class="fg"><label>Confirmar contraseña</label><input type="password" id="rs-pass-confirm" placeholder="Repite la contraseña" autocomplete="new-password"></div>
+      <button class="btn btn-prim btn-full" id="btn-restablecer" onclick="doResetPassword()">Guardar nueva contraseña →</button>
     </div>
     <div class="back-land"><a href="#" onclick="showLanding();return false">← Volver al inicio</a></div>
   </div>
@@ -1613,19 +1632,24 @@ document.addEventListener('DOMContentLoaded', async function() {
   if (lMes) lMes.value = now.getMonth();
 
   let sbOk = initSupabase();
+  let isRecovery = window.location.hash.includes('type=recovery');
 
   if (sbOk) {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-      currentUser = session.user;
-      showLoading(true);
-      await loadFromSupabase();
-      showLoading(false);
-      enterApp();
+    if (!isRecovery) {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        currentUser = session.user;
+        showLoading(true);
+        await loadFromSupabase();
+        showLoading(false);
+        enterApp();
+      }
     }
 
     supabaseClient.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session) {
+      if (event === 'PASSWORD_RECOVERY') {
+        showAuth('reset');
+      } else if (event === 'SIGNED_IN' && session) {
         currentUser = session.user;
         setSyncStatus('syncing');
         await loadFromSupabase();
@@ -1664,16 +1688,27 @@ function showLanding() {
 function switchTab(mode) {
   document.getElementById('auth-err').style.display = 'none';
   document.getElementById('auth-ok').style.display = 'none';
+
+  document.getElementById('at-login').classList.remove('active');
+  document.getElementById('at-reg').classList.remove('active');
+  document.getElementById('f-login').classList.add('hidden');
+  document.getElementById('f-reg').classList.add('hidden');
+  document.getElementById('f-forgot').classList.add('hidden');
+  document.getElementById('f-reset').classList.add('hidden');
+  document.getElementById('auth-tabs').classList.remove('hidden');
+
   if (mode === 'login') {
     document.getElementById('at-login').classList.add('active');
-    document.getElementById('at-reg').classList.remove('active');
     document.getElementById('f-login').classList.remove('hidden');
-    document.getElementById('f-reg').classList.add('hidden');
-  } else {
-    document.getElementById('at-login').classList.remove('active');
+  } else if (mode === 'register') {
     document.getElementById('at-reg').classList.add('active');
-    document.getElementById('f-login').classList.add('hidden');
     document.getElementById('f-reg').classList.remove('hidden');
+  } else if (mode === 'forgot') {
+    document.getElementById('auth-tabs').classList.add('hidden');
+    document.getElementById('f-forgot').classList.remove('hidden');
+  } else if (mode === 'reset') {
+    document.getElementById('auth-tabs').classList.add('hidden');
+    document.getElementById('f-reset').classList.remove('hidden');
   }
 }
 
@@ -1740,6 +1775,55 @@ async function doRegister() {
     document.getElementById('auth-ok').style.display = 'block';
     setTimeout(enterApp, 900);
   }
+}
+
+async function doForgotPassword() {
+  let e = document.getElementById('fp-email').value.trim();
+  if (!e) { showAuthErr('Ingresa tu correo'); return; }
+  if (!supabaseClient) { showAuthErr('La recuperación de contraseña requiere conexión a Supabase.'); return; }
+
+  document.getElementById('btn-recuperar').disabled = true;
+  document.getElementById('btn-recuperar').textContent = 'Enviando...';
+
+  try {
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(e, {
+      redirectTo: window.location.origin + window.location.pathname
+    });
+    if (error) throw error;
+    document.getElementById('auth-ok').innerText = 'Te enviamos un correo con el enlace para restablecer tu contraseña. Revisa tu bandeja de entrada (y spam).';
+    document.getElementById('auth-ok').style.display = 'block';
+  } catch(err) {
+    showAuthErr('Error al enviar el correo: ' + (err.message || 'Intenta de nuevo'));
+  }
+
+  document.getElementById('btn-recuperar').disabled = false;
+  document.getElementById('btn-recuperar').textContent = 'Enviar enlace →';
+}
+
+async function doResetPassword() {
+  let p1 = document.getElementById('rs-pass').value;
+  let p2 = document.getElementById('rs-pass-confirm').value;
+  if (!p1 || p1.length < 6) { showAuthErr('La contraseña debe tener mínimo 6 caracteres'); return; }
+  if (p1 !== p2) { showAuthErr('Las contraseñas no coinciden'); return; }
+  if (!supabaseClient) { showAuthErr('Falta conexión a Supabase.'); return; }
+
+  document.getElementById('btn-restablecer').disabled = true;
+  document.getElementById('btn-restablecer').textContent = 'Guardando...';
+
+  try {
+    const { error } = await supabaseClient.auth.updateUser({ password: p1 });
+    if (error) throw error;
+    document.getElementById('auth-ok').innerText = '¡Contraseña actualizada! Ya puedes ingresar con tu nueva contraseña.';
+    document.getElementById('auth-ok').style.display = 'block';
+    await supabaseClient.auth.signOut();
+    currentUser = null;
+    setTimeout(() => switchTab('login'), 1800);
+  } catch(err) {
+    showAuthErr('Error al actualizar la contraseña: ' + (err.message || 'Intenta de nuevo'));
+  }
+
+  document.getElementById('btn-restablecer').disabled = false;
+  document.getElementById('btn-restablecer').textContent = 'Guardar nueva contraseña →';
 }
 
 function showAuthErr(m) {
