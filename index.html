@@ -1756,12 +1756,23 @@ async function doRegister() {
     try {
       const { data, error } = await supabaseClient.auth.signUp({ email: e, password: p });
       if (error) throw error;
+
+      if (!data.session) {
+        document.getElementById('auth-ok').innerText = '¡Cuenta creada! Revisa tu correo y confirma tu cuenta antes de ingresar.';
+        document.getElementById('auth-ok').style.display = 'block';
+        document.getElementById('rg-name').value = '';
+        document.getElementById('rg-email').value = '';
+        document.getElementById('rg-pass').value = '';
+        setTimeout(() => switchTab('login'), 2500);
+        return;
+      }
+
       currentUser = data.user;
       window.db.perfil.name = n;
       window.db.perfil.email = e;
       saveDB();
       await syncToSupabase();
-      document.getElementById('auth-ok').innerText = '¡Cuenta creada! Revisa tu correo para confirmarla.';
+      document.getElementById('auth-ok').innerText = '¡Cuenta creada!';
       document.getElementById('auth-ok').style.display = 'block';
       setTimeout(enterApp, 1500);
     } catch(err) {
