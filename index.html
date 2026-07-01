@@ -1731,7 +1731,8 @@ async function doLogin() {
       showLoading(false);
       enterApp();
     } catch(err) {
-      showAuthErr('Error al ingresar: ' + (err.message || 'Revisa tus credenciales'));
+      showAuthErr(translateAuthError(err.message));
+
     }
   } else {
     window.db.perfil.email = e;
@@ -1776,7 +1777,7 @@ async function doRegister() {
       document.getElementById('auth-ok').style.display = 'block';
       setTimeout(enterApp, 1500);
     } catch(err) {
-      showAuthErr('Error al registrar: ' + (err.message || 'Intenta de nuevo'));
+      showAuthErr(translateAuthError(err.message));
     }
   } else {
     window.db.perfil.name = n;
@@ -1804,7 +1805,8 @@ async function doForgotPassword() {
     document.getElementById('auth-ok').innerText = 'Te enviamos un correo con el enlace para restablecer tu contraseña. Revisa tu bandeja de entrada (y spam).';
     document.getElementById('auth-ok').style.display = 'block';
   } catch(err) {
-    showAuthErr('Error al enviar el correo: ' + (err.message || 'Intenta de nuevo'));
+    showAuthErr(translateAuthError(err.message));
+
   }
 
   document.getElementById('btn-recuperar').disabled = false;
@@ -1830,14 +1832,32 @@ async function doResetPassword() {
     currentUser = null;
     setTimeout(() => switchTab('login'), 1800);
   } catch(err) {
-    showAuthErr('Error al actualizar la contraseña: ' + (err.message || 'Intenta de nuevo'));
+    showAuthErr(translateAuthError(err.message));
+
   }
 
   document.getElementById('btn-restablecer').disabled = false;
   document.getElementById('btn-restablecer').textContent = 'Guardar nueva contraseña →';
 }
 
+function translateAuthError(msg) {
+  if (!msg) return 'Ocurrió un error. Intenta de nuevo.';
+  const m = msg.toLowerCase();
+  if (m.includes('invalid login credentials')) return 'Correo o contraseña incorrectos.';
+  if (m.includes('email not confirmed')) return 'Debes confirmar tu correo antes de ingresar. Revisa tu bandeja de entrada.';
+  if (m.includes('already registered')) return 'Ya existe una cuenta con ese correo.';
+  if (m.includes('should be different from the old password')) return 'La nueva contraseña debe ser distinta a la anterior.';
+  if (m.includes('password should be at least') || m.includes('should be at least')) return 'La contraseña debe tener al menos 6 caracteres.';
+  if (m.includes('unable to validate email') || m.includes('invalid email')) return 'El correo ingresado no es válido.';
+  if (m.includes('rate limit')) return 'Se enviaron muchas solicitudes seguidas. Espera unos minutos e intenta de nuevo.';
+  if (m.includes('user not found')) return 'No encontramos una cuenta con ese correo.';
+  if (m.includes('expired') || m.includes('invalid token') || m.includes('otp')) return 'El enlace expiró o ya se usó. Solicita uno nuevo.';
+  if (m.includes('network') || m.includes('fetch')) return 'Problema de conexión. Revisa tu internet e intenta de nuevo.';
+  return 'Ocurrió un error. Intenta de nuevo.';
+}
+
 function showAuthErr(m) {
+
   let b = document.getElementById('auth-err');
   b.innerText = m; b.style.display = 'block';
 }
@@ -2688,7 +2708,8 @@ async function cambiarPassword() {
     document.getElementById('p-pass-new').value = '';
     document.getElementById('p-pass-confirm').value = '';
   } catch(err) {
-    showMsg('Error: ' + (err.message || 'No se pudo actualizar la contraseña.'), false);
+    showMsg(translateAuthError(err.message), false);
+
   }
 }
 
