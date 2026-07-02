@@ -3630,7 +3630,7 @@ function renderResumen() {
   let m = parseInt(document.getElementById('res-month').value);
   let y = parseInt(document.getElementById('res-year').value);
   document.getElementById('res-yr-lbl').innerText = y;
-
+ 
   let totalIn   = window.db.ingresos.filter(x=>x.month===m&&x.year===y).reduce((a,b)=>a+b.monto,0);
   let totalFijos= window.db.gastosFijos.filter(x=>x.month===m&&x.year===y).reduce((a,b)=>a+b.monto,0);
   let totalVar  = window.db.gastosVariables.filter(x=>x.month===m&&x.year===y).reduce((a,b)=>a+b.monto,0);
