@@ -3265,17 +3265,23 @@ function exportLiqPDF() {
   let generadoEn = new Date().toLocaleString('es-CL');
   let py = 0;
 
-  // ─── ENCABEZADO (logo dibujado, no emoji) ──────────────────
-  doc.setFillColor(...GREEN);
-  doc.circle(lm + 2.6, 9, 3.4, 'F');
-  doc.setTextColor(255, 255, 255); doc.setFontSize(8.5); doc.setFont(undefined, 'bold');
-  doc.text('$', lm + 2.6, 10.4, { align: 'center' });
+// ─── ENCABEZADO (bolsa de dinero dibujada, imitando 💰) ────
+  let bx = lm + 4.2, by = 9.5;
+  doc.setFillColor(214, 178, 60);
+  doc.setDrawColor(150, 112, 20);
+  doc.setLineWidth(0.35);
+  doc.ellipse(bx, by + 1, 4.3, 3.7, 'FD');
+  doc.setFillColor(150, 112, 20);
+  doc.roundedRect(bx - 1.5, by - 4.3, 3, 2.6, 0.7, 0.7, 'F');
+  doc.setTextColor(110, 74, 8); doc.setFontSize(7); doc.setFont(undefined, 'bold');
+  doc.text('$', bx, by + 1.6, { align: 'center', baseline: 'middle' });
 
+  let finX = bx + 7;
   doc.setFontSize(14); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
-  doc.text('Fin', lm + 8, 11);
+  doc.text('Fin', finX, 9, { baseline: 'middle' });
   let finW = doc.getTextWidth('Fin');
   doc.setTextColor(...GREEN);
-  doc.text('save', lm + 8 + finW, 11);
+  doc.text('save', finX + finW, 9, { baseline: 'middle' });
 
   doc.setTextColor(...DARK); doc.setFontSize(10.5); doc.setFont(undefined, 'bold');
   doc.text('Liquidación de Sueldo', rm, 9, { align: 'right' });
