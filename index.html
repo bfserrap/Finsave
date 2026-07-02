@@ -3265,49 +3265,52 @@ function exportLiqPDF() {
   let generadoEn = new Date().toLocaleString('es-CL');
   let py = 0;
 
-  // ─── ENCABEZADO ───────────────────────────────────────────
-  doc.setFontSize(15); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
-  doc.text('💰', lm, 15);
-  doc.text('Fin', lm + 7, 15);
+  // ─── ENCABEZADO (logo dibujado, no emoji) ──────────────────
+  doc.setFillColor(...GREEN);
+  doc.circle(lm + 2.6, 9, 3.4, 'F');
+  doc.setTextColor(255, 255, 255); doc.setFontSize(8.5); doc.setFont(undefined, 'bold');
+  doc.text('$', lm + 2.6, 10.4, { align: 'center' });
+
+  doc.setFontSize(14); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
+  doc.text('Fin', lm + 8, 11);
   let finW = doc.getTextWidth('Fin');
   doc.setTextColor(...GREEN);
-  doc.text('save', lm + 7 + finW, 15);
+  doc.text('save', lm + 8 + finW, 11);
 
-  doc.setTextColor(...DARK); doc.setFontSize(11); doc.setFont(undefined, 'bold');
-  doc.text('Liquidación de Sueldo', rm, 12, { align: 'right' });
-  doc.setFontSize(9); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
-  doc.text(`${meses[lMesIdx]} ${lAnio}`, rm, 18, { align: 'right' });
+  doc.setTextColor(...DARK); doc.setFontSize(10.5); doc.setFont(undefined, 'bold');
+  doc.text('Liquidación de Sueldo', rm, 9, { align: 'right' });
+  doc.setFontSize(8.5); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
+  doc.text(`${meses[lMesIdx]} ${lAnio}`, rm, 14.5, { align: 'right' });
 
-  doc.setDrawColor(...GREEN); doc.setLineWidth(0.6);
-  doc.line(lm, 23, rm, 23);
-  py = 34;
+  doc.setDrawColor(...GREEN); doc.setLineWidth(0.5);
+  doc.line(lm, 18, rm, 18);
+  py = 26;
 
   // ─── PIE DE PÁGINA helper ─────────────────────────────────
   function addPageFooter() {
     let pg = doc.internal.getCurrentPageInfo().pageNumber;
-    doc.setFontSize(7); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
-    doc.text(`Finsave · Liquidación ${meses[lMesIdx]} ${lAnio} · Página ${pg}`, lm, H - 8);
-    doc.text(generadoEn, rm, H - 8, { align: 'right' });
+    doc.setFontSize(6.5); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
+    doc.text(`Finsave · Liquidación ${meses[lMesIdx]} ${lAnio} · Página ${pg}`, lm, H - 7);
+    doc.text(generadoEn, rm, H - 7, { align: 'right' });
   }
   addPageFooter();
-  function checkY(h) { if (py + h > H - 16) { doc.addPage(); addPageFooter(); py = 20; } }
+  function checkY(h) { if (py + h > H - 14) { doc.addPage(); addPageFooter(); py = 16; } }
 
-  // ─── TÍTULO DE SECCIÓN (línea fina, sin banner) ────────────
   function sectionTitle(t) {
-    checkY(12);
-    doc.setFontSize(8.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...GREEN);
+    checkY(9);
+    doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...GREEN);
     doc.text(t.toUpperCase(), lm, py);
-    py += 3;
-    doc.setDrawColor(...GRAY_LIGHT); doc.setLineWidth(0.3);
+    py += 2.3;
+    doc.setDrawColor(...GRAY_LIGHT); doc.setLineWidth(0.25);
     doc.line(lm, py, rm, py);
-    py += 6;
+    py += 4.5;
   }
 
   // ─── DATOS DEL TRABAJADOR ───────────────────────────────────
   sectionTitle('Datos del Trabajador');
   let colW = (rm - lm) / 3;
   function labelVal(x, label, val) {
-    doc.setFontSize(8.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
+    doc.setFontSize(8); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
     doc.text(label, x, py);
     let lw = doc.getTextWidth(label + ' ');
     doc.setFont(undefined, 'normal');
@@ -3317,37 +3320,37 @@ function exportLiqPDF() {
   labelVal(lm, 'Nombre:', nombre);
   labelVal(lm + colW, 'RUT:', rut);
   labelVal(lm + colW * 2, 'Cargo:', cargo);
-  py += 6;
-  doc.setFontSize(8); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
+  py += 5;
+  doc.setFontSize(7.5); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
   doc.text(`Empresa: ${empresa}   ·   Contrato: ${contratoTxt}   ·   AFP: ${afpName}   ·   Salud: ${saludTipo}`, lm, py);
-  py += 10;
+  py += 7.5;
 
-  // ─── TABLA GENÉRICA LIMPIA ──────────────────────────────────
+  // ─── TABLA GENÉRICA COMPACTA ────────────────────────────────
   function table(title, rows) {
     sectionTitle(title);
-    doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...GRAY);
+    doc.setFontSize(6.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...GRAY);
     doc.text('CONCEPTO', lm, py);
     doc.text('MONTO', rm, py, { align: 'right' });
-    py += 2;
+    py += 1.5;
     doc.setDrawColor(...GRAY_LIGHT); doc.setLineWidth(0.2);
     doc.line(lm, py, rm, py);
-    py += 5.5;
+    py += 4.5;
 
     rows.forEach(([lbl, val, isTotal, colorVal]) => {
-      checkY(8);
+      checkY(6);
       if (isTotal) {
-        doc.setDrawColor(...DARK); doc.setLineWidth(0.4);
-        doc.line(lm, py - 4, rm, py - 4);
-        doc.setFont(undefined, 'bold'); doc.setFontSize(9.5); doc.setTextColor(...DARK);
+        doc.setDrawColor(...DARK); doc.setLineWidth(0.35);
+        doc.line(lm, py - 3.3, rm, py - 3.3);
+        doc.setFont(undefined, 'bold'); doc.setFontSize(8.5); doc.setTextColor(...DARK);
       } else {
-        doc.setFont(undefined, 'normal'); doc.setFontSize(9); doc.setTextColor(60, 60, 60);
+        doc.setFont(undefined, 'normal'); doc.setFontSize(7.8); doc.setTextColor(60, 60, 60);
       }
       doc.text(lbl, lm, py);
       if (colorVal) doc.setTextColor(...colorVal);
       doc.text(val, rm, py, { align: 'right' });
-      py += 6.5;
+      py += 5.2;
     });
-    py += 4;
+    py += 2.5;
   }
 
   // ─── HABERES ──────────────────────────────────────────────
@@ -3378,15 +3381,15 @@ function exportLiqPDF() {
   ]);
 
   // ─── TOTAL LÍQUIDO (caja destacada) ────────────────────────
-  checkY(22);
+  checkY(16);
   doc.setFillColor(...GREEN_LIGHT);
-  doc.setDrawColor(...GREEN); doc.setLineWidth(0.5);
-  doc.roundedRect(lm, py, rm - lm, 18, 3, 3, 'FD');
-  doc.setFontSize(10.5); doc.setFont(undefined, 'normal'); doc.setTextColor(...DARK);
-  doc.text('Total Líquido a Pagar', lm + 6, py + 11);
-  doc.setFontSize(17); doc.setFont(undefined, 'bold'); doc.setTextColor(...GREEN);
-  doc.text(getV('v-liquido'), rm - 6, py + 12, { align: 'right' });
-  py += 26;
+  doc.setDrawColor(...GREEN); doc.setLineWidth(0.4);
+  doc.roundedRect(lm, py, rm - lm, 13, 2.5, 2.5, 'FD');
+  doc.setFontSize(9); doc.setFont(undefined, 'normal'); doc.setTextColor(...DARK);
+  doc.text('Total Líquido a Pagar', lm + 5, py + 8);
+  doc.setFontSize(14); doc.setFont(undefined, 'bold'); doc.setTextColor(...GREEN);
+  doc.text(getV('v-liquido'), rm - 5, py + 8.5, { align: 'right' });
+  py += 18;
 
   // ─── COSTO EMPRESA ────────────────────────────────────────
   table('Costo Total Empresa (Cargo Empleador)', [
@@ -3408,11 +3411,11 @@ function exportLiqPDF() {
   }
 
   // ─── INDICADORES USADOS ───────────────────────────────────
-  checkY(16);
-  doc.setFontSize(7); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
+  checkY(10);
+  doc.setFontSize(6.3); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
   let fechaInd = indicadoresSheetData?.sueldo_minimo?.ultima_actualizacion || 'N/D';
-  doc.text(`Indicadores utilizados: UF $${formatMiles(ufEf)}  ·  USD $${formatMiles(usdEf)}  ·  Actualizados al ${fechaInd}`, lm, py);
-  py += 5;
+  doc.text(`Indicadores: UF $${formatMiles(ufEf)}  ·  USD $${formatMiles(usdEf)}  ·  Actualizados al ${fechaInd}`, lm, py);
+  py += 3.8;
   doc.text('Este documento es referencial y no reemplaza una liquidación emitida por contador o empresa legalmente habilitada.', lm, py);
 
   doc.save(`Liquidacion-Finsave-${meses[lMesIdx]}-${lAnio}.pdf`);
