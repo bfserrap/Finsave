@@ -403,7 +403,14 @@ tr:last-child td{border-bottom:none}
       <div class="feat-card"><div class="feat-icon">🧮</div><h3>Parámetros Previsionales</h3><p>Automatización de liquidación con tasas de AFP y topes regulados por ley vigentes 2025.</p></div>
     </div>
   </section>
-  <div class="land-footer">Hecho con 💚 en Chile — <em>Finsave</em> 2026 · Todos tus datos están respaldados de forma segura en Supabase.</div>
+  <div class="land-footer">
+    <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.78rem">
+      <span>🔒 Datos cifrados</span>
+      <span>🇨🇱 Hecho en Chile</span>
+      <span>🛡️ Nadie más ve tu información financiera</span>
+    </div>
+    Hecho con 💚 en Chile — <em>Finsave</em> 2026 · Todos tus datos están respaldados de forma segura en Supabase.
+  </div>
 </div>
 
 <div id="auth" class="hidden">
@@ -1621,6 +1628,11 @@ function updateAvatarUI() {
 }
 
 /* ── DOM READY ── */
+  document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('input[oninput*="formatInputMiles"]').forEach(function(el) {
+    el.setAttribute('inputmode', 'decimal');
+  });
+});
 document.addEventListener('DOMContentLoaded', async function() {
   initDatabaseEngine();
   initYears();
