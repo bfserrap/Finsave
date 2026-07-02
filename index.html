@@ -3237,10 +3237,17 @@ function exportLiqPDF() {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const W = doc.internal.pageSize.getWidth();
   const H = doc.internal.pageSize.getHeight();
-  const lm = 14, rm = W - 14;
+  const lm = 16, rm = W - 16;
+  const GREEN = [22, 163, 74];
+  const GREEN_LIGHT = [220, 252, 231];
+  const RED = [185, 28, 28];
+  const BLUE = [30, 58, 138];
+  const PURPLE = [109, 40, 217];
+  const DARK = [24, 24, 27];
+  const GRAY = [113, 113, 122];
+  const GRAY_LIGHT = [228, 228, 231];
 
   function getV(id) { let el = document.getElementById(id); return el ? el.innerText || '$0' : '$0'; }
-  function checkY(h) { if (py + h > H - 16) { doc.addPage(); addPageFooter(); py = 18; } }
 
   let nombre = document.getElementById('l-nombre')?.value || '—';
   let rut    = document.getElementById('l-rut')?.value || '—';
@@ -3259,161 +3266,157 @@ function exportLiqPDF() {
   let py = 0;
 
   // ─── ENCABEZADO ───────────────────────────────────────────
-  doc.setFillColor(6, 78, 49);
-  doc.rect(0, 0, W, 32, 'F');
-  // Franja decorativa
-  doc.setFillColor(13, 122, 78);
-  doc.rect(0, 26, W, 6, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(20); doc.setFont(undefined, 'bold');
-  doc.text('LIQUIDACIÓN DE SUELDO', W / 2, 13, { align: 'center' });
-  doc.setFontSize(9); doc.setFont(undefined, 'normal');
-  doc.text('Finsave · Comprobante Previsional Referencial', W / 2, 21, { align: 'center' });
-  py = 38;
+  doc.setFontSize(15); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
+  doc.text('💰', lm, 15);
+  doc.text('Fin', lm + 7, 15);
+  let finW = doc.getTextWidth('Fin');
+  doc.setTextColor(...GREEN);
+  doc.text('save', lm + 7 + finW, 15);
+
+  doc.setTextColor(...DARK); doc.setFontSize(11); doc.setFont(undefined, 'bold');
+  doc.text('Liquidación de Sueldo', rm, 12, { align: 'right' });
+  doc.setFontSize(9); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
+  doc.text(`${meses[lMesIdx]} ${lAnio}`, rm, 18, { align: 'right' });
+
+  doc.setDrawColor(...GREEN); doc.setLineWidth(0.6);
+  doc.line(lm, 23, rm, 23);
+  py = 34;
 
   // ─── PIE DE PÁGINA helper ─────────────────────────────────
   function addPageFooter() {
     let pg = doc.internal.getCurrentPageInfo().pageNumber;
-    doc.setFontSize(7); doc.setFont(undefined, 'normal'); doc.setTextColor(160, 160, 160);
+    doc.setFontSize(7); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
     doc.text(`Finsave · Liquidación ${meses[lMesIdx]} ${lAnio} · Página ${pg}`, lm, H - 8);
     doc.text(generadoEn, rm, H - 8, { align: 'right' });
   }
   addPageFooter();
+  function checkY(h) { if (py + h > H - 16) { doc.addPage(); addPageFooter(); py = 20; } }
 
-  // ─── BLOQUE TRABAJADOR / EMPRESA ──────────────────────────
-  doc.setFillColor(243, 244, 246);
-  doc.roundedRect(lm, py, W - 28, 30, 3, 3, 'F');
-  doc.setDrawColor(220, 252, 231); doc.setLineWidth(0.5);
-  doc.roundedRect(lm, py, W - 28, 30, 3, 3, 'S');
+  // ─── TÍTULO DE SECCIÓN (línea fina, sin banner) ────────────
+  function sectionTitle(t) {
+    checkY(12);
+    doc.setFontSize(8.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...GREEN);
+    doc.text(t.toUpperCase(), lm, py);
+    py += 3;
+    doc.setDrawColor(...GRAY_LIGHT); doc.setLineWidth(0.3);
+    doc.line(lm, py, rm, py);
+    py += 6;
+  }
 
-  // Columna izquierda
-  doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(13, 122, 78);
-  doc.text('DATOS DEL TRABAJADOR', lm + 4, py + 7);
-  doc.setFont(undefined, 'normal'); doc.setTextColor(50, 50, 50);
-  doc.setFontSize(9);
-  doc.text(`${nombre}`, lm + 4, py + 13);
-  doc.setFontSize(8.5);
-  doc.text(`RUT: ${rut}`, lm + 4, py + 19);
-  doc.text(`Cargo: ${cargo}`, lm + 4, py + 25);
+  // ─── DATOS DEL TRABAJADOR ───────────────────────────────────
+  sectionTitle('Datos del Trabajador');
+  let colW = (rm - lm) / 3;
+  function labelVal(x, label, val) {
+    doc.setFontSize(8.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
+    doc.text(label, x, py);
+    let lw = doc.getTextWidth(label + ' ');
+    doc.setFont(undefined, 'normal');
+    let lines = doc.splitTextToSize(val, colW - lw - 4);
+    doc.text(lines, x + lw, py);
+  }
+  labelVal(lm, 'Nombre:', nombre);
+  labelVal(lm + colW, 'RUT:', rut);
+  labelVal(lm + colW * 2, 'Cargo:', cargo);
+  py += 6;
+  doc.setFontSize(8); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
+  doc.text(`Empresa: ${empresa}   ·   Contrato: ${contratoTxt}   ·   AFP: ${afpName}   ·   Salud: ${saludTipo}`, lm, py);
+  py += 10;
 
-  // Columna derecha
-  let col2 = W / 2 + 4;
-  doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(13, 122, 78);
-  doc.text('EMPRESA / PERÍODO', col2, py + 7);
-  doc.setFont(undefined, 'normal'); doc.setTextColor(50, 50, 50);
-  doc.setFontSize(9);
-  doc.text(`${empresa}`, col2, py + 13);
-  doc.setFontSize(8.5);
-  doc.text(`Período: ${meses[lMesIdx]} ${lAnio}`, col2, py + 19);
-  doc.text(`Contrato: ${contratoTxt} · AFP: ${afpName} · Salud: ${saludTipo}`, col2, py + 25);
-  py += 36;
+  // ─── TABLA GENÉRICA LIMPIA ──────────────────────────────────
+  function table(title, rows) {
+    sectionTitle(title);
+    doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...GRAY);
+    doc.text('CONCEPTO', lm, py);
+    doc.text('MONTO', rm, py, { align: 'right' });
+    py += 2;
+    doc.setDrawColor(...GRAY_LIGHT); doc.setLineWidth(0.2);
+    doc.line(lm, py, rm, py);
+    py += 5.5;
 
-  // ─── FUNCIÓN SECCIÓN CON FILAS ────────────────────────────
-  function section(title, color, rows) {
-    let rowH = 6.5;
-    checkY(10 + rows.length * rowH + 4);
-    // Título sección
-    doc.setFillColor(...color);
-    doc.roundedRect(lm, py, W - 28, 8, 2, 2, 'F');
-    doc.setFontSize(8); doc.setFont(undefined, 'bold'); doc.setTextColor(255, 255, 255);
-    doc.text(title.toUpperCase(), lm + 4, py + 5.5);
-    py += 10;
-    // Filas
     rows.forEach(([lbl, val, isTotal, colorVal]) => {
-      checkY(rowH + 1);
+      checkY(8);
       if (isTotal) {
-        doc.setFillColor(240, 240, 240);
-        doc.rect(lm, py - 1, W - 28, rowH + 1, 'F');
-        doc.setFont(undefined, 'bold'); doc.setFontSize(9.5);
-        doc.setTextColor(30, 30, 30);
+        doc.setDrawColor(...DARK); doc.setLineWidth(0.4);
+        doc.line(lm, py - 4, rm, py - 4);
+        doc.setFont(undefined, 'bold'); doc.setFontSize(9.5); doc.setTextColor(...DARK);
       } else {
-        // Línea separadora sutil
-        doc.setDrawColor(220, 220, 220); doc.setLineWidth(0.2);
-        doc.line(lm, py + rowH - 1, rm, py + rowH - 1);
-        doc.setFont(undefined, 'normal'); doc.setFontSize(9);
-        doc.setTextColor(80, 80, 80);
+        doc.setFont(undefined, 'normal'); doc.setFontSize(9); doc.setTextColor(60, 60, 60);
       }
-      doc.text(lbl, lm + 4, py + 4.5);
+      doc.text(lbl, lm, py);
       if (colorVal) doc.setTextColor(...colorVal);
-      doc.text(val, rm, py + 4.5, { align: 'right' });
-      py += rowH;
+      doc.text(val, rm, py, { align: 'right' });
+      py += 6.5;
     });
     py += 4;
   }
 
   // ─── HABERES ──────────────────────────────────────────────
-  section('Haberes', [13, 122, 78], [
+  table('Desglose de Haberes', [
     ['Sueldo Base', getV('v-base')],
     ['Gratificación Legal (Art. 50)', getV('v-grat')],
     ['Otros Bonos Imponibles', getV('v-otros')],
     ['Horas Extraordinarias', getV('v-hext')],
     ['Semana Corrida', getV('v-semanacorrida')],
     ['Bonos / Conceptos Adicionales (Imp.)', getV('v-conceptos-imp')],
-    ['Total Imponible', getV('v-totImpo'), true, [13, 122, 78]],
+    ['Total Imponible', getV('v-totImpo'), true, GREEN],
     ['Asignación de Colación', getV('v-colacion')],
     ['Asignación de Movilización', getV('v-movilizacion')],
     ['Otros No Imponibles', getV('v-noImpoExtra')],
     ['Bonos / Conceptos Adicionales (No Imp.)', getV('v-conceptos-noimp')],
-    ['Total Haberes Brutos', getV('v-bruto'), true, [13, 122, 78]],
+    ['Total Haberes', getV('v-bruto'), true, GREEN],
   ]);
 
   // ─── DESCUENTOS ───────────────────────────────────────────
-  section('Descuentos Legales', [185, 28, 28], [
+  table('Detalle de Descuentos (Previsionales)', [
     [`Previsión AFP (${afpName})`, getV('v-afp')],
     [`Salud Legal 7% (${saludTipo})`, getV('v-salud')],
     ['Seguro de Cesantía (Trabajador)', getV('v-cesantia')],
     [impuestoOn ? 'Impuesto Único 2ª Categoría' : 'Impuesto Único (desactivado)', getV('v-impuesto')],
     ['Planilla Adicional Isapre', getV('v-planilla')],
     ['Descuentos Conceptos Adicionales', getV('v-conceptos-desc')],
-    ['Total Descuentos', getV('v-totDesc'), true, [185, 28, 28]],
+    ['Total Descuentos', getV('v-totDesc'), true, RED],
   ]);
 
-  // ─── SUELDO LÍQUIDO ───────────────────────────────────────
+  // ─── TOTAL LÍQUIDO (caja destacada) ────────────────────────
   checkY(22);
-  doc.setFillColor(6, 78, 49);
-  doc.roundedRect(lm, py, W - 28, 18, 3, 3, 'F');
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(10); doc.setFont(undefined, 'bold');
-  doc.text('💰  SUELDO LÍQUIDO A PAGAR', lm + 6, py + 7);
-  doc.setFontSize(16);
-  doc.text(getV('v-liquido'), rm, py + 13, { align: 'right' });
-  py += 24;
+  doc.setFillColor(...GREEN_LIGHT);
+  doc.setDrawColor(...GREEN); doc.setLineWidth(0.5);
+  doc.roundedRect(lm, py, rm - lm, 18, 3, 3, 'FD');
+  doc.setFontSize(10.5); doc.setFont(undefined, 'normal'); doc.setTextColor(...DARK);
+  doc.text('Total Líquido a Pagar', lm + 6, py + 11);
+  doc.setFontSize(17); doc.setFont(undefined, 'bold'); doc.setTextColor(...GREEN);
+  doc.text(getV('v-liquido'), rm - 6, py + 12, { align: 'right' });
+  py += 26;
 
   // ─── COSTO EMPRESA ────────────────────────────────────────
-  section('Costo Total Empresa (Cargo Empleador)', [30, 58, 138], [
+  table('Costo Total Empresa (Cargo Empleador)', [
     ['Sueldo Bruto Imponible', getV('ce-bruto')],
     ['Mutual de Seguridad', getV('ce-mutual')],
     ['Seguro de Cesantía (Empleador 2,4%)', getV('ce-cesantia')],
     ['SIS – Seguro Invalidez y Sobrevivencia', getV('ce-sis')],
     ['Cotización Adicional Empleador (1,0%)', getV('ce-adicional')],
-    ['Costo Total Empresa', getV('ce-total'), true, [96, 165, 250]],
+    ['Costo Total Empresa', getV('ce-total'), true, BLUE],
   ]);
 
   // ─── CONCEPTOS ADICIONALES ────────────────────────────────
   let conceptosList = typeof getConceptosPeriodo === 'function' ? getConceptosPeriodo() : [];
   if (conceptosList.length > 0) {
     let tipoTxt = { bono_imponible: 'Bono Imponible', bono_noimponible: 'Bono No Imponible', descuento: 'Descuento' };
-    section('Detalle de Conceptos Adicionales', [109, 40, 217], conceptosList.map(c =>
-      [`${c.desc}  ·  ${tipoTxt[c.tipo] || c.tipo}`, (c.tipo === 'descuento' ? '-$' : '+$') + formatMiles(c.monto)]
+    table('Detalle de Conceptos Adicionales', conceptosList.map(c =>
+      [`${c.desc}  ·  ${tipoTxt[c.tipo] || c.tipo}`, (c.tipo === 'descuento' ? '-$' : '+$') + formatMiles(c.monto), false, PURPLE]
     ));
   }
 
   // ─── INDICADORES USADOS ───────────────────────────────────
-  checkY(22);
-  doc.setFillColor(249, 250, 251);
-  doc.roundedRect(lm, py, W - 28, 18, 2, 2, 'F');
-  doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(100, 100, 100);
-  doc.text('INDICADORES UTILIZADOS EN ESTE CÁLCULO', lm + 4, py + 6);
-  doc.setFont(undefined, 'normal'); doc.setTextColor(120, 120, 120);
+  checkY(16);
+  doc.setFontSize(7); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
   let fechaInd = indicadoresSheetData?.sueldo_minimo?.ultima_actualizacion || 'N/D';
-  doc.text(`UF: $${formatMiles(ufEf)}  ·  USD: $${formatMiles(usdEf)}  ·  Indicadores Previred actualizados al: ${fechaInd}`, lm + 4, py + 12);
-  doc.setFontSize(7);
-  doc.text('Este documento es referencial y no reemplaza una liquidación emitida por contador o empresa legalmente habilitada.', lm + 4, py + 17);
-  py += 22;
+  doc.text(`Indicadores utilizados: UF $${formatMiles(ufEf)}  ·  USD $${formatMiles(usdEf)}  ·  Actualizados al ${fechaInd}`, lm, py);
+  py += 5;
+  doc.text('Este documento es referencial y no reemplaza una liquidación emitida por contador o empresa legalmente habilitada.', lm, py);
 
   doc.save(`Liquidacion-Finsave-${meses[lMesIdx]}-${lAnio}.pdf`);
 }
-
 function exportResumenPDF() {
   const { jsPDF } = window.jspdf;
   if (!jsPDF) { showToast('PDF no disponible', 'err'); return; }
