@@ -2921,7 +2921,12 @@ function useLiveUSD() {
 function saveLiquidacionPeriodo() {
   let { m, y } = getCurrentLiqPeriod();
   let meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-
+let confirmado = confirm(
+  `Esta liquidación se agregará/actualizará automáticamente como un Ingreso de ${meses[m]} ${y} en tu perfil.\n\n` +
+  `Podrás editarlo o eliminarlo después desde la sección Ingresos, igual que cualquier otro ingreso.\n\n` +
+  `¿Deseas continuar?`
+);
+if (!confirmado) return;
   let record = {
     month: m, year: y,
     tipoContrato: document.getElementById('l-tipoContrato').value,
@@ -2962,9 +2967,28 @@ function saveLiquidacionPeriodo() {
 
   try { localStorage.setItem('finsave_indicadores_manual', JSON.stringify(record.indicadores)); } catch(e) {}
 
-  saveDB();
-  showToast(`Liquidación de ${meses[m]} ${y} guardada ✅`);
-  refreshLiqStatusBanner(true);
+/* ── Sincronizar el Sueldo Líquido calculado como Ingreso del período ── */
+calcLiq(); // asegura que window.liqLiquidoActual esté actualizado
+let liquidoNum   = window.liqLiquidoActual || 0;
+let ingresoLiqId = 900000000 + (y * 100 + m); // ID determinístico y único por mes/año
+
+if (!window.db.ingresos) window.db.ingresos = [];
+let ingIdx = window.db.ingresos.findIndex(x => x.id === ingresoLiqId);
+let ingresoRecord = {
+  id: ingresoLiqId,
+  month: m, year: y,
+  desc: 'Sueldo Líquido (Liquidación)',
+  monto: liquidoNum,
+  fromLiquidacion: true
+};
+if (ingIdx > -1) window.db.ingresos[ingIdx] = ingresoRecord;
+else window.db.ingresos.push(ingresoRecord);
+
+saveDB();
+renderIngresos();
+renderResumen();
+showToast(`Liquidación de ${meses[m]} ${y} guardada y agregada a Ingresos ✅`);
+refreshLiqStatusBanner(true);
 }
 
 /* ── CONCEPTOS ADICIONALES (Bonos / Descuentos) — CRUD vinculado al período ── */
@@ -3264,7 +3288,8 @@ function calcLiq() {
   }
 
   let totalDescuentos = descAfp + descSalud + descCesantia + impuesto2a + cuotaPlanilla + conceptosDesc;
-  let liquido         = totalBruto - totalDescuentos;
+let liquido         = totalBruto - totalDescuentos;
+window.liqLiquidoActual = liquido; // valor líquido vigente, usado al sincronizar con Ingresos
 
   // Costo empresa
   let mutual       = totalImponible * 0.0093;
