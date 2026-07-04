@@ -614,7 +614,10 @@ tr:last-child td{border-bottom:none}
     <div class="card">
       <div class="card-head">
         <div><div class="card-title">Listado de Gastos Fijos</div><div class="card-sub">Compromisos financieros recurrentes</div></div>
-        <button class="btn btn-prim btn-sm" onclick="openModal('mod-gf')">＋ Agregar</button>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="duplicarTodosGastosFijos()">🔁 Duplicar al próximo mes</button>
+          <button class="btn btn-prim btn-sm" onclick="openModal('mod-gf')">＋ Agregar</button>
+        </div>
       </div>
       <div class="tbl-wrap">
         <table>
@@ -2209,6 +2212,7 @@ function renderGastos() {
         <td>$${formatMiles(x.monto)}</td>
         <td>${badge}</td>
         <td class="act-btns">
+          <button class="btn-act" title="Duplicar al próximo mes" onclick="duplicarGastoFijo(${x.id})">🔁</button>
           <button class="btn-act" title="Editar" onclick="editGastoFijo(${x.id})">✏️</button>
           <button class="btn-act" title="Eliminar" onclick="delGastoFijo(${x.id})">🗑️</button>
         </td>
@@ -2231,12 +2235,70 @@ function renderGastos() {
         <td><span class="tag tag-p">${catLbl}</span></td>
         <td>$${formatMiles(x.monto)}</td>
         <td class="act-btns">
+          <button class="btn-act" title="Duplicar al próximo mes" onclick="duplicarGastoVar(${x.id})">🔁</button>
           <button class="btn-act" title="Editar" onclick="editGastoVar(${x.id})">✏️</button>
           <button class="btn-act" title="Eliminar" onclick="delGastoVar(${x.id})">🗑️</button>
         </td>
       </tr>`;
     });
   }
+}
+
+/* ══════════════ DUPLICAR GASTOS AL PRÓXIMO MES ══════════════ */
+function getNextMonthYear(m, y) {
+  return m === 11 ? { m: 0, y: y + 1 } : { m: m + 1, y: y };
+}
+
+function duplicarGastoFijo(id) {
+  let item = window.db.gastosFijos.find(x => x.id === id);
+  if (!item) return;
+  let { m: nm, y: ny } = getNextMonthYear(item.month, item.year);
+  let yaExiste = window.db.gastosFijos.some(x => x.month === nm && x.year === ny && x.desc === item.desc && x.cat === item.cat && x.monto === item.monto);
+  if (yaExiste) { showToast('Ese gasto ya existe el próximo mes', 'err'); return; }
+  window.db.gastosFijos.push({
+    id: Date.now(),
+    month: nm, year: ny,
+    desc: item.desc, cat: item.cat, monto: item.monto, paid: false
+  });
+  saveDB(); showToast('Gasto fijo duplicado al próximo mes ✅');
+  renderGastos();
+}
+
+function duplicarTodosGastosFijos() {
+  let m = parseInt(document.getElementById('gas-month').value);
+  let y = parseInt(document.getElementById('gas-year').value);
+  let actuales = window.db.gastosFijos.filter(x => x.month === m && x.year === y);
+  if (actuales.length === 0) { showToast('No hay gastos fijos este mes para duplicar', 'err'); return; }
+  let { m: nm, y: ny } = getNextMonthYear(m, y);
+  let agregados = 0;
+  actuales.forEach((item, i) => {
+    let yaExiste = window.db.gastosFijos.some(x => x.month === nm && x.year === ny && x.desc === item.desc && x.cat === item.cat && x.monto === item.monto);
+    if (!yaExiste) {
+      window.db.gastosFijos.push({ id: Date.now() + i, month: nm, year: ny, desc: item.desc, cat: item.cat, monto: item.monto, paid: false });
+      agregados++;
+    }
+  });
+  saveDB();
+  if (agregados > 0) showToast(`${agregados} gasto(s) fijo(s) duplicado(s) al próximo mes ✅`);
+  else showToast('Esos gastos ya estaban duplicados en el próximo mes', 'err');
+  renderGastos();
+}
+
+function duplicarGastoVar(id) {
+  let item = window.db.gastosVariables.find(x => x.id === id);
+  if (!item) return;
+  let { m: nm, y: ny } = getNextMonthYear(item.month, item.year);
+  let dia = parseInt((item.dateStr || '').split('-')[2]) || 1;
+  let dateStr = new Date(ny, nm, dia).toISOString().split('T')[0];
+  let yaExiste = window.db.gastosVariables.some(x => x.month === nm && x.year === ny && x.desc === item.desc && x.cat === item.cat && x.monto === item.monto);
+  if (yaExiste) { showToast('Esa transacción ya existe el próximo mes', 'err'); return; }
+  window.db.gastosVariables.push({
+    id: Date.now(),
+    dateStr, month: nm, year: ny,
+    desc: item.desc, cat: item.cat, monto: item.monto
+  });
+  saveDB(); showToast('Gasto variable duplicado al próximo mes ✅');
+  renderGastos();
 }
 
 /* ══════════════ CRÉDITOS ══════════════ */
