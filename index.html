@@ -2395,37 +2395,41 @@ function syncGastosCreditos() {
   if (!window.db.gastosFijos) window.db.gastosFijos = [];
 
   window.db.creditos.forEach(cr => {
-    let cuotasPagadas  = cr.cuotaAct - 1;
-    let cuotaPendiente = cuotasPagadas + 1;
-    let debeExistir    = cr.incluirEnResumen !== false && cuotasPagadas < cr.cuotaTot;
+    let cuotasPagadas = cr.cuotaAct - 1;
+    let incluido      = cr.incluirEnResumen !== false;
+    let vencs         = generarVencimientos(cr);
 
-    // Elimina el gasto pendiente (no pagado) de este crédito si ya no
-    // corresponde a la cuota vigente, o si el crédito fue excluido / terminado.
+    // Elimina gastos pendientes (no pagados) de este crédito que ya no
+    // deban existir: cuotas ya pagadas, crédito excluido del Resumen,
+    // o cuotas fuera del rango total.
     window.db.gastosFijos = window.db.gastosFijos.filter(g => {
       if (g.creditoId !== cr.id || g.paid) return true;
-      return debeExistir && g.cuotaNum === cuotaPendiente;
+      return incluido && g.cuotaNum > cuotasPagadas && g.cuotaNum <= cr.cuotaTot;
     });
 
-    if (!debeExistir) return;
+    if (!incluido) return;
 
-    let vencs = generarVencimientos(cr);
-    let venc  = vencs[cuotasPagadas];
-    if (!venc) return;
-    let [vy, vm] = venc.split('-').map(Number);
-    let gastoId = cr.id * 1000 + cuotaPendiente;
-    let existente = window.db.gastosFijos.find(g => g.id === gastoId);
+    // Genera/actualiza TODAS las cuotas restantes (no solo la próxima),
+    // cada una en el mes que le corresponde según su vencimiento.
+    for (let cuotaNum = cuotasPagadas + 1; cuotaNum <= cr.cuotaTot; cuotaNum++) {
+      let venc = vencs[cuotaNum - 1];
+      if (!venc) continue;
+      let [vy, vm] = venc.split('-').map(Number);
+      let gastoId = cr.id * 1000 + cuotaNum;
+      let existente = window.db.gastosFijos.find(g => g.id === gastoId);
 
-    if (existente) {
-      existente.month = vm - 1; existente.year = vy;
-      existente.monto = cr.montoCuota;
-      existente.desc  = `${cr.banco} · Cuota ${cuotaPendiente}/${cr.cuotaTot}`;
-    } else {
-      window.db.gastosFijos.push({
-        id: gastoId, month: vm - 1, year: vy,
-        desc: `${cr.banco} · Cuota ${cuotaPendiente}/${cr.cuotaTot}`,
-        cat: 'creditos', monto: cr.montoCuota, paid: false,
-        creditoId: cr.id, cuotaNum: cuotaPendiente
-      });
+      if (existente) {
+        existente.month = vm - 1; existente.year = vy;
+        existente.monto = cr.montoCuota;
+        existente.desc  = `${cr.banco} · Cuota ${cuotaNum}/${cr.cuotaTot}`;
+      } else {
+        window.db.gastosFijos.push({
+          id: gastoId, month: vm - 1, year: vy,
+          desc: `${cr.banco} · Cuota ${cuotaNum}/${cr.cuotaTot}`,
+          cat: 'creditos', monto: cr.montoCuota, paid: false,
+          creditoId: cr.id, cuotaNum: cuotaNum
+        });
+      }
     }
   });
 }
