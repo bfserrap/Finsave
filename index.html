@@ -36,7 +36,7 @@
   --top-h:64px;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--gray5);color:var(--dark);min-height:100vh;font-size:14px;line-height:1.5;padding-bottom:env(safe-area-inset-bottom)}
+body{font-family:var(--font);background:var(--gray5);color:var(--dark);min-height:100vh;font-size:14px;line-height:1.5;padding-bottom:env(safe-area-inset-bottom);overflow-x:hidden} 
 .hidden{display:none!important}
 button{cursor:pointer;font-family:var(--font)}
 input,select,textarea{font-family:var(--font);font-size:16px!important}
@@ -51,7 +51,7 @@ img{max-width:100%;display:block}
 .land-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--gray4);z-index:100}
 .support-bar{display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.5rem 1rem;background:var(--brand3);color:var(--brand-dark);font-size:.78rem;text-align:center;line-height:1.4}
 .support-bar a{color:var(--brand-dark);font-weight:600;text-decoration:underline;text-underline-offset:2px}
-.support-bar-app{border-bottom:1px solid var(--gray4)}
+.support-bar-app{border-bottom:1px solid var(--gray4);margin:-1rem -1rem 1.5rem -1rem} 
 .land-logo{font-family:var(--font-brand);font-size:1.4rem;color:var(--dark);display:flex;align-items:center;gap:.4rem}
 .land-logo em{color:var(--brand);font-style:normal}
 .land-nav-r{display:flex;gap:.6rem;align-items:center}
@@ -139,7 +139,7 @@ img{max-width:100%;display:block}
 .sb-logout{display:flex;align-items:center;gap:.6rem;font-size:.9rem;color:var(--gray);cursor:pointer;padding:.5rem 0;min-height:44px}
 .sb-logout:hover{color:var(--danger)}
 .sb-version{font-size:.7rem;color:var(--gray2);margin-top:.4rem}
-.topbar{display:none;position:fixed;top:0;left:0;right:0;height:var(--top-h);background:var(--white);border-bottom:1px solid var(--gray3);align-items:center;padding:0 1rem;padding-top:env(safe-area-inset-top);z-index:80;gap:.75rem}
+.topbar{display:none;position:fixed;top:0;left:0;right:0;min-height:calc(var(--top-h) + env(safe-area-inset-top));background:var(--white);border-bottom:1px solid var(--gray3);align-items:center;padding:env(safe-area-inset-top) 1rem 0;z-index:80;gap:.75rem} 
 .topbar-brand{font-family:var(--font-brand);font-size:1.2rem;color:var(--dark);flex:1;text-align:center;font-weight:700}
 .topbar-brand em{color:var(--brand);font-style:normal}
 .burger{background:none;border:none;font-size:1.5rem;color:var(--dark);padding:.5rem;line-height:1;min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center}
@@ -331,7 +331,7 @@ tr:last-child td{border-bottom:none}
   .sidebar{transform:translateX(-100%)}
   .sidebar.open{transform:translateX(0)}
   .topbar{display:flex}
-  .main{margin-left:0;padding:calc(var(--top-h) + 1rem) 1rem 5rem}
+  .main{margin-left:0;padding:calc(var(--top-h) + env(safe-area-inset-top) + 1rem) 1rem 5rem}
   .hero-btns{flex-direction:column}
   .pg-actions{margin-top:.25rem}
   .indicators-row{flex-direction:column}
@@ -647,7 +647,7 @@ tr:last-child td{border-bottom:none}
   <div class="pg-header">
     <div><div class="pg-title">Categorías de Gastos</div><div class="pg-sub">Administra y edita las categorías de tus gastos fijos y variables</div></div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+  <div class="g2"> 
     <div class="card">
       <div class="card-head"><div class="card-title">📌 Gastos Fijos</div><div class="card-sub">Categorías para gastos recurrentes</div></div>
       <div id="cat-fijos-list"></div>
