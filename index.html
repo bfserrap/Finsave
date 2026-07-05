@@ -165,6 +165,16 @@ img{max-width:100%;display:block}
 .kpi-val.g{color:var(--brand)}.kpi-val.r{color:var(--danger)}.kpi-val.a{color:var(--warn)}.kpi-val.p{color:var(--purple)}
 .kpi-trend{font-size:.75rem;color:var(--gray);margin-top:.5rem;line-height:1.3}
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -1.25rem;padding:0 1.25rem}
+  @media(max-width:640px){
+  .tbl-cards table,.tbl-cards thead,.tbl-cards tbody,.tbl-cards th,.tbl-cards td,.tbl-cards tr{display:block}
+  .tbl-cards thead{display:none}
+  .tbl-cards tbody tr{border:1px solid var(--gray3);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem}
+  .tbl-cards tbody tr:last-child{margin-bottom:0}
+  .tbl-cards td{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.35rem 0;border:none;text-align:right}
+  .tbl-cards td::before{content:attr(data-label);font-size:.72rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.02em;text-align:left}
+  .tbl-cards td.tbl-empty{display:block;text-align:center}
+  .tbl-cards td.tbl-empty::before{content:none}
+}
 table{width:100%;border-collapse:collapse;margin-bottom:.5rem}
 th{font-size:.72rem;font-weight:700;color:var(--gray2);text-transform:uppercase;letter-spacing:.05em;padding:.75rem .6rem;text-align:left;border-bottom:1.5px solid var(--gray3);white-space:nowrap}
 td{padding:.85rem .6rem;font-size:.9rem;border-bottom:1px solid var(--gray4);color:var(--dark);vertical-align:middle}
@@ -649,7 +659,7 @@ html, body {
           <button class="btn btn-prim btn-sm" onclick="openModal('mod-gf')">＋ Agregar</button>
         </div>
       </div>
-      <div class="tbl-wrap">
+      <div class="tbl-wrap tbl-cards">
         <table>
           <thead><tr><th>Descripción</th><th>Categoría</th><th>Monto</th><th>Estado</th><th>Acciones</th></tr></thead>
           <tbody id="gf-tbody"></tbody>
@@ -663,7 +673,7 @@ html, body {
         <div><div class="card-title">Gastos Variables</div><div class="card-sub">Transacciones y desembolsos esporádicos</div></div>
         <button class="btn btn-prim btn-sm" onclick="openModal('mod-gv')">＋ Registrar</button>
       </div>
-      <div class="tbl-wrap">
+      <div class="tbl-wrap tbl-cards">
         <table>
           <thead><tr><th>Fecha</th><th>Descripción</th><th>Categoría</th><th>Monto</th><th>Acciones</th></tr></thead>
           <tbody id="gv-tbody"></tbody>
@@ -2227,12 +2237,12 @@ function renderGastos() {
         : `<button class="btn-act" title="Duplicar al próximo mes" onclick="duplicarGastoFijo(${x.id})">🔁</button>
           <button class="btn-act" title="Editar" onclick="editGastoFijo(${x.id})">✏️</button>
           <button class="btn-act" title="Eliminar" onclick="delGastoFijo(${x.id})">🗑️</button>`;
-      bf.innerHTML += `<tr>
-        <td>${x.desc}</td>
-        <td><span class="tag tag-b">${catLbl}</span></td>
-        <td>$${formatMiles(x.monto)}</td>
-        <td>${badge}</td>
-        <td class="act-btns">${acciones}</td>
+bf.innerHTML += `<tr>
+        <td data-label="Descripción">${x.desc}</td>
+        <td data-label="Categoría"><span class="tag tag-b">${catLbl}</span></td>
+        <td data-label="Monto">$${formatMiles(x.monto)}</td>
+        <td data-label="Estado">${badge}</td>
+        <td class="act-btns" data-label="Acciones">${acciones}</td>
       </tr>`;
     });
   }
@@ -2246,12 +2256,12 @@ function renderGastos() {
       let parts = (x.dateStr || '').split('-');
       let fShow = parts.length >= 3 ? parts[2] + '/' + parts[1] : x.dateStr;
       let catLbl = getCatLabel(catsVar, x.cat);
-      jv.innerHTML += `<tr>
-        <td>${fShow}</td>
-        <td>${x.desc}</td>
-        <td><span class="tag tag-p">${catLbl}</span></td>
-        <td>$${formatMiles(x.monto)}</td>
-        <td class="act-btns">
+jv.innerHTML += `<tr>
+        <td data-label="Fecha">${fShow}</td>
+        <td data-label="Descripción">${x.desc}</td>
+        <td data-label="Categoría"><span class="tag tag-p">${catLbl}</span></td>
+        <td data-label="Monto">$${formatMiles(x.monto)}</td>
+        <td class="act-btns" data-label="Acciones">
           <button class="btn-act" title="Duplicar al próximo mes" onclick="duplicarGastoVar(${x.id})">🔁</button>
           <button class="btn-act" title="Editar" onclick="editGastoVar(${x.id})">✏️</button>
           <button class="btn-act" title="Eliminar" onclick="delGastoVar(${x.id})">🗑️</button>
