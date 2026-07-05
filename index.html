@@ -334,7 +334,8 @@ tr:last-child td{border-bottom:none}
   .main{margin-left:0;padding:calc(var(--top-h) + env(safe-area-inset-top) + 1rem) 1rem 5rem}
   .hero-btns{flex-direction:column}
   .pg-actions{margin-top:.25rem}
-  .indicators-row{flex-direction:column}
+.indicators-row{flex-direction:column;align-items:stretch}
+  .indicator-col{width:100%}
   .cred-actions .btn{min-width:80px;font-size:.75rem;padding:.4rem .65rem}
   .meta-actions .btn{min-width:80px;font-size:.75rem}
 }
@@ -843,42 +844,6 @@ html, body {
           <button class="btn btn-prim btn-sm" onclick="openConceptoModal()">＋ Agregar</button>
         </div>
         <div class="tbl-wrap"><table><thead><tr><th>Concepto</th><th>Tipo</th><th>Monto</th><th></th></tr></thead><tbody id="liq-conceptos-tbody"></tbody></table></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div><div class="card-title">🏦 Ahorro del Período</div><div class="card-sub">Vinculado al mes y año seleccionados</div></div>
-        </div>
-        <div class="fg"><label>Meta de Ahorro del Mes ($)</label><input type="text" id="l-ahorro-meta" value="0" oninput="formatInputMiles(this)" onchange="saveAhorroMeta()"></div>
-        <div class="kpi" style="margin-bottom:1.1rem">
-          <div class="kpi-lbl">Abonado este período</div>
-          <div class="kpi-val g" id="l-ahorro-total">$0</div>
-        </div>
-        <div class="card-head" style="margin-bottom:.6rem">
-          <div class="card-title" style="font-size:.85rem">Abonos registrados</div>
-          <button class="btn btn-outline btn-sm" onclick="openLiqAbonoModal()">＋ Abono</button>
-        </div>
-        <div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Descripción</th><th>Monto</th><th></th></tr></thead><tbody id="liq-ahorros-tbody"></tbody></table></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><div class="card-title">🪪 Datos del Trabajador</div></div>
-        <div class="fg">
-          <label>Nombre del Trabajador</label>
-          <input type="text" id="l-nombre" placeholder="Juan Pérez" oninput="calcLiq()">
-        </div>
-        <div class="fg">
-          <label>RUT del Trabajador</label>
-          <input type="text" id="l-rut" placeholder="12.345.678-9" oninput="calcLiq()">
-        </div>
-        <div class="fg">
-          <label>Cargo / Función</label>
-          <input type="text" id="l-cargo" placeholder="Analista de Proyectos" oninput="calcLiq()">
-        </div>
-        <div class="fg">
-          <label>Nombre Empresa</label>
-          <input type="text" id="l-empresa" placeholder="Empresa S.A." oninput="calcLiq()">
-        </div>
       </div>
 
       <div class="card" style="border-left:4px solid var(--brand)">
@@ -3010,10 +2975,6 @@ function resetLiqInputsToDefaults() {
   document.getElementById('l-sc-var').value = '0';
   document.getElementById('l-sc-dias').value = '0';
   document.getElementById('l-sc-dom').value = '0';
-  document.getElementById('l-nombre').value = '';
-  document.getElementById('l-rut').value = '';
-  document.getElementById('l-cargo').value = '';
-  document.getElementById('l-empresa').value = '';
 
   // Indicadores: se precargan desde la última configuración manual guardada
   // en localStorage; si no existe, se usan los valores del Sheet de
@@ -3083,10 +3044,10 @@ function saveLiquidacionPeriodo() {
     scVar: document.getElementById('l-sc-var').value,
     scDias: document.getElementById('l-sc-dias').value,
     scDom: document.getElementById('l-sc-dom').value,
-    nombre: document.getElementById('l-nombre').value,
-    rut: document.getElementById('l-rut').value,
-    cargo: document.getElementById('l-cargo').value,
-    empresa: document.getElementById('l-empresa').value,
+    nombre: '',
+    rut: '',
+    cargo: '',
+    empresa: '',
     indicadores: {
       uf: document.getElementById('l-ind-uf').value,
       usd: document.getElementById('l-ind-usd').value,
