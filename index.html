@@ -597,8 +597,14 @@ html, body {
       </div>
     </div>
   </div>
+  <div class="card" style="padding-bottom:1.5rem">
+    <div class="card-head"><div class="card-title">🏦 Ahorro Anual</div><div class="card-sub" id="res-ahorro-yr-lbl">2026</div></div>
+    <div class="kpi-grid" style="grid-template-columns:1fr;margin-bottom:1rem">
+      <div class="kpi"><div class="kpi-lbl">Total Ahorrado en el Año</div><div class="kpi-val g" id="res-ahorro-total">$0</div></div>
+    </div>
+    <div class="chart-box-lg"><canvas id="chart-ahorro-anual"></canvas></div>
+  </div>
 </div>
-
 <div id="page-ingresos" class="page">
   <div class="pg-header">
     <div><div class="pg-title">Sección de Ingresos</div><div class="pg-sub">Gestiona tus sueldos, rentas o ganancias del mes</div></div>
@@ -715,10 +721,34 @@ html, body {
 
 <div id="page-ahorros" class="page">
   <div class="pg-header">
-    <div><div class="pg-title">Metas de Ahorro</div><div class="pg-sub">Visualiza el avance de tus proyectos e inversiones</div></div>
-    <button class="btn btn-prim btn-sm" onclick="openMetaModal()">＋ Nueva Meta</button>
+    <div><div class="pg-title">Ahorros</div><div class="pg-sub">Metas de ahorro y ahorro mensual libre</div></div>
+    <button class="btn btn-prim btn-sm" id="ahorros-btn-meta" onclick="openMetaModal()">＋ Nueva Meta</button>
+    <button class="btn btn-prim btn-sm" id="ahorros-btn-am" style="display:none" onclick="openAhorroMesModal()">＋ Agregar Ahorro</button>
   </div>
-  <div id="metas-list"></div>
+  <div class="chip-row">
+    <button class="chip sel" id="c-am-metas" onclick="toggleAhorrosTab('metas')">🎯 Metas</button>
+    <button class="chip" id="c-am-mensual" onclick="toggleAhorrosTab('mensual')">📅 Ahorro Mensual</button>
+  </div>
+  <div id="sec-am-metas">
+    <div id="metas-list"></div>
+  </div>
+  <div id="sec-am-mensual" class="hidden">
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-title">📅 Ahorro Mensual</div><div class="card-sub">Sin meta asociada — solo registro de cuánto ahorraste cada mes</div></div>
+        <select id="am-year" onchange="renderAhorrosMes()"></select>
+      </div>
+      <div class="kpi-grid" style="grid-template-columns:1fr;margin-bottom:1rem">
+        <div class="kpi"><div class="kpi-lbl">Total Ahorrado en el Año</div><div class="kpi-val g" id="am-total-anio">$0</div></div>
+      </div>
+      <div class="tbl-wrap tbl-cards">
+        <table>
+          <thead><tr><th>Mes</th><th>Descripción</th><th>Monto</th><th>Acciones</th></tr></thead>
+          <tbody id="am-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="page-liquidacion" class="page">
@@ -986,7 +1016,42 @@ html, body {
     <button class="btn btn-prim btn-full" onclick="updateIngreso()">Guardar Cambios</button>
   </div>
 </div>
+<div class="modal-over hidden" id="mod-am">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Nuevo Ahorro Mensual</div><button class="modal-close" onclick="closeModal('mod-am')">✕</button></div>
+    <div class="fg">
+      <label>Mes</label>
+      <select id="mam-month">
+        <option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option>
+        <option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option>
+        <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
+        <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
+      </select>
+    </div>
+    <div class="fg"><label>Descripción (opcional)</label><input type="text" id="mam-desc" placeholder="Ej: Ahorro extra, bono"></div>
+    <div class="fg"><label>Monto ($)</label><input type="text" id="mam-monto" oninput="formatInputMiles(this)" placeholder="0"></div>
+    <button class="btn btn-prim btn-full" onclick="saveAhorroMes()">Guardar Ahorro</button>
+  </div>
+</div>
 
+<div class="modal-over hidden" id="mod-am-edit">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Editar Ahorro Mensual</div><button class="modal-close" onclick="closeModal('mod-am-edit')">✕</button></div>
+    <input type="hidden" id="mame-id">
+    <div class="fg">
+      <label>Mes</label>
+      <select id="mame-month">
+        <option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option>
+        <option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option>
+        <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
+        <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
+      </select>
+    </div>
+    <div class="fg"><label>Descripción (opcional)</label><input type="text" id="mame-desc"></div>
+    <div class="fg"><label>Monto ($)</label><input type="text" id="mame-monto" oninput="formatInputMiles(this)"></div>
+    <button class="btn btn-prim btn-full" onclick="updateAhorroMes()">Guardar Cambios</button>
+  </div>
+</div>
 <div class="modal-over hidden" id="mod-gf">
   <div class="modal">
     <div class="modal-head"><div class="modal-title">Nuevo Gasto Fijo</div><button class="modal-close" onclick="closeModal('mod-gf')">✕</button></div>
@@ -1329,6 +1394,7 @@ function refreshIndicadoresBanner() {
 window.db = null;
 window.chartAnualRef = null;
 window.chartCatsRef = null;
+window.chartAhorroRef = null;
 
 const DEFAULT_CATS_FIJOS = [
   {id:'vivienda', emoji:'🏠', label:'Vivienda'},
@@ -1361,8 +1427,9 @@ function createEmptyStructure() {
     deletedDefaultCatsVar: [],
     liquidaciones: [],
     liqConceptos: [],
-    liqAhorros: [],
-    liqAhorroMetas: []
+liqAhorros: [],
+    liqAhorroMetas: [],
+    ahorrosMes: []
   };
 }
 
@@ -1378,8 +1445,9 @@ function initDatabaseEngine() {
       if (!window.db.perfil.fotob64) window.db.perfil.fotob64 = '';
       if (!window.db.liquidaciones) window.db.liquidaciones = [];
       if (!window.db.liqConceptos) window.db.liqConceptos = [];
-      if (!window.db.liqAhorros) window.db.liqAhorros = [];
+if (!window.db.liqAhorros) window.db.liqAhorros = [];
       if (!window.db.liqAhorroMetas) window.db.liqAhorroMetas = [];
+      if (!window.db.ahorrosMes) window.db.ahorrosMes = [];
       migrateDBExtras();
     } else {
       window.db = createEmptyStructure();
@@ -1919,7 +1987,7 @@ function goTo(pageId) {
   if (pageId === 'ingresos') renderIngresos();
   if (pageId === 'gastos') renderGastos();
   if (pageId === 'creditos') renderCreditos();
-  if (pageId === 'ahorros') renderMetas();
+if (pageId === 'ahorros') { renderMetas(); renderAhorrosMes(); }
   if (pageId === 'categorias') renderCategorias();
   if (pageId === 'liquidacion') { loadData(); fetchIndicadores(); }
 }
@@ -1935,7 +2003,7 @@ function closeSidebar() {
 /* ── AÑOS ── */
 function initYears() {
   let cy = new Date().getFullYear();
-  ['res-year','ing-year','gas-year'].forEach(id => {
+['res-year','ing-year','gas-year','am-year'].forEach(id => {
     let el = document.getElementById(id);
     if (!el) return;
     el.innerHTML = '';
@@ -2813,7 +2881,96 @@ function delMeta(id) {
   window.db.metas = window.db.metas.filter(x => x.id !== id);
   saveDB(); showToast('Meta eliminada', 'err'); renderMetas();
 }
+function toggleAhorrosTab(tab) {
+  let btnMetas = document.getElementById('ahorros-btn-meta');
+  let btnMensual = document.getElementById('ahorros-btn-am');
+  if (tab === 'metas') {
+    document.getElementById('c-am-metas').classList.add('sel');
+    document.getElementById('c-am-mensual').classList.remove('sel');
+    document.getElementById('sec-am-metas').classList.remove('hidden');
+    document.getElementById('sec-am-mensual').classList.add('hidden');
+    if (btnMetas) btnMetas.style.display = '';
+    if (btnMensual) btnMensual.style.display = 'none';
+  } else {
+    document.getElementById('c-am-metas').classList.remove('sel');
+    document.getElementById('c-am-mensual').classList.add('sel');
+    document.getElementById('sec-am-metas').classList.add('hidden');
+    document.getElementById('sec-am-mensual').classList.remove('hidden');
+    if (btnMetas) btnMetas.style.display = 'none';
+    if (btnMensual) btnMensual.style.display = '';
+    renderAhorrosMes();
+  }
+}
 
+function openAhorroMesModal() {
+  document.getElementById('mam-month').value = new Date().getMonth();
+  document.getElementById('mam-desc').value = '';
+  document.getElementById('mam-monto').value = '';
+  openModal('mod-am');
+}
+
+function saveAhorroMes() {
+  let mo = parseInt(document.getElementById('mam-month').value);
+  let y = parseInt(document.getElementById('am-year').value);
+  let d = document.getElementById('mam-desc').value.trim();
+  let mto = cleanMonto(document.getElementById('mam-monto').value);
+  if (mto <= 0) { showToast('Ingresa un monto válido', 'err'); return; }
+  if (!window.db.ahorrosMes) window.db.ahorrosMes = [];
+  window.db.ahorrosMes.push({ id: Date.now(), month: mo, year: y, desc: d || 'Ahorro del mes', monto: mto });
+  saveDB(); closeModal('mod-am'); showToast('Ahorro registrado');
+  renderAhorrosMes();
+}
+
+function editAhorroMes(id) {
+  let item = (window.db.ahorrosMes || []).find(x => x.id === id);
+  if (!item) return;
+  document.getElementById('mame-id').value = id;
+  document.getElementById('mame-month').value = item.month;
+  document.getElementById('mame-desc').value = item.desc;
+  document.getElementById('mame-monto').value = formatMiles(item.monto);
+  openModal('mod-am-edit');
+}
+
+function updateAhorroMes() {
+  let id = parseInt(document.getElementById('mame-id').value);
+  let idx = (window.db.ahorrosMes || []).findIndex(x => x.id === id);
+  if (idx < 0) return;
+  window.db.ahorrosMes[idx].month = parseInt(document.getElementById('mame-month').value);
+  window.db.ahorrosMes[idx].desc = document.getElementById('mame-desc').value.trim() || 'Ahorro del mes';
+  window.db.ahorrosMes[idx].monto = cleanMonto(document.getElementById('mame-monto').value);
+  saveDB(); closeModal('mod-am-edit'); showToast('Ahorro actualizado');
+  renderAhorrosMes();
+}
+
+function delAhorroMes(id) {
+  if (!confirm('¿Eliminar este ahorro?')) return;
+  window.db.ahorrosMes = (window.db.ahorrosMes || []).filter(x => x.id !== id);
+  saveDB(); showToast('Ahorro eliminado', 'err'); renderAhorrosMes();
+}
+
+function renderAhorrosMes() {
+  let yearEl = document.getElementById('am-year');
+  if (!yearEl) return;
+  let y = parseInt(yearEl.value);
+  let mesesNombres = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  let list = (window.db.ahorrosMes || []).filter(x => x.year === y).sort((a,b)=>a.month-b.month);
+  let total = list.reduce((a,b)=>a+b.monto,0);
+  let totalEl = document.getElementById('am-total-anio');
+  if (totalEl) totalEl.textContent = '$' + formatMiles(total);
+  let tbody = document.getElementById('am-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = list.length === 0
+    ? '<tr><td colspan="4" class="tbl-empty">Sin ahorros registrados este año</td></tr>'
+    : list.map(x => `<tr>
+        <td data-label="Mes">${mesesNombres[x.month]}</td>
+        <td data-label="Descripción">${x.desc}</td>
+        <td data-label="Monto">$${formatMiles(x.monto)}</td>
+        <td class="act-btns" data-label="Acciones">
+          <button class="btn-act" title="Editar" onclick="editAhorroMes(${x.id})">✏️</button>
+          <button class="btn-act" title="Eliminar" onclick="delAhorroMes(${x.id})">🗑️</button>
+        </td>
+      </tr>`).join('');
+}
 function renderMetas() {
   let wrapper = document.getElementById('metas-list');
   wrapper.innerHTML = '';
@@ -3926,6 +4083,40 @@ function renderResumen() {
           legend:{ display:false },
           tooltip:{ backgroundColor:'#111827', titleColor:'#fff', bodyColor:'rgba(255,255,255,.85)', borderColor:'rgba(255,255,255,.1)', borderWidth:1,
             callbacks:{ label: ctx=>' '+ctx.dataset.label+': $'+formatMiles(ctx.parsed.y) } }
+        },
+        scales:{
+          x:{ grid:{ color:'rgba(255,255,255,.06)' }, ticks:{ color:'rgba(255,255,255,.55)', font:{ size:11 } } },
+          y:{ beginAtZero:true, grid:{ color:'rgba(255,255,255,.06)' }, ticks:{ color:'rgba(255,255,255,.55)', font:{ size:11 }, callback:v=>'$'+formatMiles(v) } }
+        }
+      }
+    });
+  }
+
+  // Ahorro anual
+  let ahorroAnual = Array(12).fill(0);
+  (window.db.ahorrosMes || []).filter(x=>x.year===y).forEach(x=>ahorroAnual[x.month]+=x.monto);
+  let totalAhorroAnio = ahorroAnual.reduce((a,b)=>a+b,0);
+  let resAhorroTotalEl = document.getElementById('res-ahorro-total');
+  if (resAhorroTotalEl) resAhorroTotalEl.textContent = '$' + formatMiles(totalAhorroAnio);
+  let resAhorroYrEl = document.getElementById('res-ahorro-yr-lbl');
+  if (resAhorroYrEl) resAhorroYrEl.textContent = y;
+
+  if (window.chartAhorroRef) window.chartAhorroRef.destroy();
+  let ctx3 = document.getElementById('chart-ahorro-anual');
+  if (ctx3) {
+    window.chartAhorroRef = new Chart(ctx3, {
+      type:'line',
+      data:{
+        labels:mesesNombres,
+        datasets:[
+          { label:'Ahorro', data:ahorroAnual, borderColor:'#10b068', backgroundColor:'rgba(16,176,104,.12)', borderWidth:2.5, pointBackgroundColor:'#10b068', pointRadius:4, tension:.35, fill:true }
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ display:false },
+          tooltip:{ callbacks:{ label: ctx=>' Ahorro: $'+formatMiles(ctx.parsed.y) } }
         },
         scales:{
           x:{ grid:{ display:false }, ticks:{ color:'#6b7280', font:{ size:11 } } },
