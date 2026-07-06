@@ -1028,10 +1028,24 @@ html, body {
       <div id="p-pass-msg" style="display:none;font-size:.83rem;padding:.5rem .75rem;border-radius:var(--radius-sm);margin-bottom:.75rem"></div>
       <button class="btn btn-prim" style="width:100%" onclick="cambiarPassword()">Actualizar Contraseña</button>
     </div>
+    <div class="card" style="border:1px solid #fecaca">
+      <div class="card-head"><div class="card-title" style="color:var(--danger)">⚠️ Zona de Peligro</div><div class="card-sub">Elimina tu cuenta y todos tus datos de forma permanente</div></div>
+      <button class="btn btn-danger" style="width:100%" onclick="openModal('mod-del-cuenta')">Eliminar Cuenta</button>
+    </div>
   </div>
 </div>
 
-  </div></div><div class="modal-over hidden" id="mod-ing">
+  </div></div>
+<div class="modal-over hidden" id="mod-del-cuenta">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">⚠️ Eliminar Cuenta</div><button class="modal-close" onclick="closeModal('mod-del-cuenta')">✕</button></div>
+    <p style="font-size:.85rem;color:var(--gray);line-height:1.5;margin-bottom:1rem">Esta acción es <strong>irreversible</strong>. Se borrarán todos tus ingresos, gastos, créditos, ahorros y datos de perfil guardados en Finsave.</p>
+    <div class="fg"><label>Escribe tu correo para confirmar</label><input type="email" id="del-confirm-email" placeholder="tu@correo.com"></div>
+    <div id="del-cuenta-msg" style="display:none;font-size:.83rem;padding:.5rem .75rem;border-radius:var(--radius-sm);margin-bottom:.75rem"></div>
+    <button class="btn btn-danger" style="width:100%" onclick="deleteAccount()">Eliminar mi cuenta definitivamente</button>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-ing">
   <div class="modal">
     <div class="modal-head"><div class="modal-title">Agregar Ingreso</div><button class="modal-close" onclick="closeModal('mod-ing')">✕</button></div>
     <div class="fg"><label>Descripción</label><input type="text" id="mi-desc" placeholder="Ej: Sueldo, Venta Mercado Libre"></div>
@@ -1997,7 +2011,38 @@ function enterApp() {
   renderResumen();
   maybeStartTour();
 }
+async function deleteAccount() {
+  const emailInput = document.getElementById('del-confirm-email').value.trim().toLowerCase();
+  const realEmail = (currentUser?.email || window.db.perfil.email || '').trim().toLowerCase();
+  const msg = document.getElementById('del-cuenta-msg');
+  msg.style.display = 'block';
 
+  if (!emailInput || emailInput !== realEmail) {
+    msg.style.background = '#fee2e2'; msg.style.color = '#991b1b';
+    msg.innerText = 'El correo no coincide. Escríbelo tal como aparece en tu perfil.';
+    return;
+  }
+
+  msg.style.background = '#dbeafe'; msg.style.color = '#1e40af';
+  msg.innerText = 'Eliminando tu cuenta y datos...';
+
+  try {
+    if (supabaseClient && currentUser) {
+      await supabaseClient.from('finsave_data').delete().eq('user_id', currentUser.id);
+      await supabaseClient.auth.signOut();
+    }
+  } catch(e) {}
+
+  localStorage.removeItem('finsave_local_db');
+  localStorage.removeItem('finsave_tour_done');
+  localStorage.removeItem('finsave_indicadores_manual');
+  currentUser = null;
+  window.db = createEmptyStructure();
+  closeModal('mod-del-cuenta');
+  showLanding();
+}
+
+async function doLogout() {
 async function doLogout() {
   if (supabaseClient && currentUser) {
     await supabaseClient.auth.signOut();
