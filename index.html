@@ -403,6 +403,23 @@ html, body {
   }
 }
 /* ------------------------------------------ */
+  .tour-overlay{position:fixed;inset:0;z-index:500;pointer-events:none}
+.tour-highlight{position:fixed;border:2px solid var(--brand);border-radius:12px;box-shadow:0 0 0 4000px rgba(10,15,30,.5);transition:all .3s ease;pointer-events:none}
+.tour-tooltip{position:fixed;background:#fff;border-radius:14px;padding:1.1rem 1.2rem;box-shadow:0 12px 30px rgba(0,0,0,.2);pointer-events:auto;z-index:501;transition:all .3s ease;width:270px}
+.tour-dots{display:flex;gap:5px;margin-bottom:.6rem}
+.tour-dots span{width:6px;height:6px;border-radius:50%;background:var(--gray3)}
+.tour-dots span.on{background:var(--brand)}
+.tour-tt-title{font-weight:700;font-size:.95rem;margin-bottom:.3rem}
+.tour-tt-text{font-size:.85rem;color:var(--gray);line-height:1.4;margin-bottom:.9rem}
+.tour-tt-actions{display:flex;justify-content:space-between;align-items:center}
+.tour-btn-skip{background:none;border:none;font-size:.8rem;color:var(--gray);cursor:pointer}
+.tour-btn-ghost{background:none;border:1px solid var(--gray3);border-radius:8px;padding:.4rem .8rem;font-size:.8rem;cursor:pointer}
+.tour-btn-prim{background:var(--brand);color:#fff;border:none;border-radius:8px;padding:.4rem .9rem;font-size:.8rem;font-weight:600;cursor:pointer}
+.sb-help{padding:.6rem 1.25rem;font-size:.8rem;color:var(--gray);cursor:pointer;display:flex;align-items:center;gap:.4rem}
+.sb-help:hover{color:var(--brand)}
+@media (max-width:900px){
+  .tour-tooltip{width:auto !important;left:16px !important;right:16px !important}
+}
 </style>
 </head>
 <body>
@@ -521,7 +538,21 @@ html, body {
     <div class="sb-av" id="top-av">JP</div>
   </div>
   <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
-
+<div id="tour-overlay" class="tour-overlay" style="display:none">
+  <div id="tour-highlight" class="tour-highlight"></div>
+  <div id="tour-tooltip" class="tour-tooltip">
+    <div class="tour-dots" id="tour-dots"></div>
+    <div class="tour-tt-title" id="tour-title"></div>
+    <div class="tour-tt-text" id="tour-text"></div>
+    <div class="tour-tt-actions">
+      <button class="tour-btn-skip" onclick="endTour()">Saltar</button>
+      <div style="display:flex;gap:.5rem">
+        <button class="tour-btn-ghost" id="tour-prev" onclick="prevTourStep()">Atrás</button>
+        <button class="tour-btn-prim" id="tour-next" onclick="nextTourStep()">Siguiente</button>
+      </div>
+    </div>
+  </div>
+</div>
   <div class="sidebar" id="sidebar">
     <div class="sb-brand"><span style="font-size:1.3rem">💰</span><div class="sb-brand-name"><em>Fin</em>save</div></div>
     <div class="sb-user-block" onclick="goTo('perfil')">
@@ -544,6 +575,7 @@ html, body {
     <div class="sb-sec">Cuenta</div>
     <div class="sb-item" data-page="perfil" onclick="goTo('perfil')"><span class="sb-ic">👤</span> Perfil</div>
     <div class="sb-bottom">
+      <div class="sb-help" onclick="restartTour()">🎓 Ver tutorial</div>
       <div class="sb-logout" onclick="doLogout()">🚪 Cerrar sesión</div>
       <div class="sb-version">Finsave v6.0 · 2026</div>
     </div>
@@ -563,7 +595,7 @@ html, body {
           <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
           <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
         </select>
-        <select id="res-year" onchange="syncYearSelectors(this.value); renderResumen();"></select>
+        <select id="res-year" onchange="syncYearSelectors(this.value); "></select>
       </div>
       <button class="btn btn-ghost btn-sm" onclick="exportResumenPDF()">📥 PDF Resumen</button>
     </div>
@@ -1963,6 +1995,7 @@ function enterApp() {
   updateAvatarUI();
   setSyncStatus(currentUser ? 'online' : 'offline');
   renderResumen();
+  maybeStartTour();
 }
 
 async function doLogout() {
@@ -1974,7 +2007,93 @@ async function doLogout() {
   localStorage.removeItem('finsave_local_db');
   showLanding();
 }
+/* ── TOUR DE BIENVENIDA ── */
+const TOUR_STEPS = [
+  { page:'resumen', title:'📊 Resumen', text:'Aquí ves de un vistazo tus ingresos, gastos y saldo del mes. Es tu punto de partida cada vez que entras.' },
+  { page:'ingresos', title:'📈 Ingresos', text:'Registra tu sueldo u otras entradas de plata del mes.' },
+  { page:'gastos', title:'💸 Gastos', text:'Anota tus gastos fijos y variables. Puedes editarlos o eliminarlos cuando quieras.' },
+  { page:'categorias', title:'🏷️ Categorías', text:'Personaliza las categorías con las que ordenas tus gastos.' },
+  { page:'creditos', title:'💳 Créditos', text:'Lleva el control de tus créditos y su relación con tus gastos mensuales.' },
+  { page:'ahorros', title:'🏦 Ahorros', text:'Define metas de ahorro y monitorea tu avance mes a mes.' },
+  { page:'liquidacion', title:'🧮 Liquidación', text:'Calcula tu liquidación de sueldo con las tasas previsionales vigentes.' },
+  { page:'perfil', title:'👤 Perfil', text:'Aquí editas tus datos. Y si quieres repasar este tutorial, lo encuentras en cualquier momento desde aquí.' }
+];
+let tourStep = 0;
 
+function maybeStartTour() {
+  if (!localStorage.getItem('finsave_tour_done')) {
+    setTimeout(startTour, 600);
+  }
+}
+
+function restartTour() {
+  localStorage.removeItem('finsave_tour_done');
+  startTour();
+}
+
+function startTour() {
+  tourStep = 0;
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('tour-overlay').style.display = 'block';
+  showTourStep();
+}
+
+function showTourStep() {
+  const step = TOUR_STEPS[tourStep];
+  goTo(step.page);
+  const target = document.querySelector(`.sb-item[data-page="${step.page}"]`);
+  if (!target) return;
+
+  const r = target.getBoundingClientRect();
+  const hl = document.getElementById('tour-highlight');
+  hl.style.top = (r.top - 6) + 'px';
+  hl.style.left = (r.left - 6) + 'px';
+  hl.style.width = (r.width + 12) + 'px';
+  hl.style.height = (r.height + 12) + 'px';
+
+  const tip = document.getElementById('tour-tooltip');
+  const isMobile = window.innerWidth < 900;
+  if (!isMobile) {
+    tip.style.left = (r.right + 18) + 'px';
+    tip.style.top = r.top + 'px';
+  } else {
+    tip.style.top = (r.bottom + 14) + 'px';
+  }
+
+  document.getElementById('tour-title').innerText = step.title;
+  document.getElementById('tour-text').innerText = step.text;
+
+  const dotsWrap = document.getElementById('tour-dots');
+  dotsWrap.innerHTML = TOUR_STEPS.map((_, i) =>
+    `<span class="${i === tourStep ? 'on' : ''}"></span>`
+  ).join('');
+
+  document.getElementById('tour-prev').style.visibility = tourStep === 0 ? 'hidden' : 'visible';
+  document.getElementById('tour-next').innerText = tourStep === TOUR_STEPS.length - 1 ? 'Finalizar' : 'Siguiente';
+}
+
+function nextTourStep() {
+  if (tourStep < TOUR_STEPS.length - 1) {
+    tourStep++;
+    showTourStep();
+  } else {
+    endTour();
+  }
+}
+
+function prevTourStep() {
+  if (tourStep > 0) {
+    tourStep--;
+    showTourStep();
+  }
+}
+
+function endTour() {
+  document.getElementById('tour-overlay').style.display = 'none';
+  if (window.innerWidth < 900) closeSidebar();
+  localStorage.setItem('finsave_tour_done', '1');
+  goTo('resumen');
+}
 /* ── NAVEGACIÓN ── */
 function goTo(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
