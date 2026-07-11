@@ -1994,7 +1994,7 @@ async function doRegister() {
 
   if (supabaseClient) {
     try {
-      const { data, error } = await supabaseClient.auth.signUp({ email: e, password: p });
+const { data, error } = await supabaseClient.auth.signUp({ email: e, password: p, options: { data: { name: n } } });
       if (error) throw error;
 
       if (!data.session) {
@@ -2011,6 +2011,9 @@ async function doRegister() {
       window.db.perfil.name = n;
       window.db.perfil.email = e;
       saveDB();
+      try {
+        await supabaseClient.from('finsave_users').upsert({ id: currentUser.id, email: e, name: n }, { onConflict: 'id' });
+      } catch(errUsr) { /* si falla no bloquea el registro */ }
       await syncToSupabase();
       document.getElementById('auth-ok').innerText = '¡Cuenta creada!';
       document.getElementById('auth-ok').style.display = 'block';
