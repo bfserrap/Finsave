@@ -1121,7 +1121,18 @@ html, body {
     <button class="btn btn-danger" style="width:100%" onclick="confirmAdminDeleteAccount()">Eliminar definitivamente</button>
   </div>
 </div>
-
+<div class="modal-over hidden" id="mod-adm-edit-cuenta">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">✏️ Editar Cuenta</div><button class="modal-close" onclick="closeModal('mod-adm-edit-cuenta')">✕</button></div>
+    <input type="hidden" id="adm-edit-id">
+    <div class="fg"><label>Nombre Completo</label><input type="text" id="adm-edit-name" placeholder="Nombre y apellido"></div>
+    <div class="fg"><label>Correo (login)</label><input type="email" id="adm-edit-email" readonly disabled style="background:var(--gray4);color:var(--gray)"></div>
+    <div style="font-size:.78rem;color:var(--gray2);margin:-.5rem 0 1rem">El correo de acceso no se puede editar aquí por seguridad. Si la persona necesita cambiarlo, debe hacerlo ella misma desde su cuenta.</div>
+    <div id="adm-edit-msg" style="display:none;font-size:.83rem;padding:.5rem .75rem;border-radius:var(--radius-sm);margin-bottom:.75rem"></div>
+    <button class="btn btn-prim btn-full" style="margin-bottom:.6rem" onclick="saveAdminEditProfile()">💾 Guardar Nombre</button>
+    <button class="btn btn-outline btn-full" onclick="sendAdminResetPassword()">📧 Enviar enlace para restablecer contraseña</button>
+  </div>
+</div>
 <div class="modal-over hidden" id="mod-del-cuenta">
   <div class="modal">
     <div class="modal-head"><div class="modal-title">⚠️ Eliminar Cuenta</div><button class="modal-close" onclick="closeModal('mod-del-cuenta')">✕</button></div>
@@ -2270,10 +2281,12 @@ function renderAdminUsersTable() {
     let estado = u.is_active
       ? '<span class="tag tag-g">✅ Activa</span>'
       : '<span class="tag tag-r">⛔ Desactivada</span>';
-    let esYo = currentUser && u.id === currentUser.id;
+let esYo = currentUser && u.id === currentUser.id;
+    let btnEditar = `<button class="btn btn-sm btn-ghost" onclick="openAdminEditModal('${u.id}','${escAdmin(u.email)}','${escAdmin(u.name||'')}')">✏️ Editar</button>`;
     let acciones = esYo
-      ? '<span style="font-size:.75rem;color:var(--gray2)">Tu cuenta</span>'
+      ? `<div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">${btnEditar}<span style="font-size:.75rem;color:var(--gray2)">Tu cuenta</span></div>`
       : `<div style="display:flex;gap:.4rem;flex-wrap:wrap">
+           ${btnEditar}
            <button class="btn btn-sm ${u.is_active ? 'btn-danger' : 'btn-prim'}" onclick="toggleUserActive('${u.id}', ${!!u.is_active})">${u.is_active ? 'Desactivar' : 'Activar'}</button>
            <button class="btn btn-sm btn-ghost" style="color:var(--danger);border-color:#fecaca" onclick="openAdminDeleteModal('${u.id}','${escAdmin(u.email)}')">Eliminar</button>
          </div>`;
@@ -2341,7 +2354,70 @@ async function confirmAdminDeleteAccount() {
     msg.innerText = 'No se pudo eliminar: ' + (e.message || 'error desconocido');
   }
 }
+function openAdminEditModal(id, email, name) {
+  document.getElementById('adm-edit-id').value = id;
+  document.getElementById('adm-edit-name').value = name || '';
+  document.getElementById('adm-edit-email').value = email || '';
+  document.getElementById('adm-edit-msg').style.display = 'none';
+  openModal('mod-adm-edit-cuenta');
+}
 
+async function saveAdminEditProfile() {
+  let id = document.getElementById('adm-edit-id').value;
+  let nuevoNombre = document.getElementById('adm-edit-name').value.trim();
+  let msg = document.getElementById('adm-edit-msg');
+  msg.style.display = 'block';
+
+  if (!nuevoNombre) {
+    msg.style.background = 'var(--danger-bg)'; msg.style.color = 'var(--danger)';
+    msg.innerText = 'El nombre no puede quedar vacío.';
+    return;
+  }
+
+  msg.style.background = '#dbeafe'; msg.style.color = '#1e40af';
+  msg.innerText = 'Guardando...';
+
+  try {
+    const { error } = await supabaseClient
+      .from('finsave_users')
+      .update({ name: nuevoNombre, updated_at: new Date().toISOString() })
+      .eq('id', id);
+    if (error) throw error;
+
+    if (currentUser && id === currentUser.id) {
+      window.db.perfil.name = nuevoNombre;
+      saveDB();
+      updateSidebarUserBlock(nuevoNombre, currentUser.email);
+    }
+
+    showToast('Nombre actualizado correctamente', 'ok');
+    closeModal('mod-adm-edit-cuenta');
+    await loadAdminUsersTable();
+  } catch(e) {
+    msg.style.background = 'var(--danger-bg)'; msg.style.color = 'var(--danger)';
+    msg.innerText = 'No se pudo guardar: ' + (e.message || 'error desconocido');
+  }
+}
+
+async function sendAdminResetPassword() {
+  let email = document.getElementById('adm-edit-email').value;
+  let msg = document.getElementById('adm-edit-msg');
+  msg.style.display = 'block';
+  msg.style.background = '#dbeafe'; msg.style.color = '#1e40af';
+  msg.innerText = 'Enviando enlace...';
+
+  try {
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + window.location.pathname
+    });
+    if (error) throw error;
+    msg.style.background = '#dcfce7'; msg.style.color = '#166534';
+    msg.innerText = 'Enlace enviado a ' + email + '. La persona debe revisar su correo (y spam) para crear una nueva contraseña.';
+  } catch(e) {
+    msg.style.background = 'var(--danger-bg)'; msg.style.color = 'var(--danger)';
+    msg.innerText = 'No se pudo enviar el enlace: ' + (e.message || 'error desconocido');
+  }
+}
 async function loadAdminAdminsList() {
   let box = document.getElementById('adm-admins-list');
   if (!box || !supabaseClient) return;
