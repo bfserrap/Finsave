@@ -520,6 +520,7 @@ html, body {
       <div class="auth-link" style="margin-top:-6px"><a href="#" onclick="switchTab('forgot');return false">¿Olvidaste tu contraseña?</a></div>
     </div>
     <div id="f-reg" class="hidden">
+<input type="text" id="rg-website" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
       <div class="fg"><label>Nombre completo</label><input type="text" id="rg-name" placeholder="Juan Pérez" autocomplete="name"></div>
       <div class="fg"><label>Correo</label><input type="email" id="rg-email" placeholder="tu@correo.com" autocomplete="email"></div>
       <div class="fg">
@@ -1405,7 +1406,9 @@ const SUPABASE_ANON = 'sb_publishable_0bqmjyUQfl0Az20XUxmFQw_5P2L943F';
 /* ── ADMINISTRADOR ── */
 const PRIMARY_ADMIN_EMAIL = 'bryan.serrano.perez@icloud.com';
 let isAdminUser = false;
+let isAdminUser = false;
 let adminAccountsCache = [];
+let regFormShownAt = 0;
 
 let supabaseClient = null;
 let currentUser = null;
@@ -1942,9 +1945,10 @@ function switchTab(mode) {
   if (mode === 'login') {
     document.getElementById('at-login').classList.add('active');
     document.getElementById('f-login').classList.remove('hidden');
-  } else if (mode === 'register') {
+} else if (mode === 'register') {
     document.getElementById('at-reg').classList.add('active');
     document.getElementById('f-reg').classList.remove('hidden');
+    regFormShownAt = Date.now();
   } else if (mode === 'forgot') {
     document.getElementById('auth-tabs').classList.add('hidden');
     document.getElementById('f-forgot').classList.remove('hidden');
@@ -1995,6 +1999,10 @@ async function doLogin() {
 }
 
 async function doRegister() {
+  let honeypot = document.getElementById('rg-website')?.value || '';
+  if (honeypot) { showAuthErr('No se pudo crear la cuenta. Intenta de nuevo.'); return; }
+  if (Date.now() - regFormShownAt < 2500) { showAuthErr('No se pudo crear la cuenta. Intenta de nuevo.'); return; }
+
   let n = document.getElementById('rg-name').value.trim();
   let e = document.getElementById('rg-email').value.trim();
   let p = document.getElementById('rg-pass').value;
@@ -2020,8 +2028,8 @@ const { data, error } = await supabaseClient.auth.signUp({ email: e, password: p
       window.db.perfil.name = n;
       window.db.perfil.email = e;
       saveDB();
-      try {
-        await supabaseClient.from('finsave_users').upsert({ id: currentUser.id, email: e, name: n }, { onConflict: 'id' });
+try {
+        await supabaseClient.rpc('update_own_name', { new_name: n });
       } catch(errUsr) { /* si falla no bloquea el registro */ }
       await syncToSupabase();
       document.getElementById('auth-ok').innerText = '¡Cuenta creada!';
