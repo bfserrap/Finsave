@@ -4515,7 +4515,7 @@ function exportResumenPDF() {
   // ─── KPIs PRINCIPALES ─────────────────────────────────────
   let kpis = [
     ['Ingresos Totales', '$'+formatMiles(totalIn), [220,252,231],[6,78,49]],
-    ['Egresos Consolidados', '$'+formatMiles(totalOut), [254,242,242],[185,28,28]],
+    ['Consolidado Egresos', '$'+formatMiles(totalOut), [254,242,242],[185,28,28]],
     ['Saldo del Período', '$'+formatMiles(balance), balance>=0?[220,252,231]:[254,242,242], balance>=0?[6,78,49]:[185,28,28]],
     ['Carga de Deuda Fija', '$'+formatMiles(totalCred), [245,243,255],[109,40,217]],
   ];
@@ -4689,7 +4689,7 @@ function renderResumen() {
 
   document.getElementById('res-kpis').innerHTML = `
     <div class="kpi"><div class="kpi-lbl">Ingresos Totales</div><div class="kpi-val g">$${formatMiles(totalIn)}</div></div>
-    <div class="kpi"><div class="kpi-lbl">Egresos Consolidados</div><div class="kpi-val r">$${formatMiles(totalOut)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">Consolidado Egresos</div><div class="kpi-val r">$${formatMiles(totalOut)}</div></div>
     <div class="kpi"><div class="kpi-lbl">Saldo Líquido</div><div class="kpi-val ${balanceo>=0?'g':'r'}">$${formatMiles(balanceo)}</div></div>
     <div class="kpi"><div class="kpi-lbl">Carga de Deuda Fija</div><div class="kpi-val p">$${formatMiles(totalCred)}</div></div>
   `;
