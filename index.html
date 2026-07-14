@@ -635,7 +635,7 @@ html, body {
 <div class="balance-legend">
             <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#10b068"></div>Ingresos</div>
             <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#f43f5e"></div>Egresos</div>
-            <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#2a78d6;border-radius:50%"></div>Saldo Líquido</div>
+            <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#2a78d6"></div>Saldo Líquido <span style="color:var(--gray2);font-weight:500">(rojo si es negativo)</span></div>
           </div>
         </div>
       </div>
@@ -654,6 +654,15 @@ html, body {
         <div id="res-alerts" class="diagnostico-wrap"></div>
       </div>
     </div>
+  </div>
+  <div class="card" style="padding-bottom:1.5rem">
+    <div class="card-head"><div class="card-title">💰 Gastos vs Pagado</div><div class="card-sub">Estado de pago del mes</div></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:1rem">
+      <div class="kpi"><div class="kpi-lbl">Total Gastos del Mes</div><div class="kpi-val" id="res-gp-total">$0</div></div>
+      <div class="kpi"><div class="kpi-lbl">Pagado</div><div class="kpi-val g" id="res-gp-pagado">$0</div></div>
+      <div class="kpi"><div class="kpi-lbl">Pendiente</div><div class="kpi-val a" id="res-gp-pendiente">$0</div></div>
+    </div>
+    <div class="chart-box-sm"><canvas id="chart-gastos-pagado"></canvas></div>
   </div>
   <div class="card" style="padding-bottom:1.5rem">
     <div class="card-head"><div class="card-title">🏦 Ahorro Anual</div><div class="card-sub" id="res-ahorro-yr-lbl">2026</div></div>
@@ -4728,6 +4737,55 @@ function renderResumen() {
     });
   }
 
+  // Gastos vs Pagado (mes seleccionado)
+  let ffMesGP = window.db.gastosFijos.filter(x=>x.month===m&&x.year===y);
+  let fvMesGP = window.db.gastosVariables.filter(x=>x.month===m&&x.year===y);
+  let totalGastosMes = ffMesGP.reduce((a,b)=>a+b.monto,0) + fvMesGP.reduce((a,b)=>a+b.monto,0);
+  // Los gastos variables se registran cuando ya ocurrieron (siempre pagados);
+  // los gastos fijos dependen del flag "paid".
+  let pagadoMes = ffMesGP.filter(x=>x.paid).reduce((a,b)=>a+b.monto,0) + fvMesGP.reduce((a,b)=>a+b.monto,0);
+  let pendienteMes = totalGastosMes - pagadoMes;
+  let pctPagado = totalGastosMes > 0 ? Math.round((pagadoMes/totalGastosMes)*100) : 0;
+
+  let gpTotalEl = document.getElementById('res-gp-total');
+  let gpPagadoEl = document.getElementById('res-gp-pagado');
+  let gpPendienteEl = document.getElementById('res-gp-pendiente');
+  if (gpTotalEl) gpTotalEl.textContent = '$' + formatMiles(totalGastosMes);
+  if (gpPagadoEl) gpPagadoEl.textContent = '$' + formatMiles(pagadoMes) + ` (${pctPagado}%)`;
+  if (gpPendienteEl) gpPendienteEl.textContent = '$' + formatMiles(pendienteMes);
+
+  if (window.chartGastosPagadoRef) window.chartGastosPagadoRef.destroy();
+  let ctxGP = document.getElementById('chart-gastos-pagado');
+  if (ctxGP) {
+    window.chartGastosPagadoRef = new Chart(ctxGP, {
+      type:'bar',
+      data:{
+        labels:['Gastos del Mes'],
+        datasets:[
+          { label:'Pagado', data:[pagadoMes], backgroundColor:'#10b068', borderRadius:8, maxBarThickness:46 },
+          { label:'Pendiente', data:[pendienteMes], backgroundColor:'#f59e0b', borderRadius:8, maxBarThickness:46 }
+        ]
+      },
+      options:{
+        indexAxis:'y',
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{ display:true, position:'bottom', labels:{ font:{ family:'Sora', size:11 }, padding:10, boxWidth:12, boxHeight:12 } },
+          tooltip:{ backgroundColor:'#111827', titleColor:'#fff', bodyColor:'rgba(255,255,255,.85)', borderColor:'rgba(255,255,255,.1)', borderWidth:1,
+            callbacks:{ label: ctx => {
+              let pct = totalGastosMes > 0 ? Math.round((ctx.parsed.x/totalGastosMes)*100) : 0;
+              return ' '+ctx.dataset.label+': $'+formatMiles(ctx.parsed.x)+' ('+pct+'%)';
+            } }
+          }
+        },
+        scales:{
+          x:{ stacked:true, beginAtZero:true, grid:{ color:'#f3f4f6' }, ticks:{ color:'#6b7280', font:{ size:11 }, callback:v=>'$'+formatMiles(v) } },
+          y:{ stacked:true, grid:{ display:false }, ticks:{ display:false } }
+        }
+      }
+    });
+  }
+
   // Gráfico anual
   let mesesNombres = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   let inAnual  = Array(12).fill(0);
@@ -4741,15 +4799,15 @@ function renderResumen() {
   let ctx2 = document.getElementById('chart-anual');
   if (ctx2) {
 window.chartAnualRef = new Chart(ctx2, {
+      type:'bar',
       data:{
         labels:mesesNombres,
         datasets:[
-          { type:'bar', label:'Ingresos', data:inAnual, backgroundColor:'#10b068', borderRadius:6, maxBarThickness:20, order:2 },
-          { type:'bar', label:'Egresos', data:outAnual, backgroundColor:'#f43f5e', borderRadius:6, maxBarThickness:20, order:2 },
-          { type:'line', label:'Saldo Líquido', data:balance, borderColor:'#2a78d6', borderWidth:2, borderDash:[6,4], pointRadius:5,
-            pointBorderWidth:2, pointBorderColor:'#fff',
-            pointBackgroundColor: ctx => ctx.parsed.y >= 0 ? '#10b068' : '#f43f5e',
-            tension:.3, fill:false, order:1 }
+          { label:'Ingresos', data:inAnual, backgroundColor:'#10b068', borderRadius:6, maxBarThickness:16, categoryPercentage:.7, barPercentage:.85 },
+          { label:'Egresos', data:outAnual, backgroundColor:'#f43f5e', borderRadius:6, maxBarThickness:16, categoryPercentage:.7, barPercentage:.85 },
+          { label:'Saldo Líquido', data:balance,
+            backgroundColor: balance.map(v => v >= 0 ? '#2a78d6' : '#dc2626'),
+            borderRadius:6, maxBarThickness:16, categoryPercentage:.7, barPercentage:.85 }
         ]
       },
       options:{
