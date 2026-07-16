@@ -716,41 +716,47 @@ html, body {
     </div>
   </div>
   <div class="kpi-grid" id="res-kpis"></div>
-  <div class="g2">
-    <div>
-      <div class="card" style="padding-bottom:1.5rem">
-        <div class="card-head">
-          <div class="card-title"><span class="card-title-ic">📈</span> Balance Operacional</div>
-          <div class="card-sub" id="res-yr-lbl">2026</div>
-        </div>
-        <div class="bal-kpis" id="res-bal-kpis"></div>
-        <div class="balance-legend" style="margin-bottom:1rem">
-          <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#4F46E5"></div>Ganancias</div>
-          <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#F43F5E"></div>Gastos</div>
-          <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#10B981;border-radius:50%"></div>Saldo Líquido</div>
-        </div>
-        <div class="balance-chart-wrap" style="position:relative">
-          <div class="chart-box-lg"><canvas id="chart-anual"></canvas></div>
-          <div class="chart-ext-tooltip" id="chart-anual-tt"></div>
-        </div>
-        <div class="balance-tip">💡 <span><b>El saldo líquido</b> representa la diferencia entre tus ganancias y gastos cada mes.</span></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><div class="card-title"><span class="card-title-ic">📥</span> Flujos de Ingresos</div><div class="card-sub" id="res-in-tot">$0</div></div>
-        <div class="flujos-table-wrap"><div class="tbl-wrap"><table><thead><tr><th>Descripción</th><th>Monto</th></tr></thead><tbody id="res-in-body"></tbody></table></div></div>
-      </div>
+
+  <div class="card" style="padding-bottom:1.5rem">
+    <div class="card-head">
+      <div class="card-title"><span class="card-title-ic">📈</span> Balance Operacional</div>
+      <div class="card-sub" id="res-yr-lbl">2026</div>
     </div>
-    <div>
-      <div class="card" style="padding-bottom:1.5rem">
-        <div class="card-head"><div class="card-title"><span class="card-title-ic">🍩</span> Distribución de Egresos</div><div class="card-sub">Gastos del periodo</div></div>
-        <div class="chart-box"><canvas id="chart-cats"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><div class="card-title"><span class="card-title-ic">💡</span> Diagnóstico Finsave</div><div class="card-sub">Análisis automático de tu salud financiera</div></div>
-        <div id="res-alerts" class="diagnostico-wrap"></div>
-      </div>
+    <div class="balance-legend" style="margin-bottom:1rem">
+      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#4F46E5"></div>Ganancias</div>
+      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#F43F5E"></div>Gastos</div>
+      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#10B981;border-radius:50%"></div>Saldo Líquido</div>
+      <div class="balance-legend-item" id="res-bal-trend" style="margin-left:auto"></div>
+    </div>
+    <div class="balance-chart-wrap" style="position:relative">
+      <div class="chart-box-lg"><canvas id="chart-anual"></canvas></div>
+      <div class="chart-ext-tooltip" id="chart-anual-tt"></div>
+    </div>
+    <div class="balance-tip">💡 <span><b>El saldo líquido</b> representa la diferencia entre tus ganancias y gastos cada mes.</span></div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-head"><div class="card-title"><span class="card-title-ic">📥</span> Flujos de Ingresos</div><div class="card-sub" id="res-in-tot">$0</div></div>
+      <div class="flujos-table-wrap"><div class="tbl-wrap"><table><thead><tr><th>Descripción</th><th>Monto</th></tr></thead><tbody id="res-in-body"></tbody></table></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title"><span class="card-title-ic">📤</span> Flujos de Gastos</div><div class="card-sub" id="res-out-tot">$0</div></div>
+      <div class="flujos-table-wrap"><div class="tbl-wrap"><table><thead><tr><th>Descripción</th><th>Monto</th></tr></thead><tbody id="res-out-body"></tbody></table></div></div>
     </div>
   </div>
+
+  <div class="g2">
+    <div class="card" style="padding-bottom:1.5rem">
+      <div class="card-head"><div class="card-title"><span class="card-title-ic">🍩</span> Distribución de Egresos</div><div class="card-sub">Gastos del periodo</div></div>
+      <div class="chart-box"><canvas id="chart-cats"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title"><span class="card-title-ic">💡</span> Diagnóstico Finsave</div><div class="card-sub">Análisis automático de tu salud financiera</div></div>
+      <div id="res-alerts" class="diagnostico-wrap"></div>
+    </div>
+  </div>
+
   <div class="card" style="padding-bottom:1.5rem">
     <div class="card-head"><div class="card-title"><span class="card-title-ic">💰</span> Gastos vs Pagado</div><div class="card-sub">Estado de pago del mes</div></div>
     <div class="gp-total-row"><div class="gp-total-lbl">Total del mes</div><div class="gp-total-val" id="res-gp-total">$0</div></div>
@@ -1836,12 +1842,16 @@ function renderCategorias() {
     cats.forEach(cat => {
       let esOriginalDefault = defaultIds.includes(cat.id) && !customIds.includes(cat.id);
       wrapper.innerHTML += `
-        <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;border-radius:var(--radius-sm);border:1px solid var(--gray4);margin-bottom:.5rem;background:var(--bg)">
-          <span style="font-size:1.35rem">${cat.emoji}</span>
-          <span style="flex:1;font-size:.88rem;font-weight:600;color:var(--dark)">${cat.label}</span>
-          ${esOriginalDefault ? '<span style="font-size:.7rem;color:var(--gray2);background:var(--gray4);padding:.2rem .5rem;border-radius:99px">Por defecto</span>' : ''}
-          <button class="btn btn-ghost btn-sm" style="padding:.3rem .6rem;font-size:.75rem" onclick="openEditCat('${tipo}','${cat.id}')">✏️</button>
-          <button class="btn btn-danger btn-sm" style="padding:.3rem .6rem;font-size:.75rem" onclick="delCat('${tipo}','${cat.id}')">🗑️</button>
+        <div style="display:flex;align-items:center;gap:.75rem;padding:.65rem .75rem;border-radius:var(--radius-sm);border:1px solid var(--gray4);margin-bottom:.5rem;background:var(--bg)">
+          <span style="font-size:1.35rem;flex-shrink:0;line-height:1">${cat.emoji}</span>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:.3rem">
+            <span style="font-size:.88rem;font-weight:600;color:var(--dark);line-height:1.25">${cat.label}</span>
+            ${esOriginalDefault ? '<span style="align-self:flex-start;white-space:nowrap;font-size:.68rem;color:var(--gray2);background:var(--gray4);padding:.15rem .5rem;border-radius:99px">Por defecto</span>' : ''}
+          </div>
+          <div style="display:flex;align-items:center;gap:.4rem;flex-shrink:0">
+            <button class="btn btn-ghost btn-sm" style="padding:.3rem .55rem;font-size:.75rem;min-height:32px" onclick="openEditCat('${tipo}','${cat.id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" style="padding:.3rem .55rem;font-size:.75rem;min-height:32px" onclick="delCat('${tipo}','${cat.id}')">🗑️</button>
+          </div>
         </div>`;
     });
   });
@@ -4804,13 +4814,23 @@ function renderResumen() {
     <div class="kpi"><div class="kpi-icon icon-p">🏦</div><div class="kpi-lbl">Carga de Deuda Fija</div><div class="kpi-val p">$${formatMiles(totalCred)}</div></div>
   `;
 
-  let resBalKpisEl = document.getElementById('res-bal-kpis');
-  if (resBalKpisEl) {
-    resBalKpisEl.innerHTML = `
-      <div class="bal-kpi b"><div class="bal-kpi-txt"><div class="bal-kpi-lbl"><span class="bal-kpi-dot"></span>Ganancias Totales</div><div class="bal-kpi-val">$${formatMiles(totalIn)}</div></div><div class="bal-kpi-ic">💳</div></div>
-      <div class="bal-kpi r"><div class="bal-kpi-txt"><div class="bal-kpi-lbl"><span class="bal-kpi-dot"></span>Gastos Totales</div><div class="bal-kpi-val">$${formatMiles(totalOut)}</div></div><div class="bal-kpi-ic">📄</div></div>
-      <div class="bal-kpi g"><div class="bal-kpi-txt"><div class="bal-kpi-lbl"><span class="bal-kpi-dot"></span>Saldo Líquido</div><div class="bal-kpi-val">$${formatMiles(balanceo)}</div></div><div class="bal-kpi-ic">✅</div></div>
-    `;
+  let resBalTrendEl = document.getElementById('res-bal-trend');
+  if (resBalTrendEl) {
+    let pm = m === 0 ? 11 : m - 1;
+    let py = m === 0 ? y - 1 : y;
+    let inPrev = window.db.ingresos.filter(x=>x.month===pm&&x.year===py).reduce((a,b)=>a+b.monto,0);
+    let fijosPrev = window.db.gastosFijos.filter(x=>x.month===pm&&x.year===py).reduce((a,b)=>a+b.monto,0);
+    let varPrev = window.db.gastosVariables.filter(x=>x.month===pm&&x.year===py).reduce((a,b)=>a+b.monto,0);
+    let balancePrev = inPrev - (fijosPrev + varPrev);
+    let hasPrevData = inPrev > 0 || fijosPrev > 0 || varPrev > 0;
+    if (!hasPrevData) {
+      resBalTrendEl.innerHTML = '';
+    } else {
+      let delta = balanceo - balancePrev;
+      let pct = balancePrev !== 0 ? Math.round((delta / Math.abs(balancePrev)) * 100) : (delta > 0 ? 100 : 0);
+      let up = delta >= 0;
+      resBalTrendEl.innerHTML = `<span style="display:flex;align-items:center;gap:.3rem;font-weight:700;color:${up ? 'var(--green-dark)' : 'var(--danger)'}">${up ? '▲' : '▼'} ${Math.abs(pct)}% vs mes anterior</span>`;
+    }
   }
 
   let resInBody = document.getElementById('res-in-body');
@@ -4818,7 +4838,19 @@ function renderResumen() {
   document.getElementById('res-in-tot').innerText = `$${formatMiles(totalIn)}`;
   resInBody.innerHTML = inMes.length === 0
     ? '<tr><td colspan="2" class="tbl-empty">Sin ingresos este mes</td></tr>'
-    : inMes.map(x=>`<tr><td>${x.desc}</td><td>$${formatMiles(x.monto)}</td></tr>`).join('');
+    : inMes.map(x=>`<tr><td>${x.desc}</td><td style="color:var(--green-dark);font-weight:700">+$${formatMiles(x.monto)}</td></tr>`).join('');
+
+  let resOutBody = document.getElementById('res-out-body');
+  if (resOutBody) {
+    let outMes = [
+      ...window.db.gastosFijos.filter(x=>x.month===m&&x.year===y).map(x=>({desc:x.desc, monto:x.monto})),
+      ...window.db.gastosVariables.filter(x=>x.month===m&&x.year===y).map(x=>({desc:x.desc, monto:x.monto}))
+    ].sort((a,b)=>b.monto-a.monto);
+    document.getElementById('res-out-tot').innerText = `$${formatMiles(totalOut)}`;
+    resOutBody.innerHTML = outMes.length === 0
+      ? '<tr><td colspan="2" class="tbl-empty">Sin gastos este mes</td></tr>'
+      : outMes.map(x=>`<tr><td>${x.desc}</td><td style="color:var(--danger);font-weight:700">-$${formatMiles(x.monto)}</td></tr>`).join('');
+  }
 
   let alerts = document.getElementById('res-alerts');
   alerts.innerHTML = '';
