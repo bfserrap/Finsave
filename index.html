@@ -4393,14 +4393,15 @@ function exportLiqPDF() {
   const W = doc.internal.pageSize.getWidth();
   const H = doc.internal.pageSize.getHeight();
   const lm = 16, rm = W - 16;
-  const GREEN = [22, 163, 74];
-  const GREEN_LIGHT = [220, 252, 231];
-  const RED = [185, 28, 28];
-  const BLUE = [30, 58, 138];
-  const PURPLE = [109, 40, 217];
-  const DARK = [24, 24, 27];
-  const GRAY = [113, 113, 122];
-  const GRAY_LIGHT = [228, 228, 231];
+  const BRAND = [79, 70, 229];
+  const GREEN = [16, 185, 129];
+  const GREEN_LIGHT = [209, 250, 229];
+  const RED = [190, 18, 60];
+  const BLUE = [67, 56, 202];
+  const PURPLE = [124, 58, 237];
+  const DARK = [15, 23, 42];
+  const GRAY = [100, 116, 139];
+  const GRAY_LIGHT = [226, 232, 240];
 
   function getV(id) { let el = document.getElementById(id); return el ? el.innerText || '$0' : '$0'; }
 
@@ -4432,10 +4433,10 @@ function exportLiqPDF() {
   doc.text('$', bx, by + 1.6, { align: 'center', baseline: 'middle' });
 
   let finX = bx + 7;
-  doc.setFontSize(14); doc.setFont(undefined, 'bold'); doc.setTextColor(...DARK);
+  doc.setFontSize(14); doc.setFont(undefined, 'bold'); doc.setTextColor(...BRAND);
   doc.text('Fin', finX, 9, { baseline: 'middle' });
   let finW = doc.getTextWidth('Fin');
-  doc.setTextColor(...GREEN);
+  doc.setTextColor(...DARK);
   doc.text('save', finX + finW, 9, { baseline: 'middle' });
 
   doc.setTextColor(...DARK); doc.setFontSize(10.5); doc.setFont(undefined, 'bold');
@@ -4443,7 +4444,7 @@ function exportLiqPDF() {
   doc.setFontSize(8.5); doc.setFont(undefined, 'normal'); doc.setTextColor(...GRAY);
   doc.text(`${meses[lMesIdx]} ${lAnio}`, rm, 14.5, { align: 'right' });
 
-  doc.setDrawColor(...GREEN); doc.setLineWidth(0.5);
+  doc.setDrawColor(...BRAND); doc.setLineWidth(0.5);
   doc.line(lm, 18, rm, 18);
   py = 26;
 
@@ -4459,7 +4460,7 @@ function exportLiqPDF() {
 
   function sectionTitle(t) {
     checkY(9);
-    doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...GREEN);
+    doc.setFontSize(7.5); doc.setFont(undefined, 'bold'); doc.setTextColor(...BRAND);
     doc.text(t.toUpperCase(), lm, py);
     py += 2.3;
     doc.setDrawColor(...GRAY_LIGHT); doc.setLineWidth(0.25);
@@ -4525,12 +4526,12 @@ function exportLiqPDF() {
     ['Horas Extraordinarias', getV('v-hext')],
     ['Semana Corrida', getV('v-semanacorrida')],
     ['Bonos / Conceptos Adicionales (Imp.)', getV('v-conceptos-imp')],
-    ['Total Imponible', getV('v-totImpo'), true, GREEN],
+    ['Total Imponible', getV('v-totImpo'), true, BRAND],
     ['Asignación de Colación', getV('v-colacion')],
     ['Asignación de Movilización', getV('v-movilizacion')],
     ['Otros No Imponibles', getV('v-noImpoExtra')],
     ['Bonos / Conceptos Adicionales (No Imp.)', getV('v-conceptos-noimp')],
-    ['Total Haberes', getV('v-bruto'), true, GREEN],
+    ['Total Haberes', getV('v-bruto'), true, BRAND],
   ]);
 
   // ─── DESCUENTOS ───────────────────────────────────────────
@@ -4620,9 +4621,9 @@ function exportResumenPDF() {
   }
 
   // ─── ENCABEZADO ───────────────────────────────────────────
-  doc.setFillColor(6, 78, 49);
+  doc.setFillColor(67, 56, 202);
   doc.rect(0, 0, W, 32, 'F');
-  doc.setFillColor(13, 122, 78);
+  doc.setFillColor(79, 70, 229);
   doc.rect(0, 26, W, 6, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(20); doc.setFont(undefined,'bold');
@@ -4634,10 +4635,10 @@ function exportResumenPDF() {
 
   // ─── KPIs PRINCIPALES ─────────────────────────────────────
   let kpis = [
-    ['Ingresos Totales', '$'+formatMiles(totalIn), [220,252,231],[6,78,49]],
-    ['Consolidado Egresos', '$'+formatMiles(totalOut), [254,242,242],[185,28,28]],
-    ['Saldo del Período', '$'+formatMiles(balance), balance>=0?[220,252,231]:[254,242,242], balance>=0?[6,78,49]:[185,28,28]],
-    ['Carga de Deuda Fija', '$'+formatMiles(totalCred), [245,243,255],[109,40,217]],
+    ['Ingresos Totales', '$'+formatMiles(totalIn), [238,242,255],[79,70,229]],
+    ['Consolidado Egresos', '$'+formatMiles(totalOut), [255,241,242],[244,63,94]],
+    ['Saldo del Período', '$'+formatMiles(balance), balance>=0?[209,250,229]:[255,241,242], balance>=0?[16,185,129]:[244,63,94]],
+    ['Carga de Deuda Fija', '$'+formatMiles(totalCred), [245,243,255],[139,92,246]],
   ];
   let kpiW = (W - 28 - 9) / 4;
   kpis.forEach(([lbl,val,bg,tc], i) => {
@@ -4653,7 +4654,7 @@ function exportResumenPDF() {
 
   // Tasa de ahorro
   checkY(12);
-  doc.setFillColor(balance>=0 ? 6 : 185, balance>=0 ? 78 : 28, balance>=0 ? 49 : 28);
+  doc.setFillColor(balance>=0 ? 16 : 244, balance>=0 ? 185 : 63, balance>=0 ? 129 : 94);
   doc.roundedRect(lm, py, W-28, 10, 2, 2, 'F');
   doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont(undefined,'bold');
   doc.text(`Tasa de ahorro del período: ${tasaAhorro}%  ·  Saldo disponible: $${formatMiles(Math.max(balance,0))}`, W/2, py+6.5, { align:'center' });
@@ -4662,7 +4663,7 @@ function exportResumenPDF() {
   // ─── INGRESOS DETALLADOS ──────────────────────────────────
   let inMes = window.db.ingresos.filter(x=>x.month===m&&x.year===yr);
   checkY(12 + inMes.length * 6 + 4);
-  doc.setFillColor(13,122,78);
+  doc.setFillColor(79,70,229);
   doc.roundedRect(lm, py, W-28, 8, 2, 2, 'F');
   doc.setTextColor(255,255,255); doc.setFontSize(8.5); doc.setFont(undefined,'bold');
   doc.text('INGRESOS DEL PERÍODO', lm+4, py+5.5);
@@ -4676,7 +4677,7 @@ function exportResumenPDF() {
       if (i % 2 === 0) { doc.setFillColor(248,250,252); doc.rect(lm, py-1, W-28, 7, 'F'); }
       doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(50,50,50);
       doc.text(x.desc, lm+4, py+4);
-      doc.setFont(undefined,'bold'); doc.setTextColor(13,122,78);
+      doc.setFont(undefined,'bold'); doc.setTextColor(79,70,229);
       doc.text('$'+formatMiles(x.monto), rm, py+4, { align:'right' });
       py += 7;
     });
@@ -4688,7 +4689,7 @@ function exportResumenPDF() {
   let allCats = [...getAllCatsFijos(),...getAllCatsVar()];
   let catMap = {}; allCats.forEach(c=>{ catMap[c.id]=`${c.emoji} ${c.label}`; });
   checkY(12 + gfMes.length * 6 + 4);
-  doc.setFillColor(185,28,28);
+  doc.setFillColor(190,18,60);
   doc.roundedRect(lm, py, W-28, 8, 2, 2, 'F');
   doc.setTextColor(255,255,255); doc.setFontSize(8.5); doc.setFont(undefined,'bold');
   doc.text('GASTOS FIJOS', lm+4, py+5.5);
@@ -4699,10 +4700,10 @@ function exportResumenPDF() {
     doc.text('Sin gastos fijos registrados.', lm+4, py+4); py += 8;
   } else {
     gfMes.forEach((x,i) => {
-      if (i % 2 === 0) { doc.setFillColor(254,242,242); doc.rect(lm, py-1, W-28, 7, 'F'); }
+      if (i % 2 === 0) { doc.setFillColor(255,241,242); doc.rect(lm, py-1, W-28, 7, 'F'); }
       doc.setFontSize(8.5); doc.setFont(undefined,'normal'); doc.setTextColor(70,70,70);
       doc.text(`${x.desc}  ·  ${catMap[x.cat] || x.cat || '—'}`, lm+4, py+4);
-      doc.setFont(undefined,'bold'); doc.setTextColor(185,28,28);
+      doc.setFont(undefined,'bold'); doc.setTextColor(190,18,60);
       doc.text('$'+formatMiles(x.monto), rm, py+4, { align:'right' });
       py += 7;
     });
@@ -4712,7 +4713,7 @@ function exportResumenPDF() {
   // ─── GASTOS VARIABLES ─────────────────────────────────────
   let gvMes = window.db.gastosVariables.filter(x=>x.month===m&&x.year===yr);
   checkY(12 + gvMes.length * 6 + 4);
-  doc.setFillColor(220,38,38);
+  doc.setFillColor(244,63,94);
   doc.roundedRect(lm, py, W-28, 8, 2, 2, 'F');
   doc.setTextColor(255,255,255); doc.setFontSize(8.5); doc.setFont(undefined,'bold');
   doc.text('GASTOS VARIABLES', lm+4, py+5.5);
@@ -4723,10 +4724,10 @@ function exportResumenPDF() {
     doc.text('Sin gastos variables registrados.', lm+4, py+4); py += 8;
   } else {
     gvMes.forEach((x,i) => {
-      if (i % 2 === 0) { doc.setFillColor(254,242,242); doc.rect(lm, py-1, W-28, 7, 'F'); }
+      if (i % 2 === 0) { doc.setFillColor(255,241,242); doc.rect(lm, py-1, W-28, 7, 'F'); }
       doc.setFontSize(8.5); doc.setFont(undefined,'normal'); doc.setTextColor(70,70,70);
       doc.text(`${x.fecha ? x.fecha + '  ·  ' : ''}${x.desc}  ·  ${catMap[x.cat] || x.cat || '—'}`, lm+4, py+4);
-      doc.setFont(undefined,'bold'); doc.setTextColor(220,38,38);
+      doc.setFont(undefined,'bold'); doc.setTextColor(244,63,94);
       doc.text('$'+formatMiles(x.monto), rm, py+4, { align:'right' });
       py += 7;
     });
@@ -4746,7 +4747,7 @@ function exportResumenPDF() {
   });
   if (credsIncl.length > 0) {
     checkY(12 + credsIncl.length * 8 + 4);
-    doc.setFillColor(109,40,217);
+    doc.setFillColor(124,58,237);
     doc.roundedRect(lm, py, W-28, 8, 2, 2, 'F');
     doc.setTextColor(255,255,255); doc.setFontSize(8.5); doc.setFont(undefined,'bold');
     doc.text('CRÉDITOS Y FINANCIAMIENTOS (VENCEN ESTE PERÍODO)', lm+4, py+5.5);
@@ -4760,7 +4761,7 @@ function exportResumenPDF() {
       let faltanQ = Math.max(x.cuotaTot - cuotasPagadas, 0);
       doc.setFont(undefined,'normal'); doc.setFontSize(7.5); doc.setTextColor(120,120,120);
       doc.text(`Cuota ${cuotasPagadas+1}/${x.cuotaTot}  ·  Faltan: ${faltanQ}  ·  Saldo: $${formatMiles(faltanQ*x.montoCuota)}`, lm+4, py+8);
-      doc.setFont(undefined,'bold'); doc.setFontSize(9); doc.setTextColor(109,40,217);
+      doc.setFont(undefined,'bold'); doc.setFontSize(9); doc.setTextColor(124,58,237);
       doc.text('$'+formatMiles(x.montoCuota)+'/mes', rm, py+5, { align:'right' });
       py += 10;
     });
@@ -4777,10 +4778,10 @@ function exportResumenPDF() {
   doc.text('💡 DIAGNÓSTICO FINSAVE', lm+4, py+7);
   doc.setFont(undefined,'normal'); doc.setFontSize(8.5);
   let diagLines = [];
-  if (balance < 0) diagLines.push({t:'⚠️ Tus gastos superan tus ingresos. Revisa tus egresos.', c:[185,28,28]});
+  if (balance < 0) diagLines.push({t:'⚠️ Tus gastos superan tus ingresos. Revisa tus egresos.', c:[190,18,60]});
   if (totalCred > totalIn*0.3 && totalIn > 0) diagLines.push({t:'⚠️ Endeudamiento crítico: carga de deuda supera el 30%.', c:[202,138,4]});
   if (totalFij > totalIn*0.5 && totalIn > 0) diagLines.push({t:'📌 Más del 50% de ingresos van a gastos fijos.', c:[202,138,4]});
-  if (balance >= 0 && totalCred <= totalIn*0.3) diagLines.push({t:'🛡️ Salud financiera óptima para este período.', c:[13,122,78]});
+  if (balance >= 0 && totalCred <= totalIn*0.3) diagLines.push({t:'🛡️ Salud financiera óptima para este período.', c:[5,150,105]});
   if (diagLines.length === 0) diagLines.push({t:'📊 Agrega más datos para ver tu diagnóstico.', c:[100,100,100]});
   diagLines.slice(0,2).forEach((d,i) => {
     doc.setTextColor(...d.c);
