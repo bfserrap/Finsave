@@ -935,7 +935,10 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
 <div id="page-creditos" class="page">
   <div class="pg-header">
     <div><div class="pg-title">Créditos y Financiamientos</div><div class="pg-sub">Monitorea tus deudas en cuotas y saldos pendientes</div></div>
-    <button class="btn btn-prim btn-sm" onclick="openModal('mod-cred')">＋ Nuevo Crédito</button>
+    <div class="pg-actions" style="width:auto">
+      <button class="btn btn-ghost btn-sm" onclick="exportCreditosPDF()">📄 Descargar todos</button>
+      <button class="btn btn-prim btn-sm" onclick="openModal('mod-cred')">＋ Nuevo Crédito</button>
+    </div>
   </div>
   <div id="cred-list"></div>
   <div id="cred-pagados-section" class="hidden" style="margin-top:1.5rem">
@@ -3573,6 +3576,7 @@ function renderCreditoCard(x, completado) {
         </div>
         ${historialHtml}
         <div class="cred-actions">
+          <button class="btn btn-ghost btn-sm" onclick="exportCreditoPDF(${x.id})">📄 Informe PDF</button>
           ${!completado ? `<button class="btn btn-prim btn-sm" onclick="pagarCuota(${x.id})">✅ Pagar Cuota</button>` : ''}
           ${cuotasPagadas > 0 ? `<button class="btn btn-warn btn-sm" onclick="eliminarPagoCuota(${x.id})">↩️ Revertir</button>` : ''}
           ${!completado ? `<button class="btn btn-ghost btn-sm" onclick="openFechasCredito(${x.id})">📅 Fechas</button>` : ''}
@@ -3581,6 +3585,147 @@ function renderCreditoCard(x, completado) {
         </div>
       </div>
     </div>`;
+}
+
+async function exportCreditoPDF(id) {
+  const credito = (window.db.creditos || []).find(x => x.id === id);
+  if (!credito) { showToast('No se encontró el crédito', 'err'); return; }
+  const nombre = `${credito.banco || 'Credito'}-${credito.desc || ''}`.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+/g,'-').replace(/^-|-$/g,'');
+  await buildCreditosPDF([credito], `Informe de crédito`, `Credito-Finsave-${nombre}.pdf`);
+}
+
+async function exportCreditosPDF() {
+  const creditos = window.db.creditos || [];
+  if (creditos.length === 0) { showToast('No hay créditos para exportar', 'err'); return; }
+  await buildCreditosPDF(creditos, 'Informe consolidado de créditos', 'Creditos-Finsave-Todos.pdf');
+}
+
+async function buildCreditosPDF(creditos, reportTitle, fileName) {
+  const { jsPDF } = window.jspdf;
+  if (!jsPDF) { showToast('PDF no disponible', 'err'); return; }
+  const doc = new jsPDF({unit:'mm',format:'a4'});
+  const pdfFont = await applyFinsavePdfFont(doc);
+  const W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight();
+  const lm=14, rm=W-14, contentW=rm-lm;
+  const GREEN=[5,150,105], DARK=[15,23,42], GRAY=[100,116,139], LINE=[226,232,240];
+  const MINT=[236,253,245], RED=[225,29,72], RED_BG=[255,241,242], BLUE=[37,99,235], BLUE_BG=[239,246,255];
+  const generadoEn = new Date().toLocaleString('es-CL');
+  const userName = String(window.db.perfil?.name || '').trim();
+  let py=0;
+  const continuationPages = new Set();
+
+  const money = n => '$'+formatMiles(Number(n)||0);
+  const clean = value => String(value ?? '').replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF]/gu,'').replace(/\s+/g,' ').trim();
+  const pdfDate = dateStr => {
+    if(!dateStr) return '-';
+    const [y,m,d]=String(dateStr).split('-');
+    return y&&m&&d?`${d}/${m}/${y}`:'-';
+  };
+  const setFont = (size,color=DARK,style='normal') => { doc.setFont(pdfFont,style); doc.setFontSize(size); doc.setTextColor(...color); };
+
+  function pageHeader(subtitle='') {
+    doc.setFillColor(255,255,255); doc.rect(0,0,W,31,'F');
+    doc.setDrawColor(...LINE); doc.setLineWidth(.25); doc.line(0,30.5,W,30.5);
+    doc.setFillColor(...MINT); doc.roundedRect(lm,7,10,10,2.5,2.5,'F');
+    setFont(12,GREEN); doc.text('$',lm+5,13.8,{align:'center'});
+    setFont(15,GREEN); doc.text('Finsave',lm+14,13.8);
+    setFont(14,DARK); doc.text(reportTitle,rm,11.5,{align:'right'});
+    setFont(7.5,GRAY); doc.text(clean(subtitle || (userName ? `Titular: ${userName}` : 'Detalle de financiamientos')),rm,18,{align:'right'});
+    setFont(6.5,[148,163,184]); doc.text('Generado desde tu panel Finsave',rm,23.5,{align:'right'});
+    py=38;
+  }
+  function addPage(subtitle='') { doc.addPage('a4','portrait'); pageHeader(subtitle); }
+  function addContinuationPage(cr) {
+    doc.addPage('a4','portrait'); continuationPages.add(doc.getNumberOfPages()); py=14;
+    roundedCard(lm,py,contentW,12,[255,255,255],LINE,2.5);
+    drawPdfSectionIcon(doc,lm+2,py+2.3,'building',GREEN);
+    setFont(9,DARK); doc.text(`${clean(cr.banco)} · Calendario (continuación)`,lm+11.2,py+7.5);
+    setFont(7,GRAY); doc.text(clean(cr.desc),rm-3,py+7.5,{align:'right',maxWidth:82});
+    py+=17;
+  }
+  function ensure(h,subtitle='Continuación') { if(py+h>H-18) addPage(subtitle); }
+  function roundedCard(x,y,w,h,fill=[255,255,255],stroke=LINE,r=3) {
+    doc.setFillColor(...fill); doc.setDrawColor(...stroke); doc.setLineWidth(.25); doc.roundedRect(x,y,w,h,r,r,'FD');
+  }
+  function metricCard(x,label,value,tone,bg,w) {
+    roundedCard(x,py,w,18,bg,bg,2.5); doc.setFillColor(...tone); doc.roundedRect(x,py,w,1.5,1,1,'F');
+    setFont(6.5,GRAY); doc.text(label.toUpperCase(),x+3,py+6);
+    setFont(10.5,tone); doc.text(value,x+w-3,py+14,{align:'right'});
+  }
+  function scheduleHeader() {
+    roundedCard(lm,py,contentW,9,[255,255,255],LINE,2.2);
+    drawPdfSectionIcon(doc,lm+2,py+1,'chart',GREEN);
+    setFont(8.2,DARK); doc.text('Calendario de cuotas',lm+11.2,py+5.9);
+    py+=12;
+    setFont(6.5,GRAY);
+    doc.text('CUOTA',lm+3,py); doc.text('VENCIMIENTO',lm+27,py); doc.text('ESTADO',lm+67,py);
+    doc.text('FECHA DE PAGO',lm+105,py); doc.text('MONTO',rm-3,py,{align:'right'});
+    py+=3;
+  }
+  function creditBlock(cr,index) {
+    if(index>0) addPage(`${clean(cr.banco)} · ${clean(cr.desc)}`); else pageHeader(`${clean(cr.banco)} · ${clean(cr.desc)}`);
+    const pagadas=Math.max(0,Math.min((Number(cr.cuotaAct)||1)-1,Number(cr.cuotaTot)||0));
+    const total=Math.max(0,Number(cr.cuotaTot)||0), restantes=Math.max(total-pagadas,0);
+    const pct=total>0?Math.round(pagadas/total*100):0;
+    const montoCuota=Number(cr.montoCuota)||0;
+    const montoTotal=Number(cr.montoTotal)||montoCuota*total;
+    const saldo=montoCuota*restantes;
+    const vencs=generarVencimientos(cr);
+    const pagos=Array.isArray(cr.pagos)?cr.pagos:[];
+
+    const descLines=doc.splitTextToSize(clean(cr.desc)||'Sin descripción',contentW-48);
+    const identityH=Math.max(23,17+descLines.length*3.2);
+    roundedCard(lm,py,contentW,identityH,[255,255,255],LINE,3);
+    drawPdfSectionIcon(doc,lm+3,py+4,'building',GREEN);
+    setFont(12,DARK); doc.text(clean(cr.banco)||'Crédito',lm+13,py+9);
+    setFont(7.5,GRAY); doc.text(descLines,lm+13,py+14);
+    const estado=restantes===0?'PAGADO':'EN CURSO';
+    const stateColor=restantes===0?GREEN:[194,65,12], stateBg=restantes===0?MINT:[255,247,237];
+    doc.setFillColor(...stateBg); doc.roundedRect(rm-28,py+5,25,7,3.5,3.5,'F'); setFont(7,stateColor); doc.text(estado,rm-15.5,py+9.7,{align:'center'});
+    py+=identityH+5;
+
+    const gap=3, cardW=(contentW-gap*2)/3;
+    metricCard(lm,'Cuotas pagadas',`${pagadas}/${total}`,GREEN,MINT,cardW);
+    metricCard(lm+cardW+gap,'Cuotas restantes',String(restantes),RED,RED_BG,cardW);
+    metricCard(lm+(cardW+gap)*2,'Saldo restante',money(saldo),BLUE,BLUE_BG,cardW);
+    py+=23;
+
+    roundedCard(lm,py,contentW,22,[248,250,252],LINE,2.5);
+    setFont(7.5,GRAY); doc.text('Avance del crédito',lm+4,py+6); setFont(9,GREEN); doc.text(`${pct}% completado`,rm-4,py+6,{align:'right'});
+    doc.setFillColor(226,232,240); doc.roundedRect(lm+4,py+10,contentW-8,3,1.5,1.5,'F');
+    if(pct>0){doc.setFillColor(...GREEN);doc.roundedRect(lm+4,py+10,(contentW-8)*pct/100,3,1.5,1.5,'F');}
+    setFont(6.8,GRAY); doc.text(`Valor cuota ${money(montoCuota)}  ·  Monto total ${money(montoTotal)}`,lm+4,py+18);
+    doc.text(`Primera cuota ${pdfDate(cr.fechaPrimeraCuota || vencs[0])}`,rm-4,py+18,{align:'right'});
+    py+=27;
+
+    scheduleHeader();
+    for(let i=0;i<total;i++) {
+      if(py+8>H-18){addContinuationPage(cr);scheduleHeader();}
+      const num=i+1, pago=pagos.find(p=>Number(p.cuota)===num), pagada=num<=pagadas;
+      const estadoCuota=pagada?'Pagada':'Pendiente';
+      if(i%2===0){doc.setFillColor(248,250,252);doc.rect(lm,py-1,contentW,7,'F');}
+      setFont(7.7,DARK); doc.text(`${num} de ${total}`,lm+3,py+3.8);
+      doc.text(pdfDate(vencs[i]),lm+27,py+3.8);
+      setFont(7.7,pagada?GREEN:RED); doc.text(estadoCuota,lm+67,py+3.8);
+      setFont(7.7,pagada?DARK:GRAY); doc.text(pago?.fecha?pdfDate(pago.fecha):(pagada?'No registrada':'-'),lm+105,py+3.8);
+      setFont(7.7,pagada?GREEN:DARK); doc.text(money(pago?.monto ?? montoCuota),rm-3,py+3.8,{align:'right'});
+      py+=7;
+    }
+    py+=4;
+  }
+
+  creditos.forEach(creditBlock);
+  const pages=doc.getNumberOfPages();
+  for(let p=1;p<=pages;p++){
+    doc.setPage(p); doc.setDrawColor(...LINE); doc.line(lm,H-12,rm,H-12);
+    setFont(6.5,GRAY);
+    if(continuationPages.has(p)) doc.text(`Página ${p} de ${pages}`,W/2,H-7,{align:'center'});
+    else {
+      doc.text(`Finsave · Informe de créditos · Página ${p} de ${pages}`,lm,H-7);
+      doc.text(generadoEn,rm,H-7,{align:'right'});
+    }
+  }
+  doc.save(fileName);
 }
 
 function openMetaModal(id) {
