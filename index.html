@@ -1149,14 +1149,6 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
           <div class="card-title"><span class="card-title-ic">📄</span> Comprobante Referencial</div>
         </div>
 
-        <div id="liq-header-display" style="background:var(--gray5);border-radius:10px;padding:.85rem;margin-bottom:1rem;font-size:.82rem">
-          <div id="liq-hd-nombre" style="font-weight:700;color:var(--dark)">—</div>
-          <div id="liq-hd-rut" style="color:var(--gray)">—</div>
-          <div id="liq-hd-cargo" style="color:var(--gray)">—</div>
-          <div id="liq-hd-empresa" style="color:var(--gray)">—</div>
-          <div id="liq-hd-periodo" style="color:var(--brand);font-weight:600;margin-top:.25rem">—</div>
-        </div>
-
         <div class="liq-section">
           <div class="liq-section-title">Haberes</div>
           <div class="liq-row"><span class="liq-lbl">Sueldo Base</span><span id="v-base">$0</span></div>
@@ -1240,13 +1232,19 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
 
 <div id="page-admin" class="page">
   <div class="pg-header">
-    <div><div class="pg-title">🛠️ Panel de Administrador</div><div class="pg-sub">Gestiona las cuentas registradas en Finsave</div></div>
+    <div><div class="pg-title">🛠️ Panel de Administrador</div><div class="pg-sub">Gestiona cuentas y resuelve solicitudes de soporte desde un solo lugar</div></div>
   </div>
+
+  <div id="adm-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1rem"></div>
 
   <div class="card">
     <div class="card-head">
-      <div><div class="card-title">Cuentas de Usuarios</div><div class="card-sub">Activa o desactiva el acceso sin perder los datos guardados</div></div>
-      <input type="text" id="adm-user-search" placeholder="Buscar por correo o nombre..." oninput="renderAdminUsersTable()" style="max-width:220px;padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem">
+      <div><div class="card-title">Cuentas de Usuarios</div><div class="card-sub">Selecciona “Dar soporte” para revisar y ayudar a una persona</div></div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <input type="text" id="adm-user-search" placeholder="Buscar correo o nombre..." oninput="renderAdminUsersTable()" style="max-width:210px;padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem">
+        <select id="adm-user-status" onchange="renderAdminUsersTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem;background:var(--white)"><option value="all">Todas</option><option value="active">Activas</option><option value="inactive">Desactivadas</option></select>
+        <button class="btn btn-sm btn-outline" onclick="loadAdminUsersTable()">↻ Actualizar</button>
+      </div>
     </div>
     <div class="tbl-wrap">
       <table class="tbl-cards">
@@ -1254,7 +1252,7 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
         <tbody id="adm-users-tbody"><tr><td colspan="5" style="text-align:center;color:var(--gray)">Cargando...</td></tr></tbody>
       </table>
     </div>
-    <div style="font-size:.78rem;color:var(--gray2);margin-top:.5rem">⚠️ <strong>Desactivar</strong> bloquea el acceso pero conserva todos los datos intactos hasta reactivar. <strong>Eliminar</strong> borra la cuenta de Supabase y toda su información de forma permanente e irreversible.</div>
+    <div style="font-size:.78rem;color:var(--gray2);margin-top:.5rem">Desactivar bloquea temporalmente el acceso y conserva la información. Las acciones sensibles siempre requieren confirmación.</div>
   </div>
 
   <div class="card">
@@ -1303,6 +1301,38 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div id="adm-edit-msg" style="display:none;font-size:.83rem;padding:.5rem .75rem;border-radius:var(--radius-sm);margin-bottom:.75rem"></div>
     <button class="btn btn-prim btn-full" style="margin-bottom:.6rem" onclick="saveAdminEditProfile()">💾 Guardar Nombre</button>
     <button class="btn btn-outline btn-full" onclick="sendAdminResetPassword()">📧 Enviar enlace para restablecer contraseña</button>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-adm-support">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-head"><div><div class="modal-title">🛟 Centro de soporte</div><div id="adm-support-email" style="font-size:.78rem;color:var(--gray);margin-top:.2rem"></div></div><button class="modal-close" onclick="closeModal('mod-adm-support')">✕</button></div>
+    <input type="hidden" id="adm-support-id">
+    <div id="adm-support-state" style="padding:.75rem;border-radius:var(--radius-sm);background:var(--gray5);font-size:.84rem;margin-bottom:1rem">Cargando información...</div>
+    <div id="adm-support-summary" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:.6rem;margin-bottom:1rem"></div>
+    <div class="card" style="padding:1rem;margin-bottom:1rem;box-shadow:none">
+      <div class="card-title" style="font-size:.95rem;margin-bottom:.75rem">Acciones rápidas</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.55rem">
+        <button class="btn btn-outline btn-sm" onclick="openAdminEditFromSupport()">✏️ Editar nombre</button>
+        <button class="btn btn-outline btn-sm" onclick="sendAdminSupportResetPassword()">🔐 Restablecer contraseña</button>
+        <button class="btn btn-outline btn-sm" id="adm-support-access-btn" onclick="toggleAdminSupportAccess()">⛔ Desactivar acceso</button>
+        <button class="btn btn-outline btn-sm" onclick="copyAdminSupportDetails()">📋 Copiar datos de cuenta</button>
+      </div>
+    </div>
+    <div class="card" style="padding:1rem;margin-bottom:1rem;box-shadow:none">
+      <div class="card-title" style="font-size:.95rem">Respaldo y recuperación</div>
+      <div class="card-sub" style="margin:.25rem 0 .75rem">Descarga una copia completa o restaura un respaldo previamente generado por Finsave.</div>
+      <div style="display:flex;gap:.55rem;flex-wrap:wrap">
+        <button class="btn btn-prim btn-sm" id="adm-support-backup-btn" onclick="downloadAdminUserBackup()">⬇️ Descargar respaldo</button>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('adm-support-file').click()">⬆️ Seleccionar respaldo</button>
+        <input type="file" id="adm-support-file" accept="application/json,.json" hidden onchange="prepareAdminUserRestore(this)">
+      </div>
+      <div id="adm-support-restore" style="display:none;margin-top:.9rem;padding:.8rem;border-radius:var(--radius-sm);background:#fff7ed;border:1px solid #fed7aa">
+        <div id="adm-support-file-name" style="font-size:.82rem;margin-bottom:.6rem"></div>
+        <div class="fg" style="margin-bottom:.6rem"><label>Escribe el correo del usuario para confirmar</label><input type="email" id="adm-support-confirm-email" placeholder="correo@ejemplo.com"></div>
+        <button class="btn btn-danger btn-sm" onclick="restoreAdminUserBackup()">Restaurar este respaldo</button>
+      </div>
+    </div>
+    <div id="adm-support-msg" style="display:none;font-size:.83rem;padding:.65rem .75rem;border-radius:var(--radius-sm)"></div>
   </div>
 </div>
 <div class="modal-over hidden" id="mod-del-cuenta">
@@ -1580,6 +1610,9 @@ const SUPABASE_ANON = 'sb_publishable_0bqmjyUQfl0Az20XUxmFQw_5P2L943F';
 const PRIMARY_ADMIN_EMAIL = 'bryan.serrano.perez@icloud.com';
 let isAdminUser = false;
 let adminAccountsCache = [];
+let adminSupportUser = null;
+let adminSupportDb = null;
+let adminSupportPendingRestore = null;
 let regFormShownAt = 0;
 
 let supabaseClient = null;
@@ -2455,6 +2488,7 @@ async function loadAdminUsersTable() {
       .order('created_at', { ascending: false });
     if (error) throw error;
     adminAccountsCache = data || [];
+    renderAdminStats();
     renderAdminUsersTable();
   } catch(e) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--danger)">No se pudo cargar la lista de cuentas.</td></tr>';
@@ -2465,7 +2499,12 @@ function renderAdminUsersTable() {
   let tbody = document.getElementById('adm-users-tbody');
   if (!tbody) return;
   let filtro = (document.getElementById('adm-user-search')?.value || '').trim().toLowerCase();
-  let rows = adminAccountsCache.filter(u => !filtro || (u.email||'').toLowerCase().includes(filtro) || (u.name||'').toLowerCase().includes(filtro));
+  let status = document.getElementById('adm-user-status')?.value || 'all';
+  let rows = adminAccountsCache.filter(u => {
+    let coincide = !filtro || (u.email||'').toLowerCase().includes(filtro) || (u.name||'').toLowerCase().includes(filtro);
+    let estadoOk = status === 'all' || (status === 'active' ? !!u.is_active : !u.is_active);
+    return coincide && estadoOk;
+  });
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray)">Sin resultados</td></tr>';
     return;
@@ -2477,9 +2516,11 @@ function renderAdminUsersTable() {
       : '<span class="tag tag-r">⛔ Desactivada</span>';
 let esYo = currentUser && u.id === currentUser.id;
     let btnEditar = `<button class="btn btn-sm btn-ghost" onclick="openAdminEditModal('${u.id}','${escAdmin(u.email)}','${escAdmin(u.name||'')}')">✏️ Editar</button>`;
+    let btnSoporte = `<button class="btn btn-sm btn-prim" onclick="openAdminSupportModal('${u.id}')">🛟 Dar soporte</button>`;
     let acciones = esYo
-      ? `<div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">${btnEditar}<span style="font-size:.75rem;color:var(--gray2)">Tu cuenta</span></div>`
+      ? `<div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">${btnSoporte}${btnEditar}<span style="font-size:.75rem;color:var(--gray2)">Tu cuenta</span></div>`
       : `<div style="display:flex;gap:.4rem;flex-wrap:wrap">
+           ${btnSoporte}
            ${btnEditar}
            <button class="btn btn-sm ${u.is_active ? 'btn-danger' : 'btn-prim'}" onclick="toggleUserActive('${u.id}', ${!!u.is_active})">${u.is_active ? 'Desactivar' : 'Activar'}</button>
            <button class="btn btn-sm btn-ghost" style="color:var(--danger);border-color:#fecaca" onclick="openAdminDeleteModal('${u.id}','${escAdmin(u.email)}')">Eliminar</button>
@@ -2492,6 +2533,18 @@ let esYo = currentUser && u.id === currentUser.id;
       <td data-label="Acción">${acciones}</td>
     </tr>`;
   }).join('');
+}
+
+function renderAdminStats() {
+  let box = document.getElementById('adm-stats');
+  if (!box) return;
+  let total = adminAccountsCache.length;
+  let activas = adminAccountsCache.filter(u => u.is_active).length;
+  let inactivas = total - activas;
+  let recientes = adminAccountsCache.filter(u => u.created_at && Date.now() - new Date(u.created_at).getTime() <= 30 * 86400000).length;
+  box.innerHTML = [
+    ['👥','Usuarios',total], ['✅','Cuentas activas',activas], ['⛔','Desactivadas',inactivas], ['✨','Nuevas (30 días)',recientes]
+  ].map(([ic,lbl,val]) => `<div class="card" style="padding:1rem;box-shadow:none"><div style="font-size:1.15rem">${ic}</div><div style="font-size:1.35rem;font-weight:700;color:var(--dark);margin:.2rem 0">${val}</div><div style="font-size:.78rem;color:var(--gray)">${lbl}</div></div>`).join('');
 }
 
 async function toggleUserActive(userId, currentlyActive) {
@@ -2611,6 +2664,152 @@ async function sendAdminResetPassword() {
     msg.style.background = 'var(--danger-bg)'; msg.style.color = 'var(--danger)';
     msg.innerText = 'No se pudo enviar el enlace: ' + (e.message || 'error desconocido');
   }
+}
+
+function setAdminSupportMessage(text, type = 'info') {
+  let msg = document.getElementById('adm-support-msg');
+  if (!msg) return;
+  msg.style.display = 'block';
+  msg.style.background = type === 'ok' ? '#dcfce7' : type === 'err' ? 'var(--danger-bg)' : '#dbeafe';
+  msg.style.color = type === 'ok' ? '#166534' : type === 'err' ? 'var(--danger)' : '#1e40af';
+  msg.textContent = text;
+}
+
+async function openAdminSupportModal(userId) {
+  adminSupportUser = adminAccountsCache.find(u => u.id === userId) || null;
+  if (!adminSupportUser) { showToast('No se encontró la cuenta', 'err'); return; }
+  adminSupportDb = null;
+  adminSupportPendingRestore = null;
+  document.getElementById('adm-support-id').value = userId;
+  document.getElementById('adm-support-email').textContent = `${adminSupportUser.name || 'Sin nombre'} · ${adminSupportUser.email}`;
+  document.getElementById('adm-support-state').textContent = 'Revisando la información guardada...';
+  document.getElementById('adm-support-summary').innerHTML = '';
+  document.getElementById('adm-support-msg').style.display = 'none';
+  document.getElementById('adm-support-restore').style.display = 'none';
+  document.getElementById('adm-support-file').value = '';
+  updateAdminSupportAccessButton();
+  openModal('mod-adm-support');
+  await loadAdminSupportData();
+}
+
+function updateAdminSupportAccessButton() {
+  let btn = document.getElementById('adm-support-access-btn');
+  if (!btn || !adminSupportUser) return;
+  btn.textContent = adminSupportUser.is_active ? '⛔ Desactivar acceso' : '✅ Reactivar acceso';
+}
+
+async function loadAdminSupportData() {
+  if (!supabaseClient || !adminSupportUser) return;
+  let state = document.getElementById('adm-support-state');
+  try {
+    const { data, error } = await supabaseClient.from('finsave_data').select('data,updated_at').eq('user_id', adminSupportUser.id).maybeSingle();
+    if (error) throw error;
+    if (!data) {
+      adminSupportDb = createEmptyStructure();
+      state.innerHTML = `<strong>${adminSupportUser.is_active ? '✅ Cuenta activa' : '⛔ Cuenta desactivada'}</strong> · Aún no registra información financiera en la nube.`;
+    } else {
+      adminSupportDb = typeof data.data === 'string' ? JSON.parse(data.data) : data.data;
+      let sync = data.updated_at ? new Date(data.updated_at).toLocaleString('es-CL') : 'sin fecha';
+      state.innerHTML = `<strong>${adminSupportUser.is_active ? '✅ Cuenta activa' : '⛔ Cuenta desactivada'}</strong> · Último guardado: ${escAdmin(sync)}`;
+    }
+    let d = adminSupportDb || {};
+    let cards = [
+      ['📈','Ingresos',(d.ingresos||[]).length], ['💸','Gastos',(d.gastosFijos||[]).length + (d.gastosVariables||[]).length],
+      ['💳','Créditos',(d.creditos||[]).length], ['🏦','Metas',(d.metas||[]).length], ['🧾','Liquidaciones',(d.liquidaciones||[]).length]
+    ];
+    document.getElementById('adm-support-summary').innerHTML = cards.map(([ic,lbl,val]) => `<div style="background:var(--gray5);border-radius:var(--radius-sm);padding:.75rem"><div style="font-size:.75rem;color:var(--gray)">${ic} ${lbl}</div><div style="font-size:1.15rem;font-weight:700;margin-top:.2rem">${val}</div></div>`).join('');
+    document.getElementById('adm-support-backup-btn').disabled = false;
+  } catch(e) {
+    state.textContent = 'No fue posible leer los datos financieros de esta cuenta.';
+    document.getElementById('adm-support-backup-btn').disabled = true;
+    setAdminSupportMessage('La cuenta se puede administrar, pero Supabase no permitió acceder a su respaldo. Revisa los permisos de administrador de finsave_data.', 'err');
+  }
+}
+
+function openAdminEditFromSupport() {
+  if (!adminSupportUser) return;
+  closeModal('mod-adm-support');
+  openAdminEditModal(adminSupportUser.id, adminSupportUser.email, adminSupportUser.name || '');
+}
+
+async function sendAdminSupportResetPassword() {
+  if (!adminSupportUser) return;
+  setAdminSupportMessage('Enviando enlace seguro...');
+  try {
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(adminSupportUser.email, { redirectTo: window.location.origin + window.location.pathname });
+    if (error) throw error;
+    setAdminSupportMessage(`Enlace enviado a ${adminSupportUser.email}.`, 'ok');
+  } catch(e) { setAdminSupportMessage('No se pudo enviar el enlace: ' + (e.message || 'error desconocido'), 'err'); }
+}
+
+async function toggleAdminSupportAccess() {
+  if (!adminSupportUser || (currentUser && adminSupportUser.id === currentUser.id)) {
+    setAdminSupportMessage('Tu propia cuenta de administrador no se puede desactivar desde soporte.', 'err'); return;
+  }
+  if (adminSupportUser.is_active && !confirm(`¿Desactivar el acceso de ${adminSupportUser.email}? Sus datos se conservarán.`)) return;
+  let next = !adminSupportUser.is_active;
+  try {
+    const { error } = await supabaseClient.from('finsave_users').update({ is_active: next, updated_at: new Date().toISOString() }).eq('id', adminSupportUser.id);
+    if (error) throw error;
+    adminSupportUser.is_active = next;
+    let cached = adminAccountsCache.find(u => u.id === adminSupportUser.id); if (cached) cached.is_active = next;
+    updateAdminSupportAccessButton(); renderAdminStats(); renderAdminUsersTable();
+    document.getElementById('adm-support-state').innerHTML = `<strong>${next ? '✅ Cuenta activa' : '⛔ Cuenta desactivada'}</strong> · Acceso actualizado por soporte.`;
+    setAdminSupportMessage(next ? 'Acceso reactivado correctamente.' : 'Acceso desactivado; la información quedó intacta.', 'ok');
+  } catch(e) { setAdminSupportMessage('No se pudo cambiar el acceso.', 'err'); }
+}
+
+async function copyAdminSupportDetails() {
+  if (!adminSupportUser) return;
+  let text = `Finsave\nNombre: ${adminSupportUser.name || 'Sin nombre'}\nCorreo: ${adminSupportUser.email}\nID: ${adminSupportUser.id}\nEstado: ${adminSupportUser.is_active ? 'Activa' : 'Desactivada'}`;
+  try { await navigator.clipboard.writeText(text); setAdminSupportMessage('Datos de cuenta copiados.', 'ok'); }
+  catch(e) { setAdminSupportMessage('No se pudieron copiar los datos.', 'err'); }
+}
+
+function downloadAdminUserBackup() {
+  if (!adminSupportUser || !adminSupportDb) { setAdminSupportMessage('No hay información disponible para respaldar.', 'err'); return; }
+  let payload = { finsave_backup: 1, exported_at: new Date().toISOString(), user: { id: adminSupportUser.id, email: adminSupportUser.email, name: adminSupportUser.name || '' }, data: adminSupportDb };
+  let blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
+  let url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = `Respaldo-Finsave-${(adminSupportUser.email||'usuario').replace(/[^a-z0-9@._-]/gi,'_')}.json`; a.click(); URL.revokeObjectURL(url);
+  setAdminSupportMessage('Respaldo descargado correctamente.', 'ok');
+}
+
+function prepareAdminUserRestore(input) {
+  let file = input.files && input.files[0]; if (!file) return;
+  let reader = new FileReader();
+  reader.onload = () => {
+    try {
+      let parsed = JSON.parse(reader.result);
+      let candidate = parsed && parsed.finsave_backup === 1 ? parsed.data : parsed;
+      if (!candidate || !candidate.perfil || !Array.isArray(candidate.ingresos) || !Array.isArray(candidate.creditos)) throw new Error('Formato inválido');
+      adminSupportPendingRestore = candidate;
+      document.getElementById('adm-support-file-name').textContent = `Respaldo listo: ${file.name}. Esta acción reemplazará los datos financieros actuales.`;
+      document.getElementById('adm-support-confirm-email').value = '';
+      document.getElementById('adm-support-restore').style.display = 'block';
+    } catch(e) { adminSupportPendingRestore = null; setAdminSupportMessage('El archivo no es un respaldo válido de Finsave.', 'err'); }
+  };
+  reader.readAsText(file);
+}
+
+async function restoreAdminUserBackup() {
+  if (!adminSupportUser || !adminSupportPendingRestore) return;
+  let typed = (document.getElementById('adm-support-confirm-email').value || '').trim().toLowerCase();
+  if (typed !== adminSupportUser.email.toLowerCase()) { setAdminSupportMessage('El correo no coincide. La restauración no se realizó.', 'err'); return; }
+  if (!confirm('¿Restaurar este respaldo? Los datos financieros actuales serán reemplazados.')) return;
+  setAdminSupportMessage('Restaurando respaldo...');
+  try {
+    let restoredData = JSON.parse(JSON.stringify(adminSupportPendingRestore));
+    restoredData.perfil = restoredData.perfil || {};
+    restoredData.perfil.name = adminSupportUser.name || restoredData.perfil.name || 'Usuario';
+    restoredData.perfil.email = adminSupportUser.email;
+    const { error } = await supabaseClient.from('finsave_data').upsert({ user_id: adminSupportUser.id, data: JSON.stringify(restoredData), updated_at: new Date().toISOString() }, { onConflict:'user_id' });
+    if (error) throw error;
+    adminSupportDb = restoredData; adminSupportPendingRestore = null;
+    document.getElementById('adm-support-restore').style.display = 'none';
+    setAdminSupportMessage('Respaldo restaurado. La persona verá la información al volver a iniciar sesión.', 'ok');
+    await loadAdminSupportData();
+  } catch(e) { setAdminSupportMessage('No se pudo restaurar: ' + (e.message || 'error desconocido'), 'err'); }
 }
 async function loadAdminAdminsList() {
   let box = document.getElementById('adm-admins-list');
@@ -4073,10 +4272,6 @@ function loadData() {
     setVal('l-sc-dias', rec.scDias);
     setVal('l-sc-dom', rec.scDom);
     setVal('l-sc-ausentes', rec.scAusentes || 0);
-    setVal('l-nombre', rec.nombre || '');
-    setVal('l-rut', rec.rut || '');
-    setVal('l-cargo', rec.cargo || '');
-    setVal('l-empresa', rec.empresa || '');
     if (rec.indicadores) {
       setVal('l-ind-uf', rec.indicadores.uf);
       setVal('l-ind-usd', rec.indicadores.usd);
@@ -4185,10 +4380,6 @@ function saveLiquidacionPeriodo() {
     scDias: document.getElementById('l-sc-dias').value,
     scDom: document.getElementById('l-sc-dom').value,
     scAusentes: document.getElementById('l-sc-ausentes') ? document.getElementById('l-sc-ausentes').value : '0',
-    nombre: '',
-    rut: '',
-    cargo: '',
-    empresa: '',
     indicadores: {
       uf: document.getElementById('l-ind-uf').value,
       usd: document.getElementById('l-ind-usd').value,
@@ -4436,26 +4627,6 @@ function calcLiq() {
   let conceptosBonoNoImp = conceptos.filter(c => c.tipo === 'bono_noimponible').reduce((a,b)=>a+b.monto,0);
   let conceptosDesc      = conceptos.filter(c => c.tipo === 'descuento').reduce((a,b)=>a+b.monto,0);
 
-  // Actualizar header comprobante
-  let lMesIdx   = parseInt(document.getElementById('l-mes').value);
-  let lAnio     = document.getElementById('l-anio').value;
-  let meses     = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  let nombre    = (document.getElementById('l-nombre') ? document.getElementById('l-nombre').value : '') || '—';
-  let rut       = (document.getElementById('l-rut') ? document.getElementById('l-rut').value : '') || '—';
-  let cargo     = (document.getElementById('l-cargo') ? document.getElementById('l-cargo').value : '') || '—';
-  let empresa   = (document.getElementById('l-empresa') ? document.getElementById('l-empresa').value : '') || '—';
-
-  let hdNombre  = document.getElementById('liq-hd-nombre');
-  let hdRut     = document.getElementById('liq-hd-rut');
-  let hdCargo   = document.getElementById('liq-hd-cargo');
-  let hdEmpresa = document.getElementById('liq-hd-empresa');
-  let hdPeriodo = document.getElementById('liq-hd-periodo');
-  if (hdNombre) hdNombre.textContent = nombre;
-  if (hdRut)    hdRut.textContent    = 'RUT: ' + rut;
-  if (hdCargo)  hdCargo.textContent  = cargo;
-  if (hdEmpresa) hdEmpresa.textContent = empresa;
-  if (hdPeriodo) hdPeriodo.textContent = `Período: ${meses[lMesIdx]} ${lAnio}`;
-
   // Cesantía según tipo de contrato
   let cesantiaTasa = tipoContrato === 'indefinido' ? 0.6 : 0;
   let cesantiaDisplay = document.getElementById('cesantia-display');
@@ -4648,16 +4819,11 @@ async function exportLiqPDF() {
 
   function getV(id) { let el = document.getElementById(id); return el ? el.innerText || '$0' : '$0'; }
 
-  let nombre = document.getElementById('l-nombre')?.value || '-';
-  let rut    = document.getElementById('l-rut')?.value || '-';
-  let cargo  = document.getElementById('l-cargo')?.value || '-';
-  let empresa= document.getElementById('l-empresa')?.value || '-';
   let lMesIdx= parseInt(document.getElementById('l-mes').value);
   let lAnio  = document.getElementById('l-anio').value;
   let meses  = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   let afpName= document.getElementById('l-afp')?.options[document.getElementById('l-afp')?.selectedIndex]?.text || '-';
   let saludTipo = document.getElementById('l-salud')?.value === 'isapre' ? 'Isapre' : 'Fonasa';
-  let contratoTxt = document.getElementById('l-contrato')?.value === 'indefinido' ? 'Indefinido' : 'Plazo Fijo';
   let impuestoOn = document.getElementById('l-impuesto-activo')?.checked ?? true;
   let ufEf  = cleanMonto(document.getElementById('l-ind-uf')?.value || '0') || ufValorGlobal;
   let usdEf = cleanMonto(document.getElementById('l-ind-usd')?.value || '0') || usdValorGlobal;
@@ -4697,25 +4863,6 @@ async function exportLiqPDF() {
     doc.text(t, lm + 11.2, py + .8);
     py += 8.5;
   }
-
-  // ─── DATOS DEL TRABAJADOR ───────────────────────────────────
-  sectionTitle('Datos del Trabajador');
-  let colW = (rm - lm) / 3;
-  function labelVal(x, label, val) {
-    doc.setFontSize(8); doc.setFont(pdfFont, 'bold'); doc.setTextColor(...DARK);
-    doc.text(label, x, py);
-    let lw = doc.getTextWidth(label + ' ');
-    doc.setFont(pdfFont, 'normal');
-    let lines = doc.splitTextToSize(val, colW - lw - 4);
-    doc.text(lines, x + lw, py);
-  }
-  labelVal(lm, 'Nombre:', nombre);
-  labelVal(lm + colW, 'RUT:', rut);
-  labelVal(lm + colW * 2, 'Cargo:', cargo);
-  py += 5;
-  doc.setFontSize(7.5); doc.setFont(pdfFont, 'normal'); doc.setTextColor(...GRAY);
-  doc.text(`Empresa: ${empresa}   ·   Contrato: ${contratoTxt}   ·   AFP: ${afpName}   ·   Salud: ${saludTipo}`, lm, py);
-  py += 7.5;
 
   // ─── TABLA GENÉRICA COMPACTA ────────────────────────────────
   function table(title, rows) {
