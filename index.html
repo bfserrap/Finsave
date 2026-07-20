@@ -751,6 +751,20 @@ html, body {
         <div class="card-head"><div class="card-title"><span class="card-title-ic">🍩</span> Distribución de Egresos</div><div class="card-sub">Gastos del periodo</div></div>
         <div class="chart-box"><canvas id="chart-cats"></canvas></div>
       </div>
+      <div class="card" style="padding-bottom:1.5rem">
+        <div class="card-head"><div class="card-title"><span class="card-title-ic">💰</span> Gastos vs Pagado</div><div class="card-sub">Estado de pago del mes</div></div>
+        <div class="gp-total-row"><div class="gp-total-lbl">Total del mes</div><div class="gp-total-val" id="res-gp-total">$0</div></div>
+        <div class="gp-flex">
+          <div class="gp-ring-wrap">
+            <canvas id="chart-gastos-pagado"></canvas>
+            <div class="gp-ring-center"><div class="gp-ring-pct" id="res-gp-pct">0%</div><div class="gp-ring-lbl">Pagado</div></div>
+          </div>
+          <div class="gp-stats">
+            <div class="gp-stat-row"><div class="gp-stat-lbl"><span class="gp-stat-dot" style="background:#10B981"></span>Pagado</div><div class="gp-stat-val g" id="res-gp-pagado">$0</div></div>
+            <div class="gp-stat-row"><div class="gp-stat-lbl"><span class="gp-stat-dot" style="background:#f59e0b"></span>Pendiente</div><div class="gp-stat-val a" id="res-gp-pendiente">$0</div></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="resumen-detail-col">
       <div class="card">
@@ -761,29 +775,14 @@ html, body {
         <div class="card-head"><div class="card-title"><span class="card-title-ic">💡</span> Diagnóstico Finsave</div><div class="card-sub">Análisis automático de tu salud financiera</div></div>
         <div id="res-alerts" class="diagnostico-wrap"></div>
       </div>
-    </div>
-  </div>
-
-  <div class="card" style="padding-bottom:1.5rem">
-    <div class="card-head"><div class="card-title"><span class="card-title-ic">💰</span> Gastos vs Pagado</div><div class="card-sub">Estado de pago del mes</div></div>
-    <div class="gp-total-row"><div class="gp-total-lbl">Total del mes</div><div class="gp-total-val" id="res-gp-total">$0</div></div>
-    <div class="gp-flex">
-      <div class="gp-ring-wrap">
-        <canvas id="chart-gastos-pagado"></canvas>
-        <div class="gp-ring-center"><div class="gp-ring-pct" id="res-gp-pct">0%</div><div class="gp-ring-lbl">Pagado</div></div>
-      </div>
-      <div class="gp-stats">
-        <div class="gp-stat-row"><div class="gp-stat-lbl"><span class="gp-stat-dot" style="background:#10B981"></span>Pagado</div><div class="gp-stat-val g" id="res-gp-pagado">$0</div></div>
-        <div class="gp-stat-row"><div class="gp-stat-lbl"><span class="gp-stat-dot" style="background:#f59e0b"></span>Pendiente</div><div class="gp-stat-val a" id="res-gp-pendiente">$0</div></div>
+      <div class="card" style="padding-bottom:1.5rem">
+        <div class="card-head"><div class="card-title"><span class="card-title-ic">🏦</span> Ahorro Anual</div><div class="card-sub" id="res-ahorro-yr-lbl">2026</div></div>
+        <div class="kpi-grid" style="grid-template-columns:1fr;margin-bottom:1rem">
+          <div class="kpi"><div class="kpi-lbl">Total Ahorrado en el Año</div><div class="kpi-val g" id="res-ahorro-total">$0</div></div>
+        </div>
+        <div class="chart-box-lg"><canvas id="chart-ahorro-anual"></canvas></div>
       </div>
     </div>
-  </div>
-  <div class="card" style="padding-bottom:1.5rem">
-    <div class="card-head"><div class="card-title"><span class="card-title-ic">🏦</span> Ahorro Anual</div><div class="card-sub" id="res-ahorro-yr-lbl">2026</div></div>
-    <div class="kpi-grid" style="grid-template-columns:1fr;margin-bottom:1rem">
-      <div class="kpi"><div class="kpi-lbl">Total Ahorrado en el Año</div><div class="kpi-val g" id="res-ahorro-total">$0</div></div>
-    </div>
-    <div class="chart-box-lg"><canvas id="chart-ahorro-anual"></canvas></div>
   </div>
 </div>
 <div id="page-ingresos" class="page">
