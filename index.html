@@ -1218,6 +1218,10 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       <div id="profile-payment-content" style="font-size:.86rem;color:var(--gray)">Consultando medios de pago...</div>
     </div>
     <div class="card">
+      <div class="card-head"><div><div class="card-title"><span class="card-title-ic">🪪</span> Datos de facturación</div><div class="card-sub">RUT, dirección y documento que necesitas</div></div><button class="btn btn-outline btn-sm" onclick="openBillingProfileModal()">Editar</button></div>
+      <div id="profile-billing-summary" style="font-size:.84rem;color:var(--gray)">Consultando datos...</div>
+    </div>
+    <div class="card">
       <div class="card-head"><div class="card-title">Datos Personales</div></div>
       <div class="profile-photo-wrap">
         <div class="profile-photo-circle" id="perfil-foto-circle" onclick="document.getElementById('foto-input').click()">
@@ -1299,6 +1303,22 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div class="card">
       <div class="card-head"><div><div class="card-title">🔎 Pagos por revisar</div><div class="card-sub">Transferencias informadas por clientes</div></div></div>
       <div id="adm-payment-requests" style="max-height:280px;overflow:auto"><div class="tbl-empty">Cargando...</div></div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:1rem">
+    <div class="card">
+      <div class="card-head"><div><div class="card-title">🔄 Cambios de plan</div><div class="card-sub">Solicitudes pendientes y revisión comercial</div></div></div>
+      <div id="adm-plan-requests" style="max-height:300px;overflow:auto"><div class="tbl-empty">Cargando...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><div class="card-title">🧮 Gestión tributaria</div><div class="card-sub">Control interno previo y posterior a la emisión en el SII</div></div></div>
+      <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.75rem">
+        <button class="btn btn-sm btn-outline" onclick="setAdminDteTab('pending')">Por facturar</button><button class="btn btn-sm btn-outline" onclick="setAdminDteTab('issued')">Facturado</button><button class="btn btn-sm btn-outline" onclick="setAdminDteTab('void')">Anulado</button>
+      </div>
+      <div id="adm-dte-list" style="max-height:300px;overflow:auto"><div class="tbl-empty">Cargando...</div></div>
+      <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.75rem"><button class="btn btn-prim btn-sm" onclick="exportAdminDteExcel()">📊 Excel de la pestaña</button><button class="btn btn-outline btn-sm" onclick="exportAdminDteCsv()">📄 CSV de preparación</button></div>
+      <div style="font-size:.72rem;color:var(--gray);margin-top:.5rem">El CSV organiza los datos para facturación masiva; la emisión tributaria requiere el formato del proveedor o un sistema certificado por el SII.</div>
     </div>
   </div>
 
@@ -1446,6 +1466,44 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div class="fg"><label>Comprobante (JPG, PNG o PDF; máximo 5 MB)</label><input id="user-pay-receipt" type="file" accept="image/jpeg,image/png,application/pdf"></div>
     <div id="user-pay-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
     <button class="btn btn-prim btn-full" onclick="submitUserPaymentRequest()">Enviar pago para revisión</button>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-user-plan-request">
+  <div class="modal" style="max-width:540px">
+    <div class="modal-head"><div class="modal-title">🔄 Solicitar cambio de plan</div><button class="modal-close" onclick="closeModal('mod-user-plan-request')">✕</button></div>
+    <div class="fg"><label>Nuevo plan</label><select id="user-plan-request-plan" onchange="renderUserPlanRequestPrice()"></select></div>
+    <div id="user-plan-request-price" style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm);margin-bottom:.8rem"></div>
+    <div class="fg"><label>Forma de pago</label><select id="user-plan-request-method"><option value="transfer">Transferencia bancaria (revisión manual)</option><option value="online" disabled>Pago automático — próximamente</option></select></div>
+    <div id="user-plan-request-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
+    <button class="btn btn-prim btn-full" onclick="submitUserPlanChangeRequest()">Enviar solicitud</button>
+  </div>
+</div>
+
+<div class="modal-over hidden" id="mod-billing-profile">
+  <div class="modal" style="max-width:650px">
+    <div class="modal-head"><div><div class="modal-title">🪪 Datos de facturación</div><div class="card-sub">Información necesaria para emitir boleta o factura</div></div><button class="modal-close" onclick="closeModal('mod-billing-profile')">✕</button></div>
+    <input type="hidden" id="bp-user-id">
+    <div class="form-row"><div class="fg"><label>RUT</label><input id="bp-rut"></div><div class="fg"><label>Razón social o nombre</label><input id="bp-business-name"></div></div>
+    <div class="fg"><label>Giro</label><input id="bp-giro"></div>
+    <div class="form-row"><div class="fg"><label>Tipo de documento</label><select id="bp-document"><option value="boleta">Boleta electrónica</option><option value="factura">Factura electrónica</option><option value="exenta">Factura exenta</option></select></div><div class="fg"><label>Correo DTE</label><input id="bp-email" type="email"></div></div>
+    <div class="fg"><label>Dirección</label><input id="bp-address"></div>
+    <div class="form-row"><div class="fg"><label>Comuna</label><input id="bp-comuna"></div><div class="fg"><label>Ciudad</label><input id="bp-city"></div></div>
+    <div class="fg"><label>Teléfono</label><input id="bp-phone"></div>
+    <div id="bp-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
+    <button class="btn btn-prim btn-full" onclick="saveBillingProfile()">Guardar datos de facturación</button>
+  </div>
+</div>
+
+<div class="modal-over hidden" id="mod-adm-dte">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-head"><div class="modal-title">🧾 Registrar documento SII</div><button class="modal-close" onclick="closeModal('mod-adm-dte')">✕</button></div>
+    <input type="hidden" id="adm-dte-invoice-id">
+    <div class="form-row"><div class="fg"><label>Tipo de DTE</label><select id="adm-dte-type"><option value="39">Boleta electrónica (39)</option><option value="41">Boleta exenta (41)</option><option value="33">Factura electrónica (33)</option><option value="34">Factura exenta (34)</option></select></div><div class="fg"><label>Folio SII</label><input id="adm-dte-folio" inputmode="numeric"></div></div>
+    <div class="fg"><label>Fecha de emisión</label><input id="adm-dte-issued" type="date"></div>
+    <div class="form-row"><div class="fg"><label>PDF tributario</label><input id="adm-dte-pdf" type="file" accept="application/pdf"></div><div class="fg"><label>XML tributario</label><input id="adm-dte-xml" type="file" accept="application/xml,text/xml,.xml"></div></div>
+    <div class="fg"><label>Contraseña de administrador</label><input id="adm-dte-password" type="password" autocomplete="current-password"></div>
+    <div id="adm-dte-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
+    <button class="btn btn-prim btn-full" onclick="saveAdminDteRecord()">Marcar como facturado</button>
   </div>
 </div>
 <div class="modal-over hidden" id="mod-del-cuenta">
@@ -1732,6 +1790,10 @@ let adminInvoicesCache = [];
 let adminPaymentsCache = [];
 let adminPaymentRequestsCache = [];
 let commercialSettingsCache = null;
+let adminPlanRequestsCache = [];
+let adminBillingProfilesCache = [];
+let adminDteTab = 'pending';
+let currentBillingProfile = null;
 let adminBillingUser = null;
 let adminBillingSubscription = null;
 let regFormShownAt = 0;
@@ -1994,6 +2056,13 @@ async function loadFromSupabase() {
     if (error || !data) return false;
     let remoteDb = JSON.parse(data.data);
     window.db = remoteDb;
+    let signupName=(currentUser?.user_metadata?.name||currentUser?.user_metadata?.full_name||'').trim();
+    if(signupName&&(!window.db.perfil?.name||window.db.perfil.name==='Usuario')){
+      window.db.perfil=window.db.perfil||{};
+      window.db.perfil.name=signupName;
+      supabaseClient.rpc('update_own_name',{new_name:signupName}).catch(()=>{});
+      syncToSupabase();
+    }
     if (!window.db.customCatsFijos) window.db.customCatsFijos = [];
     if (!window.db.customCatsVar) window.db.customCatsVar = [];
     if (!window.db.deletedDefaultCatsFijos) window.db.deletedDefaultCatsFijos = [];
@@ -2490,6 +2559,12 @@ window.addEventListener('resize', () => {
 });
 
 function enterApp() {
+  let signupName=(currentUser?.user_metadata?.name||currentUser?.user_metadata?.full_name||'').trim();
+  if(signupName&&(!window.db.perfil.name||window.db.perfil.name==='Usuario')){
+    window.db.perfil.name=signupName;
+    saveDB();
+    if(supabaseClient) supabaseClient.rpc('update_own_name',{new_name:signupName}).catch(()=>{});
+  }
   document.getElementById('landing').classList.add('hidden');
   document.getElementById('auth').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
@@ -2602,7 +2677,7 @@ function closeDeactivatedPopup() {
 
 async function loadAdminPanel() {
   if (!isAdminUser) { goTo('resumen'); return; }
-  await Promise.all([loadAdminUsersTable(), loadAdminAdminsList(), loadAdminPlans(), loadCommercialSettings(), loadAdminPaymentRequests()]);
+  await Promise.all([loadAdminUsersTable(), loadAdminAdminsList(), loadAdminPlans(), loadCommercialSettings(), loadAdminPaymentRequests(), loadAdminPlanRequests(), loadAdminBillingProfiles()]);
   await loadAdminBilling();
 }
 
@@ -3021,7 +3096,7 @@ async function loadAdminBilling() {
       supabaseClient.from('finsave_payments').select('*').order('paid_at',{ascending:false})
     ]);
     if(subsRes.error)throw subsRes.error;if(invRes.error)throw invRes.error;if(payRes.error)throw payRes.error;
-    adminSubscriptionsCache=subsRes.data||[];adminInvoicesCache=invRes.data||[];adminPaymentsCache=payRes.data||[];populateAdminBillingYears();renderAdminBillingTable();renderAdminStats();
+    adminSubscriptionsCache=subsRes.data||[];adminInvoicesCache=invRes.data||[];adminPaymentsCache=payRes.data||[];populateAdminBillingYears();renderAdminBillingTable();renderAdminStats();renderAdminDteList();
   } catch(e){tbody.innerHTML='<tr><td colspan="6" class="tbl-empty" style="color:var(--danger)">Activa el módulo comercial en Supabase para ver la cobranza.</td></tr>';}
 }
 
@@ -3117,6 +3192,22 @@ function exportAdminBillingExcel(userId=''){
   let total=frows.reduce((a,r)=>a+r['Monto CLP'],0),paid=frows.filter(r=>r.Estado==='paid').reduce((a,r)=>a+r['Monto CLP'],0);let summary=[['INFORME COMERCIAL FINSAVE'],['Alcance',userId?(users[0]?.name||users[0]?.email):'Todos los clientes'],['Año',year==='all'?'Todos':year],['Facturado CLP',total],['Pagado CLP',paid],['Pendiente CLP',total-paid],['Generado',new Date().toLocaleString('es-CL')]];
   let wb=XLSX.utils.book_new(),ws0=XLSX.utils.aoa_to_sheet(summary),ws1=XLSX.utils.json_to_sheet(frows),ws2=XLSX.utils.json_to_sheet(prows);ws0['!cols']=[{wch:24},{wch:30}];ws1['!cols']=[{wch:11},{wch:24},{wch:30},{wch:16},{wch:14},{wch:14},{wch:14},{wch:14},{wch:12},{wch:14},{wch:18},{wch:22}];ws2['!cols']=[{wch:24},{wch:30},{wch:11},{wch:14},{wch:14},{wch:18},{wch:22}];XLSX.utils.book_append_sheet(wb,ws0,'Resumen');XLSX.utils.book_append_sheet(wb,ws1,'Facturas');XLSX.utils.book_append_sheet(wb,ws2,'Pagos');let suffix=userId?'-'+(users[0]?.email||'cliente').replace(/[^a-z0-9]/gi,'_'):'';XLSX.writeFile(wb,`Facturacion-Finsave${suffix}-${year}.xlsx`);
 }
+
+async function loadAdminBillingProfiles(){try{const {data,error}=await supabaseClient.from('finsave_billing_profiles').select('*');if(error)throw error;adminBillingProfilesCache=data||[];renderAdminDteList();}catch(e){adminBillingProfilesCache=[];}}
+async function loadAdminPlanRequests(){let box=document.getElementById('adm-plan-requests');if(!box)return;try{const {data,error}=await supabaseClient.from('finsave_plan_change_requests').select('*').order('created_at',{ascending:false});if(error)throw error;adminPlanRequestsCache=data||[];renderAdminPlanRequests();}catch(e){box.innerHTML='<div class="tbl-empty">Activa las solicitudes comerciales en Supabase.</div>';}}
+function renderAdminPlanRequests(){let box=document.getElementById('adm-plan-requests');if(!box)return;let open=adminPlanRequestsCache.filter(r=>['pending_payment','payment_review','pending_approval'].includes(r.status));if(!open.length){box.innerHTML='<div class="tbl-empty">No hay solicitudes pendientes.</div>';return;}box.innerHTML=open.map(r=>{let u=adminAccountsCache.find(x=>x.id===r.user_id),p=adminPlansCache.find(x=>x.id===r.requested_plan_id),state=r.status==='pending_payment'?'Esperando pago':r.status==='payment_review'?'Revisar pago':'Pendiente de aprobación';return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><strong>${escAdmin(u?.name||u?.email||'Cliente')}</strong> → ${escAdmin(p?.name||'Plan')}<br><small>$${formatMiles(r.amount_clp)} · ${state} · ${r.payment_method==='transfer'?'Transferencia':'Pago automático'}</small><div style="display:flex;gap:.4rem;margin-top:.5rem">${r.status!=='pending_payment'?`<button class="btn btn-prim btn-sm" onclick="reviewAdminPlanRequest('${r.id}',true)">Aprobar</button>`:''}<button class="btn btn-danger btn-sm" onclick="reviewAdminPlanRequest('${r.id}',false)">Rechazar</button><button class="btn btn-outline btn-sm" onclick="openAdminBillingModal('${r.user_id}')">Ver cliente</button></div></div>`}).join('');}
+async function reviewAdminPlanRequest(id,approve){let pass=prompt('Confirma tu contraseña de administrador:');if(!pass)return;try{await verifyCurrentAdminPassword(pass);const {error}=await supabaseClient.rpc('review_finsave_plan_request',{request_id:id,approve,note:''});if(error)throw error;showToast(approve?'Cambio de plan aprobado':'Solicitud rechazada');await Promise.all([loadAdminPlanRequests(),loadAdminBilling()]);}catch(e){showToast(e.message||'No se pudo revisar','err');}}
+
+function setAdminDteTab(tab){adminDteTab=tab;renderAdminDteList();}
+function dteLabel(i){return i.dte_status==='issued'?'Facturado':i.dte_status==='void'?'Anulado':'Por facturar';}
+function renderAdminDteList(){let box=document.getElementById('adm-dte-list');if(!box)return;let list=adminInvoicesCache.filter(i=>(i.dte_status||'pending')===adminDteTab);if(!list.length){box.innerHTML='<div class="tbl-empty">No hay documentos en esta categoría.</div>';return;}box.innerHTML=list.map(i=>{let u=adminAccountsCache.find(x=>x.id===i.user_id),bp=adminBillingProfilesCache.find(x=>x.user_id===i.user_id);return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><div style="display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap"><div><strong>#${i.invoice_number} · ${escAdmin(u?.name||u?.email||'Cliente')}</strong><br><small>${escAdmin(bp?.rut||'RUT pendiente')} · $${formatMiles(i.amount_clp)} · ${new Date(i.period_start+'T12:00:00').toLocaleDateString('es-CL')}</small></div><span class="tag ${adminDteTab==='issued'?'tag-g':'tag-r'}">${dteLabel(i)}</span></div><div style="display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap">${adminDteTab==='pending'?`<button class="btn btn-prim btn-sm" onclick="openAdminDteModal('${i.id}')">Registrar DTE</button>`:''}${adminDteTab==='issued'?`<button class="btn btn-danger btn-sm" onclick="voidAdminDte('${i.id}')">Anular</button>`:''}<button class="btn btn-outline btn-sm" onclick="openBillingProfileModal('${i.user_id}')">Datos cliente</button></div></div>`}).join('');}
+function openAdminDteModal(id){let i=adminInvoicesCache.find(x=>x.id===id);if(!i)return;let bp=adminBillingProfilesCache.find(x=>x.user_id===i.user_id);document.getElementById('adm-dte-invoice-id').value=id;document.getElementById('adm-dte-type').value=bp?.document_preference==='factura'?'33':bp?.document_preference==='exenta'?'34':'39';document.getElementById('adm-dte-folio').value=i.sii_folio||'';document.getElementById('adm-dte-issued').value=new Date().toISOString().slice(0,10);document.getElementById('adm-dte-password').value='';document.getElementById('adm-dte-pdf').value='';document.getElementById('adm-dte-xml').value='';document.getElementById('adm-dte-msg').style.display='none';openModal('mod-adm-dte');}
+async function uploadDteFile(file,userId,kind){if(!file)return null;if(file.size>10485760)throw new Error('El archivo supera 10 MB.');let safe=file.name.replace(/[^a-z0-9._-]/gi,'_'),path=`${userId}/${Date.now()}-${kind}-${safe}`;const {error}=await supabaseClient.storage.from('dte-files').upload(path,file);if(error)throw error;return path;}
+async function saveAdminDteRecord(){let id=document.getElementById('adm-dte-invoice-id').value,i=adminInvoicesCache.find(x=>x.id===id),folio=parseInt(document.getElementById('adm-dte-folio').value)||0;if(!i||!folio){setAdminBoxMessage('adm-dte-msg','Ingresa un folio válido.','err');return;}try{await verifyCurrentAdminPassword(document.getElementById('adm-dte-password').value);setAdminBoxMessage('adm-dte-msg','Guardando documento tributario...');let pdf=await uploadDteFile(document.getElementById('adm-dte-pdf').files[0],i.user_id,'pdf'),xml=await uploadDteFile(document.getElementById('adm-dte-xml').files[0],i.user_id,'xml');let payload={dte_status:'issued',dte_type:parseInt(document.getElementById('adm-dte-type').value),sii_folio:folio,issued_at:document.getElementById('adm-dte-issued').value+'T12:00:00Z'};if(pdf)payload.dte_pdf_path=pdf;if(xml)payload.dte_xml_path=xml;const {error}=await supabaseClient.from('finsave_invoices').update(payload).eq('id',id);if(error)throw error;closeModal('mod-adm-dte');showToast('DTE registrado');await loadAdminBilling();}catch(e){setAdminBoxMessage('adm-dte-msg',e.message||'No se pudo registrar.','err');}}
+async function voidAdminDte(id){let reason=prompt('Motivo de anulación o folio de nota de crédito:');if(!reason)return;let pass=prompt('Confirma tu contraseña de administrador:');if(!pass)return;try{await verifyCurrentAdminPassword(pass);const {error}=await supabaseClient.from('finsave_invoices').update({dte_status:'void',void_reason:reason}).eq('id',id);if(error)throw error;showToast('Documento marcado como anulado');await loadAdminBilling();}catch(e){showToast(e.message||'No se pudo anular','err');}}
+function getAdminDteRows(){return adminInvoicesCache.filter(i=>(i.dte_status||'pending')===adminDteTab).map(i=>{let u=adminAccountsCache.find(x=>x.id===i.user_id),bp=adminBillingProfilesCache.find(x=>x.user_id===i.user_id),type=i.dte_type||({'factura':33,'exenta':34,'boleta':39}[bp?.document_preference]||39),isExempt=[34,41].includes(Number(type)),net=isExempt?i.amount_clp:Math.round(i.amount_clp/1.19),iva=isExempt?0:i.amount_clp-net;return {'Estado':dteLabel(i),'Factura interna':i.invoice_number,'Tipo DTE':type,'Folio SII':i.sii_folio||'','Fecha emisión':i.issued_at?String(i.issued_at).slice(0,10):'','RUT receptor':bp?.rut||'','Razón social':bp?.business_name||u?.name||'','Giro':bp?.giro||'','Dirección':bp?.address||'','Comuna':bp?.comuna||'','Ciudad':bp?.city||'','Correo DTE':bp?.dte_email||u?.email||'','Detalle':'Suscripción Finsave','Período desde':i.period_start,'Período hasta':i.period_end,'Neto estimado':net,'IVA estimado':iva,'Total':i.amount_clp,'Motivo anulación':i.void_reason||''};});}
+function exportAdminDteExcel(){if(!window.XLSX){showToast('Excel no disponible','err');return;}let rows=getAdminDteRows(),wb=XLSX.utils.book_new(),ws=XLSX.utils.json_to_sheet(rows);ws['!cols']=Object.keys(rows[0]||{'Sin datos':''}).map(k=>({wch:Math.min(32,Math.max(12,k.length+3))}));XLSX.utils.book_append_sheet(wb,ws,adminDteTab==='pending'?'Por facturar':adminDteTab==='issued'?'Facturado':'Anulado');XLSX.writeFile(wb,`Finsave-DTE-${adminDteTab}-${new Date().toISOString().slice(0,10)}.xlsx`);}
+function exportAdminDteCsv(){let rows=getAdminDteRows();if(!rows.length){showToast('No hay registros para exportar','err');return;}let headers=Object.keys(rows[0]),clean=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[;\r\n]/g,' '),csv='\ufeff'+headers.join(';')+'\n'+rows.map(r=>headers.map(h=>clean(r[h])).join(';')).join('\n'),blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`Finsave-preparacion-DTE-${adminDteTab}.csv`;a.click();URL.revokeObjectURL(url);}
 async function loadAdminAdminsList() {
   let box = document.getElementById('adm-admins-list');
   if (!box || !supabaseClient) return;
@@ -3309,15 +3400,17 @@ async function loadMyCommercialPlan() {
   let box=document.getElementById('profile-plan-content');if(!box||!supabaseClient||!currentUser)return;
   box.textContent='Consultando tu plan...';
   try{
-    const [subRes,invRes]=await Promise.all([
+    const [subRes,invRes,reqRes]=await Promise.all([
       supabaseClient.from('finsave_subscriptions').select('*').eq('user_id',currentUser.id).maybeSingle(),
-      supabaseClient.from('finsave_invoices').select('*').eq('user_id',currentUser.id).in('status',['pending','overdue']).order('due_date',{ascending:true})
+      supabaseClient.from('finsave_invoices').select('*').eq('user_id',currentUser.id).in('status',['pending','overdue']).order('due_date',{ascending:true}),
+      supabaseClient.from('finsave_plan_change_requests').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false})
     ]);
     if(subRes.error)throw subRes.error;if(invRes.error)throw invRes.error;
-    window.myPendingInvoices=invRes.data||[];let s=subRes.data;if(!s){box.innerHTML='<div style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm)">Aún no tienes un plan comercial asignado.</div>';await loadUserPaymentOptions();return;}
+    window.myPlanChangeRequests=reqRes.data||[];window.myPendingInvoices=invRes.data||[];let s=subRes.data;if(!s){box.innerHTML='<div style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm)">Aún no tienes un plan comercial asignado.</div><button class="btn btn-prim btn-sm" style="margin-top:.75rem" onclick="openUserPlanChangeModal()">Solicitar un plan</button>';await Promise.all([loadUserPaymentOptions(),loadMyBillingProfile()]);return;}
     let planRes=await supabaseClient.from('finsave_plans').select('*').eq('id',s.plan_id).maybeSingle();let p=planRes.data;
     let debt=(invRes.data||[]).reduce((a,i)=>a+(i.amount_clp||0),0);
-    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:1.2rem;font-weight:700;color:var(--dark)">${escAdmin(p?.name||'Plan Finsave')}</div><div style="margin-top:.3rem">${p?.is_lifetime?'Acceso indefinido':`Vigente hasta el <strong>${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}</strong>`}</div></div><span class="tag ${debt?'tag-r':'tag-g'}">${debt?'Pago pendiente':'Al día'}</span></div>${debt?`<div style="margin-top:.8rem;padding:.7rem;background:var(--danger-bg);color:var(--danger);border-radius:var(--radius-sm)">Tienes ${(invRes.data||[]).length} factura(s) pendiente(s) por <strong>$${formatMiles(debt)}</strong>.</div>`:''}`;await loadUserPaymentOptions();
+    let openReq=(window.myPlanChangeRequests||[]).find(r=>['pending_payment','payment_review','pending_approval'].includes(r.status)),reqText=openReq?(openReq.status==='pending_payment'?'Esperando tu transferencia':openReq.status==='payment_review'?'Pago en revisión':'Pendiente de aprobación'):'';
+    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:1.2rem;font-weight:700;color:var(--dark)">${escAdmin(p?.name||'Plan Finsave')}</div><div style="margin-top:.3rem">${p?.is_lifetime?'Acceso indefinido':`Vigente hasta el <strong>${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}</strong>`}</div></div><span class="tag ${debt?'tag-r':'tag-g'}">${debt?'Pago pendiente':'Al día'}</span></div>${debt?`<div style="margin-top:.8rem;padding:.7rem;background:var(--danger-bg);color:var(--danger);border-radius:var(--radius-sm)">Tienes ${(invRes.data||[]).length} factura(s) pendiente(s) por <strong>$${formatMiles(debt)}</strong>.</div>`:''}${openReq?`<div style="margin-top:.7rem;padding:.7rem;background:#fff7ed;color:#9a3412;border-radius:var(--radius-sm)">Solicitud de cambio: <strong>${reqText}</strong>.</div>`:`<button class="btn btn-outline btn-sm" style="margin-top:.75rem" onclick="openUserPlanChangeModal()">🔄 Solicitar cambio de plan</button>`}`;await Promise.all([loadUserPaymentOptions(),loadMyBillingProfile()]);
   }catch(e){box.textContent='La información del plan estará disponible cuando se active el módulo comercial.';}
 }
 
@@ -3325,7 +3418,15 @@ async function loadUserPaymentOptions(){let box=document.getElementById('profile
 async function copyFinsaveBankData(){let s=commercialSettingsCache;if(!s)return;let text=`Banco: ${s.bank_name}\nTipo: ${s.account_type}\nCuenta: ${s.account_number}\nTitular: ${s.account_holder}\nRUT: ${s.account_rut}\nCorreo: ${s.account_email}`;try{await navigator.clipboard.writeText(text);showToast('Datos bancarios copiados');}catch(e){showToast('No se pudieron copiar','err');}}
 function openUserPaymentModal(){let list=window.myPendingInvoices||[],sel=document.getElementById('user-pay-invoice');sel.innerHTML=list.map(i=>`<option value="${i.id}" data-amount="${i.amount_clp}">Factura #${i.invoice_number} · $${formatMiles(i.amount_clp)} · vence ${new Date(i.due_date+'T12:00:00').toLocaleDateString('es-CL')}</option>`).join('');document.getElementById('user-pay-date').value=new Date().toISOString().slice(0,10);document.getElementById('user-pay-reference').value='';document.getElementById('user-pay-receipt').value='';document.getElementById('user-pay-msg').style.display='none';syncUserPaymentAmount();openModal('mod-user-payment');}
 function syncUserPaymentAmount(){let sel=document.getElementById('user-pay-invoice'),opt=sel?.options[sel.selectedIndex];document.getElementById('user-pay-amount').value=opt?formatMiles(opt.dataset.amount):'';}
-async function submitUserPaymentRequest(){let msg='user-pay-msg',invoiceId=document.getElementById('user-pay-invoice').value,amount=cleanMonto(document.getElementById('user-pay-amount').value),date=document.getElementById('user-pay-date').value,reference=document.getElementById('user-pay-reference').value.trim(),file=document.getElementById('user-pay-receipt').files[0];if(!invoiceId||!amount||!date||!reference){setAdminBoxMessage(msg,'Completa factura, monto, fecha y referencia.','err');return;}if(file&&file.size>5242880){setAdminBoxMessage(msg,'El comprobante supera 5 MB.','err');return;}setAdminBoxMessage(msg,'Enviando comprobante...');try{let path=null;if(file){let safe=file.name.replace(/[^a-z0-9._-]/gi,'_');path=`${currentUser.id}/${Date.now()}-${safe}`;const {error}=await supabaseClient.storage.from('payment-receipts').upload(path,file,{upsert:false});if(error)throw error;}const {error}=await supabaseClient.from('finsave_payment_requests').insert({user_id:currentUser.id,invoice_id:invoiceId,amount_clp:amount,transfer_date:date,reference,receipt_path:path});if(error)throw error;setAdminBoxMessage(msg,'Pago enviado. Finsave lo revisará y confirmará.','ok');setTimeout(()=>closeModal('mod-user-payment'),1400);}catch(e){setAdminBoxMessage(msg,e.message||'No se pudo enviar el pago.','err');}}
+async function submitUserPaymentRequest(){let msg='user-pay-msg',invoiceId=document.getElementById('user-pay-invoice').value,amount=cleanMonto(document.getElementById('user-pay-amount').value),date=document.getElementById('user-pay-date').value,reference=document.getElementById('user-pay-reference').value.trim(),file=document.getElementById('user-pay-receipt').files[0];if(!invoiceId||!amount||!date||!reference){setAdminBoxMessage(msg,'Completa factura, monto, fecha y referencia.','err');return;}if(file&&file.size>5242880){setAdminBoxMessage(msg,'El comprobante supera 5 MB.','err');return;}setAdminBoxMessage(msg,'Enviando comprobante...');try{let path=null;if(file){let safe=file.name.replace(/[^a-z0-9._-]/gi,'_');path=`${currentUser.id}/${Date.now()}-${safe}`;const {error}=await supabaseClient.storage.from('payment-receipts').upload(path,file,{upsert:false});if(error)throw error;}const {data,error}=await supabaseClient.from('finsave_payment_requests').insert({user_id:currentUser.id,invoice_id:invoiceId,amount_clp:amount,transfer_date:date,reference,receipt_path:path}).select().single();if(error)throw error;let planReq=(window.myPlanChangeRequests||[]).find(r=>r.invoice_id===invoiceId&&r.status==='pending_payment');if(planReq){const {error:linkError}=await supabaseClient.rpc('link_finsave_plan_payment',{request_id:planReq.id,payment_id:data.id});if(linkError)throw linkError;}setAdminBoxMessage(msg,'Pago enviado. Finsave lo revisará y confirmará.','ok');await loadMyCommercialPlan();setTimeout(()=>closeModal('mod-user-payment'),1400);}catch(e){setAdminBoxMessage(msg,e.message||'No se pudo enviar el pago.','err');}}
+
+async function loadMyBillingProfile(){let box=document.getElementById('profile-billing-summary');if(!box||!currentUser)return;try{const {data,error}=await supabaseClient.from('finsave_billing_profiles').select('*').eq('user_id',currentUser.id).maybeSingle();if(error)throw error;currentBillingProfile=data||null;box.innerHTML=data&&data.rut?`<strong>${escAdmin(data.business_name||window.db.perfil.name)}</strong> · RUT ${escAdmin(data.rut)}<br>${escAdmin(data.address||'Dirección pendiente')}${data.comuna?`, ${escAdmin(data.comuna)}`:''} · ${data.document_preference==='factura'?'Factura electrónica':data.document_preference==='exenta'?'Factura exenta':'Boleta electrónica'}`:'Completa tus datos para que Finsave pueda emitir correctamente tu documento tributario.';}catch(e){box.textContent='Los datos de facturación estarán disponibles al activar el módulo comercial.';}}
+async function openBillingProfileModal(userId=''){let target=userId||currentUser?.id;if(!target)return;let data=adminBillingProfilesCache.find(x=>x.user_id===target);if(!data){const res=await supabaseClient.from('finsave_billing_profiles').select('*').eq('user_id',target).maybeSingle();data=res.data||{};}let user=adminAccountsCache.find(x=>x.id===target);document.getElementById('bp-user-id').value=target;document.getElementById('bp-rut').value=data.rut||'';document.getElementById('bp-business-name').value=data.business_name||user?.name||window.db.perfil.name||'';document.getElementById('bp-giro').value=data.giro||'';document.getElementById('bp-document').value=data.document_preference||'boleta';document.getElementById('bp-email').value=data.dte_email||user?.email||currentUser?.email||'';document.getElementById('bp-address').value=data.address||'';document.getElementById('bp-comuna').value=data.comuna||'';document.getElementById('bp-city').value=data.city||'';document.getElementById('bp-phone').value=data.phone||'';document.getElementById('bp-msg').style.display='none';openModal('mod-billing-profile');}
+async function saveBillingProfile(){let userId=document.getElementById('bp-user-id').value,payload={user_id:userId,rut:document.getElementById('bp-rut').value.trim(),business_name:document.getElementById('bp-business-name').value.trim(),giro:document.getElementById('bp-giro').value.trim(),document_preference:document.getElementById('bp-document').value,dte_email:document.getElementById('bp-email').value.trim(),address:document.getElementById('bp-address').value.trim(),comuna:document.getElementById('bp-comuna').value.trim(),city:document.getElementById('bp-city').value.trim(),phone:document.getElementById('bp-phone').value.trim(),updated_at:new Date().toISOString()};if(!payload.rut||!payload.business_name||!payload.dte_email){setAdminBoxMessage('bp-msg','Completa RUT, nombre o razón social y correo DTE.','err');return;}try{const {error}=await supabaseClient.from('finsave_billing_profiles').upsert(payload,{onConflict:'user_id'});if(error)throw error;setAdminBoxMessage('bp-msg','Datos guardados correctamente.','ok');if(userId===currentUser.id)await loadMyBillingProfile();if(isAdminUser)await loadAdminBillingProfiles();setTimeout(()=>closeModal('mod-billing-profile'),900);}catch(e){setAdminBoxMessage('bp-msg',e.message||'No se pudieron guardar los datos.','err');}}
+
+async function openUserPlanChangeModal(){try{let active=(window.myPlanChangeRequests||[]).find(r=>['pending_payment','payment_review','pending_approval'].includes(r.status));if(active){showToast('Ya tienes una solicitud en curso.','err');return;}const {data,error}=await supabaseClient.from('finsave_plans').select('*').eq('is_active',true).eq('is_admin_plan',false).order('price_clp');if(error)throw error;window.userPlanOptions=data||[];let sel=document.getElementById('user-plan-request-plan');sel.innerHTML=(data||[]).map(p=>`<option value="${p.id}">${escAdmin(p.name)}</option>`).join('');if(!data?.length){showToast('No hay planes disponibles.','err');return;}document.getElementById('user-plan-request-msg').style.display='none';renderUserPlanRequestPrice();openModal('mod-user-plan-request');}catch(e){showToast('No fue posible cargar los planes.','err');}}
+function renderUserPlanRequestPrice(){let p=(window.userPlanOptions||[]).find(x=>x.id===document.getElementById('user-plan-request-plan').value);document.getElementById('user-plan-request-price').innerHTML=p?`<strong>${escAdmin(p.name)}</strong><br><span style="font-size:1.3rem;color:var(--primary)">$${formatMiles(p.price_clp)} CLP</span> · ${p.is_lifetime?'acceso indefinido':`${p.duration_days} días`}`:'';}
+async function submitUserPlanChangeRequest(){let msg='user-plan-request-msg',plan=(window.userPlanOptions||[]).find(x=>x.id===document.getElementById('user-plan-request-plan').value);if(!plan)return;setAdminBoxMessage(msg,'Creando tu solicitud...');try{const {error}=await supabaseClient.rpc('submit_finsave_plan_request',{requested_plan:plan.id,method:'transfer'});if(error)throw error;setAdminBoxMessage(msg,'Solicitud creada. Ahora informa tu transferencia desde Medios de pago.','ok');await loadMyCommercialPlan();setTimeout(()=>closeModal('mod-user-plan-request'),1500);}catch(e){setAdminBoxMessage(msg,e.message||'No se pudo crear la solicitud.','err');}}
 /* ── NAVEGACIÓN ── */
 function goTo(pageId, keepSidebarOpen) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
