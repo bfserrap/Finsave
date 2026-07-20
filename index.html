@@ -19,6 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -567,6 +568,11 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
   .pg-title{line-height:1.16}
   .card{border-radius:18px}
   .hero{padding-top:3.2rem}
+  #page-admin .card-head{align-items:flex-start;gap:.75rem}
+  #page-admin .card-head>div:last-child{width:100%}
+  #page-admin .card-head input,#page-admin .card-head select,#page-admin .card-head button{width:100%;max-width:none!important}
+  #mod-adm-billing .modal,#mod-adm-support .modal{padding:1rem;max-height:94vh}
+  #adm-bill-invoices>div{align-items:flex-start!important;flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 @media (max-width:900px){
@@ -1207,6 +1213,10 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       <div class="card-head"><div><div class="card-title"><span class="card-title-ic">💎</span> Mi plan Finsave</div><div class="card-sub">Vigencia y estado de tu suscripción</div></div></div>
       <div id="profile-plan-content" style="font-size:.86rem;color:var(--gray)">Consultando tu plan...</div>
     </div>
+    <div class="card" id="profile-payment-card">
+      <div class="card-head"><div><div class="card-title"><span class="card-title-ic">🏦</span> Pagar mi plan</div><div class="card-sub">Transferencia bancaria y aviso de pago</div></div></div>
+      <div id="profile-payment-content" style="font-size:.86rem;color:var(--gray)">Consultando medios de pago...</div>
+    </div>
     <div class="card">
       <div class="card-head"><div class="card-title">Datos Personales</div></div>
       <div class="profile-photo-wrap">
@@ -1271,11 +1281,25 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div class="card-head">
       <div><div class="card-title">🧾 Suscripciones y cobranza</div><div class="card-sub">Planes por cliente, vigencias, facturas, pagos y morosidad</div></div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <input id="adm-billing-search" placeholder="Buscar nombre o correo..." oninput="renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);max-width:210px">
         <select id="adm-billing-status" onchange="renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los estados</option><option value="active">Al día</option><option value="past_due">Con deuda</option><option value="none">Sin plan</option></select>
+        <select id="adm-billing-year" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los años</option></select>
+        <button class="btn btn-prim btn-sm" onclick="exportAdminBillingExcel()">📊 Descargar Excel</button>
         <button class="btn btn-outline btn-sm" onclick="loadAdminBilling()">↻ Actualizar</button>
       </div>
     </div>
     <div class="tbl-wrap"><table class="tbl-cards"><thead><tr><th>Cliente</th><th>Plan</th><th>Vigencia</th><th>Pago</th><th>Deuda</th><th>Acción</th></tr></thead><tbody id="adm-billing-tbody"><tr><td colspan="6" class="tbl-empty">Cargando...</td></tr></tbody></table></div>
+  </div>
+
+  <div class="g2" style="margin-bottom:1rem">
+    <div class="card">
+      <div class="card-head"><div><div class="card-title">🏦 Cuenta de pago Finsave</div><div class="card-sub">Datos visibles para clientes que pagan por transferencia</div></div><button class="btn btn-outline btn-sm" onclick="openAdminBankSettings()">✏️ Configurar</button></div>
+      <div id="adm-bank-summary" style="font-size:.84rem;color:var(--gray)">Cargando configuración...</div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><div class="card-title">🔎 Pagos por revisar</div><div class="card-sub">Transferencias informadas por clientes</div></div></div>
+      <div id="adm-payment-requests" style="max-height:280px;overflow:auto"><div class="tbl-empty">Cargando...</div></div>
+    </div>
   </div>
 
   <div class="card">
@@ -1364,6 +1388,7 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <input type="hidden" id="adm-plan-id">
     <div class="form-row"><div class="fg"><label>Nombre del plan</label><input id="adm-plan-name" placeholder="Ej: Mensual"></div><div class="fg"><label>Valor ($ CLP)</label><input id="adm-plan-price" inputmode="numeric" oninput="formatInputMiles(this)" placeholder="4.990"></div></div>
     <div class="form-row"><div class="fg"><label>Duración en días</label><input id="adm-plan-days" type="number" min="1" max="3650" placeholder="30"></div><div class="fg"><label>Disponibilidad</label><select id="adm-plan-active"><option value="true">Activo para asignar</option><option value="false">Oculto / descontinuado</option></select></div></div>
+    <label style="display:flex;gap:.55rem;align-items:center;font-size:.84rem;margin:-.25rem 0 .8rem"><input id="adm-plan-lifetime" type="checkbox" onchange="toggleAdminPlanLifetime()"> Plan indefinido, sin fecha de vencimiento</label>
     <div class="fg"><label>Descripción</label><textarea id="adm-plan-description" rows="2" placeholder="Qué incluye este plan" style="width:100%;padding:.75rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-family:inherit"></textarea></div>
     <div style="padding:.75rem;background:#fff7ed;border:1px solid #fed7aa;border-radius:var(--radius-sm);margin-bottom:.8rem;font-size:.8rem;color:#9a3412">🔐 Por seguridad, confirma tu contraseña de administrador para guardar.</div>
     <div class="fg"><label>Contraseña de acceso</label><input id="adm-plan-password" type="password" autocomplete="current-password" placeholder="Tu contraseña"></div>
@@ -1394,6 +1419,33 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div class="card-title" style="font-size:.95rem;margin-bottom:.6rem">Historial de facturas y pagos</div>
     <div id="adm-bill-invoices" style="max-height:280px;overflow:auto"></div>
     <div id="adm-bill-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-top:.7rem"></div>
+  </div>
+</div>
+
+<div class="modal-over hidden" id="mod-adm-bank">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-head"><div><div class="modal-title">🏦 Cuenta de pago Finsave</div><div class="card-sub">Información que se mostrará a los clientes</div></div><button class="modal-close" onclick="closeModal('mod-adm-bank')">✕</button></div>
+    <div class="form-row"><div class="fg"><label>Banco</label><input id="adm-bank-name"></div><div class="fg"><label>Tipo de cuenta</label><input id="adm-bank-type" placeholder="Cuenta corriente"></div></div>
+    <div class="fg"><label>Número de cuenta</label><input id="adm-bank-number"></div>
+    <div class="form-row"><div class="fg"><label>Titular</label><input id="adm-bank-holder"></div><div class="fg"><label>RUT</label><input id="adm-bank-rut"></div></div>
+    <div class="fg"><label>Correo para comprobantes</label><input id="adm-bank-email" type="email"></div>
+    <div class="fg"><label>Instrucciones de pago</label><textarea id="adm-bank-instructions" rows="3" style="width:100%;padding:.75rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-family:inherit"></textarea></div>
+    <label style="display:flex;gap:.5rem;align-items:center;font-size:.84rem;margin-bottom:.8rem"><input id="adm-bank-enabled" type="checkbox"> Permitir pagos por transferencia</label>
+    <div class="fg"><label>Contraseña de administrador</label><input id="adm-bank-password" type="password" autocomplete="current-password"></div>
+    <div id="adm-bank-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
+    <button class="btn btn-prim btn-full" onclick="saveAdminBankSettings()">Guardar datos bancarios</button>
+  </div>
+</div>
+
+<div class="modal-over hidden" id="mod-user-payment">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-head"><div class="modal-title">📤 Informar transferencia</div><button class="modal-close" onclick="closeModal('mod-user-payment')">✕</button></div>
+    <div class="fg"><label>Factura</label><select id="user-pay-invoice" onchange="syncUserPaymentAmount()"></select></div>
+    <div class="form-row"><div class="fg"><label>Monto transferido</label><input id="user-pay-amount" oninput="formatInputMiles(this)"></div><div class="fg"><label>Fecha</label><input id="user-pay-date" type="date"></div></div>
+    <div class="fg"><label>Número de operación o referencia</label><input id="user-pay-reference" placeholder="Ej: 123456789"></div>
+    <div class="fg"><label>Comprobante (JPG, PNG o PDF; máximo 5 MB)</label><input id="user-pay-receipt" type="file" accept="image/jpeg,image/png,application/pdf"></div>
+    <div id="user-pay-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
+    <button class="btn btn-prim btn-full" onclick="submitUserPaymentRequest()">Enviar pago para revisión</button>
   </div>
 </div>
 <div class="modal-over hidden" id="mod-del-cuenta">
@@ -1677,6 +1729,9 @@ let adminSupportPendingRestore = null;
 let adminPlansCache = [];
 let adminSubscriptionsCache = [];
 let adminInvoicesCache = [];
+let adminPaymentsCache = [];
+let adminPaymentRequestsCache = [];
+let commercialSettingsCache = null;
 let adminBillingUser = null;
 let adminBillingSubscription = null;
 let regFormShownAt = 0;
@@ -2134,6 +2189,16 @@ function updateAvatarUI() {
   document.querySelectorAll('input[oninput*="formatInputMiles"]').forEach(function(el) {
     el.setAttribute('inputmode', 'decimal');
   });
+  document.querySelectorAll('.modal-over').forEach(function(backdrop) {
+    backdrop.addEventListener('click', function(event) {
+      if (event.target === backdrop) closeModal(backdrop.id);
+    });
+  });
+  document.addEventListener('keydown', function(event) {
+    if (event.key !== 'Escape') return;
+    let open = document.querySelector('.modal-over:not(.hidden)');
+    if (open) closeModal(open.id);
+  });
 });
 document.addEventListener('DOMContentLoaded', async function() {
   initDatabaseEngine();
@@ -2537,7 +2602,7 @@ function closeDeactivatedPopup() {
 
 async function loadAdminPanel() {
   if (!isAdminUser) { goTo('resumen'); return; }
-  await Promise.all([loadAdminUsersTable(), loadAdminAdminsList(), loadAdminPlans()]);
+  await Promise.all([loadAdminUsersTable(), loadAdminAdminsList(), loadAdminPlans(), loadCommercialSettings(), loadAdminPaymentRequests()]);
   await loadAdminBilling();
 }
 
@@ -2609,9 +2674,11 @@ function renderAdminStats() {
   let activas = adminAccountsCache.filter(u => u.is_active).length;
   let inactivas = total - activas;
   let recientes = adminAccountsCache.filter(u => u.created_at && Date.now() - new Date(u.created_at).getTime() <= 30 * 86400000).length;
+  let cobrado=adminPaymentsCache.reduce((a,p)=>a+(p.amount_clp||0),0);
+  let deuda=adminInvoicesCache.filter(i=>['pending','overdue'].includes(i.status)).reduce((a,i)=>a+(i.amount_clp||0),0);
   box.innerHTML = [
-    ['👥','Usuarios',total], ['✅','Cuentas activas',activas], ['⛔','Desactivadas',inactivas], ['✨','Nuevas (30 días)',recientes]
-  ].map(([ic,lbl,val]) => `<div class="card" style="padding:1rem;box-shadow:none"><div style="font-size:1.15rem">${ic}</div><div style="font-size:1.35rem;font-weight:700;color:var(--dark);margin:.2rem 0">${val}</div><div style="font-size:.78rem;color:var(--gray)">${lbl}</div></div>`).join('');
+    ['👥','Usuarios',total,false], ['✅','Cuentas activas',activas,false], ['✨','Nuevas (30 días)',recientes,false], ['💰','Total cobrado',cobrado,true], ['⚠️','Por cobrar',deuda,true]
+  ].map(([ic,lbl,val,money]) => `<div class="card" style="padding:1rem;box-shadow:none"><div style="font-size:1.15rem">${ic}</div><div style="font-size:1.25rem;font-weight:700;color:var(--dark);margin:.2rem 0">${money?'$'+formatMiles(val):val}</div><div style="font-size:.78rem;color:var(--gray)">${lbl}</div></div>`).join('');
 }
 
 async function toggleUserActive(userId, currentlyActive) {
@@ -2906,7 +2973,7 @@ function renderAdminPlans() {
   if(!adminPlansCache.length){box.innerHTML='<div class="tbl-empty">Aún no hay planes.</div>';return;}
   box.innerHTML=adminPlansCache.map(p=>`<div style="border:1px solid var(--gray3);border-radius:var(--radius);padding:1rem;background:${p.is_active?'var(--white)':'var(--gray5)'}">
     <div style="display:flex;justify-content:space-between;gap:.5rem"><strong>${escAdmin(p.name)}</strong><span class="tag ${p.is_active?'tag-g':'tag-r'}">${p.is_active?'Activo':'Oculto'}</span></div>
-    <div style="font-size:1.35rem;font-weight:700;color:var(--brand);margin:.55rem 0">$${formatMiles(p.price_clp)} <small style="font-size:.72rem;color:var(--gray);font-weight:400">/ ${p.duration_days} días</small></div>
+    <div style="font-size:1.35rem;font-weight:700;color:var(--brand);margin:.55rem 0">$${formatMiles(p.price_clp)} <small style="font-size:.72rem;color:var(--gray);font-weight:400">${p.is_lifetime?'· Indefinido':'/ '+p.duration_days+' días'}</small></div>
     <div style="font-size:.78rem;color:var(--gray);min-height:34px">${escAdmin(p.description||'Sin descripción')}</div>
     <button class="btn btn-outline btn-sm" style="margin-top:.7rem" onclick="openAdminPlanModal('${p.id}')">✏️ Editar plan</button>
   </div>`).join('');
@@ -2920,10 +2987,14 @@ function openAdminPlanModal(id='') {
   document.getElementById('adm-plan-price').value=p?formatMiles(p.price_clp):'';
   document.getElementById('adm-plan-days').value=p?.duration_days||30;
   document.getElementById('adm-plan-active').value=String(p?.is_active!==false);
+  document.getElementById('adm-plan-lifetime').checked=!!p?.is_lifetime;
   document.getElementById('adm-plan-description').value=p?.description||'';
   document.getElementById('adm-plan-password').value=''; document.getElementById('adm-plan-msg').style.display='none';
   openModal('mod-adm-plan');
+  toggleAdminPlanLifetime();
 }
+
+function toggleAdminPlanLifetime(){let life=document.getElementById('adm-plan-lifetime')?.checked,days=document.getElementById('adm-plan-days');if(days){days.disabled=life;if(life)days.value=3650;}}
 
 async function saveAdminPlan() {
   let id=document.getElementById('adm-plan-id').value, name=document.getElementById('adm-plan-name').value.trim();
@@ -2933,7 +3004,7 @@ async function saveAdminPlan() {
   setAdminBoxMessage('adm-plan-msg','Verificando y guardando...');
   try {
     await verifyCurrentAdminPassword(password);
-    let payload={name,price_clp:price,duration_days:days,is_active:document.getElementById('adm-plan-active').value==='true',description:document.getElementById('adm-plan-description').value.trim()};
+    let payload={name,price_clp:price,duration_days:days,is_lifetime:document.getElementById('adm-plan-lifetime').checked,is_active:document.getElementById('adm-plan-active').value==='true',description:document.getElementById('adm-plan-description').value.trim()};
     let q=id?supabaseClient.from('finsave_plans').update(payload).eq('id',id):supabaseClient.from('finsave_plans').insert(payload);
     const {error}=await q;if(error)throw error;
     closeModal('mod-adm-plan');showToast('Plan guardado correctamente');await loadAdminPlans();await loadAdminBilling();
@@ -2944,12 +3015,13 @@ async function loadAdminBilling() {
   let tbody=document.getElementById('adm-billing-tbody');if(!tbody||!supabaseClient)return;
   try {
     await supabaseClient.rpc('refresh_finsave_billing_statuses');
-    const [subsRes,invRes]=await Promise.all([
+    const [subsRes,invRes,payRes]=await Promise.all([
       supabaseClient.from('finsave_subscriptions').select('*'),
-      supabaseClient.from('finsave_invoices').select('*').order('due_date',{ascending:false})
+      supabaseClient.from('finsave_invoices').select('*').order('due_date',{ascending:false}),
+      supabaseClient.from('finsave_payments').select('*').order('paid_at',{ascending:false})
     ]);
-    if(subsRes.error)throw subsRes.error;if(invRes.error)throw invRes.error;
-    adminSubscriptionsCache=subsRes.data||[];adminInvoicesCache=invRes.data||[];renderAdminBillingTable();
+    if(subsRes.error)throw subsRes.error;if(invRes.error)throw invRes.error;if(payRes.error)throw payRes.error;
+    adminSubscriptionsCache=subsRes.data||[];adminInvoicesCache=invRes.data||[];adminPaymentsCache=payRes.data||[];populateAdminBillingYears();renderAdminBillingTable();renderAdminStats();
   } catch(e){tbody.innerHTML='<tr><td colspan="6" class="tbl-empty" style="color:var(--danger)">Activa el módulo comercial en Supabase para ver la cobranza.</td></tr>';}
 }
 
@@ -2960,19 +3032,22 @@ function billingStatusLabel(status) {
 function renderAdminBillingTable() {
   let tbody=document.getElementById('adm-billing-tbody');if(!tbody)return;
   let filter=document.getElementById('adm-billing-status')?.value||'all';
+  let search=(document.getElementById('adm-billing-search')?.value||'').trim().toLowerCase();
   let rows=adminAccountsCache.map(u=>{
     let s=adminSubscriptionsCache.find(x=>x.user_id===u.id), p=s&&adminPlansCache.find(x=>x.id===s.plan_id);
     let unpaid=adminInvoicesCache.filter(i=>i.user_id===u.id&&['pending','overdue'].includes(i.status));
     return {u,s,p,unpaid,debt:unpaid.reduce((a,i)=>a+(i.amount_clp||0),0)};
-  }).filter(x=>filter==='all'||(filter==='none'?!x.s:filter==='active'?x.s?.status==='active':filter==='past_due'?x.unpaid.length>0:x.s?.status===filter));
+  }).filter(x=>(!search||(x.u.name||'').toLowerCase().includes(search)||(x.u.email||'').toLowerCase().includes(search))&&(filter==='all'||(filter==='none'?!x.s:filter==='active'?x.s?.status==='active':filter==='past_due'?x.unpaid.length>0:x.s?.status===filter)));
   if(!rows.length){tbody.innerHTML='<tr><td colspan="6" class="tbl-empty">Sin resultados</td></tr>';return;}
   tbody.innerHTML=rows.map(({u,s,p,unpaid,debt})=>`<tr><td data-label="Cliente"><strong>${escAdmin(u.name||'Sin nombre')}</strong><br><small>${escAdmin(u.email)}</small></td>
     <td data-label="Plan">${escAdmin(p?.name||'Sin plan')}<br><small>${s?billingStatusLabel(s.status):'No asignado'}</small></td>
-    <td data-label="Vigencia">${s?`${new Date(s.starts_at+'T12:00:00').toLocaleDateString('es-CL')} — ${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}`:'—'}</td>
+    <td data-label="Vigencia">${s?(p?.is_lifetime?'Indefinida':`${new Date(s.starts_at+'T12:00:00').toLocaleDateString('es-CL')} — ${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}`):'—'}</td>
     <td data-label="Pago"><span class="tag ${unpaid.length?'tag-r':'tag-g'}">${unpaid.length?`${unpaid.length} pendiente${unpaid.length>1?'s':''}`:'Al día'}</span></td>
     <td data-label="Deuda"><strong style="color:${debt?'var(--danger)':'var(--brand)'}">$${formatMiles(debt)}</strong></td>
-    <td data-label="Acción"><button class="btn btn-prim btn-sm" onclick="openAdminBillingModal('${u.id}')">Gestionar</button></td></tr>`).join('');
+    <td data-label="Acción"><div style="display:flex;gap:.35rem;flex-wrap:wrap"><button class="btn btn-prim btn-sm" onclick="openAdminBillingModal('${u.id}')">Gestionar</button><button class="btn btn-outline btn-sm" onclick="exportAdminBillingExcel('${u.id}')">Excel</button><button class="btn btn-ghost btn-sm" onclick="openAdminSupportModal('${u.id}')">Perfil</button></div></td></tr>`).join('');
 }
+
+function populateAdminBillingYears(){let s=document.getElementById('adm-billing-year');if(!s)return;let keep=s.value;let years=[...new Set(adminInvoicesCache.map(i=>String(i.period_start||'').slice(0,4)).filter(Boolean))].sort().reverse();s.innerHTML='<option value="all">Todos los años</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');if(years.includes(keep))s.value=keep;}
 
 function isoDateAdd(dateStr,days){let d=new Date((dateStr||new Date().toISOString().slice(0,10))+'T12:00:00');d.setDate(d.getDate()+Math.max(0,days-1));return d.toISOString().slice(0,10);}
 
@@ -2983,18 +3058,18 @@ async function openAdminBillingModal(userId) {
   document.getElementById('adm-bill-plan').innerHTML='<option value="">Sin plan</option>'+adminPlansCache.map(p=>`<option value="${p.id}">${escAdmin(p.name)} · $${formatMiles(p.price_clp)} · ${p.duration_days} días</option>`).join('');
   document.getElementById('adm-bill-plan').value=adminBillingSubscription?.plan_id||'';document.getElementById('adm-bill-status').value=adminBillingSubscription?.status||'trial';
   let today=new Date().toISOString().slice(0,10);document.getElementById('adm-bill-start').value=adminBillingSubscription?.starts_at||today;
-  document.getElementById('adm-bill-end').value=adminBillingSubscription?.ends_at||today;document.getElementById('adm-bill-renew').checked=!!adminBillingSubscription?.auto_renew;
+  document.getElementById('adm-bill-end').value=adminBillingSubscription?.ends_at||'';document.getElementById('adm-bill-renew').checked=!!adminBillingSubscription?.auto_renew;
   document.getElementById('adm-bill-notes').value=adminBillingSubscription?.notes||'';document.getElementById('adm-bill-password').value='';
   document.getElementById('adm-inv-start').value=today;document.getElementById('adm-inv-due').value=today;document.getElementById('adm-bill-msg').style.display='none';
   previewAdminSubscriptionEnd();renderAdminCustomerInvoices();openModal('mod-adm-billing');
 }
 
-function previewAdminSubscriptionEnd(){let p=adminPlansCache.find(x=>x.id===document.getElementById('adm-bill-plan')?.value);let start=document.getElementById('adm-bill-start')?.value;if(p&&start){document.getElementById('adm-bill-end').value=isoDateAdd(start,p.duration_days);document.getElementById('adm-inv-end').value=isoDateAdd(start,p.duration_days);document.getElementById('adm-inv-amount').value=formatMiles(p.price_clp);}}
+function previewAdminSubscriptionEnd(){let p=adminPlansCache.find(x=>x.id===document.getElementById('adm-bill-plan')?.value);let start=document.getElementById('adm-bill-start')?.value,end=document.getElementById('adm-bill-end');if(p&&start){end.disabled=!!p.is_lifetime;end.value=p.is_lifetime?'':isoDateAdd(start,p.duration_days);document.getElementById('adm-inv-end').value=isoDateAdd(start,p.duration_days);document.getElementById('adm-inv-amount').value=formatMiles(p.price_clp);}}
 
 async function saveAdminSubscription(){
   let planId=document.getElementById('adm-bill-plan').value;if(!planId){setAdminBoxMessage('adm-bill-msg','Selecciona un plan.','err');return;}
   try{await verifyCurrentAdminPassword(document.getElementById('adm-bill-password').value);
-    let payload={user_id:adminBillingUser.id,plan_id:planId,status:document.getElementById('adm-bill-status').value,starts_at:document.getElementById('adm-bill-start').value,ends_at:document.getElementById('adm-bill-end').value,auto_renew:document.getElementById('adm-bill-renew').checked,notes:document.getElementById('adm-bill-notes').value.trim()};
+    let selectedPlan=adminPlansCache.find(p=>p.id===planId);let payload={user_id:adminBillingUser.id,plan_id:planId,status:document.getElementById('adm-bill-status').value,starts_at:document.getElementById('adm-bill-start').value,ends_at:selectedPlan?.is_lifetime?null:document.getElementById('adm-bill-end').value,auto_renew:selectedPlan?.is_lifetime?false:document.getElementById('adm-bill-renew').checked,notes:document.getElementById('adm-bill-notes').value.trim()};
     const {data,error}=await supabaseClient.from('finsave_subscriptions').upsert(payload,{onConflict:'user_id'}).select().single();if(error)throw error;adminBillingSubscription=data;
     setAdminBoxMessage('adm-bill-msg','Suscripción actualizada correctamente.','ok');await loadAdminBilling();
   }catch(e){setAdminBoxMessage('adm-bill-msg',e.message||'No se pudo guardar.','err');}}
@@ -3020,6 +3095,28 @@ async function markAdminInvoicePaid(invoiceId,amount){
     if(adminBillingSubscription?.status==='past_due')await supabaseClient.from('finsave_subscriptions').update({status:'active'}).eq('id',adminBillingSubscription.id);
     setAdminBoxMessage('adm-bill-msg','Pago registrado correctamente.','ok');await loadAdminBilling();renderAdminCustomerInvoices();
   }catch(e){setAdminBoxMessage('adm-bill-msg',e.message||'No se pudo registrar el pago.','err');}}
+
+async function loadCommercialSettings(){
+  try{const {data,error}=await supabaseClient.from('finsave_commercial_settings').select('*').eq('id',1).maybeSingle();if(error)throw error;commercialSettingsCache=data||null;renderAdminBankSummary();}
+  catch(e){commercialSettingsCache=null;renderAdminBankSummary();}
+}
+function renderAdminBankSummary(){let box=document.getElementById('adm-bank-summary');if(!box)return;let s=commercialSettingsCache;if(!s||!s.bank_name){box.innerHTML='<div style="padding:.7rem;background:#fff7ed;border-radius:var(--radius-sm);color:#9a3412">Configura una cuenta bancaria para habilitar transferencias.</div>';return;}box.innerHTML=`<strong style="color:var(--dark)">${escAdmin(s.bank_name)} · ${escAdmin(s.account_type)}</strong><br>${escAdmin(s.account_number)} · ${escAdmin(s.account_holder)}<br><span class="tag ${s.transfers_enabled?'tag-g':'tag-r'}" style="margin-top:.5rem">${s.transfers_enabled?'Transferencias activas':'Transferencias pausadas'}</span>`;}
+function openAdminBankSettings(){let s=commercialSettingsCache||{};['name','type','number','holder','rut','email','instructions'].forEach(k=>{let el=document.getElementById('adm-bank-'+k);if(el)el.value=s[{name:'bank_name',type:'account_type',number:'account_number',holder:'account_holder',rut:'account_rut',email:'account_email',instructions:'payment_instructions'}[k]]||'';});document.getElementById('adm-bank-enabled').checked=!!s.transfers_enabled;document.getElementById('adm-bank-password').value='';document.getElementById('adm-bank-msg').style.display='none';openModal('mod-adm-bank');}
+async function saveAdminBankSettings(){try{await verifyCurrentAdminPassword(document.getElementById('adm-bank-password').value);let payload={id:1,bank_name:document.getElementById('adm-bank-name').value.trim(),account_type:document.getElementById('adm-bank-type').value.trim(),account_number:document.getElementById('adm-bank-number').value.trim(),account_holder:document.getElementById('adm-bank-holder').value.trim(),account_rut:document.getElementById('adm-bank-rut').value.trim(),account_email:document.getElementById('adm-bank-email').value.trim(),payment_instructions:document.getElementById('adm-bank-instructions').value.trim(),transfers_enabled:document.getElementById('adm-bank-enabled').checked,updated_by:currentUser.id,updated_at:new Date().toISOString()};const {error}=await supabaseClient.from('finsave_commercial_settings').upsert(payload);if(error)throw error;commercialSettingsCache=payload;renderAdminBankSummary();closeModal('mod-adm-bank');showToast('Cuenta de pago actualizada');}catch(e){setAdminBoxMessage('adm-bank-msg',e.message||'No se pudo guardar.','err');}}
+
+async function loadAdminPaymentRequests(){let box=document.getElementById('adm-payment-requests');if(!box)return;try{const {data,error}=await supabaseClient.from('finsave_payment_requests').select('*').order('created_at',{ascending:false});if(error)throw error;adminPaymentRequestsCache=data||[];renderAdminPaymentRequests();}catch(e){box.innerHTML='<div class="tbl-empty">Activa el módulo de transferencias en Supabase.</div>';}}
+function renderAdminPaymentRequests(){let box=document.getElementById('adm-payment-requests');if(!box)return;let pending=adminPaymentRequestsCache.filter(r=>r.status==='pending');if(!pending.length){box.innerHTML='<div class="tbl-empty">No hay pagos pendientes de revisión.</div>';return;}box.innerHTML=pending.map(r=>{let u=adminAccountsCache.find(x=>x.id===r.user_id);return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><strong>${escAdmin(u?.name||u?.email||'Cliente')}</strong> · $${formatMiles(r.amount_clp)}<br><small>${new Date(r.transfer_date+'T12:00:00').toLocaleDateString('es-CL')} · Ref. ${escAdmin(r.reference||'Sin referencia')}</small><div style="display:flex;gap:.4rem;margin-top:.5rem"><button class="btn btn-prim btn-sm" onclick="reviewAdminPaymentRequest('${r.id}',true)">Aprobar</button><button class="btn btn-danger btn-sm" onclick="reviewAdminPaymentRequest('${r.id}',false)">Rechazar</button>${r.receipt_path?`<button class="btn btn-outline btn-sm" onclick="openPaymentReceipt('${escAdmin(r.receipt_path)}')">Comprobante</button>`:''}</div></div>`}).join('');}
+async function openPaymentReceipt(path){try{const {data,error}=await supabaseClient.storage.from('payment-receipts').createSignedUrl(path,120);if(error)throw error;window.open(data.signedUrl,'_blank','noopener');}catch(e){showToast('No se pudo abrir el comprobante','err');}}
+async function reviewAdminPaymentRequest(id,approve){let pass=prompt('Confirma tu contraseña de administrador:');if(!pass)return;try{await verifyCurrentAdminPassword(pass);if(approve){const {error}=await supabaseClient.rpc('approve_finsave_payment_request',{request_id:id,note:''});if(error)throw error;}else{const {error}=await supabaseClient.from('finsave_payment_requests').update({status:'rejected',reviewed_by:currentUser.id,reviewed_at:new Date().toISOString()}).eq('id',id);if(error)throw error;}showToast(approve?'Pago aprobado':'Pago rechazado');await Promise.all([loadAdminPaymentRequests(),loadAdminBilling()]);}catch(e){showToast(e.message||'No se pudo revisar','err');}}
+
+function exportAdminBillingExcel(userId=''){
+  if(!window.XLSX){showToast('Excel no está disponible','err');return;}let year=document.getElementById('adm-billing-year')?.value||'all';let users=userId?adminAccountsCache.filter(u=>u.id===userId):adminAccountsCache;
+  let invoices=adminInvoicesCache.filter(i=>(!userId||i.user_id===userId)&&(year==='all'||String(i.period_start).startsWith(year)));let invoiceIds=new Set(invoices.map(i=>i.id));let payments=adminPaymentsCache.filter(p=>invoiceIds.has(p.invoice_id));
+  let frows=invoices.map(i=>{let u=adminAccountsCache.find(x=>x.id===i.user_id),p=adminPlansCache.find(x=>x.id===i.plan_id),pay=payments.find(x=>x.invoice_id===i.id);return {'N° factura':i.invoice_number,'Cliente':u?.name||'','Correo':u?.email||'','Plan':p?.name||'','Inicio período':i.period_start,'Fin período':i.period_end,'Vencimiento':i.due_date,'Monto CLP':i.amount_clp,'Estado':i.status,'Fecha de pago':i.paid_at?String(i.paid_at).slice(0,10):'','Método':pay?.method||'','Referencia':pay?.reference||''};});
+  let prows=payments.map(p=>{let u=adminAccountsCache.find(x=>x.id===p.user_id),inv=invoices.find(i=>i.id===p.invoice_id);return {'Cliente':u?.name||'','Correo':u?.email||'','N° factura':inv?.invoice_number||'','Monto CLP':p.amount_clp,'Fecha pago':String(p.paid_at||'').slice(0,10),'Método':p.method,'Referencia':p.reference};});
+  let total=frows.reduce((a,r)=>a+r['Monto CLP'],0),paid=frows.filter(r=>r.Estado==='paid').reduce((a,r)=>a+r['Monto CLP'],0);let summary=[['INFORME COMERCIAL FINSAVE'],['Alcance',userId?(users[0]?.name||users[0]?.email):'Todos los clientes'],['Año',year==='all'?'Todos':year],['Facturado CLP',total],['Pagado CLP',paid],['Pendiente CLP',total-paid],['Generado',new Date().toLocaleString('es-CL')]];
+  let wb=XLSX.utils.book_new(),ws0=XLSX.utils.aoa_to_sheet(summary),ws1=XLSX.utils.json_to_sheet(frows),ws2=XLSX.utils.json_to_sheet(prows);ws0['!cols']=[{wch:24},{wch:30}];ws1['!cols']=[{wch:11},{wch:24},{wch:30},{wch:16},{wch:14},{wch:14},{wch:14},{wch:14},{wch:12},{wch:14},{wch:18},{wch:22}];ws2['!cols']=[{wch:24},{wch:30},{wch:11},{wch:14},{wch:14},{wch:18},{wch:22}];XLSX.utils.book_append_sheet(wb,ws0,'Resumen');XLSX.utils.book_append_sheet(wb,ws1,'Facturas');XLSX.utils.book_append_sheet(wb,ws2,'Pagos');let suffix=userId?'-'+(users[0]?.email||'cliente').replace(/[^a-z0-9]/gi,'_'):'';XLSX.writeFile(wb,`Facturacion-Finsave${suffix}-${year}.xlsx`);
+}
 async function loadAdminAdminsList() {
   let box = document.getElementById('adm-admins-list');
   if (!box || !supabaseClient) return;
@@ -3217,12 +3314,18 @@ async function loadMyCommercialPlan() {
       supabaseClient.from('finsave_invoices').select('*').eq('user_id',currentUser.id).in('status',['pending','overdue']).order('due_date',{ascending:true})
     ]);
     if(subRes.error)throw subRes.error;if(invRes.error)throw invRes.error;
-    let s=subRes.data;if(!s){box.innerHTML='<div style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm)">Aún no tienes un plan comercial asignado.</div>';return;}
+    window.myPendingInvoices=invRes.data||[];let s=subRes.data;if(!s){box.innerHTML='<div style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm)">Aún no tienes un plan comercial asignado.</div>';await loadUserPaymentOptions();return;}
     let planRes=await supabaseClient.from('finsave_plans').select('*').eq('id',s.plan_id).maybeSingle();let p=planRes.data;
     let debt=(invRes.data||[]).reduce((a,i)=>a+(i.amount_clp||0),0);
-    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:1.2rem;font-weight:700;color:var(--dark)">${escAdmin(p?.name||'Plan Finsave')}</div><div style="margin-top:.3rem">Vigente hasta el <strong>${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}</strong></div></div><span class="tag ${debt?'tag-r':'tag-g'}">${debt?'Pago pendiente':'Al día'}</span></div>${debt?`<div style="margin-top:.8rem;padding:.7rem;background:var(--danger-bg);color:var(--danger);border-radius:var(--radius-sm)">Tienes ${(invRes.data||[]).length} factura(s) pendiente(s) por <strong>$${formatMiles(debt)}</strong>.</div>`:''}`;
+    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:1.2rem;font-weight:700;color:var(--dark)">${escAdmin(p?.name||'Plan Finsave')}</div><div style="margin-top:.3rem">${p?.is_lifetime?'Acceso indefinido':`Vigente hasta el <strong>${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}</strong>`}</div></div><span class="tag ${debt?'tag-r':'tag-g'}">${debt?'Pago pendiente':'Al día'}</span></div>${debt?`<div style="margin-top:.8rem;padding:.7rem;background:var(--danger-bg);color:var(--danger);border-radius:var(--radius-sm)">Tienes ${(invRes.data||[]).length} factura(s) pendiente(s) por <strong>$${formatMiles(debt)}</strong>.</div>`:''}`;await loadUserPaymentOptions();
   }catch(e){box.textContent='La información del plan estará disponible cuando se active el módulo comercial.';}
 }
+
+async function loadUserPaymentOptions(){let box=document.getElementById('profile-payment-content');if(!box)return;try{const {data,error}=await supabaseClient.from('finsave_commercial_settings').select('*').eq('id',1).maybeSingle();if(error)throw error;commercialSettingsCache=data;if(!data?.transfers_enabled){box.innerHTML='<div style="padding:.75rem;background:var(--gray5);border-radius:var(--radius-sm)">Los pagos por transferencia no están habilitados por el momento.</div>';return;}box.innerHTML=`<div style="background:var(--gray5);padding:.85rem;border-radius:var(--radius-sm);line-height:1.65"><strong>${escAdmin(data.bank_name)}</strong> · ${escAdmin(data.account_type)}<br>Cuenta: <strong>${escAdmin(data.account_number)}</strong><br>Titular: ${escAdmin(data.account_holder)} · RUT ${escAdmin(data.account_rut)}<br>Correo: ${escAdmin(data.account_email)}${data.payment_instructions?`<br><small>${escAdmin(data.payment_instructions)}</small>`:''}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-top:.75rem"><button class="btn btn-outline" onclick="copyFinsaveBankData()">📋 Copiar datos</button><button class="btn btn-prim" onclick="openUserPaymentModal()" ${(window.myPendingInvoices||[]).length?'':'disabled'}>📤 Informar pago</button></div>${(window.myPendingInvoices||[]).length?'':'<div style="font-size:.76rem;margin-top:.5rem">No tienes facturas pendientes.</div>'}`;}catch(e){box.textContent='No fue posible cargar los medios de pago.';}}
+async function copyFinsaveBankData(){let s=commercialSettingsCache;if(!s)return;let text=`Banco: ${s.bank_name}\nTipo: ${s.account_type}\nCuenta: ${s.account_number}\nTitular: ${s.account_holder}\nRUT: ${s.account_rut}\nCorreo: ${s.account_email}`;try{await navigator.clipboard.writeText(text);showToast('Datos bancarios copiados');}catch(e){showToast('No se pudieron copiar','err');}}
+function openUserPaymentModal(){let list=window.myPendingInvoices||[],sel=document.getElementById('user-pay-invoice');sel.innerHTML=list.map(i=>`<option value="${i.id}" data-amount="${i.amount_clp}">Factura #${i.invoice_number} · $${formatMiles(i.amount_clp)} · vence ${new Date(i.due_date+'T12:00:00').toLocaleDateString('es-CL')}</option>`).join('');document.getElementById('user-pay-date').value=new Date().toISOString().slice(0,10);document.getElementById('user-pay-reference').value='';document.getElementById('user-pay-receipt').value='';document.getElementById('user-pay-msg').style.display='none';syncUserPaymentAmount();openModal('mod-user-payment');}
+function syncUserPaymentAmount(){let sel=document.getElementById('user-pay-invoice'),opt=sel?.options[sel.selectedIndex];document.getElementById('user-pay-amount').value=opt?formatMiles(opt.dataset.amount):'';}
+async function submitUserPaymentRequest(){let msg='user-pay-msg',invoiceId=document.getElementById('user-pay-invoice').value,amount=cleanMonto(document.getElementById('user-pay-amount').value),date=document.getElementById('user-pay-date').value,reference=document.getElementById('user-pay-reference').value.trim(),file=document.getElementById('user-pay-receipt').files[0];if(!invoiceId||!amount||!date||!reference){setAdminBoxMessage(msg,'Completa factura, monto, fecha y referencia.','err');return;}if(file&&file.size>5242880){setAdminBoxMessage(msg,'El comprobante supera 5 MB.','err');return;}setAdminBoxMessage(msg,'Enviando comprobante...');try{let path=null;if(file){let safe=file.name.replace(/[^a-z0-9._-]/gi,'_');path=`${currentUser.id}/${Date.now()}-${safe}`;const {error}=await supabaseClient.storage.from('payment-receipts').upload(path,file,{upsert:false});if(error)throw error;}const {error}=await supabaseClient.from('finsave_payment_requests').insert({user_id:currentUser.id,invoice_id:invoiceId,amount_clp:amount,transfer_date:date,reference,receipt_path:path});if(error)throw error;setAdminBoxMessage(msg,'Pago enviado. Finsave lo revisará y confirmará.','ok');setTimeout(()=>closeModal('mod-user-payment'),1400);}catch(e){setAdminBoxMessage(msg,e.message||'No se pudo enviar el pago.','err');}}
 /* ── NAVEGACIÓN ── */
 function goTo(pageId, keepSidebarOpen) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
