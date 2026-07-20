@@ -259,21 +259,21 @@ tr:last-child td{border-bottom:none}
 .bal-kpi{border-radius:var(--radius);padding:1.1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;min-width:0}
 .bal-kpi.b{background:linear-gradient(135deg,#ECFDF9,#F0FDFA);border:1px solid #99E6D3}
 .bal-kpi.r{background:linear-gradient(135deg,#FFF1F2,#FFF6F7);border:1px solid #FBD8DC}
-.bal-kpi.g{background:linear-gradient(135deg,#ECFDF5,#F2FDF9);border:1px solid #C9F2E1}
+.bal-kpi.g{background:linear-gradient(135deg,#EFF6FF,#F5F9FF);border:1px solid #BFDBFE}
 .bal-kpi-txt{min-width:0}
 .bal-kpi-lbl{display:flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;white-space:nowrap}
 .bal-kpi.b .bal-kpi-lbl{color:var(--brand-dark)}
 .bal-kpi.r .bal-kpi-lbl{color:#BE123C}
-.bal-kpi.g .bal-kpi-lbl{color:var(--green-dark)}
+.bal-kpi.g .bal-kpi-lbl{color:#1D4ED8}
 .bal-kpi-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .bal-kpi.b .bal-kpi-dot{background:var(--brand)}
 .bal-kpi.r .bal-kpi-dot{background:var(--danger)}
-.bal-kpi.g .bal-kpi-dot{background:var(--green)}
+.bal-kpi.g .bal-kpi-dot{background:#2563EB}
 .bal-kpi-val{font-family:var(--font-brand);font-weight:800;font-size:1.35rem;color:var(--dark);letter-spacing:-.01em;word-break:break-word}
 .bal-kpi-ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
 .bal-kpi.b .bal-kpi-ic{background:rgba(15,23,42,.14);color:var(--brand)}
 .bal-kpi.r .bal-kpi-ic{background:rgba(244,63,94,.14);color:var(--danger)}
-.bal-kpi.g .bal-kpi-ic{background:rgba(16,185,129,.14);color:var(--green)}
+.bal-kpi.g .bal-kpi-ic{background:rgba(37,99,235,.14);color:#2563EB}
 .balance-legend{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
 .balance-legend-item{display:flex;align-items:center;gap:.45rem;font-size:.82rem;font-weight:600;color:var(--gray)}
 .balance-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
@@ -726,7 +726,7 @@ html, body {
     <div class="balance-legend" style="margin-bottom:1rem">
       <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#059669"></div>Ganancias</div>
       <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#F43F5E"></div>Gastos</div>
-      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#10B981;border-radius:50%"></div>Saldo Líquido</div>
+      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#2563EB;border-radius:50%"></div>Saldo Líquido</div>
       <div class="balance-legend-item" id="res-bal-trend" style="margin-left:auto"></div>
     </div>
     <div class="balance-chart-wrap" style="position:relative">
@@ -4946,7 +4946,7 @@ function renderResumen() {
     let gradRed = gctx.createLinearGradient(0,0,0,gH);
     gradRed.addColorStop(0,'rgba(244,63,94,.24)'); gradRed.addColorStop(1,'rgba(244,63,94,0)');
     let gradGreen = gctx.createLinearGradient(0,0,0,gH);
-    gradGreen.addColorStop(0,'rgba(16,185,129,.26)'); gradGreen.addColorStop(1,'rgba(16,185,129,0)');
+    gradGreen.addColorStop(0,'rgba(37,99,235,.26)'); gradGreen.addColorStop(1,'rgba(37,99,235,0)');
 
     // Mes con mayor saldo líquido del año (para la insignia "Mejor mes del año")
     let mesesConDatos = balance.map((v,i)=>({v,i})).filter(x=>inAnual[x.i]>0 || outAnual[x.i]>0);
@@ -4968,8 +4968,8 @@ function renderResumen() {
             borderWidth:2.5, pointBackgroundColor:'#F43F5E', pointBorderColor:'#fff', pointBorderWidth:2,
             pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:3 },
           { label:'Saldo Líquido', data:balance,
-            borderColor:'#10B981', backgroundColor:gradGreen,
-            borderWidth:2.5, pointBackgroundColor:'#10B981', pointBorderColor:'#fff', pointBorderWidth:2,
+            borderColor:'#2563EB', backgroundColor:gradGreen,
+            borderWidth:2.5, pointBackgroundColor:'#2563EB', pointBorderColor:'#fff', pointBorderWidth:2,
             pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:1 }
         ]
       },
@@ -4991,7 +4991,7 @@ function renderResumen() {
                 <div class="chart-ext-tooltip-title">${mesesNombres[i]} ${y}</div>
                 <div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#059669"></span>Ganancias</span><span class="val">$${formatMiles(inAnual[i])}</span></div>
                 <div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#F43F5E"></span>Gastos</span><span class="val">-$${formatMiles(outAnual[i])}</span></div>
-                <div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#10B981"></span>Saldo Líquido</span><span class="val">$${formatMiles(balance[i])}</span></div>
+                <div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#2563EB"></span>Saldo Líquido</span><span class="val">$${formatMiles(balance[i])}</span></div>
                 ${esMejorMes ? '<div class="chart-ext-tooltip-badge">📈 Mejor mes del año</div>' : ''}
               `;
               let wrapRect = ctx2.parentElement.getBoundingClientRect();
