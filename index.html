@@ -4831,7 +4831,7 @@ function renderResumen() {
       let delta = balanceo - balancePrev;
       let pct = balancePrev !== 0 ? Math.round((delta / Math.abs(balancePrev)) * 100) : (delta > 0 ? 100 : 0);
       let up = delta >= 0;
-      resBalTrendEl.innerHTML = `<span style="display:flex;align-items:center;gap:.3rem;font-weight:700;color:${up ? 'var(--green-dark)' : 'var(--danger)'}">${up ? '▲' : '▼'} ${Math.abs(pct)}% vs mes anterior</span>`;
+      resBalTrendEl.innerHTML = `<span style="display:flex;align-items:center;gap:.3rem;font-weight:700;color:${up ? 'var(--green-dark)' : 'var(--danger)'}" title="Tu saldo líquido de este mes comparado con el saldo líquido del mes anterior">${up ? '▲' : '▼'} Saldo líquido ${up ? 'subió' : 'bajó'} ${Math.abs(pct)}% vs mes anterior</span>`;
     }
   }
 
