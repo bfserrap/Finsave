@@ -560,6 +560,7 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
 @keyframes fs-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes fs-icon-pop{40%{transform:scale(1.18) rotate(-7deg)}100%{transform:scale(1)}}@keyframes fs-modal-in{from{opacity:0;transform:translateY(15px) scale(.985)}to{opacity:1;transform:none}}
 .cat-delete-btn{background:#B4233C;color:#fff;border-color:#B4233C;box-shadow:0 5px 12px rgba(124,29,48,.16)}
 .cat-delete-btn:hover{background:#921D32;border-color:#921D32;box-shadow:0 9px 18px rgba(124,29,48,.24)}
+.cat-delete-btn svg{width:15px;height:15px;display:block;stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 @media(max-width:768px){
   .main{padding:calc(var(--top-h) + env(safe-area-inset-top) + 1.35rem) 1rem 5rem;background:#F8FAF9}
   .pg-header{margin-top:0}
@@ -1906,7 +1907,7 @@ function renderCategorias() {
           </div>
           <div style="display:flex;align-items:center;gap:.4rem;flex-shrink:0">
             <button class="btn btn-ghost btn-sm" style="padding:.3rem .55rem;font-size:.75rem;min-height:32px" onclick="openEditCat('${tipo}','${cat.id}')">✏️</button>
-            <button class="btn btn-danger btn-sm cat-delete-btn" style="padding:.3rem .55rem;font-size:.75rem;min-height:32px" onclick="delCat('${tipo}','${cat.id}')" aria-label="Eliminar categoría">🗑️</button>
+            <button class="btn btn-danger btn-sm cat-delete-btn" style="padding:.3rem .55rem;font-size:.75rem;min-height:32px" onclick="delCat('${tipo}','${cat.id}')" aria-label="Eliminar categoría"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3m-8 0 1 13h8l1-13M10 11v5m4-5v5"/></svg></button>
           </div>
         </div>`;
     });
