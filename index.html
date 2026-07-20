@@ -1203,6 +1203,10 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div><div class="pg-title">Mi Perfil</div><div class="pg-sub">Configura tu identidad y tus preferencias</div></div>
   </div>
   <div style="display:flex;flex-direction:column;gap:1.25rem;max-width:500px">
+    <div class="card" id="profile-plan-card">
+      <div class="card-head"><div><div class="card-title"><span class="card-title-ic">💎</span> Mi plan Finsave</div><div class="card-sub">Vigencia y estado de tu suscripción</div></div></div>
+      <div id="profile-plan-content" style="font-size:.86rem;color:var(--gray)">Consultando tu plan...</div>
+    </div>
     <div class="card">
       <div class="card-head"><div class="card-title">Datos Personales</div></div>
       <div class="profile-photo-wrap">
@@ -1253,6 +1257,25 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       </table>
     </div>
     <div style="font-size:.78rem;color:var(--gray2);margin-top:.5rem">Desactivar bloquea temporalmente el acceso y conserva la información. Las acciones sensibles siempre requieren confirmación.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">💎 Planes comerciales</div><div class="card-sub">Define nombre, valor, duración y disponibilidad de cada plan</div></div>
+      <button class="btn btn-prim btn-sm" onclick="openAdminPlanModal()">＋ Nuevo plan</button>
+    </div>
+    <div id="adm-plans-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem"><div style="color:var(--gray)">Cargando...</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title">🧾 Suscripciones y cobranza</div><div class="card-sub">Planes por cliente, vigencias, facturas, pagos y morosidad</div></div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <select id="adm-billing-status" onchange="renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los estados</option><option value="active">Al día</option><option value="past_due">Con deuda</option><option value="none">Sin plan</option></select>
+        <button class="btn btn-outline btn-sm" onclick="loadAdminBilling()">↻ Actualizar</button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table class="tbl-cards"><thead><tr><th>Cliente</th><th>Plan</th><th>Vigencia</th><th>Pago</th><th>Deuda</th><th>Acción</th></tr></thead><tbody id="adm-billing-tbody"><tr><td colspan="6" class="tbl-empty">Cargando...</td></tr></tbody></table></div>
   </div>
 
   <div class="card">
@@ -1333,6 +1356,44 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       </div>
     </div>
     <div id="adm-support-msg" style="display:none;font-size:.83rem;padding:.65rem .75rem;border-radius:var(--radius-sm)"></div>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-adm-plan">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-head"><div class="modal-title" id="adm-plan-title">💎 Nuevo plan</div><button class="modal-close" onclick="closeModal('mod-adm-plan')">✕</button></div>
+    <input type="hidden" id="adm-plan-id">
+    <div class="form-row"><div class="fg"><label>Nombre del plan</label><input id="adm-plan-name" placeholder="Ej: Mensual"></div><div class="fg"><label>Valor ($ CLP)</label><input id="adm-plan-price" inputmode="numeric" oninput="formatInputMiles(this)" placeholder="4.990"></div></div>
+    <div class="form-row"><div class="fg"><label>Duración en días</label><input id="adm-plan-days" type="number" min="1" max="3650" placeholder="30"></div><div class="fg"><label>Disponibilidad</label><select id="adm-plan-active"><option value="true">Activo para asignar</option><option value="false">Oculto / descontinuado</option></select></div></div>
+    <div class="fg"><label>Descripción</label><textarea id="adm-plan-description" rows="2" placeholder="Qué incluye este plan" style="width:100%;padding:.75rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-family:inherit"></textarea></div>
+    <div style="padding:.75rem;background:#fff7ed;border:1px solid #fed7aa;border-radius:var(--radius-sm);margin-bottom:.8rem;font-size:.8rem;color:#9a3412">🔐 Por seguridad, confirma tu contraseña de administrador para guardar.</div>
+    <div class="fg"><label>Contraseña de acceso</label><input id="adm-plan-password" type="password" autocomplete="current-password" placeholder="Tu contraseña"></div>
+    <div id="adm-plan-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
+    <button class="btn btn-prim btn-full" onclick="saveAdminPlan()">Guardar plan</button>
+  </div>
+</div>
+
+<div class="modal-over hidden" id="mod-adm-billing">
+  <div class="modal" style="max-width:820px">
+    <div class="modal-head"><div><div class="modal-title">🧾 Cuenta comercial</div><div id="adm-bill-user" class="card-sub"></div></div><button class="modal-close" onclick="closeModal('mod-adm-billing')">✕</button></div>
+    <input type="hidden" id="adm-bill-user-id">
+    <div class="card" style="padding:1rem;box-shadow:none;margin-bottom:1rem">
+      <div class="card-title" style="font-size:.95rem;margin-bottom:.7rem">Suscripción</div>
+      <div class="form-row"><div class="fg"><label>Plan</label><select id="adm-bill-plan" onchange="previewAdminSubscriptionEnd()"></select></div><div class="fg"><label>Estado</label><select id="adm-bill-status"><option value="trial">Prueba</option><option value="active">Activa</option><option value="past_due">Con deuda</option><option value="paused">Pausada</option><option value="cancelled">Cancelada</option><option value="expired">Vencida</option></select></div></div>
+      <div class="form-row"><div class="fg"><label>Inicio</label><input id="adm-bill-start" type="date" onchange="previewAdminSubscriptionEnd()"></div><div class="fg"><label>Fin</label><input id="adm-bill-end" type="date"></div></div>
+      <label style="display:flex;gap:.5rem;align-items:center;font-size:.84rem;margin-bottom:.7rem"><input id="adm-bill-renew" type="checkbox"> Renovación automática</label>
+      <div class="fg"><label>Nota interna</label><input id="adm-bill-notes" placeholder="Acuerdo, promoción o contexto de soporte"></div>
+      <div class="fg"><label>Contraseña de administrador</label><input id="adm-bill-password" type="password" autocomplete="current-password" placeholder="Necesaria para cambiar la suscripción"></div>
+      <button class="btn btn-prim btn-sm" onclick="saveAdminSubscription()">Guardar suscripción</button>
+    </div>
+    <div class="card" style="padding:1rem;box-shadow:none;margin-bottom:1rem">
+      <div class="card-title" style="font-size:.95rem;margin-bottom:.7rem">Emitir factura</div>
+      <div class="form-row"><div class="fg"><label>Inicio del período</label><input id="adm-inv-start" type="date"></div><div class="fg"><label>Fin del período</label><input id="adm-inv-end" type="date"></div></div>
+      <div class="form-row"><div class="fg"><label>Fecha de vencimiento</label><input id="adm-inv-due" type="date"></div><div class="fg"><label>Monto ($ CLP)</label><input id="adm-inv-amount" oninput="formatInputMiles(this)"></div></div>
+      <button class="btn btn-outline btn-sm" onclick="createAdminInvoice()">＋ Crear factura pendiente</button>
+    </div>
+    <div class="card-title" style="font-size:.95rem;margin-bottom:.6rem">Historial de facturas y pagos</div>
+    <div id="adm-bill-invoices" style="max-height:280px;overflow:auto"></div>
+    <div id="adm-bill-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-top:.7rem"></div>
   </div>
 </div>
 <div class="modal-over hidden" id="mod-del-cuenta">
@@ -1613,6 +1674,11 @@ let adminAccountsCache = [];
 let adminSupportUser = null;
 let adminSupportDb = null;
 let adminSupportPendingRestore = null;
+let adminPlansCache = [];
+let adminSubscriptionsCache = [];
+let adminInvoicesCache = [];
+let adminBillingUser = null;
+let adminBillingSubscription = null;
 let regFormShownAt = 0;
 
 let supabaseClient = null;
@@ -2471,7 +2537,8 @@ function closeDeactivatedPopup() {
 
 async function loadAdminPanel() {
   if (!isAdminUser) { goTo('resumen'); return; }
-  await Promise.all([loadAdminUsersTable(), loadAdminAdminsList()]);
+  await Promise.all([loadAdminUsersTable(), loadAdminAdminsList(), loadAdminPlans()]);
+  await loadAdminBilling();
 }
 
 async function loadAdminUsersTable() {
@@ -2811,6 +2878,148 @@ async function restoreAdminUserBackup() {
     await loadAdminSupportData();
   } catch(e) { setAdminSupportMessage('No se pudo restaurar: ' + (e.message || 'error desconocido'), 'err'); }
 }
+
+function setAdminBoxMessage(id, text, type='info') {
+  let el=document.getElementById(id); if(!el)return; el.style.display='block'; el.textContent=text;
+  el.style.background=type==='ok'?'#dcfce7':type==='err'?'var(--danger-bg)':'#dbeafe';
+  el.style.color=type==='ok'?'#166534':type==='err'?'var(--danger)':'#1e40af';
+}
+
+async function verifyCurrentAdminPassword(password) {
+  if (!password || !currentUser?.email) throw new Error('Ingresa tu contraseña de administrador.');
+  const { error } = await supabaseClient.auth.signInWithPassword({ email:currentUser.email, password });
+  if (error) throw new Error('La contraseña de administrador no es correcta.');
+  if (!isAdminUser) throw new Error('La cuenta no tiene permisos de administrador.');
+  return true;
+}
+
+async function loadAdminPlans() {
+  let box=document.getElementById('adm-plans-grid'); if(!box||!supabaseClient)return;
+  try {
+    const {data,error}=await supabaseClient.from('finsave_plans').select('*').order('price_clp',{ascending:true});
+    if(error)throw error; adminPlansCache=data||[]; renderAdminPlans();
+  } catch(e) { box.innerHTML='<div style="color:var(--danger);font-size:.84rem">Activa el módulo comercial en Supabase para administrar los planes.</div>'; }
+}
+
+function renderAdminPlans() {
+  let box=document.getElementById('adm-plans-grid'); if(!box)return;
+  if(!adminPlansCache.length){box.innerHTML='<div class="tbl-empty">Aún no hay planes.</div>';return;}
+  box.innerHTML=adminPlansCache.map(p=>`<div style="border:1px solid var(--gray3);border-radius:var(--radius);padding:1rem;background:${p.is_active?'var(--white)':'var(--gray5)'}">
+    <div style="display:flex;justify-content:space-between;gap:.5rem"><strong>${escAdmin(p.name)}</strong><span class="tag ${p.is_active?'tag-g':'tag-r'}">${p.is_active?'Activo':'Oculto'}</span></div>
+    <div style="font-size:1.35rem;font-weight:700;color:var(--brand);margin:.55rem 0">$${formatMiles(p.price_clp)} <small style="font-size:.72rem;color:var(--gray);font-weight:400">/ ${p.duration_days} días</small></div>
+    <div style="font-size:.78rem;color:var(--gray);min-height:34px">${escAdmin(p.description||'Sin descripción')}</div>
+    <button class="btn btn-outline btn-sm" style="margin-top:.7rem" onclick="openAdminPlanModal('${p.id}')">✏️ Editar plan</button>
+  </div>`).join('');
+}
+
+function openAdminPlanModal(id='') {
+  let p=adminPlansCache.find(x=>x.id===id);
+  document.getElementById('adm-plan-title').textContent=p?'✏️ Editar plan':'💎 Nuevo plan';
+  document.getElementById('adm-plan-id').value=p?.id||'';
+  document.getElementById('adm-plan-name').value=p?.name||'';
+  document.getElementById('adm-plan-price').value=p?formatMiles(p.price_clp):'';
+  document.getElementById('adm-plan-days').value=p?.duration_days||30;
+  document.getElementById('adm-plan-active').value=String(p?.is_active!==false);
+  document.getElementById('adm-plan-description').value=p?.description||'';
+  document.getElementById('adm-plan-password').value=''; document.getElementById('adm-plan-msg').style.display='none';
+  openModal('mod-adm-plan');
+}
+
+async function saveAdminPlan() {
+  let id=document.getElementById('adm-plan-id').value, name=document.getElementById('adm-plan-name').value.trim();
+  let price=cleanMonto(document.getElementById('adm-plan-price').value), days=parseInt(document.getElementById('adm-plan-days').value)||0;
+  let password=document.getElementById('adm-plan-password').value;
+  if(!name||days<1||price<0){setAdminBoxMessage('adm-plan-msg','Completa nombre, valor y duración válidos.','err');return;}
+  setAdminBoxMessage('adm-plan-msg','Verificando y guardando...');
+  try {
+    await verifyCurrentAdminPassword(password);
+    let payload={name,price_clp:price,duration_days:days,is_active:document.getElementById('adm-plan-active').value==='true',description:document.getElementById('adm-plan-description').value.trim()};
+    let q=id?supabaseClient.from('finsave_plans').update(payload).eq('id',id):supabaseClient.from('finsave_plans').insert(payload);
+    const {error}=await q;if(error)throw error;
+    closeModal('mod-adm-plan');showToast('Plan guardado correctamente');await loadAdminPlans();await loadAdminBilling();
+  } catch(e){setAdminBoxMessage('adm-plan-msg',e.message||'No se pudo guardar.','err');}
+}
+
+async function loadAdminBilling() {
+  let tbody=document.getElementById('adm-billing-tbody');if(!tbody||!supabaseClient)return;
+  try {
+    await supabaseClient.rpc('refresh_finsave_billing_statuses');
+    const [subsRes,invRes]=await Promise.all([
+      supabaseClient.from('finsave_subscriptions').select('*'),
+      supabaseClient.from('finsave_invoices').select('*').order('due_date',{ascending:false})
+    ]);
+    if(subsRes.error)throw subsRes.error;if(invRes.error)throw invRes.error;
+    adminSubscriptionsCache=subsRes.data||[];adminInvoicesCache=invRes.data||[];renderAdminBillingTable();
+  } catch(e){tbody.innerHTML='<tr><td colspan="6" class="tbl-empty" style="color:var(--danger)">Activa el módulo comercial en Supabase para ver la cobranza.</td></tr>';}
+}
+
+function billingStatusLabel(status) {
+  return ({trial:'Prueba',active:'Al día',past_due:'Con deuda',paused:'Pausada',cancelled:'Cancelada',expired:'Vencida'})[status]||'Sin plan';
+}
+
+function renderAdminBillingTable() {
+  let tbody=document.getElementById('adm-billing-tbody');if(!tbody)return;
+  let filter=document.getElementById('adm-billing-status')?.value||'all';
+  let rows=adminAccountsCache.map(u=>{
+    let s=adminSubscriptionsCache.find(x=>x.user_id===u.id), p=s&&adminPlansCache.find(x=>x.id===s.plan_id);
+    let unpaid=adminInvoicesCache.filter(i=>i.user_id===u.id&&['pending','overdue'].includes(i.status));
+    return {u,s,p,unpaid,debt:unpaid.reduce((a,i)=>a+(i.amount_clp||0),0)};
+  }).filter(x=>filter==='all'||(filter==='none'?!x.s:filter==='active'?x.s?.status==='active':filter==='past_due'?x.unpaid.length>0:x.s?.status===filter));
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="6" class="tbl-empty">Sin resultados</td></tr>';return;}
+  tbody.innerHTML=rows.map(({u,s,p,unpaid,debt})=>`<tr><td data-label="Cliente"><strong>${escAdmin(u.name||'Sin nombre')}</strong><br><small>${escAdmin(u.email)}</small></td>
+    <td data-label="Plan">${escAdmin(p?.name||'Sin plan')}<br><small>${s?billingStatusLabel(s.status):'No asignado'}</small></td>
+    <td data-label="Vigencia">${s?`${new Date(s.starts_at+'T12:00:00').toLocaleDateString('es-CL')} — ${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}`:'—'}</td>
+    <td data-label="Pago"><span class="tag ${unpaid.length?'tag-r':'tag-g'}">${unpaid.length?`${unpaid.length} pendiente${unpaid.length>1?'s':''}`:'Al día'}</span></td>
+    <td data-label="Deuda"><strong style="color:${debt?'var(--danger)':'var(--brand)'}">$${formatMiles(debt)}</strong></td>
+    <td data-label="Acción"><button class="btn btn-prim btn-sm" onclick="openAdminBillingModal('${u.id}')">Gestionar</button></td></tr>`).join('');
+}
+
+function isoDateAdd(dateStr,days){let d=new Date((dateStr||new Date().toISOString().slice(0,10))+'T12:00:00');d.setDate(d.getDate()+Math.max(0,days-1));return d.toISOString().slice(0,10);}
+
+async function openAdminBillingModal(userId) {
+  adminBillingUser=adminAccountsCache.find(u=>u.id===userId);if(!adminBillingUser)return;
+  adminBillingSubscription=adminSubscriptionsCache.find(s=>s.user_id===userId)||null;
+  document.getElementById('adm-bill-user-id').value=userId;document.getElementById('adm-bill-user').textContent=`${adminBillingUser.name||'Sin nombre'} · ${adminBillingUser.email}`;
+  document.getElementById('adm-bill-plan').innerHTML='<option value="">Sin plan</option>'+adminPlansCache.map(p=>`<option value="${p.id}">${escAdmin(p.name)} · $${formatMiles(p.price_clp)} · ${p.duration_days} días</option>`).join('');
+  document.getElementById('adm-bill-plan').value=adminBillingSubscription?.plan_id||'';document.getElementById('adm-bill-status').value=adminBillingSubscription?.status||'trial';
+  let today=new Date().toISOString().slice(0,10);document.getElementById('adm-bill-start').value=adminBillingSubscription?.starts_at||today;
+  document.getElementById('adm-bill-end').value=adminBillingSubscription?.ends_at||today;document.getElementById('adm-bill-renew').checked=!!adminBillingSubscription?.auto_renew;
+  document.getElementById('adm-bill-notes').value=adminBillingSubscription?.notes||'';document.getElementById('adm-bill-password').value='';
+  document.getElementById('adm-inv-start').value=today;document.getElementById('adm-inv-due').value=today;document.getElementById('adm-bill-msg').style.display='none';
+  previewAdminSubscriptionEnd();renderAdminCustomerInvoices();openModal('mod-adm-billing');
+}
+
+function previewAdminSubscriptionEnd(){let p=adminPlansCache.find(x=>x.id===document.getElementById('adm-bill-plan')?.value);let start=document.getElementById('adm-bill-start')?.value;if(p&&start){document.getElementById('adm-bill-end').value=isoDateAdd(start,p.duration_days);document.getElementById('adm-inv-end').value=isoDateAdd(start,p.duration_days);document.getElementById('adm-inv-amount').value=formatMiles(p.price_clp);}}
+
+async function saveAdminSubscription(){
+  let planId=document.getElementById('adm-bill-plan').value;if(!planId){setAdminBoxMessage('adm-bill-msg','Selecciona un plan.','err');return;}
+  try{await verifyCurrentAdminPassword(document.getElementById('adm-bill-password').value);
+    let payload={user_id:adminBillingUser.id,plan_id:planId,status:document.getElementById('adm-bill-status').value,starts_at:document.getElementById('adm-bill-start').value,ends_at:document.getElementById('adm-bill-end').value,auto_renew:document.getElementById('adm-bill-renew').checked,notes:document.getElementById('adm-bill-notes').value.trim()};
+    const {data,error}=await supabaseClient.from('finsave_subscriptions').upsert(payload,{onConflict:'user_id'}).select().single();if(error)throw error;adminBillingSubscription=data;
+    setAdminBoxMessage('adm-bill-msg','Suscripción actualizada correctamente.','ok');await loadAdminBilling();
+  }catch(e){setAdminBoxMessage('adm-bill-msg',e.message||'No se pudo guardar.','err');}}
+
+async function createAdminInvoice(){
+  if(!adminBillingSubscription){setAdminBoxMessage('adm-bill-msg','Primero guarda una suscripción.','err');return;}
+  let amount=cleanMonto(document.getElementById('adm-inv-amount').value);
+  try{await verifyCurrentAdminPassword(document.getElementById('adm-bill-password').value);
+    let payload={user_id:adminBillingUser.id,subscription_id:adminBillingSubscription.id,plan_id:adminBillingSubscription.plan_id,period_start:document.getElementById('adm-inv-start').value,period_end:document.getElementById('adm-inv-end').value,due_date:document.getElementById('adm-inv-due').value,amount_clp:amount,status:'pending'};
+    const {error}=await supabaseClient.from('finsave_invoices').insert(payload);if(error)throw error;setAdminBoxMessage('adm-bill-msg','Factura creada.','ok');await loadAdminBilling();renderAdminCustomerInvoices();
+  }catch(e){setAdminBoxMessage('adm-bill-msg',e.message||'No se pudo crear la factura.','err');}}
+
+function renderAdminCustomerInvoices(){
+  let box=document.getElementById('adm-bill-invoices');if(!box||!adminBillingUser)return;let list=adminInvoicesCache.filter(i=>i.user_id===adminBillingUser.id);
+  if(!list.length){box.innerHTML='<div class="tbl-empty">Este cliente aún no tiene facturas.</div>';return;}
+  box.innerHTML=list.map(i=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:.7rem;padding:.7rem;border-bottom:1px solid var(--gray3)"><div><strong>Factura #${i.invoice_number}</strong> · $${formatMiles(i.amount_clp)}<br><small>${new Date(i.period_start+'T12:00:00').toLocaleDateString('es-CL')} al ${new Date(i.period_end+'T12:00:00').toLocaleDateString('es-CL')} · vence ${new Date(i.due_date+'T12:00:00').toLocaleDateString('es-CL')}</small></div><div style="display:flex;gap:.4rem;align-items:center"><span class="tag ${i.status==='paid'?'tag-g':'tag-r'}">${i.status==='paid'?'Pagada':i.status==='overdue'?'Vencida':'Pendiente'}</span>${i.status!=='paid'&&i.status!=='void'?`<button class="btn btn-prim btn-sm" onclick="markAdminInvoicePaid('${i.id}',${i.amount_clp})">Registrar pago</button>`:''}</div></div>`).join('');
+}
+
+async function markAdminInvoicePaid(invoiceId,amount){
+  try{await verifyCurrentAdminPassword(document.getElementById('adm-bill-password').value);if(!confirm('¿Confirmar que esta factura fue pagada?'))return;
+    const now=new Date().toISOString();const {error:pErr}=await supabaseClient.from('finsave_payments').insert({invoice_id:invoiceId,user_id:adminBillingUser.id,amount_clp:amount,method:'registro_manual',created_by:currentUser.id,paid_at:now});if(pErr)throw pErr;
+    const {error:iErr}=await supabaseClient.from('finsave_invoices').update({status:'paid',paid_at:now}).eq('id',invoiceId);if(iErr)throw iErr;
+    if(adminBillingSubscription?.status==='past_due')await supabaseClient.from('finsave_subscriptions').update({status:'active'}).eq('id',adminBillingSubscription.id);
+    setAdminBoxMessage('adm-bill-msg','Pago registrado correctamente.','ok');await loadAdminBilling();renderAdminCustomerInvoices();
+  }catch(e){setAdminBoxMessage('adm-bill-msg',e.message||'No se pudo registrar el pago.','err');}}
 async function loadAdminAdminsList() {
   let box = document.getElementById('adm-admins-list');
   if (!box || !supabaseClient) return;
@@ -2998,6 +3207,22 @@ function endTour() {
   localStorage.setItem('finsave_tour_done', '1');
   goTo('resumen');
 }
+
+async function loadMyCommercialPlan() {
+  let box=document.getElementById('profile-plan-content');if(!box||!supabaseClient||!currentUser)return;
+  box.textContent='Consultando tu plan...';
+  try{
+    const [subRes,invRes]=await Promise.all([
+      supabaseClient.from('finsave_subscriptions').select('*').eq('user_id',currentUser.id).maybeSingle(),
+      supabaseClient.from('finsave_invoices').select('*').eq('user_id',currentUser.id).in('status',['pending','overdue']).order('due_date',{ascending:true})
+    ]);
+    if(subRes.error)throw subRes.error;if(invRes.error)throw invRes.error;
+    let s=subRes.data;if(!s){box.innerHTML='<div style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm)">Aún no tienes un plan comercial asignado.</div>';return;}
+    let planRes=await supabaseClient.from('finsave_plans').select('*').eq('id',s.plan_id).maybeSingle();let p=planRes.data;
+    let debt=(invRes.data||[]).reduce((a,i)=>a+(i.amount_clp||0),0);
+    box.innerHTML=`<div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap"><div><div style="font-size:1.2rem;font-weight:700;color:var(--dark)">${escAdmin(p?.name||'Plan Finsave')}</div><div style="margin-top:.3rem">Vigente hasta el <strong>${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}</strong></div></div><span class="tag ${debt?'tag-r':'tag-g'}">${debt?'Pago pendiente':'Al día'}</span></div>${debt?`<div style="margin-top:.8rem;padding:.7rem;background:var(--danger-bg);color:var(--danger);border-radius:var(--radius-sm)">Tienes ${(invRes.data||[]).length} factura(s) pendiente(s) por <strong>$${formatMiles(debt)}</strong>.</div>`:''}`;
+  }catch(e){box.textContent='La información del plan estará disponible cuando se active el módulo comercial.';}
+}
 /* ── NAVEGACIÓN ── */
 function goTo(pageId, keepSidebarOpen) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -3015,6 +3240,7 @@ function goTo(pageId, keepSidebarOpen) {
 if (pageId === 'ahorros') { renderMetas(); renderAhorrosMes(); }
   if (pageId === 'categorias') renderCategorias();
   if (pageId === 'liquidacion') { loadData(); fetchIndicadores(); }
+  if (pageId === 'perfil') loadMyCommercialPlan();
   if (pageId === 'admin') loadAdminPanel();
 }
 function toggleSidebar() {
