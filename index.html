@@ -210,6 +210,9 @@ td{padding:.95rem .7rem;font-size:.88rem;border-bottom:1px solid var(--gray4);co
 tbody tr:hover td{background:var(--gray5)}
 tr:last-child td{border-bottom:none}
 .tbl-empty{text-align:center;color:var(--gray2);padding:2.5rem 1rem;font-size:.9rem}
+.admin-pager{display:flex;align-items:center;justify-content:space-between;gap:.65rem;flex-wrap:wrap;padding-top:.75rem;margin-top:.35rem;border-top:1px solid var(--gray3);font-size:.78rem;color:var(--gray)}
+.admin-pager-controls{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}.admin-pager select{min-height:36px;padding:.35rem .55rem;border:1px solid var(--gray3);border-radius:10px;background:var(--white);font-family:inherit}.admin-pager .btn{min-height:36px;padding:.35rem .65rem}
+.admin-commercial-columns{display:grid;grid-template-columns:1fr;gap:1.25rem;margin-bottom:1rem}.admin-commercial-column{display:flex;flex-direction:column;gap:1.25rem;min-width:0}.admin-commercial-column>.card{margin:0}.admin-compact-list{max-height:none!important;overflow:visible!important}.admin-compact-list .tbl-empty{padding:1.25rem .75rem}
 .tag{display:inline-flex;align-items:center;padding:.25rem .65rem;border-radius:99px;font-size:.72rem;font-weight:700;gap:.3rem;white-space:nowrap}
 .tag-g{background:var(--green-bg);color:var(--green-dark)}
 .tag-r{background:var(--danger-bg);color:var(--danger)}
@@ -460,6 +463,8 @@ tr:last-child td{border-bottom:none}
   #page-liquidacion .g2{grid-template-columns:1fr 420px}
   .resumen-detail-grid{grid-template-columns:1.15fr 1fr;gap:1.25rem}
 }
+@media(min-width:1050px){.admin-commercial-columns{grid-template-columns:1fr 1fr;align-items:start}}
+@media(max-width:640px){.admin-pager{align-items:flex-start}.admin-pager-controls{width:100%}.admin-pager-controls .btn{flex:1}.admin-pager select{flex:1}.admin-commercial-columns{gap:.85rem}.admin-commercial-column{gap:.85rem}}
 @media(max-width:400px){
   .kpi-val{font-size:1.1rem}
   .cred-stat-val{font-size:.95rem}
@@ -1259,8 +1264,8 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div class="card-head">
       <div><div class="card-title">Cuentas de Usuarios</div><div class="card-sub">Selecciona “Dar soporte” para revisar y ayudar a una persona</div></div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-        <input type="text" id="adm-user-search" placeholder="Buscar correo o nombre..." oninput="renderAdminUsersTable()" style="max-width:210px;padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem">
-        <select id="adm-user-status" onchange="renderAdminUsersTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem;background:var(--white)"><option value="all">Todas</option><option value="active">Activas</option><option value="inactive">Desactivadas</option></select>
+        <input type="text" id="adm-user-search" placeholder="Buscar correo o nombre..." oninput="resetAdminPager('users');renderAdminUsersTable()" style="max-width:210px;padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem">
+        <select id="adm-user-status" onchange="resetAdminPager('users');renderAdminUsersTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem;background:var(--white)"><option value="all">Todas</option><option value="active">Activas</option><option value="inactive">Desactivadas</option></select>
         <button class="btn btn-sm btn-outline" onclick="loadAdminUsersTable()">↻ Actualizar</button>
       </div>
     </div>
@@ -1270,6 +1275,7 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
         <tbody id="adm-users-tbody"><tr><td colspan="5" style="text-align:center;color:var(--gray)">Cargando...</td></tr></tbody>
       </table>
     </div>
+    <div id="adm-users-pager"></div>
     <div style="font-size:.78rem;color:var(--gray2);margin-top:.5rem">Desactivar bloquea temporalmente el acceso y conserva la información. Las acciones sensibles siempre requieren confirmación.</div>
   </div>
 
@@ -1279,46 +1285,52 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       <button class="btn btn-prim btn-sm" onclick="openAdminPlanModal()">＋ Nuevo plan</button>
     </div>
     <div id="adm-plans-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem"><div style="color:var(--gray)">Cargando...</div></div>
+    <div id="adm-plans-pager"></div>
   </div>
 
   <div class="card">
     <div class="card-head">
       <div><div class="card-title">🧾 Suscripciones y cobranza</div><div class="card-sub">Planes por cliente, vigencias, facturas, pagos y morosidad</div></div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-        <input id="adm-billing-search" placeholder="Buscar nombre o correo..." oninput="renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);max-width:210px">
-        <select id="adm-billing-status" onchange="renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los estados</option><option value="active">Al día</option><option value="past_due">Con deuda</option><option value="none">Sin plan</option></select>
+        <input id="adm-billing-search" placeholder="Buscar nombre o correo..." oninput="resetAdminPager('billing');renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);max-width:210px">
+        <select id="adm-billing-status" onchange="resetAdminPager('billing');renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los estados</option><option value="active">Al día</option><option value="past_due">Con deuda</option><option value="none">Sin plan</option></select>
         <select id="adm-billing-year" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los años</option></select>
         <button class="btn btn-prim btn-sm" onclick="exportAdminBillingExcel()">📊 Descargar Excel</button>
         <button class="btn btn-outline btn-sm" onclick="loadAdminBilling()">↻ Actualizar</button>
       </div>
     </div>
     <div class="tbl-wrap"><table class="tbl-cards"><thead><tr><th>Cliente</th><th>Plan</th><th>Vigencia</th><th>Pago</th><th>Deuda</th><th>Acción</th></tr></thead><tbody id="adm-billing-tbody"><tr><td colspan="6" class="tbl-empty">Cargando...</td></tr></tbody></table></div>
+    <div id="adm-billing-pager"></div>
   </div>
 
-  <div class="g2" style="margin-bottom:1rem">
+  <div class="admin-commercial-columns">
+    <div class="admin-commercial-column">
     <div class="card">
       <div class="card-head"><div><div class="card-title">🏦 Cuenta de pago Finsave</div><div class="card-sub">Datos visibles para clientes que pagan por transferencia</div></div><button class="btn btn-outline btn-sm" onclick="openAdminBankSettings()">✏️ Configurar</button></div>
       <div id="adm-bank-summary" style="font-size:.84rem;color:var(--gray)">Cargando configuración...</div>
     </div>
     <div class="card">
-      <div class="card-head"><div><div class="card-title">🔎 Pagos por revisar</div><div class="card-sub">Transferencias informadas por clientes</div></div></div>
-      <div id="adm-payment-requests" style="max-height:280px;overflow:auto"><div class="tbl-empty">Cargando...</div></div>
-    </div>
-  </div>
-
-  <div class="g2" style="margin-bottom:1rem">
-    <div class="card">
       <div class="card-head"><div><div class="card-title">🔄 Cambios de plan</div><div class="card-sub">Solicitudes pendientes y revisión comercial</div></div></div>
-      <div id="adm-plan-requests" style="max-height:300px;overflow:auto"><div class="tbl-empty">Cargando...</div></div>
+      <div id="adm-plan-requests" class="admin-compact-list"><div class="tbl-empty">Cargando...</div></div>
+      <div id="adm-plan-requests-pager"></div>
+    </div>
+    </div>
+    <div class="admin-commercial-column">
+    <div class="card">
+      <div class="card-head"><div><div class="card-title">🔎 Pagos por revisar</div><div class="card-sub">Transferencias informadas por clientes</div></div></div>
+      <div id="adm-payment-requests" class="admin-compact-list"><div class="tbl-empty">Cargando...</div></div>
+      <div id="adm-payment-requests-pager"></div>
     </div>
     <div class="card">
       <div class="card-head"><div><div class="card-title">🧮 Gestión tributaria</div><div class="card-sub">Control interno previo y posterior a la emisión en el SII</div></div></div>
       <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:.75rem">
         <button class="btn btn-sm btn-outline" onclick="setAdminDteTab('pending')">Por facturar</button><button class="btn btn-sm btn-outline" onclick="setAdminDteTab('issued')">Facturado</button><button class="btn btn-sm btn-outline" onclick="setAdminDteTab('void')">Anulado</button>
       </div>
-      <div id="adm-dte-list" style="max-height:300px;overflow:auto"><div class="tbl-empty">Cargando...</div></div>
+      <div id="adm-dte-list" class="admin-compact-list"><div class="tbl-empty">Cargando...</div></div>
+      <div id="adm-dte-pager"></div>
       <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.75rem"><button class="btn btn-prim btn-sm" onclick="exportAdminDteExcel()">📊 Excel de la pestaña</button><button class="btn btn-outline btn-sm" onclick="exportAdminDteCsv()">📄 CSV de preparación</button></div>
       <div style="font-size:.72rem;color:var(--gray);margin-top:.5rem">El CSV organiza los datos para facturación masiva; la emisión tributaria requiere el formato del proveedor o un sistema certificado por el SII.</div>
+    </div>
     </div>
   </div>
 
@@ -1327,6 +1339,7 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       <div><div class="card-title">Administradores</div><div class="card-sub">Correos con acceso a este panel</div></div>
     </div>
     <div id="adm-admins-list">Cargando...</div>
+    <div id="adm-admins-pager"></div>
     <div style="display:flex;gap:.5rem;margin-top:1rem">
       <input type="email" id="adm-new-email" placeholder="nuevo-admin@correo.com" style="flex:1;padding:.75rem .95rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:1rem;color:var(--dark);background:var(--white);min-height:44px">
       <button class="btn btn-prim btn-sm" onclick="addAdminEmail()">＋ Agregar</button>
@@ -1794,9 +1807,18 @@ let adminPlanRequestsCache = [];
 let adminBillingProfilesCache = [];
 let adminDteTab = 'pending';
 let currentBillingProfile = null;
+let adminAdminsCache = [];
+const adminPagerState = Object.fromEntries(['users','plans','billing','payments','planRequests','dte','admins'].map(k=>[k,{page:1,size:5}]));
 let adminBillingUser = null;
 let adminBillingSubscription = null;
 let regFormShownAt = 0;
+
+function resetAdminPager(key){if(adminPagerState[key])adminPagerState[key].page=1;}
+function adminPageRows(key,rows){let s=adminPagerState[key],pages=Math.max(1,Math.ceil(rows.length/s.size));s.page=Math.min(Math.max(1,s.page),pages);return rows.slice((s.page-1)*s.size,s.page*s.size);}
+function renderAdminPagedSection(key){({users:renderAdminUsersTable,plans:renderAdminPlans,billing:renderAdminBillingTable,payments:renderAdminPaymentRequests,planRequests:renderAdminPlanRequests,dte:renderAdminDteList,admins:renderAdminAdminsList}[key]||(()=>{}))();}
+function setAdminPageSize(key,size){adminPagerState[key].size=Number(size);adminPagerState[key].page=1;renderAdminPagedSection(key);}
+function setAdminPage(key,page){adminPagerState[key].page=Number(page);renderAdminPagedSection(key);}
+function renderAdminPager(key,total){let target=document.getElementById({users:'adm-users-pager',plans:'adm-plans-pager',billing:'adm-billing-pager',payments:'adm-payment-requests-pager',planRequests:'adm-plan-requests-pager',dte:'adm-dte-pager',admins:'adm-admins-pager'}[key]);if(!target)return;let s=adminPagerState[key],pages=Math.max(1,Math.ceil(total/s.size));s.page=Math.min(s.page,pages);target.innerHTML=`<div class="admin-pager"><span>${total?`${(s.page-1)*s.size+1}–${Math.min(s.page*s.size,total)} de ${total}`:'0 registros'}</span><div class="admin-pager-controls"><label>Ver <select onchange="setAdminPageSize('${key}',this.value)">${[5,10,20,30].map(n=>`<option value="${n}" ${s.size===n?'selected':''}>${n}</option>`).join('')}</select></label><button class="btn btn-outline btn-sm" onclick="setAdminPage('${key}',${s.page-1})" ${s.page<=1?'disabled':''}>←</button><span>Página ${s.page} de ${pages}</span><button class="btn btn-outline btn-sm" onclick="setAdminPage('${key}',${s.page+1})" ${s.page>=pages?'disabled':''}>→</button></div></div>`;}
 
 let supabaseClient = null;
 let currentUser = null;
@@ -2712,10 +2734,12 @@ function renderAdminUsersTable() {
     let estadoOk = status === 'all' || (status === 'active' ? !!u.is_active : !u.is_active);
     return coincide && estadoOk;
   });
+  renderAdminPager('users',rows.length);
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray)">Sin resultados</td></tr>';
     return;
   }
+  rows=adminPageRows('users',rows);
   tbody.innerHTML = rows.map(u => {
     let fecha = u.created_at ? new Date(u.created_at).toLocaleDateString('es-CL') : '—';
     let estado = u.is_active
@@ -3045,8 +3069,9 @@ async function loadAdminPlans() {
 
 function renderAdminPlans() {
   let box=document.getElementById('adm-plans-grid'); if(!box)return;
+  renderAdminPager('plans',adminPlansCache.length);
   if(!adminPlansCache.length){box.innerHTML='<div class="tbl-empty">Aún no hay planes.</div>';return;}
-  box.innerHTML=adminPlansCache.map(p=>`<div style="border:1px solid var(--gray3);border-radius:var(--radius);padding:1rem;background:${p.is_active?'var(--white)':'var(--gray5)'}">
+  box.innerHTML=adminPageRows('plans',adminPlansCache).map(p=>`<div style="border:1px solid var(--gray3);border-radius:var(--radius);padding:1rem;background:${p.is_active?'var(--white)':'var(--gray5)'}">
     <div style="display:flex;justify-content:space-between;gap:.5rem"><strong>${escAdmin(p.name)}</strong><span class="tag ${p.is_active?'tag-g':'tag-r'}">${p.is_active?'Activo':'Oculto'}</span></div>
     <div style="font-size:1.35rem;font-weight:700;color:var(--brand);margin:.55rem 0">$${formatMiles(p.price_clp)} <small style="font-size:.72rem;color:var(--gray);font-weight:400">${p.is_lifetime?'· Indefinido':'/ '+p.duration_days+' días'}</small></div>
     <div style="font-size:.78rem;color:var(--gray);min-height:34px">${escAdmin(p.description||'Sin descripción')}</div>
@@ -3113,8 +3138,9 @@ function renderAdminBillingTable() {
     let unpaid=adminInvoicesCache.filter(i=>i.user_id===u.id&&['pending','overdue'].includes(i.status));
     return {u,s,p,unpaid,debt:unpaid.reduce((a,i)=>a+(i.amount_clp||0),0)};
   }).filter(x=>(!search||(x.u.name||'').toLowerCase().includes(search)||(x.u.email||'').toLowerCase().includes(search))&&(filter==='all'||(filter==='none'?!x.s:filter==='active'?x.s?.status==='active':filter==='past_due'?x.unpaid.length>0:x.s?.status===filter)));
+  renderAdminPager('billing',rows.length);
   if(!rows.length){tbody.innerHTML='<tr><td colspan="6" class="tbl-empty">Sin resultados</td></tr>';return;}
-  tbody.innerHTML=rows.map(({u,s,p,unpaid,debt})=>`<tr><td data-label="Cliente"><strong>${escAdmin(u.name||'Sin nombre')}</strong><br><small>${escAdmin(u.email)}</small></td>
+  tbody.innerHTML=adminPageRows('billing',rows).map(({u,s,p,unpaid,debt})=>`<tr><td data-label="Cliente"><strong>${escAdmin(u.name||'Sin nombre')}</strong><br><small>${escAdmin(u.email)}</small></td>
     <td data-label="Plan">${escAdmin(p?.name||'Sin plan')}<br><small>${s?billingStatusLabel(s.status):'No asignado'}</small></td>
     <td data-label="Vigencia">${s?(p?.is_lifetime?'Indefinida':`${new Date(s.starts_at+'T12:00:00').toLocaleDateString('es-CL')} — ${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}`):'—'}</td>
     <td data-label="Pago"><span class="tag ${unpaid.length?'tag-r':'tag-g'}">${unpaid.length?`${unpaid.length} pendiente${unpaid.length>1?'s':''}`:'Al día'}</span></td>
@@ -3180,7 +3206,7 @@ function openAdminBankSettings(){let s=commercialSettingsCache||{};['name','type
 async function saveAdminBankSettings(){try{await verifyCurrentAdminPassword(document.getElementById('adm-bank-password').value);let payload={id:1,bank_name:document.getElementById('adm-bank-name').value.trim(),account_type:document.getElementById('adm-bank-type').value.trim(),account_number:document.getElementById('adm-bank-number').value.trim(),account_holder:document.getElementById('adm-bank-holder').value.trim(),account_rut:document.getElementById('adm-bank-rut').value.trim(),account_email:document.getElementById('adm-bank-email').value.trim(),payment_instructions:document.getElementById('adm-bank-instructions').value.trim(),transfers_enabled:document.getElementById('adm-bank-enabled').checked,updated_by:currentUser.id,updated_at:new Date().toISOString()};const {error}=await supabaseClient.from('finsave_commercial_settings').upsert(payload);if(error)throw error;commercialSettingsCache=payload;renderAdminBankSummary();closeModal('mod-adm-bank');showToast('Cuenta de pago actualizada');}catch(e){setAdminBoxMessage('adm-bank-msg',e.message||'No se pudo guardar.','err');}}
 
 async function loadAdminPaymentRequests(){let box=document.getElementById('adm-payment-requests');if(!box)return;try{const {data,error}=await supabaseClient.from('finsave_payment_requests').select('*').order('created_at',{ascending:false});if(error)throw error;adminPaymentRequestsCache=data||[];renderAdminPaymentRequests();}catch(e){box.innerHTML='<div class="tbl-empty">Activa el módulo de transferencias en Supabase.</div>';}}
-function renderAdminPaymentRequests(){let box=document.getElementById('adm-payment-requests');if(!box)return;let pending=adminPaymentRequestsCache.filter(r=>r.status==='pending');if(!pending.length){box.innerHTML='<div class="tbl-empty">No hay pagos pendientes de revisión.</div>';return;}box.innerHTML=pending.map(r=>{let u=adminAccountsCache.find(x=>x.id===r.user_id);return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><strong>${escAdmin(u?.name||u?.email||'Cliente')}</strong> · $${formatMiles(r.amount_clp)}<br><small>${new Date(r.transfer_date+'T12:00:00').toLocaleDateString('es-CL')} · Ref. ${escAdmin(r.reference||'Sin referencia')}</small><div style="display:flex;gap:.4rem;margin-top:.5rem"><button class="btn btn-prim btn-sm" onclick="reviewAdminPaymentRequest('${r.id}',true)">Aprobar</button><button class="btn btn-danger btn-sm" onclick="reviewAdminPaymentRequest('${r.id}',false)">Rechazar</button>${r.receipt_path?`<button class="btn btn-outline btn-sm" onclick="openPaymentReceipt('${escAdmin(r.receipt_path)}')">Comprobante</button>`:''}</div></div>`}).join('');}
+function renderAdminPaymentRequests(){let box=document.getElementById('adm-payment-requests');if(!box)return;let pending=adminPaymentRequestsCache.filter(r=>r.status==='pending');renderAdminPager('payments',pending.length);if(!pending.length){box.innerHTML='<div class="tbl-empty">No hay pagos pendientes de revisión.</div>';return;}box.innerHTML=adminPageRows('payments',pending).map(r=>{let u=adminAccountsCache.find(x=>x.id===r.user_id);return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><strong>${escAdmin(u?.name||u?.email||'Cliente')}</strong> · $${formatMiles(r.amount_clp)}<br><small>${new Date(r.transfer_date+'T12:00:00').toLocaleDateString('es-CL')} · Ref. ${escAdmin(r.reference||'Sin referencia')}</small><div style="display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap"><button class="btn btn-prim btn-sm" onclick="reviewAdminPaymentRequest('${r.id}',true)">Aprobar</button><button class="btn btn-danger btn-sm" onclick="reviewAdminPaymentRequest('${r.id}',false)">Rechazar</button>${r.receipt_path?`<button class="btn btn-outline btn-sm" onclick="openPaymentReceipt('${escAdmin(r.receipt_path)}')">Comprobante</button>`:''}</div></div>`}).join('');}
 async function openPaymentReceipt(path){try{const {data,error}=await supabaseClient.storage.from('payment-receipts').createSignedUrl(path,120);if(error)throw error;window.open(data.signedUrl,'_blank','noopener');}catch(e){showToast('No se pudo abrir el comprobante','err');}}
 async function reviewAdminPaymentRequest(id,approve){let pass=prompt('Confirma tu contraseña de administrador:');if(!pass)return;try{await verifyCurrentAdminPassword(pass);if(approve){const {error}=await supabaseClient.rpc('approve_finsave_payment_request',{request_id:id,note:''});if(error)throw error;}else{const {error}=await supabaseClient.from('finsave_payment_requests').update({status:'rejected',reviewed_by:currentUser.id,reviewed_at:new Date().toISOString()}).eq('id',id);if(error)throw error;}showToast(approve?'Pago aprobado':'Pago rechazado');await Promise.all([loadAdminPaymentRequests(),loadAdminBilling()]);}catch(e){showToast(e.message||'No se pudo revisar','err');}}
 
@@ -3195,12 +3221,12 @@ function exportAdminBillingExcel(userId=''){
 
 async function loadAdminBillingProfiles(){try{const {data,error}=await supabaseClient.from('finsave_billing_profiles').select('*');if(error)throw error;adminBillingProfilesCache=data||[];renderAdminDteList();}catch(e){adminBillingProfilesCache=[];}}
 async function loadAdminPlanRequests(){let box=document.getElementById('adm-plan-requests');if(!box)return;try{const {data,error}=await supabaseClient.from('finsave_plan_change_requests').select('*').order('created_at',{ascending:false});if(error)throw error;adminPlanRequestsCache=data||[];renderAdminPlanRequests();}catch(e){box.innerHTML='<div class="tbl-empty">Activa las solicitudes comerciales en Supabase.</div>';}}
-function renderAdminPlanRequests(){let box=document.getElementById('adm-plan-requests');if(!box)return;let open=adminPlanRequestsCache.filter(r=>['pending_payment','payment_review','pending_approval'].includes(r.status));if(!open.length){box.innerHTML='<div class="tbl-empty">No hay solicitudes pendientes.</div>';return;}box.innerHTML=open.map(r=>{let u=adminAccountsCache.find(x=>x.id===r.user_id),p=adminPlansCache.find(x=>x.id===r.requested_plan_id),state=r.status==='pending_payment'?'Esperando pago':r.status==='payment_review'?'Revisar pago':'Pendiente de aprobación';return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><strong>${escAdmin(u?.name||u?.email||'Cliente')}</strong> → ${escAdmin(p?.name||'Plan')}<br><small>$${formatMiles(r.amount_clp)} · ${state} · ${r.payment_method==='transfer'?'Transferencia':'Pago automático'}</small><div style="display:flex;gap:.4rem;margin-top:.5rem">${r.status!=='pending_payment'?`<button class="btn btn-prim btn-sm" onclick="reviewAdminPlanRequest('${r.id}',true)">Aprobar</button>`:''}<button class="btn btn-danger btn-sm" onclick="reviewAdminPlanRequest('${r.id}',false)">Rechazar</button><button class="btn btn-outline btn-sm" onclick="openAdminBillingModal('${r.user_id}')">Ver cliente</button></div></div>`}).join('');}
+function renderAdminPlanRequests(){let box=document.getElementById('adm-plan-requests');if(!box)return;let open=adminPlanRequestsCache.filter(r=>['pending_payment','payment_review','pending_approval'].includes(r.status));renderAdminPager('planRequests',open.length);if(!open.length){box.innerHTML='<div class="tbl-empty">No hay solicitudes pendientes.</div>';return;}box.innerHTML=adminPageRows('planRequests',open).map(r=>{let u=adminAccountsCache.find(x=>x.id===r.user_id),p=adminPlansCache.find(x=>x.id===r.requested_plan_id),state=r.status==='pending_payment'?'Esperando pago':r.status==='payment_review'?'Revisar pago':'Pendiente de aprobación';return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><strong>${escAdmin(u?.name||u?.email||'Cliente')}</strong> → ${escAdmin(p?.name||'Plan')}<br><small>$${formatMiles(r.amount_clp)} · ${state} · ${r.payment_method==='transfer'?'Transferencia':'Pago automático'}</small><div style="display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap">${r.status!=='pending_payment'?`<button class="btn btn-prim btn-sm" onclick="reviewAdminPlanRequest('${r.id}',true)">Aprobar</button>`:''}<button class="btn btn-danger btn-sm" onclick="reviewAdminPlanRequest('${r.id}',false)">Rechazar</button><button class="btn btn-outline btn-sm" onclick="openAdminBillingModal('${r.user_id}')">Ver cliente</button></div></div>`}).join('');}
 async function reviewAdminPlanRequest(id,approve){let pass=prompt('Confirma tu contraseña de administrador:');if(!pass)return;try{await verifyCurrentAdminPassword(pass);const {error}=await supabaseClient.rpc('review_finsave_plan_request',{request_id:id,approve,note:''});if(error)throw error;showToast(approve?'Cambio de plan aprobado':'Solicitud rechazada');await Promise.all([loadAdminPlanRequests(),loadAdminBilling()]);}catch(e){showToast(e.message||'No se pudo revisar','err');}}
 
-function setAdminDteTab(tab){adminDteTab=tab;renderAdminDteList();}
+function setAdminDteTab(tab){adminDteTab=tab;resetAdminPager('dte');renderAdminDteList();}
 function dteLabel(i){return i.dte_status==='issued'?'Facturado':i.dte_status==='void'?'Anulado':'Por facturar';}
-function renderAdminDteList(){let box=document.getElementById('adm-dte-list');if(!box)return;let list=adminInvoicesCache.filter(i=>(i.dte_status||'pending')===adminDteTab);if(!list.length){box.innerHTML='<div class="tbl-empty">No hay documentos en esta categoría.</div>';return;}box.innerHTML=list.map(i=>{let u=adminAccountsCache.find(x=>x.id===i.user_id),bp=adminBillingProfilesCache.find(x=>x.user_id===i.user_id);return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><div style="display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap"><div><strong>#${i.invoice_number} · ${escAdmin(u?.name||u?.email||'Cliente')}</strong><br><small>${escAdmin(bp?.rut||'RUT pendiente')} · $${formatMiles(i.amount_clp)} · ${new Date(i.period_start+'T12:00:00').toLocaleDateString('es-CL')}</small></div><span class="tag ${adminDteTab==='issued'?'tag-g':'tag-r'}">${dteLabel(i)}</span></div><div style="display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap">${adminDteTab==='pending'?`<button class="btn btn-prim btn-sm" onclick="openAdminDteModal('${i.id}')">Registrar DTE</button>`:''}${adminDteTab==='issued'?`<button class="btn btn-danger btn-sm" onclick="voidAdminDte('${i.id}')">Anular</button>`:''}<button class="btn btn-outline btn-sm" onclick="openBillingProfileModal('${i.user_id}')">Datos cliente</button></div></div>`}).join('');}
+function renderAdminDteList(){let box=document.getElementById('adm-dte-list');if(!box)return;let list=adminInvoicesCache.filter(i=>(i.dte_status||'pending')===adminDteTab);renderAdminPager('dte',list.length);if(!list.length){box.innerHTML='<div class="tbl-empty">No hay documentos en esta categoría.</div>';return;}box.innerHTML=adminPageRows('dte',list).map(i=>{let u=adminAccountsCache.find(x=>x.id===i.user_id),bp=adminBillingProfilesCache.find(x=>x.user_id===i.user_id);return `<div style="padding:.75rem;border-bottom:1px solid var(--gray3)"><div style="display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap"><div><strong>#${i.invoice_number} · ${escAdmin(u?.name||u?.email||'Cliente')}</strong><br><small>${escAdmin(bp?.rut||'RUT pendiente')} · $${formatMiles(i.amount_clp)} · ${new Date(i.period_start+'T12:00:00').toLocaleDateString('es-CL')}</small></div><span class="tag ${adminDteTab==='issued'?'tag-g':'tag-r'}">${dteLabel(i)}</span></div><div style="display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap">${adminDteTab==='pending'?`<button class="btn btn-prim btn-sm" onclick="openAdminDteModal('${i.id}')">Registrar DTE</button>`:''}${adminDteTab==='issued'?`<button class="btn btn-danger btn-sm" onclick="voidAdminDte('${i.id}')">Anular</button>`:''}<button class="btn btn-outline btn-sm" onclick="openBillingProfileModal('${i.user_id}')">Datos cliente</button></div></div>`}).join('');}
 function openAdminDteModal(id){let i=adminInvoicesCache.find(x=>x.id===id);if(!i)return;let bp=adminBillingProfilesCache.find(x=>x.user_id===i.user_id);document.getElementById('adm-dte-invoice-id').value=id;document.getElementById('adm-dte-type').value=bp?.document_preference==='factura'?'33':bp?.document_preference==='exenta'?'34':'39';document.getElementById('adm-dte-folio').value=i.sii_folio||'';document.getElementById('adm-dte-issued').value=new Date().toISOString().slice(0,10);document.getElementById('adm-dte-password').value='';document.getElementById('adm-dte-pdf').value='';document.getElementById('adm-dte-xml').value='';document.getElementById('adm-dte-msg').style.display='none';openModal('mod-adm-dte');}
 async function uploadDteFile(file,userId,kind){if(!file)return null;if(file.size>10485760)throw new Error('El archivo supera 10 MB.');let safe=file.name.replace(/[^a-z0-9._-]/gi,'_'),path=`${userId}/${Date.now()}-${kind}-${safe}`;const {error}=await supabaseClient.storage.from('dte-files').upload(path,file);if(error)throw error;return path;}
 async function saveAdminDteRecord(){let id=document.getElementById('adm-dte-invoice-id').value,i=adminInvoicesCache.find(x=>x.id===id),folio=parseInt(document.getElementById('adm-dte-folio').value)||0;if(!i||!folio){setAdminBoxMessage('adm-dte-msg','Ingresa un folio válido.','err');return;}try{await verifyCurrentAdminPassword(document.getElementById('adm-dte-password').value);setAdminBoxMessage('adm-dte-msg','Guardando documento tributario...');let pdf=await uploadDteFile(document.getElementById('adm-dte-pdf').files[0],i.user_id,'pdf'),xml=await uploadDteFile(document.getElementById('adm-dte-xml').files[0],i.user_id,'xml');let payload={dte_status:'issued',dte_type:parseInt(document.getElementById('adm-dte-type').value),sii_folio:folio,issued_at:document.getElementById('adm-dte-issued').value+'T12:00:00Z'};if(pdf)payload.dte_pdf_path=pdf;if(xml)payload.dte_xml_path=xml;const {error}=await supabaseClient.from('finsave_invoices').update(payload).eq('id',id);if(error)throw error;closeModal('mod-adm-dte');showToast('DTE registrado');await loadAdminBilling();}catch(e){setAdminBoxMessage('adm-dte-msg',e.message||'No se pudo registrar.','err');}}
@@ -3218,20 +3244,21 @@ async function loadAdminAdminsList() {
       .select('email, added_by, created_at')
       .order('created_at', { ascending: true });
     if (error) throw error;
-    renderAdminAdminsList(data || []);
+    adminAdminsCache=data||[];renderAdminAdminsList();
   } catch(e) {
     box.innerHTML = '<div style="color:var(--danger);font-size:.85rem">No se pudo cargar la lista de administradores.</div>';
   }
 }
 
-function renderAdminAdminsList(list) {
+function renderAdminAdminsList() {
   let box = document.getElementById('adm-admins-list');
   if (!box) return;
+  let list=adminAdminsCache;renderAdminPager('admins',list.length);
   if (!list.length) {
     box.innerHTML = '<div style="color:var(--gray);font-size:.85rem">Sin administradores.</div>';
     return;
   }
-  box.innerHTML = list.map(a => {
+  box.innerHTML = adminPageRows('admins',list).map(a => {
     let esPrincipal = (a.email || '').toLowerCase() === PRIMARY_ADMIN_EMAIL;
     let accion = esPrincipal
       ? '<span class="tag tag-p">👑 Principal</span>'
