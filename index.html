@@ -438,7 +438,7 @@ tr:last-child td{border-bottom:none}
 }
 @media(min-width:640px){
   .kpi-grid{grid-template-columns:repeat(4,1fr)}
-  .g2{display:grid;grid-template-columns:1fr 1fr;flex-direction:row;gap:1.25rem}
+  .g2{display:grid;grid-template-columns:1fr 1fr;flex-direction:row;gap:1.25rem;align-items:start}
   .g3{grid-template-columns:repeat(3,1fr);flex-direction:row}
   .form-row{grid-template-columns:1fr 1fr;flex-direction:row;gap:.75rem}
   .modal{border-radius:18px;max-width:480px;align-self:center}
@@ -4877,7 +4877,7 @@ function renderResumen() {
     window.chartCatsRef = new Chart(ctx1, {
       type:'doughnut',
       data:{ labels, datasets:[{ data:values, backgroundColor:['#10B981','#10B981','#3b82f6','#7c3aed','#f59e0b','#ef4444','#ec4899','#14b8a6','#6b7280','#f97316','#84cc16'] }] },
-      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, position:'bottom', labels:{ font:{ family:'Sora', size:11 }, padding:10 } } } }
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, position:'bottom', labels:{ font:{ family:'Questrial', size:11 }, padding:10 } } } }
     });
   }
 
