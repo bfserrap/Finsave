@@ -213,6 +213,8 @@ tr:last-child td{border-bottom:none}
 .admin-pager{display:flex;align-items:center;justify-content:space-between;gap:.65rem;flex-wrap:wrap;padding-top:.75rem;margin-top:.35rem;border-top:1px solid var(--gray3);font-size:.78rem;color:var(--gray)}
 .admin-pager-controls{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}.admin-pager select{min-height:36px;padding:.35rem .55rem;border:1px solid var(--gray3);border-radius:10px;background:var(--white);font-family:inherit}.admin-pager .btn{min-height:36px;padding:.35rem .65rem}
 .admin-commercial-columns{display:grid;grid-template-columns:1fr;gap:1.25rem;margin-bottom:1rem}.admin-commercial-column{display:flex;flex-direction:column;gap:1.25rem;min-width:0}.admin-commercial-column>.card{margin:0}.admin-compact-list{max-height:none!important;overflow:visible!important}.admin-compact-list .tbl-empty{padding:1.25rem .75rem}
+.admin-area-tabs{display:flex;gap:.55rem;overflow-x:auto;scrollbar-width:none;padding:.25rem .15rem .85rem;margin:0 0 1rem}.admin-area-tabs::-webkit-scrollbar{display:none}.admin-area-tab{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:42px;padding:.62rem .9rem;border:1px solid var(--gray3);border-radius:999px;background:#fff;color:var(--gray);font:700 .79rem var(--font);white-space:nowrap;cursor:pointer;transition:.2s ease}.admin-area-tab:hover{border-color:var(--brand4);color:var(--brand);transform:translateY(-1px)}.admin-area-tab.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 8px 18px rgba(5,150,105,.18)}
+.admin-area-panel{display:none}.admin-area-panel.active{display:block;animation:fs-enter .28s both}.admin-section-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;padding:.2rem .1rem}.admin-section-intro h2{font-family:var(--font-brand);font-size:1.1rem;margin:0 0 .2rem}.admin-section-intro p{font-size:.8rem;color:var(--gray);margin:0;line-height:1.45}.admin-toolbar{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;min-width:0}.admin-cell-value{min-width:0;text-align:left;overflow-wrap:anywhere}.admin-cell-value small{display:block;color:var(--gray);margin-top:.15rem;line-height:1.35}
 .plan-change-card{padding:.9rem;border:1px solid var(--gray3);border-radius:var(--radius-sm);background:linear-gradient(135deg,#fff 0%,#f5fbf8 100%);margin-bottom:.65rem}.plan-change-route{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin:.55rem 0}.plan-change-route strong{font-size:.98rem}.plan-change-arrow{color:var(--brand);font-weight:800}.plan-change-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin:.65rem 0}.plan-change-meta>div{padding:.55rem;background:rgba(255,255,255,.8);border:1px solid var(--gray4);border-radius:10px;font-size:.75rem;color:var(--gray)}.plan-change-meta strong{display:block;color:var(--dark);font-size:.82rem;margin-top:.12rem}.plan-change-steps{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;margin:.7rem 0}.plan-step{font-size:.69rem;padding:.3rem .5rem;border-radius:99px;background:var(--gray4);color:var(--gray)}.plan-step.done{background:var(--green-bg);color:var(--green-dark)}.plan-step.current{background:#fff7ed;color:#9a3412;font-weight:700}
 .tag{display:inline-flex;align-items:center;padding:.25rem .65rem;border-radius:99px;font-size:.72rem;font-weight:700;gap:.3rem;white-space:nowrap}
 .tag-g{background:var(--green-bg);color:var(--green-dark)}
@@ -473,11 +475,14 @@ tr:last-child td{border-bottom:none}
   .admin-pager-controls>span{text-align:center;white-space:nowrap;font-size:.74rem}
   .admin-pager select{width:58px;min-width:58px;padding:.3rem}
   .admin-commercial-columns{gap:.85rem}.admin-commercial-column{gap:.85rem}.plan-change-meta{grid-template-columns:1fr}.plan-change-card .btn{flex:0 1 auto}
-  #page-admin .tbl-cards td{align-items:flex-start;min-width:0}
-  #page-admin .tbl-cards td:not([data-label="Acción"]){overflow-wrap:anywhere;word-break:break-word}
-  #page-admin .tbl-cards td[data-label="Acción"]{display:grid;grid-template-columns:82px minmax(0,1fr);text-align:left}
-  #page-admin .admin-row-actions{display:flex;gap:.35rem;flex-wrap:wrap;justify-content:flex-start;min-width:0}
-  #page-admin .admin-row-actions .btn{min-height:36px;min-width:0;padding:.42rem .62rem;font-size:.72rem;line-height:1.15;box-shadow:none;flex:0 1 auto}
+  #page-admin .tbl-cards tbody tr{display:grid;gap:.7rem;padding:1rem;border-radius:16px;background:#fff;box-shadow:0 5px 14px rgba(15,23,42,.035)}
+  #page-admin .tbl-cards td{display:grid;grid-template-columns:84px minmax(0,1fr);align-items:start;justify-content:stretch;gap:.75rem;width:100%;min-width:0;padding:0;border:none;text-align:left;overflow:hidden}
+  #page-admin .tbl-cards td::before{white-space:nowrap;line-height:1.45;padding-top:.05rem}
+  #page-admin .tbl-cards td:not([data-label="Acción"]){overflow-wrap:normal;word-break:normal}
+  #page-admin .tbl-cards td[data-label="Acción"]{grid-template-columns:84px minmax(0,1fr)}
+  #page-admin .admin-row-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem;width:100%;min-width:0}
+  #page-admin .admin-row-actions .btn{min-height:38px;width:100%;min-width:0;padding:.42rem .48rem;font-size:.7rem;line-height:1.15;box-shadow:none;white-space:normal}
+  #page-admin .admin-row-actions .btn:last-child:nth-child(odd){grid-column:1/-1}
   #page-admin .admin-row-actions .btn-prim{box-shadow:0 5px 12px rgba(5,150,105,.13)}
 }
 @media(max-width:400px){
@@ -590,9 +595,24 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
   .hero{padding-top:3.2rem}
   #page-admin .card-head{align-items:flex-start;gap:.75rem}
   #page-admin .card-head>div:last-child{width:100%}
-  #page-admin .card-head input,#page-admin .card-head select,#page-admin .card-head button{width:100%;max-width:none!important}
+  #page-admin .card{padding:1rem;margin-bottom:.85rem}
+  #page-admin .admin-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:.45rem}
+  #page-admin .admin-toolbar input{grid-column:1/-1;width:100%;max-width:none!important}
+  #page-admin .admin-toolbar select,#page-admin .admin-toolbar button{width:100%;max-width:none!important;min-width:0;min-height:40px;padding:.5rem .55rem;font-size:.74rem}
+  #page-admin .admin-area-tabs{position:sticky;top:calc(var(--top-h) + env(safe-area-inset-top) + .25rem);z-index:35;margin:0 -.2rem .85rem;padding:.4rem .2rem .7rem;background:linear-gradient(#F8FAF9 76%,rgba(248,250,249,0));backdrop-filter:blur(8px)}
+  #page-admin .admin-area-tab{min-height:38px;padding:.52rem .72rem;font-size:.73rem}
+  #page-admin .admin-section-intro{margin-bottom:.7rem}
   #mod-adm-billing .modal,#mod-adm-support .modal{padding:1rem;max-height:94vh}
   #adm-bill-invoices>div{align-items:flex-start!important;flex-direction:column}
+  #mod-adm-dte{padding:max(.55rem,env(safe-area-inset-top)) .55rem max(.55rem,env(safe-area-inset-bottom));align-items:center}
+  #mod-adm-dte .modal{width:100%;max-width:100%!important;max-height:calc(100dvh - 1.1rem);padding:1rem;border-radius:20px;overflow-x:hidden}
+  #mod-adm-dte .modal-head{margin-bottom:.75rem}#mod-adm-dte .modal-title{font-size:1.02rem;line-height:1.25}#mod-adm-dte .modal-close{width:38px;height:38px;flex:0 0 38px}
+  #mod-adm-dte #adm-dte-decision{padding:.65rem;font-size:.73rem!important;line-height:1.42!important;margin-bottom:.7rem!important}
+  #mod-adm-dte .form-row{gap:0}#mod-adm-dte .fg{margin-bottom:.72rem}#mod-adm-dte .fg label{font-size:.72rem;margin-bottom:.32rem}
+  #mod-adm-dte input,#mod-adm-dte select{width:100%;max-width:100%!important;min-height:42px;padding:.52rem .65rem;font-size:.8rem}
+  #mod-adm-dte input[type="file"]{font-size:.68rem;padding:.38rem;overflow:hidden;color:var(--gray)}
+  #mod-adm-dte input[type="file"]::file-selector-button{border:0;border-radius:8px;padding:.42rem .52rem;margin-right:.4rem;font:700 .66rem var(--font);color:var(--dark);background:var(--gray4)}
+  #mod-adm-dte .btn-full{min-height:44px;padding:.65rem;font-size:.8rem;position:sticky;bottom:-1rem;margin-bottom:-.1rem}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 @media (max-width:900px){
@@ -1273,12 +1293,25 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div><div class="pg-title">🛠️ Panel de Administrador</div><div class="pg-sub">Gestiona cuentas y resuelve solicitudes de soporte desde un solo lugar</div></div>
   </div>
 
-  <div id="adm-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1rem"></div>
+  <nav class="admin-area-tabs" aria-label="Secciones del panel de administrador">
+    <button class="admin-area-tab active" data-admin-area="overview" onclick="setAdminArea('overview')">📊 Resumen</button>
+    <button class="admin-area-tab" data-admin-area="users" onclick="setAdminArea('users')">👥 Usuarios</button>
+    <button class="admin-area-tab" data-admin-area="commercial" onclick="setAdminArea('commercial')">💎 Planes y clientes</button>
+    <button class="admin-area-tab" data-admin-area="payments" onclick="setAdminArea('payments')">💳 Pagos y SII</button>
+    <button class="admin-area-tab" data-admin-area="settings" onclick="setAdminArea('settings')">⚙️ Configuración</button>
+  </nav>
 
+  <section class="admin-area-panel active" data-admin-panel="overview">
+    <div class="admin-section-intro"><div><h2>Resumen comercial</h2><p>Una vista rápida del estado de clientes, cobros y solicitudes pendientes.</p></div></div>
+    <div id="adm-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1rem"></div>
+  </section>
+
+  <section class="admin-area-panel" data-admin-panel="users">
+  <div class="admin-section-intro"><div><h2>Usuarios y soporte</h2><p>Busca cuentas, revisa su estado y entra al perfil de soporte sin mezclarlo con la cobranza.</p></div></div>
   <div class="card">
     <div class="card-head">
       <div><div class="card-title">Cuentas de Usuarios</div><div class="card-sub">Selecciona “Dar soporte” para revisar y ayudar a una persona</div></div>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <div class="admin-toolbar">
         <input type="text" id="adm-user-search" placeholder="Buscar correo o nombre..." oninput="resetAdminPager('users');renderAdminUsersTable()" style="max-width:210px;padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem">
         <select id="adm-user-status" onchange="resetAdminPager('users');renderAdminUsersTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:.85rem;background:var(--white)"><option value="all">Todas</option><option value="active">Activas</option><option value="inactive">Desactivadas</option></select>
         <button class="btn btn-sm btn-outline" onclick="loadAdminUsersTable()">↻ Actualizar</button>
@@ -1293,7 +1326,10 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div id="adm-users-pager"></div>
     <div style="font-size:.78rem;color:var(--gray2);margin-top:.5rem">Desactivar bloquea temporalmente el acceso y conserva la información. Las acciones sensibles siempre requieren confirmación.</div>
   </div>
+  </section>
 
+  <section class="admin-area-panel" data-admin-panel="commercial">
+  <div class="admin-section-intro"><div><h2>Planes y clientes</h2><p>Administra la oferta comercial y la suscripción vigente de cada cliente.</p></div></div>
   <div class="card">
     <div class="card-head">
       <div><div class="card-title">💎 Planes comerciales</div><div class="card-sub">Define nombre, valor, duración y disponibilidad de cada plan</div></div>
@@ -1306,7 +1342,7 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
   <div class="card">
     <div class="card-head">
       <div><div class="card-title">🧾 Suscripciones y cobranza</div><div class="card-sub">Planes por cliente, vigencias, facturas, pagos y morosidad</div></div>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <div class="admin-toolbar">
         <input id="adm-billing-search" placeholder="Buscar nombre o correo..." oninput="resetAdminPager('billing');renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);max-width:210px">
         <select id="adm-billing-status" onchange="resetAdminPager('billing');renderAdminBillingTable()" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los estados</option><option value="active">Al día</option><option value="past_due">Con deuda</option><option value="none">Sin plan</option></select>
         <select id="adm-billing-year" style="padding:.55rem .8rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);background:var(--white)"><option value="all">Todos los años</option></select>
@@ -1317,13 +1353,12 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div class="tbl-wrap"><table class="tbl-cards"><thead><tr><th>Cliente</th><th>Plan</th><th>Vigencia</th><th>Pago</th><th>Deuda</th><th>Acción</th></tr></thead><tbody id="adm-billing-tbody"><tr><td colspan="6" class="tbl-empty">Cargando...</td></tr></tbody></table></div>
     <div id="adm-billing-pager"></div>
   </div>
+  </section>
 
+  <section class="admin-area-panel" data-admin-panel="payments">
+  <div class="admin-section-intro"><div><h2>Pagos, solicitudes y SII</h2><p>Revisa el camino completo desde una solicitud de plan hasta su pago y documento tributario.</p></div></div>
   <div class="admin-commercial-columns">
     <div class="admin-commercial-column">
-    <div class="card">
-      <div class="card-head"><div><div class="card-title">🏦 Cuenta de pago Finsave</div><div class="card-sub">Datos visibles para clientes que pagan por transferencia</div></div><button class="btn btn-outline btn-sm" onclick="openAdminBankSettings()">✏️ Configurar</button></div>
-      <div id="adm-bank-summary" style="font-size:.84rem;color:var(--gray)">Cargando configuración...</div>
-    </div>
     <div class="card">
       <div class="card-head"><div><div class="card-title">🔄 Cambios de plan</div><div class="card-sub">Solicitudes pendientes y revisión comercial</div></div></div>
       <div id="adm-plan-requests" class="admin-compact-list"><div class="tbl-empty">Cargando...</div></div>
@@ -1348,7 +1383,18 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     </div>
     </div>
   </div>
+  </section>
 
+  <section class="admin-area-panel" data-admin-panel="settings">
+  <div class="admin-section-intro"><div><h2>Configuración y accesos</h2><p>Datos bancarios visibles para clientes y control de administradores autorizados.</p></div></div>
+  <div class="admin-commercial-columns">
+    <div class="admin-commercial-column">
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">🏦 Cuenta de pago Finsave</div><div class="card-sub">Datos visibles para clientes que pagan por transferencia</div></div><button class="btn btn-outline btn-sm" onclick="openAdminBankSettings()">✏️ Configurar</button></div>
+        <div id="adm-bank-summary" style="font-size:.84rem;color:var(--gray)">Cargando configuración...</div>
+      </div>
+    </div>
+    <div class="admin-commercial-column">
   <div class="card">
     <div class="card-head">
       <div><div class="card-title">Administradores</div><div class="card-sub">Correos con acceso a este panel</div></div>
@@ -1360,6 +1406,9 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       <button class="btn btn-prim btn-sm" onclick="addAdminEmail()">＋ Agregar</button>
     </div>
   </div>
+    </div>
+  </div>
+  </section>
 </div>
 
   </div></div>
@@ -1831,6 +1880,13 @@ let regFormShownAt = 0;
 function resetAdminPager(key){if(adminPagerState[key])adminPagerState[key].page=1;}
 function adminPageRows(key,rows){let s=adminPagerState[key],pages=Math.max(1,Math.ceil(rows.length/s.size));s.page=Math.min(Math.max(1,s.page),pages);return rows.slice((s.page-1)*s.size,s.page*s.size);}
 function renderAdminPagedSection(key){({users:renderAdminUsersTable,plans:renderAdminPlans,billing:renderAdminBillingTable,payments:renderAdminPaymentRequests,planRequests:renderAdminPlanRequests,dte:renderAdminDteList,admins:renderAdminAdminsList}[key]||(()=>{}))();}
+function setAdminArea(area){
+  const valid=['overview','users','commercial','payments','settings'];
+  if(!valid.includes(area))area='overview';
+  document.querySelectorAll('[data-admin-area]').forEach(btn=>btn.classList.toggle('active',btn.dataset.adminArea===area));
+  document.querySelectorAll('[data-admin-panel]').forEach(panel=>panel.classList.toggle('active',panel.dataset.adminPanel===area));
+  try{sessionStorage.setItem('finsaveAdminArea',area);}catch(_e){}
+}
 function setAdminPageSize(key,size){adminPagerState[key].size=Number(size);adminPagerState[key].page=1;renderAdminPagedSection(key);}
 function setAdminPage(key,page){adminPagerState[key].page=Number(page);renderAdminPagedSection(key);}
 function renderAdminPager(key,total){let target=document.getElementById({users:'adm-users-pager',plans:'adm-plans-pager',billing:'adm-billing-pager',payments:'adm-payment-requests-pager',planRequests:'adm-plan-requests-pager',dte:'adm-dte-pager',admins:'adm-admins-pager'}[key]);if(!target)return;let s=adminPagerState[key],pages=Math.max(1,Math.ceil(total/s.size));s.page=Math.min(s.page,pages);target.innerHTML=`<div class="admin-pager"><span>${total?`${(s.page-1)*s.size+1}–${Math.min(s.page*s.size,total)} de ${total}`:'0 registros'}</span><div class="admin-pager-controls"><label>Ver <select onchange="setAdminPageSize('${key}',this.value)">${[5,10,20,30].map(n=>`<option value="${n}" ${s.size===n?'selected':''}>${n}</option>`).join('')}</select></label><button class="btn btn-outline btn-sm" onclick="setAdminPage('${key}',${s.page-1})" ${s.page<=1?'disabled':''}>←</button><span>Página ${s.page} de ${pages}</span><button class="btn btn-outline btn-sm" onclick="setAdminPage('${key}',${s.page+1})" ${s.page>=pages?'disabled':''}>→</button></div></div>`;}
@@ -2305,6 +2361,9 @@ function updateAvatarUI() {
     let open = document.querySelector('.modal-over:not(.hidden)');
     if (open) closeModal(open.id);
   });
+  let savedAdminArea='overview';
+  try{savedAdminArea=sessionStorage.getItem('finsaveAdminArea')||'overview';}catch(_e){}
+  setAdminArea(savedAdminArea);
 });
 document.addEventListener('DOMContentLoaded', async function() {
   initDatabaseEngine();
@@ -2772,11 +2831,11 @@ let esYo = currentUser && u.id === currentUser.id;
            <button class="btn btn-sm btn-ghost" style="color:var(--danger);border-color:#fecaca" onclick="openAdminDeleteModal('${u.id}','${escAdmin(u.email)}')">Eliminar</button>
          </div>`;
     return `<tr>
-      <td data-label="Correo">${escAdmin(u.email)}</td>
-      <td data-label="Nombre">${escAdmin(u.name || '—')}</td>
-      <td data-label="Registrado">${fecha}</td>
-      <td data-label="Estado">${estado}</td>
-      <td data-label="Acción">${acciones}</td>
+      <td data-label="Correo"><div class="admin-cell-value">${escAdmin(u.email)}</div></td>
+      <td data-label="Nombre"><div class="admin-cell-value">${escAdmin(u.name || '—')}</div></td>
+      <td data-label="Registrado"><div class="admin-cell-value">${fecha}</div></td>
+      <td data-label="Estado"><div class="admin-cell-value">${estado}</div></td>
+      <td data-label="Acción"><div class="admin-cell-value">${acciones}</div></td>
     </tr>`;
   }).join('');
 }
@@ -3160,12 +3219,12 @@ function renderAdminBillingTable() {
   }).filter(x=>(!search||(x.u.name||'').toLowerCase().includes(search)||(x.u.email||'').toLowerCase().includes(search))&&(filter==='all'||(filter==='none'?!x.s:filter==='active'?x.s?.status==='active':filter==='past_due'?x.unpaid.length>0:x.s?.status===filter)));
   renderAdminPager('billing',rows.length);
   if(!rows.length){tbody.innerHTML='<tr><td colspan="6" class="tbl-empty">Sin resultados</td></tr>';return;}
-  tbody.innerHTML=adminPageRows('billing',rows).map(({u,s,p,unpaid,debt})=>{let grace=hasCommercialAccessGrace(u.id);return `<tr><td data-label="Cliente"><strong>${escAdmin(u.name||'Sin nombre')}</strong><br><small>${escAdmin(u.email)}</small></td>
-    <td data-label="Plan">${escAdmin(p?.name||'Sin plan')}<br><small>${s?billingStatusLabel(s.status):'No asignado'}</small></td>
-    <td data-label="Vigencia">${s?(p?.is_lifetime?'Indefinida':`${new Date(s.starts_at+'T12:00:00').toLocaleDateString('es-CL')} — ${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}`):'—'}</td>
-    <td data-label="Pago"><span class="tag ${grace?'tag-a':unpaid.length?'tag-r':'tag-g'}">${grace?'En revisión · acceso activo':unpaid.length?`${unpaid.length} pendiente${unpaid.length>1?'s':''}`:'Al día'}</span></td>
-    <td data-label="Deuda"><strong style="color:${debt?'var(--danger)':'var(--brand)'}">$${formatMiles(debt)}</strong></td>
-    <td data-label="Acción"><div class="admin-row-actions"><button class="btn btn-prim btn-sm" onclick="openAdminBillingModal('${u.id}')">Gestionar</button><button class="btn btn-outline btn-sm" onclick="exportAdminBillingExcel('${u.id}')">Excel</button><button class="btn btn-ghost btn-sm" onclick="openAdminSupportModal('${u.id}')">Perfil</button></div></td></tr>`;}).join('');
+  tbody.innerHTML=adminPageRows('billing',rows).map(({u,s,p,unpaid,debt})=>{let grace=hasCommercialAccessGrace(u.id);return `<tr><td data-label="Cliente"><div class="admin-cell-value"><strong>${escAdmin(u.name||'Sin nombre')}</strong><small>${escAdmin(u.email)}</small></div></td>
+    <td data-label="Plan"><div class="admin-cell-value">${escAdmin(p?.name||'Sin plan')}<small>${s?billingStatusLabel(s.status):'No asignado'}</small></div></td>
+    <td data-label="Vigencia"><div class="admin-cell-value">${s?(p?.is_lifetime?'Indefinida':`${new Date(s.starts_at+'T12:00:00').toLocaleDateString('es-CL')} — ${new Date(s.ends_at+'T12:00:00').toLocaleDateString('es-CL')}`):'—'}</div></td>
+    <td data-label="Pago"><div class="admin-cell-value"><span class="tag ${grace?'tag-a':unpaid.length?'tag-r':'tag-g'}">${grace?'En revisión · acceso activo':unpaid.length?`${unpaid.length} pendiente${unpaid.length>1?'s':''}`:'Al día'}</span></div></td>
+    <td data-label="Deuda"><div class="admin-cell-value"><strong style="color:${debt?'var(--danger)':'var(--brand)'}">$${formatMiles(debt)}</strong></div></td>
+    <td data-label="Acción"><div class="admin-cell-value"><div class="admin-row-actions"><button class="btn btn-prim btn-sm" onclick="openAdminBillingModal('${u.id}')">Gestionar</button><button class="btn btn-outline btn-sm" onclick="exportAdminBillingExcel('${u.id}')">Excel</button><button class="btn btn-ghost btn-sm" onclick="openAdminSupportModal('${u.id}')">Perfil</button></div></div></td></tr>`;}).join('');
 }
 
 function populateAdminBillingYears(){let s=document.getElementById('adm-billing-year');if(!s)return;let keep=s.value;let years=[...new Set(adminInvoicesCache.map(i=>String(i.period_start||'').slice(0,4)).filter(Boolean))].sort().reverse();s.innerHTML='<option value="all">Todos los años</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');if(years.includes(keep))s.value=keep;}
