@@ -64,6 +64,8 @@ img{max-width:100%;display:block}
 .support-bar{display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.5rem 1rem;background:var(--brand3);color:var(--brand-dark);font-size:.78rem;text-align:center;line-height:1.4}
 .support-bar a{color:var(--brand-dark);font-weight:600;text-decoration:underline;text-underline-offset:2px}
 .support-bar-app{border-bottom:1px solid var(--gray4);margin:-1rem -1rem 1.5rem -1rem} 
+.support-chat-launch{position:fixed;right:22px;bottom:22px;z-index:180;width:56px;height:56px;border:0;border-radius:18px;background:linear-gradient(135deg,var(--brand2),#10B981);color:#fff;font-size:1.35rem;cursor:pointer;box-shadow:0 14px 30px rgba(5,150,105,.3);transition:transform .25s var(--ease-spring),box-shadow .25s}.support-chat-launch:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 34px rgba(5,150,105,.38)}.support-chat-badge{position:absolute;right:-4px;top:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:99px;background:var(--danger);color:#fff;border:2px solid #fff;font:700 .67rem var(--font);display:none;align-items:center;justify-content:center}
+.support-chat-panel{position:fixed;right:22px;bottom:88px;z-index:179;width:min(370px,calc(100vw - 32px));height:min(570px,calc(100dvh - 130px));display:flex;flex-direction:column;background:#fff;border:1px solid #DDE8E3;border-radius:22px;box-shadow:0 24px 60px rgba(15,23,42,.2);overflow:hidden;animation:fs-modal-in .25s var(--ease-spring)}.support-chat-head{padding:1rem;background:linear-gradient(135deg,#047857,#10B981);color:#fff;display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem}.support-chat-title{font:700 1rem var(--font-brand)}.support-chat-hours{font-size:.7rem;opacity:.88;margin-top:.2rem}.support-chat-close{width:32px;height:32px;border:0;border-radius:10px;background:rgba(255,255,255,.16);color:#fff;cursor:pointer}.support-chat-status{display:flex;align-items:center;gap:.45rem;padding:.62rem .85rem;background:#F4FAF7;border-bottom:1px solid var(--gray4);font-size:.72rem;color:var(--gray)}.support-chat-dot{width:8px;height:8px;border-radius:50%;background:var(--gray2)}.support-chat-status.online .support-chat-dot{background:#10B981;box-shadow:0 0 0 4px rgba(16,185,129,.12)}.support-chat-messages{flex:1;overflow-y:auto;padding:.9rem;background:#F8FAF9;display:flex;flex-direction:column;gap:.55rem}.support-chat-empty{text-align:center;color:var(--gray);font-size:.78rem;line-height:1.55;margin:auto;padding:1rem}.support-msg{max-width:84%;padding:.62rem .75rem;border-radius:15px;font-size:.78rem;line-height:1.45;overflow-wrap:anywhere}.support-msg.user{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:5px}.support-msg.admin{align-self:flex-start;background:#fff;color:var(--dark);border:1px solid var(--gray3);border-bottom-left-radius:5px}.support-msg-time{font-size:.62rem;opacity:.68;margin-top:.25rem}.support-chat-compose{padding:.75rem;border-top:1px solid var(--gray3);background:#fff}.support-chat-compose-row{display:grid;grid-template-columns:minmax(0,1fr) 42px;gap:.45rem}.support-chat-compose textarea{min-height:42px;max-height:96px;resize:none;padding:.62rem .7rem;border:1.5px solid var(--gray3);border-radius:12px;font:400 .78rem var(--font)}.support-chat-send{border:0;border-radius:12px;background:var(--brand);color:#fff;font-size:1rem;cursor:pointer}.support-chat-note{font-size:.64rem;color:var(--gray2);margin-top:.4rem;line-height:1.35}.support-inbox-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.75rem;align-items:center;padding:.8rem 0;border-bottom:1px solid var(--gray4)}.support-inbox-row:last-child{border-bottom:0}.support-inbox-user{font-size:.82rem;font-weight:700;overflow-wrap:anywhere}.support-inbox-preview{font-size:.72rem;color:var(--gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.18rem}.support-inbox-meta{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap;margin-top:.35rem}
 .land-logo{font-family:var(--font-logo);font-size:1.4rem;color:var(--dark);display:flex;align-items:center;gap:.4rem;letter-spacing:-.01em}
 .land-logo em{color:var(--brand);font-style:normal}
 .land-nav-r{display:flex;gap:.6rem;align-items:center}
@@ -613,6 +615,9 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
   #mod-adm-dte input[type="file"]{font-size:.68rem;padding:.38rem;overflow:hidden;color:var(--gray)}
   #mod-adm-dte input[type="file"]::file-selector-button{border:0;border-radius:8px;padding:.42rem .52rem;margin-right:.4rem;font:700 .66rem var(--font);color:var(--dark);background:var(--gray4)}
   #mod-adm-dte .btn-full{min-height:44px;padding:.65rem;font-size:.8rem;position:sticky;bottom:-1rem;margin-bottom:-.1rem}
+  .support-chat-launch{right:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:50px;height:50px;border-radius:16px}
+  .support-chat-panel{inset:auto 8px calc(72px + env(safe-area-inset-bottom)) 8px;width:auto;height:min(560px,calc(100dvh - var(--top-h) - 94px));border-radius:20px}
+  .support-chat-head{padding:.85rem}.support-chat-messages{padding:.75rem}.support-msg{font-size:.76rem}.support-inbox-row{grid-template-columns:1fr}.support-inbox-row .btn{width:100%}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 @media (max-width:900px){
@@ -1326,6 +1331,13 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
     <div id="adm-users-pager"></div>
     <div style="font-size:.78rem;color:var(--gray2);margin-top:.5rem">Desactivar bloquea temporalmente el acceso y conserva la información. Las acciones sensibles siempre requieren confirmación.</div>
   </div>
+  <div class="card">
+    <div class="card-head">
+      <div><div class="card-title"><span class="card-title-ic">💬</span> Bandeja de soporte</div><div class="card-sub">Conversaciones de clientes, mensajes nuevos y solicitudes fuera de horario</div></div>
+      <button class="btn btn-sm btn-outline" onclick="loadAdminSupportInbox()">↻ Actualizar</button>
+    </div>
+    <div id="adm-support-inbox"><div class="tbl-empty">Cargando conversaciones...</div></div>
+  </div>
   </section>
 
   <section class="admin-area-panel" data-admin-panel="commercial">
@@ -1411,6 +1423,14 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
   </section>
 </div>
 
+  <button class="support-chat-launch" id="support-chat-launch" onclick="toggleSupportChat()" aria-label="Abrir chat de soporte">💬<span class="support-chat-badge" id="support-chat-badge">0</span></button>
+  <aside class="support-chat-panel hidden" id="support-chat-panel" aria-label="Chat de soporte Finsave">
+    <div class="support-chat-head"><div><div class="support-chat-title">💬 Soporte Finsave</div><div class="support-chat-hours">Lunes a viernes · 09:00 a 18:00 hrs</div></div><button class="support-chat-close" onclick="toggleSupportChat(false)" aria-label="Cerrar chat">✕</button></div>
+    <div class="support-chat-status" id="support-chat-status"><span class="support-chat-dot"></span><span id="support-chat-status-text">Consultando disponibilidad...</span></div>
+    <div class="support-chat-messages" id="support-chat-messages"><div class="support-chat-empty">Hola 👋<br>Cuéntanos en qué podemos ayudarte.</div></div>
+    <div class="support-chat-compose"><div class="support-chat-compose-row"><textarea id="support-chat-input" maxlength="1500" rows="1" placeholder="Escribe tu mensaje..." onkeydown="supportChatKeydown(event)"></textarea><button class="support-chat-send" id="support-chat-send" onclick="sendSupportMessage()" aria-label="Enviar mensaje">➤</button></div><div class="support-chat-note" id="support-chat-note">Tus mensajes quedan guardados en tu cuenta.</div></div>
+  </aside>
+
   </div></div>
 <div class="modal-over hidden" id="mod-cuenta-desactivada">
   <div class="modal">
@@ -1477,6 +1497,14 @@ th{background:#F6F9F7;color:#84908A}tbody tr:hover td{background:#F3FAF7}.balanc
       </div>
     </div>
     <div id="adm-support-msg" style="display:none;font-size:.83rem;padding:.65rem .75rem;border-radius:var(--radius-sm)"></div>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-adm-chat">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-head"><div><div class="modal-title">💬 Conversación de soporte</div><div id="adm-chat-user" class="card-sub" style="margin-top:.2rem"></div></div><button class="modal-close" onclick="closeAdminChat()">✕</button></div>
+    <input type="hidden" id="adm-chat-conversation-id">
+    <div class="support-chat-messages" id="adm-chat-messages" style="height:360px;flex:none;border:1px solid var(--gray3);border-radius:16px"><div class="support-chat-empty">Cargando...</div></div>
+    <div class="support-chat-compose" style="padding:.75rem 0 0;border:0"><div class="support-chat-compose-row"><textarea id="adm-chat-input" maxlength="1500" rows="2" placeholder="Responder al cliente..." onkeydown="adminChatKeydown(event)"></textarea><button class="support-chat-send" onclick="sendAdminSupportMessage()" aria-label="Enviar respuesta">➤</button></div><div style="display:flex;justify-content:space-between;gap:.5rem;align-items:center;margin-top:.65rem;flex-wrap:wrap"><small style="color:var(--gray)">La respuesta quedará visible en el chat del cliente.</small><button class="btn btn-sm btn-outline" id="adm-chat-close-ticket" onclick="toggleAdminConversationStatus()">Cerrar conversación</button></div></div>
   </div>
 </div>
 <div class="modal-over hidden" id="mod-adm-plan">
@@ -1876,6 +1904,11 @@ const adminPagerState = Object.fromEntries(['users','plans','billing','payments'
 let adminBillingUser = null;
 let adminBillingSubscription = null;
 let regFormShownAt = 0;
+let supportConversationId = null;
+let supportConversationStatus = 'open';
+let supportChatChannel = null;
+let adminChatConversationId = null;
+let adminSupportInboxCache = [];
 
 function resetAdminPager(key){if(adminPagerState[key])adminPagerState[key].page=1;}
 function adminPageRows(key,rows){let s=adminPagerState[key],pages=Math.max(1,Math.ceil(rows.length/s.size));s.page=Math.min(Math.max(1,s.page),pages);return rows.slice((s.page-1)*s.size,s.page*s.size);}
@@ -2672,7 +2705,79 @@ function enterApp() {
   renderResumen();
   maybeStartTour();
   checkAdminAccess();
+  initSupportChat();
 }
+
+/* ── CHAT DE SOPORTE TIPO INTERCOM ── */
+function supportChileTime(){
+  let parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/Santiago',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+  let get=t=>parts.find(p=>p.type===t)?.value||'';
+  return {weekday:get('weekday'),hour:Number(get('hour')),minute:Number(get('minute'))};
+}
+function isSupportOpenNow(){let t=supportChileTime();return ['Mon','Tue','Wed','Thu','Fri'].includes(t.weekday)&&t.hour>=9&&t.hour<18;}
+function updateSupportAvailability(){
+  let open=isSupportOpenNow(),status=document.getElementById('support-chat-status'),text=document.getElementById('support-chat-status-text'),note=document.getElementById('support-chat-note');
+  if(status)status.classList.toggle('online',open);
+  if(text)text.textContent=open?'En línea · normalmente respondemos dentro del horario':'Fuera de horario · responderemos el próximo día hábil';
+  if(note)note.textContent=open?'Atención de lunes a viernes, 09:00–18:00 hrs (Chile).':'Puedes enviar tu mensaje ahora; quedará guardado para el próximo día hábil.';
+}
+function initSupportChat(){
+  updateSupportAvailability();
+  if(!currentUser||!supabaseClient)return;
+  loadUserSupportConversation(false);
+  if(supportChatChannel)supabaseClient.removeChannel(supportChatChannel);
+  supportChatChannel=supabaseClient.channel('finsave-support-'+currentUser.id).on('postgres_changes',{event:'*',schema:'public',table:'finsave_support_messages'},()=>{
+    if(!document.getElementById('support-chat-panel')?.classList.contains('hidden'))loadUserSupportConversation(true);else loadUserSupportConversation(false);
+    if(isAdminUser)loadAdminSupportInbox();
+  }).subscribe();
+}
+function toggleSupportChat(force){
+  let panel=document.getElementById('support-chat-panel'),open=typeof force==='boolean'?force:panel.classList.contains('hidden');
+  panel.classList.toggle('hidden',!open);updateSupportAvailability();
+  if(open){loadUserSupportConversation(true);setTimeout(()=>document.getElementById('support-chat-input')?.focus(),120);}
+}
+function supportChatKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendSupportMessage();}}
+function adminChatKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAdminSupportMessage();}}
+function supportTimeLabel(value){return new Date(value).toLocaleString('es-CL',{timeZone:'America/Santiago',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});}
+function renderSupportMessages(target,messages,adminView=false){
+  let box=document.getElementById(target);if(!box)return;
+  if(!messages.length){box.innerHTML='<div class="support-chat-empty">Hola 👋<br>Cuéntanos en qué podemos ayudarte. Tu conversación quedará guardada aquí.</div>';return;}
+  box.innerHTML=messages.map(m=>{let mine=adminView?m.sender_role==='admin':m.sender_role==='user';return `<div class="support-msg ${mine?'user':'admin'}"><div>${escAdmin(m.body)}</div><div class="support-msg-time">${m.sender_role==='admin'?'Soporte Finsave':'Cliente'} · ${supportTimeLabel(m.created_at)}</div></div>`;}).join('');
+  requestAnimationFrame(()=>{box.scrollTop=box.scrollHeight;});
+}
+function setSupportBadge(value){let badge=document.getElementById('support-chat-badge'),n=Number(value)||0;if(!badge)return;badge.textContent=n>9?'9+':n;badge.style.display=n?'flex':'none';}
+async function loadUserSupportConversation(markRead){
+  if(!currentUser||!supabaseClient)return;
+  let box=document.getElementById('support-chat-messages');
+  try{
+    let {data:conv,error}=await supabaseClient.from('finsave_support_conversations').select('*').eq('user_id',currentUser.id).maybeSingle();
+    if(error)throw error;
+    supportConversationId=conv?.id||null;supportConversationStatus=conv?.status||'open';setSupportBadge(conv?.unread_user||0);
+    if(!conv){renderSupportMessages('support-chat-messages',[]);return;}
+    let {data:messages,error:msgError}=await supabaseClient.from('finsave_support_messages').select('*').eq('conversation_id',conv.id).order('created_at',{ascending:true}).limit(200);if(msgError)throw msgError;
+    renderSupportMessages('support-chat-messages',messages||[]);
+    if(markRead&&conv.unread_user){await supabaseClient.rpc('mark_finsave_support_read',{target_conversation:conv.id});setSupportBadge(0);}
+  }catch(e){if(box)box.innerHTML='<div class="support-chat-empty">El chat estará disponible cuando se active el módulo de soporte.<br><small>Mientras tanto puedes usar los canales habituales de Finsave.</small></div>';}
+}
+async function sendSupportMessage(){
+  let input=document.getElementById('support-chat-input'),button=document.getElementById('support-chat-send'),body=(input?.value||'').trim();if(!body||!currentUser)return;
+  button.disabled=true;
+  try{let {data,error}=await supabaseClient.rpc('send_finsave_support_message',{message_body:body,target_conversation:null});if(error)throw error;supportConversationId=data;input.value='';await loadUserSupportConversation(true);}catch(e){showToast('No se pudo enviar el mensaje. Intenta nuevamente.','err');}finally{button.disabled=false;}
+}
+async function loadAdminSupportInbox(){
+  let box=document.getElementById('adm-support-inbox');if(!box||!supabaseClient||!isAdminUser)return;
+  try{let {data,error}=await supabaseClient.from('finsave_support_conversations').select('*').order('last_message_at',{ascending:false}).limit(100);if(error)throw error;adminSupportInboxCache=data||[];
+    if(!data?.length){box.innerHTML='<div class="tbl-empty">No hay conversaciones de soporte todavía.</div>';return;}
+    box.innerHTML=data.map(c=>{let u=adminAccountsCache.find(x=>x.id===c.user_id),unread=c.unread_admin||0;return `<div class="support-inbox-row"><div><div class="support-inbox-user">${escAdmin(u?.name||'Cliente')} · ${escAdmin(u?.email||'')}</div><div class="support-inbox-preview">${escAdmin(c.last_message_preview||'Conversación iniciada')}</div><div class="support-inbox-meta"><span class="tag ${c.status==='closed'?'tag-b':unread?'tag-r':'tag-g'}">${c.status==='closed'?'Cerrada':unread?`${unread} nuevo${unread>1?'s':''}`:'Al día'}</span><small style="color:var(--gray)">${supportTimeLabel(c.last_message_at)}</small></div></div><button class="btn btn-sm ${unread?'btn-prim':'btn-outline'}" onclick="openAdminChat('${c.id}')">${unread?'Responder':'Abrir'}</button></div>`;}).join('');
+  }catch(e){box.innerHTML='<div class="tbl-empty">Activa el módulo de chat en Supabase para recibir conversaciones.</div>';}
+}
+async function openAdminChat(id){
+  let conv=adminSupportInboxCache.find(c=>c.id===id);adminChatConversationId=id;document.getElementById('adm-chat-conversation-id').value=id;let u=adminAccountsCache.find(x=>x.id===conv?.user_id);document.getElementById('adm-chat-user').textContent=`${u?.name||'Cliente'} · ${u?.email||''}`;document.getElementById('adm-chat-close-ticket').textContent=conv?.status==='closed'?'Reabrir conversación':'Cerrar conversación';openModal('mod-adm-chat');await loadAdminChatMessages();
+}
+async function loadAdminChatMessages(){if(!adminChatConversationId)return;let {data,error}=await supabaseClient.from('finsave_support_messages').select('*').eq('conversation_id',adminChatConversationId).order('created_at',{ascending:true}).limit(300);if(error){document.getElementById('adm-chat-messages').innerHTML='<div class="support-chat-empty">No fue posible cargar los mensajes.</div>';return;}renderSupportMessages('adm-chat-messages',data||[],true);await supabaseClient.rpc('mark_finsave_support_read',{target_conversation:adminChatConversationId});loadAdminSupportInbox();}
+async function sendAdminSupportMessage(){let input=document.getElementById('adm-chat-input'),body=(input?.value||'').trim();if(!body||!adminChatConversationId)return;try{let {error}=await supabaseClient.rpc('send_finsave_support_message',{message_body:body,target_conversation:adminChatConversationId});if(error)throw error;input.value='';await loadAdminChatMessages();}catch(e){showToast('No se pudo enviar la respuesta.','err');}}
+async function toggleAdminConversationStatus(){let conv=adminSupportInboxCache.find(c=>c.id===adminChatConversationId),next=conv?.status==='closed'?'open':'closed';let {error}=await supabaseClient.rpc('set_finsave_support_status',{target_conversation:adminChatConversationId,new_status:next});if(error){showToast('No se pudo cambiar el estado.','err');return;}showToast(next==='closed'?'Conversación cerrada':'Conversación reabierta');await loadAdminSupportInbox();closeAdminChat();}
+function closeAdminChat(){adminChatConversationId=null;closeModal('mod-adm-chat');}
 async function deleteAccount() {
   const emailInput = document.getElementById('del-confirm-email').value.trim().toLowerCase();
   const realEmail = (currentUser?.email || window.db.perfil.email || '').trim().toLowerCase();
@@ -2712,6 +2817,7 @@ function escAdmin(s) {
 
 async function checkAdminAccess() {
   isAdminUser = false;
+  let chatLaunch=document.getElementById('support-chat-launch');if(chatLaunch)chatLaunch.style.display='';
   let item = document.getElementById('sb-item-admin');
   let sec = document.getElementById('sb-sec-admin');
   if (item) item.style.display = 'none';
@@ -2726,6 +2832,7 @@ async function checkAdminAccess() {
     isAdminUser = true;
     if (item) item.style.display = '';
     if (sec) sec.style.display = '';
+    if(chatLaunch)chatLaunch.style.display='none';
     return;
   }
 
@@ -2740,6 +2847,7 @@ async function checkAdminAccess() {
       isAdminUser = true;
       if (item) item.style.display = '';
       if (sec) sec.style.display = '';
+      if(chatLaunch)chatLaunch.style.display='none';
     }
   } catch(e) { /* no es administrador o sin conexión */ }
 }
@@ -2774,7 +2882,7 @@ function closeDeactivatedPopup() {
 async function loadAdminPanel() {
   if (!isAdminUser) { goTo('resumen'); return; }
   await Promise.all([loadAdminUsersTable(), loadAdminAdminsList(), loadAdminPlans(), loadCommercialSettings(), loadAdminPaymentRequests(), loadAdminPlanRequests(), loadAdminBillingProfiles()]);
-  await loadAdminBilling();
+  await Promise.all([loadAdminBilling(),loadAdminSupportInbox()]);
 }
 
 async function loadAdminUsersTable() {
@@ -3398,6 +3506,8 @@ async function syncNameToFinsaveUsers() {
 }
 
 async function doLogout() {
+  if(supportChatChannel&&supabaseClient){await supabaseClient.removeChannel(supportChatChannel);supportChatChannel=null;}
+  document.getElementById('support-chat-panel')?.classList.add('hidden');setSupportBadge(0);supportConversationId=null;
   if (supabaseClient && currentUser) {
     await supabaseClient.auth.signOut();
     currentUser = null;
@@ -3415,6 +3525,7 @@ function resetAdminUI() {
   let sec = document.getElementById('sb-sec-admin');
   if (item) item.style.display = 'none';
   if (sec) sec.style.display = 'none';
+  let chatLaunch=document.getElementById('support-chat-launch');if(chatLaunch)chatLaunch.style.display='';
 }
 /* ── TOUR DE BIENVENIDA ── */
 const TOUR_STEPS = [
