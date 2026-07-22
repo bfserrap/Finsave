@@ -2776,20 +2776,26 @@ function playSupportNotificationSound(){
     unlockSupportSound();
     let ctx=supportAudioContext;
     if(!ctx||ctx.state!=='running')return;
-    let start=ctx.currentTime+.01,gain=ctx.createGain();
-    gain.gain.setValueAtTime(.0001,start);
-    gain.gain.exponentialRampToValueAtTime(.045,start+.025);
-    gain.gain.exponentialRampToValueAtTime(.0001,start+.32);
-    gain.connect(ctx.destination);
-    [[523.25,0],[659.25,.065]].forEach(([frequency,delay])=>{
-      let tone=ctx.createOscillator();
-      tone.type='sine';tone.frequency.setValueAtTime(frequency,start+delay);
-      tone.connect(gain);tone.start(start+delay);tone.stop(start+.34);
+    let start=ctx.currentTime+.01;
+    [[493.88,0,.32,.055],[739.99,.20,.46,.06],[369.99,.20,.42,.016]].forEach(([frequency,delay,duration,volume])=>{
+      let voiceGain=ctx.createGain(),voiceStart=start+delay,voiceEnd=voiceStart+duration;
+      voiceGain.gain.setValueAtTime(.0001,voiceStart);
+      voiceGain.gain.exponentialRampToValueAtTime(volume,voiceStart+.018);
+      voiceGain.gain.exponentialRampToValueAtTime(.0001,voiceEnd);
+      voiceGain.connect(ctx.destination);
+      [1,2].forEach((harmonic,index)=>{
+        let tone=ctx.createOscillator();
+        tone.type='sine';tone.frequency.setValueAtTime(frequency*harmonic,voiceStart);
+        let harmonicGain=ctx.createGain();harmonicGain.gain.value=index?0.12:0.88;
+        tone.connect(harmonicGain);harmonicGain.connect(voiceGain);tone.start(voiceStart);tone.stop(voiceEnd+.02);
+      });
     });
   }catch(e){}
 }
 function supportMessageIsVisible(message){
-  let adminThreadOpen=isAdminUser&&adminChatConversationId===message?.conversation_id&&!document.getElementById('adm-sac-active')?.classList.contains('hidden');
+  if(document.visibilityState!=='visible')return false;
+  let supportAreaOpen=document.querySelector('.admin-area-panel[data-admin-panel="support"]')?.classList.contains('active');
+  let adminThreadOpen=isAdminUser&&supportAreaOpen&&adminChatConversationId===message?.conversation_id&&!document.getElementById('adm-sac-active')?.classList.contains('hidden');
   let userChatOpen=supportConversationId===message?.conversation_id&&!document.getElementById('support-chat-panel')?.classList.contains('hidden');
   return adminThreadOpen||userChatOpen;
 }
