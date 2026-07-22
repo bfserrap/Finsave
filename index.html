@@ -120,8 +120,12 @@ img{max-width:100%;display:block}
 .auth-tab{flex:1;padding:.65rem;text-align:center;border-radius:9px;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--gray);transition:all .15s}
 .auth-tab.active{background:var(--white);color:var(--dark);box-shadow:0 2px 6px rgba(0,0,0,.08)}
 .fg{margin-bottom:1rem}
+.fg,.form-row>.fg{min-width:0}
+.form-row>.fg{flex:1 1 0}
 .fg label{display:block;font-size:.8rem;font-weight:700;color:var(--dark3);margin-bottom:.4rem;letter-spacing:.01em}
 .fg input,.fg select{width:100%;padding:.75rem .95rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-size:1rem;color:var(--dark);background:var(--white);transition:border .15s;min-height:44px}
+input[type="date"],input[type="month"],input[type="datetime-local"]{display:block;width:100%;max-width:100%;min-width:0;inline-size:100%;max-inline-size:100%;min-inline-size:0}
+input[type="date"]::-webkit-date-and-time-value,input[type="month"]::-webkit-date-and-time-value,input[type="datetime-local"]::-webkit-date-and-time-value{min-width:0;text-align:center}
 .fg input:focus,.fg select:focus{outline:none;border-color:var(--brand)}
 .err-box{background:var(--danger-bg);color:var(--danger);padding:.75rem 1rem;border-radius:var(--radius-sm);font-size:.85rem;margin-bottom:1rem;display:none;font-weight:500}
 .ok-box{background:var(--brand3);color:var(--brand-dark);padding:.75rem 1rem;border-radius:var(--radius-sm);font-size:.85rem;margin-bottom:1rem;display:none;font-weight:500}
@@ -522,6 +526,22 @@ html, body {
   input, select, textarea {
     max-width: 100% !important;
     box-sizing: border-box !important;
+  }
+
+  .fg, .form-row, .form-row > .fg {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  input[type="date"], input[type="month"], input[type="datetime-local"] {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    inline-size: 100% !important;
+    min-inline-size: 0 !important;
+    max-inline-size: 100% !important;
   }
 
   /* Tooltip de gráficos: nunca debe desbordar el ancho del celular */
@@ -1040,6 +1060,10 @@ body{color:var(--ink)}
 <div id="page-categorias" class="page">
   <div class="pg-header">
     <div><div class="pg-title">Categorías de Gastos</div><div class="pg-sub">Administra y edita las categorías de tus gastos fijos y variables</div></div>
+    <div class="pg-actions">
+      <button class="btn btn-outline btn-sm" onclick="openAddCat('fijo')">＋ Categoría fija</button>
+      <button class="btn btn-prim btn-sm" onclick="openAddCat('variable')">＋ Categoría variable</button>
+    </div>
   </div>
   <div class="g2"> 
     <div class="card">
@@ -2492,7 +2516,9 @@ function saveNewCat() {
   let emoji = document.getElementById('addcat-emoji').value.trim() || '📌';
   let nombre = document.getElementById('addcat-nombre').value.trim();
   if (!nombre) { showToast('Ingresa un nombre', 'err'); return; }
-  let id = nombre.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  let id = nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '') || `categoria_${Date.now()}`;
+  let existing = tipo === 'fijo' ? getAllCatsFijos() : getAllCatsVar();
+  if (existing.some(c => c.id === id || c.label.trim().toLowerCase() === nombre.toLowerCase())) { showToast('Esa categoría ya existe', 'err'); return; }
   let newCat = { id, emoji, label: nombre };
   if (tipo === 'fijo') {
     window.db.customCatsFijos.push(newCat);
@@ -2501,7 +2527,7 @@ function saveNewCat() {
     window.db.customCatsVar.push(newCat);
     populateCatSelect('mgv-cat', getAllCatsVar());
   }
-  saveDB(); closeModal('mod-addcat'); showToast('Categoría agregada');
+  saveDB(); closeModal('mod-addcat'); showToast('Categoría agregada'); renderCategorias();
 }
 
 /* ── PASSWORD ── */
