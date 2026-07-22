@@ -708,6 +708,14 @@ body{color:var(--ink)}
   .sac-shell{height:calc(100dvh - var(--top-h) - 112px);min-height:520px;overflow:hidden}.sac-thread-head{padding:.7rem;gap:.65rem}.sac-thread-head>div:first-child{width:100%}.sac-mobile-back{width:42px;height:38px;justify-content:center;margin-bottom:.45rem}.sac-thread-title{font-size:.9rem;line-height:1.25}.sac-thread-head .card-sub{font-size:.66rem;line-height:1.35;margin-top:.2rem}.sac-thread-actions{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:.42rem}.sac-thread-actions select{grid-column:1/-1;width:100%;min-height:42px}.sac-thread-actions .btn{width:100%;min-width:0!important;min-height:42px!important;font-size:.69rem!important;padding:.45rem!important}.sac-workspace{grid-template-rows:auto minmax(0,1fr)}.sac-client-panel{max-height:290px;overflow-y:auto}.sac-client-panel:not([open]){max-height:45px;overflow:hidden}.sac-context-grid{grid-template-columns:1fr 1fr;overflow:visible;gap:.45rem}.sac-context-item{min-height:66px;padding:.58rem}.sac-context-item span{font-size:.55rem}.sac-context-item strong{font-size:.68rem;line-height:1.35}.sac-context-actions{display:grid;grid-template-columns:1fr 1fr;overflow:visible}.sac-context-actions .btn{width:100%;min-width:0;white-space:normal}.sac-thread .support-chat-messages{padding:.75rem;min-height:140px}.sac-compose{padding:.65rem}.sac-compose textarea{min-height:76px;max-height:94px;font-size:.78rem}.sac-compose-foot{display:block}.sac-compose-foot small{display:none}.sac-compose-foot .btn{width:100%;min-height:43px;margin-top:.5rem}.sac-macros{margin-top:.8rem}.sac-macro-card-head{display:block}.sac-macro-card-head>div:last-child{margin-top:.55rem}.sac-macro-card-head .btn{min-height:38px}.support-msg{max-width:88%}
 }
 @media(max-width:370px){.plan-summary-grid{grid-template-columns:1fr}.plan-month-actions{grid-template-columns:1fr}.plan-month-actions .btn{width:100%}.sac-context-grid,.sac-context-actions{grid-template-columns:1fr}}
+/* Mejoras SAC y Balance: acceso rápido, lectura clara y controles responsive */
+@media (min-width:1100px){.sac-workspace{grid-template-columns:minmax(0,1fr) minmax(285px,310px)}}
+.sac-client-panel{scrollbar-gutter:stable}.sac-client-panel summary{position:sticky;top:0;z-index:2;background:#fff}
+.sac-client-context{padding:.8rem}.sac-context-grid{gap:.48rem}.sac-context-item{padding:.62rem}.sac-context-item strong{font-size:.72rem;line-height:1.35}
+.sac-context-actions{position:sticky;bottom:0;background:#fff;padding-top:.65rem;gap:.45rem}.sac-context-actions .btn{min-height:39px;font-size:.67rem;white-space:normal}
+.balance-series-controls{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}.balance-series-label{font-size:.72rem;color:var(--gray);margin-right:.15rem}.balance-series-toggle{min-height:36px;padding:.42rem .75rem;border:1.5px solid var(--gray3);border-radius:999px;background:#fff;color:var(--gray);font-size:.73rem;font-weight:600;display:inline-flex;align-items:center;gap:.38rem}.balance-series-toggle[aria-pressed="true"]{border-color:var(--series-color,var(--brand));background:var(--brand3);color:var(--dark)}.balance-series-toggle .balance-legend-dot{width:9px;height:9px}.support-sync-state{display:inline-flex;align-items:center;gap:.4rem;color:var(--green-dark);font-size:.73rem;font-weight:600}.support-sync-state::before{content:'';width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 0 4px rgba(16,185,129,.12)}
+.emergency-guide{margin-top:1rem;display:grid;gap:.65rem}.emergency-guide-when{padding:.85rem;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:.8rem;line-height:1.5}.emergency-guide-steps{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.emergency-step{padding:.8rem;border:1px solid var(--gray3);border-radius:12px;background:#fff;font-size:.78rem;line-height:1.45}.emergency-step b{display:block;color:var(--dark);margin-bottom:.25rem}.emergency-step small{display:block;color:var(--gray);margin-top:.25rem}.emergency-actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem}.emergency-actions .btn{width:100%;white-space:normal;line-height:1.3}
+@media(max-width:768px){.balance-series-controls{align-items:stretch}.balance-series-label{width:100%}.balance-series-toggle{flex:1 1 calc(50% - .45rem);justify-content:center}.emergency-guide-steps,.emergency-actions{grid-template-columns:1fr}.sac-context-actions{position:static}.sac-client-panel[open]{max-height:min(42dvh,330px)}.sac-client-context{padding:.65rem}.sac-context-actions .btn{min-height:42px}.admin-section-intro .support-sync-state{margin-top:.25rem}}
 </style>
 </head>
 <body>
@@ -912,10 +920,12 @@ body{color:var(--ink)}
       <div class="card-title"><span class="card-title-ic">📈</span> Balance Operacional</div>
       <div class="card-sub" id="res-yr-lbl">2026</div>
     </div>
-    <div class="balance-legend" style="margin-bottom:1rem">
-      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#059669"></div>Ganancias</div>
-      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#F43F5E"></div>Gastos</div>
-      <div class="balance-legend-item"><div class="balance-legend-dot" style="background:#2563EB;border-radius:50%"></div>Saldo Líquido</div>
+    <div class="balance-series-controls" aria-label="Seleccionar información del gráfico">
+      <span class="balance-series-label">Mostrar en el gráfico:</span>
+      <button class="balance-series-toggle" id="balance-toggle-all" aria-pressed="true" onclick="setBalanceSeries('all')">Todo</button>
+      <button class="balance-series-toggle" data-balance-series="income" aria-pressed="true" style="--series-color:#059669" onclick="toggleBalanceSeries('income')"><span class="balance-legend-dot" style="background:#059669"></span>Ingresos</button>
+      <button class="balance-series-toggle" data-balance-series="expenses" aria-pressed="true" style="--series-color:#F43F5E" onclick="toggleBalanceSeries('expenses')"><span class="balance-legend-dot" style="background:#F43F5E"></span>Gastos</button>
+      <button class="balance-series-toggle" data-balance-series="balance" aria-pressed="true" style="--series-color:#2563EB" onclick="toggleBalanceSeries('balance')"><span class="balance-legend-dot" style="background:#2563EB;border-radius:50%"></span>Saldo líquido</button>
       <div class="balance-legend-item" id="res-bal-trend" style="margin-left:auto"></div>
     </div>
     <div class="balance-chart-wrap" style="position:relative">
@@ -1445,7 +1455,7 @@ body{color:var(--ink)}
   </section>
 
   <section class="admin-area-panel" data-admin-panel="support">
-  <div class="admin-section-intro"><div><h2>Atención por chat</h2><p>Los mensajes nuevos están en “Pendientes”. Posponer oculta temporalmente una conversación hasta la fecha elegida; cerrar envía la encuesta de satisfacción.</p></div><button class="btn btn-sm btn-outline" onclick="loadAdminSupportInbox()">↻ Buscar mensajes nuevos</button></div>
+  <div class="admin-section-intro"><div><h2>Atención por chat</h2><p>Los mensajes se actualizan automáticamente. Los nuevos aparecen en “Pendientes”; posponer los oculta hasta la fecha elegida y cerrar envía la encuesta de satisfacción.</p></div><div class="support-sync-state" id="support-sync-state">Actualización automática activa</div></div>
     <div class="sac-shell" id="adm-sac-shell">
       <aside class="sac-nav">
         <div class="sac-nav-title">Bandejas</div>
@@ -1631,16 +1641,19 @@ body{color:var(--ink)}
         <span><strong>🛡️ Recuperación de emergencia</strong><small style="display:block;color:var(--gray);font-weight:400;margin-top:.2rem">Herramienta técnica; normalmente no necesitarás usarla</small></span>
         <span aria-hidden="true" style="color:var(--green);font-size:1.1rem">⌄</span>
       </summary>
-      <div style="margin-top:1rem;padding:.8rem;border-radius:var(--radius-sm);background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;font-size:.82rem;line-height:1.5">
-        <strong>¿Para qué sirve?</strong><br>
-        Guarda una copia técnica de todos los registros del cliente para poder recuperarlos ante una pérdida o error. El archivo termina en <strong>.json</strong>: contiene códigos internos, no es un Excel, un PDF ni un informe para leer.
+      <div class="emergency-guide">
+        <div class="emergency-guide-when"><strong>Úsalo solamente en una emergencia:</strong> por ejemplo, si un cliente informa que desaparecieron sus movimientos después de un error, o antes de realizar una corrección técnica que podría modificar muchos registros. Para problemas normales de nombre, contraseña, plan o facturación, no necesitas esta herramienta.</div>
+        <div class="emergency-guide-steps">
+          <div class="emergency-step"><b>1. Antes del problema: guardar respaldo</b>Descarga una copia exacta de los datos actuales del cliente y consérvala sin abrir ni editar.<small>El archivo .json no es un informe: funciona como una “caja cerrada” que Finsave puede leer después.</small></div>
+          <div class="emergency-step"><b>2. Si se pierden datos: restaurar respaldo</b>Selecciona ese mismo archivo. Finsave revisará que sea válido y pedirá confirmar el correo antes de reemplazar la información dañada.<small>Solo debes restaurarlo si comprobaste que la información actual está incompleta o incorrecta.</small></div>
+        </div>
       </div>
-      <div style="display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.8rem">
-        <button class="btn btn-outline btn-sm" id="adm-support-backup-btn" onclick="downloadAdminUserBackup()">💾 Guardar copia de seguridad</button>
-        <button class="btn btn-outline btn-sm" onclick="document.getElementById('adm-support-file').click()">♻️ Recuperar desde una copia</button>
+      <div class="emergency-actions">
+        <button class="btn btn-outline btn-sm" id="adm-support-backup-btn" onclick="downloadAdminUserBackup()">💾 Descargar respaldo preventivo</button>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('adm-support-file').click()">♻️ Restaurar datos perdidos</button>
         <input type="file" id="adm-support-file" accept="application/json,.json" hidden onchange="prepareAdminUserRestore(this)">
       </div>
-      <div style="font-size:.75rem;color:var(--gray);margin-top:.65rem">Guarda el archivo sin modificarlo. Solo Finsave debe utilizarlo para una recuperación.</div>
+      <div style="font-size:.75rem;color:var(--gray);margin-top:.65rem">Si nunca ocurre una pérdida de información, no tendrás que usar ninguna de estas dos acciones.</div>
       <div id="adm-support-restore" style="display:none;margin-top:.9rem;padding:.8rem;border-radius:var(--radius-sm);background:#fff7ed;border:1px solid #fed7aa">
         <div id="adm-support-file-name" style="font-size:.82rem;margin-bottom:.6rem"></div>
         <div class="fg" style="margin-bottom:.6rem"><label>Escribe el correo del usuario para confirmar</label><input type="email" id="adm-support-confirm-email" placeholder="correo@ejemplo.com"></div>
@@ -2106,11 +2119,14 @@ let adminBillingSubscription = null;
 let regFormShownAt = 0;
 let supportConversationId = null;
 let supportConversationStatus = 'open';
+let supportUserMessagesSignature = '';
 let supportChatChannel = null;
 let supportTypingChannel = null;
 let supportTypingTimer = null;
 let supportRemoteTypingTimer = null;
 let supportAudioContext = null;
+let supportAutoRefreshTimer = null;
+let supportAutoRefreshBusy = false;
 let adminChatConversationId = null;
 let adminChatLoadToken = 0;
 let adminChatMessagesSignature = '';
@@ -2118,6 +2134,7 @@ let adminSupportInboxCache = [];
 let adminSupportMacrosCache = [];
 let adminSupportFilter = 'open';
 let adminCsatCache = [];
+let balanceSeriesVisibility = {income:true,expenses:true,balance:true};
 
 function resetAdminPager(key){if(adminPagerState[key])adminPagerState[key].page=1;}
 function adminPageRows(key,rows){let s=adminPagerState[key],pages=Math.max(1,Math.ceil(rows.length/s.size));s.page=Math.min(Math.max(1,s.page),pages);return rows.slice((s.page-1)*s.size,s.page*s.size);}
@@ -2999,6 +3016,24 @@ function supportMessageIsVisible(message){
   let userChatOpen=supportConversationId===message?.conversation_id&&!document.getElementById('support-chat-panel')?.classList.contains('hidden');
   return adminThreadOpen||userChatOpen;
 }
+function startSupportAutoRefresh(){
+  if(supportAutoRefreshTimer)clearInterval(supportAutoRefreshTimer);
+  supportAutoRefreshTimer=setInterval(async()=>{
+    if(!currentUser||!supabaseClient||document.visibilityState!=='visible'||supportAutoRefreshBusy)return;
+    supportAutoRefreshBusy=true;
+    try{
+      const userPanelOpen=!document.getElementById('support-chat-panel')?.classList.contains('hidden');
+      if(userPanelOpen)await loadUserSupportConversation(true,true);
+      else await loadUserSupportConversation(false,true);
+      const supportAreaOpen=isAdminUser&&document.querySelector('.admin-area-panel[data-admin-panel="support"]')?.classList.contains('active');
+      if(supportAreaOpen){
+        await loadAdminSupportInbox(true);
+        if(adminChatConversationId)await loadAdminChatMessages();
+      }
+    }finally{supportAutoRefreshBusy=false;}
+  },4000);
+}
+function stopSupportAutoRefresh(){if(supportAutoRefreshTimer){clearInterval(supportAutoRefreshTimer);supportAutoRefreshTimer=null;}supportAutoRefreshBusy=false;}
 function initSupportChat(){
   updateSupportAvailability();
   if(!currentUser||!supabaseClient)return;
@@ -3014,6 +3049,7 @@ function initSupportChat(){
   }).on('postgres_changes',{event:'*',schema:'public',table:'finsave_support_conversations',filter:`user_id=eq.${currentUser.id}`},()=>loadUserSupportConversation(false)).subscribe();
   if(supportTypingChannel)supabaseClient.removeChannel(supportTypingChannel);
   supportTypingChannel=supabaseClient.channel('finsave-support-typing').on('broadcast',{event:'typing'},({payload})=>handleRemoteSupportTyping(payload)).subscribe();
+  startSupportAutoRefresh();
 }
 function toggleSupportChat(force){
   let panel=document.getElementById('support-chat-panel'),open=typeof force==='boolean'?force:panel.classList.contains('hidden');
@@ -3030,7 +3066,7 @@ function renderSupportMessages(target,messages,adminView=false){
   requestAnimationFrame(()=>{box.scrollTop=box.scrollHeight;});
 }
 function setSupportBadge(value){let badge=document.getElementById('support-chat-badge'),n=Number(value)||0;if(!badge)return;badge.textContent=n>9?'9+':n;badge.style.display=n?'flex':'none';}
-async function loadUserSupportConversation(markRead){
+async function loadUserSupportConversation(markRead,silent=false){
   if(!currentUser||!supabaseClient)return;
   let box=document.getElementById('support-chat-messages');
   try{
@@ -3039,10 +3075,11 @@ async function loadUserSupportConversation(markRead){
     supportConversationId=conv?.id||null;supportConversationStatus=conv?.status||'open';setSupportBadge(conv?.unread_user||0);
     if(!conv){renderSupportMessages('support-chat-messages',[]);renderUserCsat(null);return;}
     let {data:messages,error:msgError}=await supabaseClient.from('finsave_support_messages').select('*').eq('conversation_id',conv.id).order('created_at',{ascending:true}).limit(200);if(msgError)throw msgError;
-    renderSupportMessages('support-chat-messages',messages||[]);
+    const userMessages=messages||[],userSignature=userMessages.map(m=>`${m.id}:${m.updated_at||m.created_at}:${m.body}`).join('|');
+    if(userSignature!==supportUserMessagesSignature){supportUserMessagesSignature=userSignature;renderSupportMessages('support-chat-messages',userMessages);}
     let {data:survey}=await supabaseClient.from('finsave_support_csat').select('*').eq('conversation_id',conv.id).is('rating',null).is('cancelled_at',null).order('requested_at',{ascending:false}).limit(1).maybeSingle();renderUserCsat(survey||null);
     if(markRead&&conv.unread_user){await supabaseClient.rpc('mark_finsave_support_read',{target_conversation:conv.id});setSupportBadge(0);}
-  }catch(e){if(box)box.innerHTML='<div class="support-chat-empty">El chat estará disponible cuando se active el módulo de soporte.<br><small>Mientras tanto puedes usar los canales habituales de Finsave.</small></div>';}
+  }catch(e){if(!silent&&box&&!box.querySelector('.support-msg'))box.innerHTML='<div class="support-chat-empty">No pudimos actualizar el chat en este momento.<br><small>Finsave volverá a intentarlo automáticamente.</small></div>';}
 }
 function renderUserCsat(survey){let box=document.getElementById('support-csat');if(!box)return;if(!survey){box.classList.add('hidden');box.innerHTML='';return;}let emojis=['😞','🙁','😐','🙂','🤩'],labels=['Muy mala','Mala','Regular','Buena','Excelente'];box.innerHTML=`<div class="support-csat-title">¿Cómo fue tu atención?</div><div class="support-csat-sub">Tu respuesta ayuda a mejorar el soporte de Finsave.</div><div class="support-csat-emojis">${emojis.map((e,i)=>`<button onclick="submitSupportCsat('${survey.id}',${i+1})" title="${labels[i]}" aria-label="${labels[i]}">${e}</button>`).join('')}</div>`;box.classList.remove('hidden');}
 async function submitSupportCsat(surveyId,rating){let {error}=await supabaseClient.rpc('submit_finsave_support_csat',{survey_id:surveyId,score:rating});if(error)return showToast('No se pudo guardar tu evaluación.','err');document.getElementById('support-csat').innerHTML='<div class="support-csat-title">¡Gracias por evaluarnos! 💚</div>';showToast('Gracias por tu evaluación');}
@@ -3051,10 +3088,10 @@ async function sendSupportMessage(){
   stopSupportTyping('user');button.disabled=true;
   try{let {data,error}=await supabaseClient.rpc('send_finsave_support_message',{message_body:body,target_conversation:null});if(error)throw error;supportConversationId=data;input.value='';await loadUserSupportConversation(true);}catch(e){showToast('No se pudo enviar el mensaje. Intenta nuevamente.','err');}finally{button.disabled=false;}
 }
-async function loadAdminSupportInbox(){
+async function loadAdminSupportInbox(silent=false){
   let box=document.getElementById('adm-support-inbox');if(!box||!supabaseClient||!isAdminUser)return;
   try{let [{data,error},{data:macros,error:macroError}]=await Promise.all([supabaseClient.from('finsave_support_conversations').select('*').order('last_message_at',{ascending:false}).limit(500),supabaseClient.from('finsave_support_macros').select('*').order('shortcut')]);if(error)throw error;adminSupportInboxCache=data||[];if(!macroError)adminSupportMacrosCache=macros||[];renderAdminSupportInbox();renderSupportMacros();
-  }catch(e){box.innerHTML='<div class="sac-empty">No fue posible cargar el centro SAC. Actualiza la base comercial.</div>';}
+  }catch(e){if(!silent&&!adminSupportInboxCache.length)box.innerHTML='<div class="sac-empty">No fue posible cargar el centro SAC. Finsave volverá a intentarlo automáticamente.</div>';}
 }
 function supportConversationVisible(c){let now=new Date(),s=c.status||'open';if(s==='snoozed'&&c.snoozed_until&&new Date(c.snoozed_until)<=now)s='open';if(adminSupportFilter==='all')return true;if(adminSupportFilter==='unread')return s!=='closed'&&(c.unread_admin||0)>0;if(adminSupportFilter==='urgent')return s!=='closed'&&c.priority==='urgent';return s===adminSupportFilter;}
 function setSacFilter(filter){adminSupportFilter=filter;document.querySelectorAll('[data-sac-filter]').forEach(b=>b.classList.toggle('active',b.dataset.sacFilter===filter));renderAdminSupportInbox();}
@@ -3829,9 +3866,10 @@ async function syncNameToFinsaveUsers() {
 }
 
 async function doLogout() {
+  stopSupportAutoRefresh();
   if(supportChatChannel&&supabaseClient){await supabaseClient.removeChannel(supportChatChannel);supportChatChannel=null;}
   if(supportTypingChannel&&supabaseClient){await supabaseClient.removeChannel(supportTypingChannel);supportTypingChannel=null;}
-  document.getElementById('support-chat-panel')?.classList.add('hidden');setSupportBadge(0);supportConversationId=null;
+  document.getElementById('support-chat-panel')?.classList.add('hidden');setSupportBadge(0);supportConversationId=null;supportUserMessagesSignature='';
   if (supabaseClient && currentUser) {
     await supabaseClient.auth.signOut();
     currentUser = null;
@@ -6251,6 +6289,28 @@ function openDebtPlan(){if(!(window.db.creditos||[]).some(x=>Math.min(x.cuotaAct
 function renderDebtPlan(){let strategy=document.getElementById('debt-strategy').value,extra=cleanMonto(document.getElementById('debt-extra').value),items=(window.db.creditos||[]).map(x=>{let paid=Math.min(Math.max((x.pagos||[]).length,x.cuotaAct-1),x.cuotaTot),remaining=Math.max(0,x.cuotaTot-paid);return {...x,paid,remaining,balance:remaining*x.montoCuota};}).filter(x=>x.remaining>0);items.sort(strategy==='payment'?(a,b)=>b.montoCuota-a.montoCuota:strategy==='progress'?(a,b)=>a.remaining-b.remaining:(a,b)=>a.balance-b.balance);let monthly=items.reduce((a,b)=>a+b.montoCuota,0)+extra;document.getElementById('debt-plan-content').innerHTML=`<div class="info-banner new" style="margin-bottom:.75rem">Pago mensual actual: <strong>$${formatMiles(monthly-extra)}</strong>${extra?` · Con aporte extra: <strong>$${formatMiles(monthly)}</strong>`:''}. Esta simulación no modifica tus créditos.</div>${items.map((x,i)=>`<div class="budget-row" style="margin-bottom:.55rem"><div class="budget-row-head"><div><div class="budget-name">${i+1}. ${escAdmin(x.desc)}</div><div class="budget-meta">${x.remaining} cuotas restantes · cuota $${formatMiles(x.montoCuota)}</div></div><div class="budget-available">Saldo $${formatMiles(x.balance)}</div></div>${i===0&&extra?`<div class="budget-meta" style="color:var(--primary-dark);margin-top:.5rem">Aplicando $${formatMiles(extra)} adicionales aquí, el saldo bajaría a $${formatMiles(Math.max(0,x.balance-extra))}.</div>`:''}</div>`).join('')}`;}
 
 /* ══════════════ RESUMEN ══════════════ */
+function syncBalanceSeriesControls(){
+  document.querySelectorAll('[data-balance-series]').forEach(btn=>btn.setAttribute('aria-pressed',String(!!balanceSeriesVisibility[btn.dataset.balanceSeries])));
+  document.getElementById('balance-toggle-all')?.setAttribute('aria-pressed',String(Object.values(balanceSeriesVisibility).every(Boolean)));
+}
+function applyBalanceSeriesVisibility(){
+  const chart=window.chartAnualRef;
+  if(chart){
+    chart.data.datasets.forEach((dataset,index)=>{dataset.hidden=![balanceSeriesVisibility.income,balanceSeriesVisibility.expenses,balanceSeriesVisibility.balance][index];});
+    chart.update();
+  }
+  syncBalanceSeriesControls();
+}
+function toggleBalanceSeries(series){
+  if(!(series in balanceSeriesVisibility))return;
+  balanceSeriesVisibility[series]=!balanceSeriesVisibility[series];
+  applyBalanceSeriesVisibility();
+}
+function setBalanceSeries(mode){
+  if(mode==='all')balanceSeriesVisibility={income:true,expenses:true,balance:true};
+  else balanceSeriesVisibility={income:mode==='income',expenses:mode==='expenses',balance:mode==='balance'};
+  applyBalanceSeriesVisibility();
+}
 function renderResumen() {
   syncGastosCreditos();
   let m = parseInt(document.getElementById('res-month').value);
@@ -6418,15 +6478,15 @@ function renderResumen() {
           { label:'Ganancias', data:inAnual,
             borderColor:'#059669', backgroundColor:gradBlue,
             borderWidth:2.5, pointBackgroundColor:'#059669', pointBorderColor:'#fff', pointBorderWidth:2,
-            pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:2 },
+            pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:2, hidden:!balanceSeriesVisibility.income },
           { label:'Gastos', data:outAnual,
             borderColor:'#F43F5E', backgroundColor:gradRed,
             borderWidth:2.5, pointBackgroundColor:'#F43F5E', pointBorderColor:'#fff', pointBorderWidth:2,
-            pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:3 },
+            pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:3, hidden:!balanceSeriesVisibility.expenses },
           { label:'Saldo Líquido', data:balance,
             borderColor:'#2563EB', backgroundColor:gradGreen,
             borderWidth:2.5, pointBackgroundColor:'#2563EB', pointBorderColor:'#fff', pointBorderWidth:2,
-            pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:1 }
+            pointRadius:4, pointHoverRadius:6, tension:.35, fill:true, order:1, hidden:!balanceSeriesVisibility.balance }
         ]
       },
       options:{
@@ -6445,9 +6505,9 @@ function renderResumen() {
               let esMejorMes = i === bestMonthIdx && bestMonthIdx !== -1;
               ttEl.innerHTML = `
                 <div class="chart-ext-tooltip-title">${mesesNombres[i]} ${y}</div>
-                <div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#059669"></span>Ganancias</span><span class="val">$${formatMiles(inAnual[i])}</span></div>
-                <div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#F43F5E"></span>Gastos</span><span class="val">-$${formatMiles(outAnual[i])}</span></div>
-                <div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#2563EB"></span>Saldo Líquido</span><span class="val">$${formatMiles(balance[i])}</span></div>
+                ${balanceSeriesVisibility.income?`<div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#059669"></span>Ingresos</span><span class="val">$${formatMiles(inAnual[i])}</span></div>`:''}
+                ${balanceSeriesVisibility.expenses?`<div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#F43F5E"></span>Gastos</span><span class="val">-$${formatMiles(outAnual[i])}</span></div>`:''}
+                ${balanceSeriesVisibility.balance?`<div class="chart-ext-tooltip-row"><span class="lbl"><span class="dot" style="background:#2563EB"></span>Saldo Líquido</span><span class="val">$${formatMiles(balance[i])}</span></div>`:''}
                 ${esMejorMes ? '<div class="chart-ext-tooltip-badge">📈 Mejor mes del año</div>' : ''}
               `;
               let wrapRect = ctx2.parentElement.getBoundingClientRect();
@@ -6466,6 +6526,7 @@ function renderResumen() {
         }
       }
     });
+    syncBalanceSeriesControls();
   }
 
   // Ahorro anual
