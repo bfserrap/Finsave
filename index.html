@@ -1596,26 +1596,33 @@ body{color:var(--ink)}
     <div class="card" style="padding:1rem;margin-bottom:1rem;box-shadow:none">
       <div class="card-title" style="font-size:.95rem;margin-bottom:.75rem">Acciones rápidas</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.55rem">
-        <button class="btn btn-outline btn-sm" onclick="openAdminEditFromSupport()">✏️ Editar nombre</button>
-        <button class="btn btn-outline btn-sm" onclick="sendAdminSupportResetPassword()">🔐 Restablecer contraseña</button>
-        <button class="btn btn-outline btn-sm" id="adm-support-access-btn" onclick="toggleAdminSupportAccess()">⛔ Desactivar acceso</button>
-        <button class="btn btn-outline btn-sm" onclick="copyAdminSupportDetails()">📋 Copiar datos de cuenta</button>
+        <button class="btn btn-outline btn-sm" title="Corrige el nombre que se muestra en Finsave" onclick="openAdminEditFromSupport()">✏️ Editar nombre</button>
+        <button class="btn btn-outline btn-sm" title="Envía al correo del cliente un enlace seguro para crear una nueva contraseña" onclick="sendAdminSupportResetPassword()">🔐 Restablecer contraseña</button>
+        <button class="btn btn-outline btn-sm" title="Bloquea temporalmente el ingreso sin borrar la información del cliente" id="adm-support-access-btn" onclick="toggleAdminSupportAccess()">⛔ Desactivar acceso</button>
+        <button class="btn btn-outline btn-sm" title="Copia nombre, correo, identificador y estado para atender una solicitud" onclick="copyAdminSupportDetails()">📋 Copiar datos de cuenta</button>
       </div>
     </div>
-    <div class="card" style="padding:1rem;margin-bottom:1rem;box-shadow:none">
-      <div class="card-title" style="font-size:.95rem">Respaldo y recuperación</div>
-      <div class="card-sub" style="margin:.25rem 0 .75rem">Descarga una copia completa o restaura un respaldo previamente generado por Finsave.</div>
-      <div style="display:flex;gap:.55rem;flex-wrap:wrap">
-        <button class="btn btn-prim btn-sm" id="adm-support-backup-btn" onclick="downloadAdminUserBackup()">⬇️ Descargar respaldo</button>
-        <button class="btn btn-outline btn-sm" onclick="document.getElementById('adm-support-file').click()">⬆️ Seleccionar respaldo</button>
+    <details class="card" style="padding:1rem;margin-bottom:1rem;box-shadow:none">
+      <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:.8rem">
+        <span><strong>🛡️ Recuperación de emergencia</strong><small style="display:block;color:var(--gray);font-weight:400;margin-top:.2rem">Herramienta técnica; normalmente no necesitarás usarla</small></span>
+        <span aria-hidden="true" style="color:var(--green);font-size:1.1rem">⌄</span>
+      </summary>
+      <div style="margin-top:1rem;padding:.8rem;border-radius:var(--radius-sm);background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;font-size:.82rem;line-height:1.5">
+        <strong>¿Para qué sirve?</strong><br>
+        Guarda una copia técnica de todos los registros del cliente para poder recuperarlos ante una pérdida o error. El archivo termina en <strong>.json</strong>: contiene códigos internos, no es un Excel, un PDF ni un informe para leer.
+      </div>
+      <div style="display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.8rem">
+        <button class="btn btn-outline btn-sm" id="adm-support-backup-btn" onclick="downloadAdminUserBackup()">💾 Guardar copia de seguridad</button>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('adm-support-file').click()">♻️ Recuperar desde una copia</button>
         <input type="file" id="adm-support-file" accept="application/json,.json" hidden onchange="prepareAdminUserRestore(this)">
       </div>
+      <div style="font-size:.75rem;color:var(--gray);margin-top:.65rem">Guarda el archivo sin modificarlo. Solo Finsave debe utilizarlo para una recuperación.</div>
       <div id="adm-support-restore" style="display:none;margin-top:.9rem;padding:.8rem;border-radius:var(--radius-sm);background:#fff7ed;border:1px solid #fed7aa">
         <div id="adm-support-file-name" style="font-size:.82rem;margin-bottom:.6rem"></div>
         <div class="fg" style="margin-bottom:.6rem"><label>Escribe el correo del usuario para confirmar</label><input type="email" id="adm-support-confirm-email" placeholder="correo@ejemplo.com"></div>
-        <button class="btn btn-danger btn-sm" onclick="restoreAdminUserBackup()">Restaurar este respaldo</button>
+        <button class="btn btn-danger btn-sm" onclick="restoreAdminUserBackup()">Reemplazar datos usando esta copia</button>
       </div>
-    </div>
+    </details>
     <div id="adm-support-msg" style="display:none;font-size:.83rem;padding:.65rem .75rem;border-radius:var(--radius-sm)"></div>
   </div>
 </div>
@@ -3471,11 +3478,12 @@ async function copyAdminSupportDetails() {
 
 function downloadAdminUserBackup() {
   if (!adminSupportUser || !adminSupportDb) { setAdminSupportMessage('No hay información disponible para respaldar.', 'err'); return; }
+  if (!confirm('Se descargará una copia técnica en formato .json.\n\nNo es un informe para abrir o leer: sirve únicamente para recuperar los datos en Finsave. ¿Deseas guardarla?')) return;
   let payload = { finsave_backup: 1, exported_at: new Date().toISOString(), user: { id: adminSupportUser.id, email: adminSupportUser.email, name: adminSupportUser.name || '' }, data: adminSupportDb };
   let blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
   let url = URL.createObjectURL(blob), a = document.createElement('a');
   a.href = url; a.download = `Respaldo-Finsave-${(adminSupportUser.email||'usuario').replace(/[^a-z0-9@._-]/gi,'_')}.json`; a.click(); URL.revokeObjectURL(url);
-  setAdminSupportMessage('Respaldo descargado correctamente.', 'ok');
+  setAdminSupportMessage('Copia de seguridad guardada. Consérvala sin modificar; podrás usarla aquí si necesitas recuperar los datos.', 'ok');
 }
 
 function prepareAdminUserRestore(input) {
