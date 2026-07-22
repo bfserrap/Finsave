@@ -1944,6 +1944,7 @@ let regFormShownAt = 0;
 let supportConversationId = null;
 let supportConversationStatus = 'open';
 let supportChatChannel = null;
+let supportAudioContext = null;
 let adminChatConversationId = null;
 let adminSupportInboxCache = [];
 let adminSupportMacrosCache = [];
@@ -2762,12 +2763,44 @@ function updateSupportAvailability(){
   if(text)text.textContent=open?'En línea · normalmente respondemos dentro del horario':'Fuera de horario · responderemos el próximo día hábil';
   if(note)note.textContent=open?'Atención de lunes a viernes, 09:00–18:00 hrs (Chile).':'Puedes enviar tu mensaje ahora; quedará guardado para el próximo día hábil.';
 }
+function unlockSupportSound(){
+  try{
+    let AudioCtx=window.AudioContext||window.webkitAudioContext;
+    if(!AudioCtx)return;
+    if(!supportAudioContext)supportAudioContext=new AudioCtx();
+    if(supportAudioContext.state==='suspended')supportAudioContext.resume();
+  }catch(e){}
+}
+function playSupportNotificationSound(){
+  try{
+    unlockSupportSound();
+    let ctx=supportAudioContext;
+    if(!ctx||ctx.state!=='running')return;
+    let start=ctx.currentTime+.01,gain=ctx.createGain();
+    gain.gain.setValueAtTime(.0001,start);
+    gain.gain.exponentialRampToValueAtTime(.045,start+.025);
+    gain.gain.exponentialRampToValueAtTime(.0001,start+.32);
+    gain.connect(ctx.destination);
+    [[523.25,0],[659.25,.065]].forEach(([frequency,delay])=>{
+      let tone=ctx.createOscillator();
+      tone.type='sine';tone.frequency.setValueAtTime(frequency,start+delay);
+      tone.connect(gain);tone.start(start+delay);tone.stop(start+.34);
+    });
+  }catch(e){}
+}
+function supportMessageIsVisible(message){
+  let adminThreadOpen=isAdminUser&&adminChatConversationId===message?.conversation_id&&!document.getElementById('adm-sac-active')?.classList.contains('hidden');
+  let userChatOpen=supportConversationId===message?.conversation_id&&!document.getElementById('support-chat-panel')?.classList.contains('hidden');
+  return adminThreadOpen||userChatOpen;
+}
 function initSupportChat(){
   updateSupportAvailability();
   if(!currentUser||!supabaseClient)return;
+  document.addEventListener('pointerdown',unlockSupportSound,{once:true,passive:true});
   loadUserSupportConversation(false);
   if(supportChatChannel)supabaseClient.removeChannel(supportChatChannel);
-  supportChatChannel=supabaseClient.channel('finsave-support-'+currentUser.id).on('postgres_changes',{event:'*',schema:'public',table:'finsave_support_messages'},()=>{
+  supportChatChannel=supabaseClient.channel('finsave-support-'+currentUser.id).on('postgres_changes',{event:'*',schema:'public',table:'finsave_support_messages'},payload=>{
+    if(payload?.eventType==='INSERT'&&payload.new?.sender_id!==currentUser.id&&!supportMessageIsVisible(payload.new))playSupportNotificationSound();
     if(!document.getElementById('support-chat-panel')?.classList.contains('hidden'))loadUserSupportConversation(true);else loadUserSupportConversation(false);
     if(isAdminUser)loadAdminSupportInbox();
   }).on('postgres_changes',{event:'*',schema:'public',table:'finsave_support_conversations',filter:`user_id=eq.${currentUser.id}`},()=>loadUserSupportConversation(false)).subscribe();
