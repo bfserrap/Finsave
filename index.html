@@ -714,8 +714,8 @@ body{color:var(--ink)}
 .sac-client-context{padding:.8rem}.sac-context-grid{gap:.48rem}.sac-context-item{padding:.62rem}.sac-context-item strong{font-size:.72rem;line-height:1.35}
 .sac-context-actions{position:sticky;bottom:0;background:#fff;padding-top:.65rem;gap:.45rem}.sac-context-actions .btn{min-height:39px;font-size:.67rem;white-space:normal}
 .balance-series-controls{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem}.balance-series-label{font-size:.72rem;color:var(--gray);margin-right:.15rem}.balance-series-toggle{min-height:36px;padding:.42rem .75rem;border:1.5px solid var(--gray3);border-radius:999px;background:#fff;color:var(--gray);font-size:.73rem;font-weight:600;display:inline-flex;align-items:center;gap:.38rem}.balance-series-toggle[aria-pressed="true"]{border-color:var(--series-color,var(--brand));background:var(--brand3);color:var(--dark)}.balance-series-toggle .balance-legend-dot{width:9px;height:9px}.support-sync-state{display:inline-flex;align-items:center;gap:.4rem;color:var(--green-dark);font-size:.73rem;font-weight:600}.support-sync-state::before{content:'';width:7px;height:7px;border-radius:50%;background:#10B981;box-shadow:0 0 0 4px rgba(16,185,129,.12)}
-.emergency-guide{margin-top:1rem;display:grid;gap:.65rem}.emergency-guide-when{padding:.85rem;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:.8rem;line-height:1.5}.emergency-guide-steps{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.emergency-step{padding:.8rem;border:1px solid var(--gray3);border-radius:12px;background:#fff;font-size:.78rem;line-height:1.45}.emergency-step b{display:block;color:var(--dark);margin-bottom:.25rem}.emergency-step small{display:block;color:var(--gray);margin-top:.25rem}.emergency-actions{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem}.emergency-actions .btn{width:100%;white-space:normal;line-height:1.3}
-@media(max-width:768px){.balance-series-controls{align-items:stretch}.balance-series-label{width:100%}.balance-series-toggle{flex:1 1 calc(50% - .45rem);justify-content:center}.emergency-guide-steps,.emergency-actions{grid-template-columns:1fr}.sac-context-actions{position:static}.sac-client-panel[open]{max-height:min(42dvh,330px)}.sac-client-context{padding:.65rem}.sac-context-actions .btn{min-height:42px}.admin-section-intro .support-sync-state{margin-top:.25rem}}
+.history-guide{margin-top:1rem;display:grid;gap:.75rem}.history-guide-note{padding:.85rem;border-radius:12px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;font-size:.8rem;line-height:1.5}.history-controls{display:grid;grid-template-columns:minmax(170px,.65fr) minmax(220px,1.35fr);gap:.65rem;align-items:end}.history-controls .fg{margin:0}.history-preview{display:none;padding:.85rem;border:1px solid var(--gray3);border-radius:12px;background:var(--gray5);font-size:.78rem;line-height:1.5}.history-restore{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:.65rem;align-items:end}.history-restore .fg{margin:0}.admin-row-actions{display:flex;align-items:center;flex-wrap:wrap;gap:.55rem;min-width:300px}.admin-row-actions .btn{margin:0;white-space:nowrap}
+@media(max-width:768px){.balance-series-controls{align-items:stretch}.balance-series-label{width:100%}.balance-series-toggle{flex:1 1 calc(50% - .45rem);justify-content:center}.history-controls,.history-restore{grid-template-columns:1fr}.history-restore .btn{width:100%}.admin-row-actions{min-width:0;width:100%;display:grid;grid-template-columns:1fr 1fr}.admin-row-actions .btn{width:100%;white-space:normal;line-height:1.25}.sac-context-actions{position:static}.sac-client-panel[open]{max-height:min(42dvh,330px)}.sac-client-context{padding:.65rem}.sac-context-actions .btn{min-height:42px}.admin-section-intro .support-sync-state{margin-top:.25rem}}
 </style>
 </head>
 <body>
@@ -1636,28 +1636,23 @@ body{color:var(--ink)}
         <button class="btn btn-outline btn-sm" title="Copia nombre, correo, identificador y estado para atender una solicitud" onclick="copyAdminSupportDetails()">📋 Copiar datos de cuenta</button>
       </div>
     </div>
-    <details class="card" style="padding:1rem;margin-bottom:1rem;box-shadow:none">
+    <details class="card" open style="padding:1rem;margin-bottom:1rem;box-shadow:none">
       <summary style="cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:.8rem">
-        <span><strong>🛡️ Recuperación de emergencia</strong><small style="display:block;color:var(--gray);font-weight:400;margin-top:.2rem">Herramienta técnica; normalmente no necesitarás usarla</small></span>
+        <span><strong>🕘 Historial y recuperación</strong><small style="display:block;color:var(--gray);font-weight:400;margin-top:.2rem">Vuelve a una fecha anterior sin descargar archivos</small></span>
         <span aria-hidden="true" style="color:var(--green);font-size:1.1rem">⌄</span>
       </summary>
-      <div class="emergency-guide">
-        <div class="emergency-guide-when"><strong>Úsalo solamente en una emergencia:</strong> por ejemplo, si un cliente informa que desaparecieron sus movimientos después de un error, o antes de realizar una corrección técnica que podría modificar muchos registros. Para problemas normales de nombre, contraseña, plan o facturación, no necesitas esta herramienta.</div>
-        <div class="emergency-guide-steps">
-          <div class="emergency-step"><b>1. Antes del problema: guardar respaldo</b>Descarga una copia exacta de los datos actuales del cliente y consérvala sin abrir ni editar.<small>El archivo .json no es un informe: funciona como una “caja cerrada” que Finsave puede leer después.</small></div>
-          <div class="emergency-step"><b>2. Si se pierden datos: restaurar respaldo</b>Selecciona ese mismo archivo. Finsave revisará que sea válido y pedirá confirmar el correo antes de reemplazar la información dañada.<small>Solo debes restaurarlo si comprobaste que la información actual está incompleta o incorrecta.</small></div>
+      <div class="history-guide">
+        <div class="history-guide-note"><strong>Finsave guarda el historial automáticamente.</strong> Si el cliente elimina o cambia información por error, selecciona el día y la hora en que sus datos todavía estaban correctos. Antes de volver atrás se conservará el estado actual, por lo que la restauración también se puede deshacer.</div>
+        <div class="history-controls">
+          <div class="fg"><label>Día que quieres revisar</label><input type="date" id="adm-history-date" onchange="loadAdminDataHistory()"></div>
+          <div class="fg"><label>Versiones disponibles durante ese día</label><select id="adm-history-version" onchange="renderAdminHistoryPreview()"><option value="">Selecciona una hora</option></select></div>
         </div>
-      </div>
-      <div class="emergency-actions">
-        <button class="btn btn-outline btn-sm" id="adm-support-backup-btn" onclick="downloadAdminUserBackup()">💾 Descargar respaldo preventivo</button>
-        <button class="btn btn-outline btn-sm" onclick="document.getElementById('adm-support-file').click()">♻️ Restaurar datos perdidos</button>
-        <input type="file" id="adm-support-file" accept="application/json,.json" hidden onchange="prepareAdminUserRestore(this)">
-      </div>
-      <div style="font-size:.75rem;color:var(--gray);margin-top:.65rem">Si nunca ocurre una pérdida de información, no tendrás que usar ninguna de estas dos acciones.</div>
-      <div id="adm-support-restore" style="display:none;margin-top:.9rem;padding:.8rem;border-radius:var(--radius-sm);background:#fff7ed;border:1px solid #fed7aa">
-        <div id="adm-support-file-name" style="font-size:.82rem;margin-bottom:.6rem"></div>
-        <div class="fg" style="margin-bottom:.6rem"><label>Escribe el correo del usuario para confirmar</label><input type="email" id="adm-support-confirm-email" placeholder="correo@ejemplo.com"></div>
-        <button class="btn btn-danger btn-sm" onclick="restoreAdminUserBackup()">Reemplazar datos usando esta copia</button>
+        <div id="adm-history-preview" class="history-preview"></div>
+        <div class="history-restore">
+          <div class="fg"><label>Contraseña de administrador para confirmar</label><input type="password" id="adm-history-password" autocomplete="current-password" placeholder="Necesaria para restaurar"></div>
+          <button class="btn btn-danger btn-sm" id="adm-history-restore-btn" onclick="restoreAdminDataHistory()" disabled>↩ Restaurar esta versión</button>
+        </div>
+        <div style="font-size:.75rem;color:var(--gray)">Solo aparecen horas en las que hubo un cambio real. Esta acción restaura los registros financieros; no modifica el correo, la contraseña, el plan ni los cobros.</div>
       </div>
     </details>
     <div id="adm-support-msg" style="display:none;font-size:.83rem;padding:.65rem .75rem;border-radius:var(--radius-sm)"></div>
@@ -2101,7 +2096,7 @@ let isAdminUser = false;
 let adminAccountsCache = [];
 let adminSupportUser = null;
 let adminSupportDb = null;
-let adminSupportPendingRestore = null;
+let adminHistoryCache = [];
 let adminPlansCache = [];
 let adminSubscriptionsCache = [];
 let adminInvoicesCache = [];
@@ -3453,17 +3448,19 @@ async function openAdminSupportModal(userId) {
   adminSupportUser = adminAccountsCache.find(u => u.id === userId) || null;
   if (!adminSupportUser) { showToast('No se encontró la cuenta', 'err'); return; }
   adminSupportDb = null;
-  adminSupportPendingRestore = null;
+  adminHistoryCache = [];
   document.getElementById('adm-support-id').value = userId;
   document.getElementById('adm-support-email').textContent = `${adminSupportUser.name || 'Sin nombre'} · ${adminSupportUser.email}`;
   document.getElementById('adm-support-state').textContent = 'Revisando la información guardada...';
   document.getElementById('adm-support-summary').innerHTML = '';
   document.getElementById('adm-support-msg').style.display = 'none';
-  document.getElementById('adm-support-restore').style.display = 'none';
-  document.getElementById('adm-support-file').value = '';
+  document.getElementById('adm-history-date').value = new Date().toLocaleDateString('en-CA');
+  document.getElementById('adm-history-password').value = '';
+  document.getElementById('adm-history-preview').style.display = 'none';
   updateAdminSupportAccessButton();
   openModal('mod-adm-support');
   await loadAdminSupportData();
+  await loadAdminDataHistory();
 }
 
 function updateAdminSupportAccessButton() {
@@ -3492,11 +3489,9 @@ async function loadAdminSupportData() {
       ['💳','Créditos',(d.creditos||[]).length], ['🏦','Metas',(d.metas||[]).length], ['🧾','Liquidaciones',(d.liquidaciones||[]).length]
     ];
     document.getElementById('adm-support-summary').innerHTML = cards.map(([ic,lbl,val]) => `<div style="background:var(--gray5);border-radius:var(--radius-sm);padding:.75rem"><div style="font-size:.75rem;color:var(--gray)">${ic} ${lbl}</div><div style="font-size:1.15rem;font-weight:700;margin-top:.2rem">${val}</div></div>`).join('');
-    document.getElementById('adm-support-backup-btn').disabled = false;
   } catch(e) {
     state.textContent = 'No fue posible leer los datos financieros de esta cuenta.';
-    document.getElementById('adm-support-backup-btn').disabled = true;
-    setAdminSupportMessage('La cuenta se puede administrar, pero Supabase no permitió acceder a su respaldo. Revisa los permisos de administrador de finsave_data.', 'err');
+    setAdminSupportMessage('La cuenta se puede administrar, pero no fue posible leer sus registros financieros.', 'err');
   }
 }
 
@@ -3540,50 +3535,71 @@ async function copyAdminSupportDetails() {
   catch(e) { setAdminSupportMessage('No se pudieron copiar los datos.', 'err'); }
 }
 
-function downloadAdminUserBackup() {
-  if (!adminSupportUser || !adminSupportDb) { setAdminSupportMessage('No hay información disponible para respaldar.', 'err'); return; }
-  if (!confirm('Se descargará una copia técnica en formato .json.\n\nNo es un informe para abrir o leer: sirve únicamente para recuperar los datos en Finsave. ¿Deseas guardarla?')) return;
-  let payload = { finsave_backup: 1, exported_at: new Date().toISOString(), user: { id: adminSupportUser.id, email: adminSupportUser.email, name: adminSupportUser.name || '' }, data: adminSupportDb };
-  let blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
-  let url = URL.createObjectURL(blob), a = document.createElement('a');
-  a.href = url; a.download = `Respaldo-Finsave-${(adminSupportUser.email||'usuario').replace(/[^a-z0-9@._-]/gi,'_')}.json`; a.click(); URL.revokeObjectURL(url);
-  setAdminSupportMessage('Copia de seguridad guardada. Consérvala sin modificar; podrás usarla aquí si necesitas recuperar los datos.', 'ok');
-}
-
-function prepareAdminUserRestore(input) {
-  let file = input.files && input.files[0]; if (!file) return;
-  let reader = new FileReader();
-  reader.onload = () => {
-    try {
-      let parsed = JSON.parse(reader.result);
-      let candidate = parsed && parsed.finsave_backup === 1 ? parsed.data : parsed;
-      if (!candidate || !candidate.perfil || !Array.isArray(candidate.ingresos) || !Array.isArray(candidate.creditos)) throw new Error('Formato inválido');
-      adminSupportPendingRestore = candidate;
-      document.getElementById('adm-support-file-name').textContent = `Respaldo listo: ${file.name}. Esta acción reemplazará los datos financieros actuales.`;
-      document.getElementById('adm-support-confirm-email').value = '';
-      document.getElementById('adm-support-restore').style.display = 'block';
-    } catch(e) { adminSupportPendingRestore = null; setAdminSupportMessage('El archivo no es un respaldo válido de Finsave.', 'err'); }
-  };
-  reader.readAsText(file);
-}
-
-async function restoreAdminUserBackup() {
-  if (!adminSupportUser || !adminSupportPendingRestore) return;
-  let typed = (document.getElementById('adm-support-confirm-email').value || '').trim().toLowerCase();
-  if (typed !== adminSupportUser.email.toLowerCase()) { setAdminSupportMessage('El correo no coincide. La restauración no se realizó.', 'err'); return; }
-  if (!confirm('¿Restaurar este respaldo? Los datos financieros actuales serán reemplazados.')) return;
-  setAdminSupportMessage('Restaurando respaldo...');
+async function loadAdminDataHistory() {
+  if (!supabaseClient || !adminSupportUser) return;
+  let dateInput = document.getElementById('adm-history-date');
+  let select = document.getElementById('adm-history-version');
+  let preview = document.getElementById('adm-history-preview');
+  let restoreBtn = document.getElementById('adm-history-restore-btn');
+  select.innerHTML = '<option value="">Buscando versiones…</option>';
+  preview.style.display = 'none'; restoreBtn.disabled = true;
   try {
-    let restoredData = JSON.parse(JSON.stringify(adminSupportPendingRestore));
-    restoredData.perfil = restoredData.perfil || {};
-    restoredData.perfil.name = adminSupportUser.name || restoredData.perfil.name || 'Usuario';
-    restoredData.perfil.email = adminSupportUser.email;
-    const { error } = await supabaseClient.from('finsave_data').upsert({ user_id: adminSupportUser.id, data: JSON.stringify(restoredData), updated_at: new Date().toISOString() }, { onConflict:'user_id' });
+    let day = dateInput.value || new Date().toLocaleDateString('en-CA');
+    let from = new Date(`${day}T00:00:00`), to = new Date(from); to.setDate(to.getDate()+1);
+    const { data, error } = await supabaseClient.rpc('get_finsave_data_history', {
+      target_user: adminSupportUser.id, date_from: from.toISOString(), date_to: to.toISOString(), result_limit: 200
+    });
     if (error) throw error;
-    adminSupportDb = restoredData; adminSupportPendingRestore = null;
-    document.getElementById('adm-support-restore').style.display = 'none';
-    setAdminSupportMessage('Respaldo restaurado. La persona verá la información al volver a iniciar sesión.', 'ok');
-    await loadAdminSupportData();
+    adminHistoryCache = data || [];
+    if (!adminHistoryCache.length) {
+      select.innerHTML = '<option value="">No hubo cambios guardados ese día</option>';
+      preview.textContent = 'Elige otro día. Las versiones aparecen únicamente cuando la información cambia.';
+      preview.style.display = 'block'; return;
+    }
+    select.innerHTML = '<option value="">Selecciona una hora</option>' + adminHistoryCache.map(v => {
+      let stamp = new Date(v.captured_at).toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+      return `<option value="${v.id}">${stamp} · ${historySourceLabel(v.source)}</option>`;
+    }).join('');
+  } catch(e) {
+    adminHistoryCache = [];
+    select.innerHTML = '<option value="">Historial no disponible</option>';
+    preview.innerHTML = 'No fue posible cargar las versiones automáticas. Debe estar instalada la actualización de historial de Finsave.';
+    preview.style.display = 'block';
+  }
+}
+
+function historySourceLabel(source) {
+  return source === 'before_restore' ? 'Punto previo a restauración' : source === 'restored' ? 'Versión restaurada' : 'Guardado automático';
+}
+
+function renderAdminHistoryPreview() {
+  let id = String(document.getElementById('adm-history-version').value || '');
+  let version = adminHistoryCache.find(v => String(v.id) === id);
+  let preview = document.getElementById('adm-history-preview');
+  let btn = document.getElementById('adm-history-restore-btn');
+  if (!version) { preview.style.display = 'none'; btn.disabled = true; return; }
+  let date = new Date(version.captured_at).toLocaleString('es-CL',{dateStyle:'long',timeStyle:'medium'});
+  preview.innerHTML = `<strong>Versión del ${escAdmin(date)}</strong><br>${historySourceLabel(version.source)} · ${Number(version.ingresos||0)} ingresos · ${Number(version.gastos||0)} gastos · ${Number(version.creditos||0)} créditos · ${Number(version.metas||0)} metas · ${Number(version.liquidaciones||0)} liquidaciones.`;
+  preview.style.display = 'block'; btn.disabled = false;
+}
+
+async function restoreAdminDataHistory() {
+  if (!adminSupportUser) return;
+  let versionId = Number(document.getElementById('adm-history-version').value || 0);
+  if (!versionId) { setAdminSupportMessage('Selecciona primero una fecha y una hora.', 'err'); return; }
+  let version = adminHistoryCache.find(v => Number(v.id) === versionId);
+  let password = document.getElementById('adm-history-password').value;
+  if (!password) { setAdminSupportMessage('Ingresa tu contraseña de administrador para confirmar.', 'err'); return; }
+  let label = version ? new Date(version.captured_at).toLocaleString('es-CL') : 'seleccionada';
+  if (!confirm(`¿Restaurar la información de ${adminSupportUser.email} a la versión del ${label}?\n\nFinsave guardará primero el estado actual para que puedas deshacer este cambio.`)) return;
+  setAdminSupportMessage('Verificando y restaurando la versión…');
+  try {
+    await verifyCurrentAdminPassword(password);
+    const { error } = await supabaseClient.rpc('restore_finsave_data_version', { target_user: adminSupportUser.id, version_id: versionId });
+    if (error) throw error;
+    document.getElementById('adm-history-password').value = '';
+    setAdminSupportMessage(`Información restaurada al ${label}. El cliente verá el cambio al volver a cargar Finsave.`, 'ok');
+    await loadAdminSupportData(); await loadAdminDataHistory();
   } catch(e) { setAdminSupportMessage('No se pudo restaurar: ' + (e.message || 'error desconocido'), 'err'); }
 }
 
