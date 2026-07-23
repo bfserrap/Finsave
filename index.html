@@ -2968,6 +2968,7 @@ function enterApp() {
   maybeStartTour();
   checkAdminAccess();
   initSupportChat();
+  if(supabaseClient&&currentUser)supabaseClient.rpc('apply_due_finsave_plan_changes').catch(()=>{});
   loadMyNotifications(true);
 }
 
