@@ -4072,9 +4072,12 @@ async function markNotificationRead(id){
   if(!error)await loadMyNotifications();
 }
 function openAdminNotificationModal(userId){
-  if(!userId)return;document.getElementById('adm-notification-user').value=userId;
+  if(!userId)return;
+  closeModal('mod-adm-support');
+  document.getElementById('adm-notification-user').value=userId;
   document.getElementById('adm-notification-title').value='';document.getElementById('adm-notification-body').value='';
-  document.getElementById('adm-notification-msg').style.display='none';openModal('mod-adm-notification');
+  document.getElementById('adm-notification-msg').style.display='none';
+  requestAnimationFrame(()=>openModal('mod-adm-notification'));
 }
 async function sendAdminNotification(){
   let user=document.getElementById('adm-notification-user').value,title=document.getElementById('adm-notification-title').value.trim(),body=document.getElementById('adm-notification-body').value.trim(),type=document.getElementById('adm-notification-type').value;
