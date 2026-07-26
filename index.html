@@ -1137,6 +1137,33 @@ body,html{background:#f5f9fc;color:#25364c}
 .migration-arrow small{display:none}
 @media(max-width:991px){.sheet-preview{left:0}.clarity-dashboard{width:min(420px,66%)}.migration-arrow{left:190px}}
 @media(max-width:640px){.sheet-preview{left:0;top:18px;width:178px}.clarity-dashboard{right:0;top:132px;width:88%}.migration-arrow{left:150px;top:112px}.migration-arrow span{width:42px;height:42px;border-width:4px}.clarity-float-a{top:190px}}
+
+/* Créditos: incluidos y excluidos deben reconocerse de inmediato */
+#page-creditos .cred-card{position:relative;border:1px solid #dfe8f0;border-radius:20px;background:#fff;box-shadow:0 12px 34px rgba(54,88,120,.07);opacity:1;animation:creditCardIn .58s cubic-bezier(.2,.8,.2,1) both;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+#page-creditos .cred-card:nth-child(2){animation-delay:.08s}#page-creditos .cred-card:nth-child(3){animation-delay:.16s}#page-creditos .cred-card:nth-child(4){animation-delay:.24s}
+#page-creditos .cred-card:hover{transform:translateY(-3px);box-shadow:0 20px 46px rgba(54,88,120,.11)}
+#page-creditos .cred-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;z-index:3;background:#4f8df7}
+#page-creditos .cred-header{padding:1.15rem 1.25rem 1.05rem;background:linear-gradient(135deg,#edf5ff,#f8fbff);color:#25364c}
+#page-creditos .cred-title{font-weight:400;font-size:1.08rem}.cred-sub{color:#718399;opacity:1}.cred-stat-val{color:#25364c;font-weight:400}.cred-stat-lbl{color:#718399;opacity:1}.cred-badge{background:#fff;border:1px solid #dfe8f0;color:#60758a}
+#page-creditos .credit-included{border-color:#cbdcff}#page-creditos .credit-included::before{background:linear-gradient(#4f8df7,#73a9ff)}
+#page-creditos .credit-included .cred-header{background:linear-gradient(135deg,#eaf3ff,#f7fbff)}
+#page-creditos .credit-excluded{border-color:#d8dee4;background:#f9fafb;box-shadow:0 8px 24px rgba(80,92,105,.055)}
+#page-creditos .credit-excluded::before{background:#a8b2bd}
+#page-creditos .credit-excluded .cred-header{background:repeating-linear-gradient(135deg,#f1f4f6,#f1f4f6 12px,#f6f8f9 12px,#f6f8f9 24px)}
+#page-creditos .credit-excluded .cred-title,#page-creditos .credit-excluded .cred-stat-val{color:#596b7b}
+#page-creditos .credit-excluded .prog-fill-lg{background:linear-gradient(90deg,#9ca8b4,#bdc6ce)}
+#page-creditos .credit-completed{border-color:#cbe9dd}#page-creditos .credit-completed::before{background:#35b98b}#page-creditos .credit-completed .cred-header{background:linear-gradient(135deg,#eafaf4,#f8fffc)}
+.cred-summary-toggle{min-height:34px;padding:.34rem .68rem;border-radius:99px;border:1px solid transparent;display:inline-flex;align-items:center;gap:.38rem;font:400 .7rem 'Questrial',sans-serif;cursor:pointer}.cred-summary-toggle span{width:19px;height:19px;border-radius:50%;display:grid;place-items:center}
+.cred-summary-toggle.is-included{border-color:#bcd2ff;background:#fff;color:#2858a8}.cred-summary-toggle.is-included span{background:#4f8df7;color:#fff}
+.cred-summary-toggle.is-excluded{border-color:#d6dde3;background:#fff;color:#687b8c}.cred-summary-toggle.is-excluded span{background:#e7ebee;color:#687b8c}
+.cred-summary-state{display:flex;align-items:center;gap:.7rem;margin:0 0 1rem;padding:.72rem .8rem;border:1px solid #cfe0ff;border-radius:13px;background:#f2f7ff;color:#2858a8}.cred-summary-state .state-icon{flex:0 0 30px;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#4f8df7;color:#fff}.cred-summary-state strong{display:block;font-size:.76rem;font-weight:400}.cred-summary-state small{display:block;margin-top:.16rem;color:#6e8297;font-size:.65rem}
+.credit-excluded .cred-summary-state{border-color:#dde3e8;background:#f3f5f6;color:#5e6f7e}.credit-excluded .cred-summary-state .state-icon{background:#a8b2bd}.credit-excluded .cred-summary-state small{color:#7b8995}
+#page-creditos .prog-track-lg{height:13px;background:#e7eef3}#page-creditos .prog-fill-lg{background:linear-gradient(90deg,#78aaff,#4f8df7);transform-origin:left;animation:creditProgressGrow 1.15s .18s cubic-bezier(.2,.8,.2,1) both}
+
+/* Movimiento coherente al abrir cualquier pestaña */
+.page.active>.pg-header{animation:tabHeaderIn .42s cubic-bezier(.2,.8,.2,1) both}.page.active>.pg-header+*{animation-delay:.06s}.page.active .kpi,.page.active .card,.page.active .meta-card,.page.active .cred-card,.page.active .annual-month,.page.active .budget-row{animation-name:tabContentIn;animation-duration:.52s;animation-timing-function:cubic-bezier(.2,.8,.2,1);animation-fill-mode:both}.page.active .kpi:nth-child(2),.page.active .card:nth-child(2),.page.active .meta-card:nth-child(2),.page.active .annual-month:nth-child(2){animation-delay:.07s}.page.active .kpi:nth-child(3),.page.active .card:nth-child(3),.page.active .meta-card:nth-child(3),.page.active .annual-month:nth-child(3){animation-delay:.14s}
+@keyframes creditCardIn{from{opacity:0;transform:translateY(18px) scale(.988)}to{opacity:1;transform:none}}@keyframes creditProgressGrow{from{transform:scaleX(0);filter:saturate(.7)}to{transform:scaleX(1);filter:none}}@keyframes tabHeaderIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}@keyframes tabContentIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:640px){#page-creditos .cred-header{padding:1rem}.cred-summary-state{align-items:flex-start}.cred-summary-toggle{min-height:36px}.cred-stats{gap:.4rem}.cred-stat-val{font-size:1rem}.cred-actions{display:grid;grid-template-columns:1fr 1fr}.cred-actions .btn{width:100%;min-width:0}.cred-actions .btn:last-child:nth-child(odd){grid-column:1/-1}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -5326,8 +5353,8 @@ function renderCreditoCard(x, completado) {
     ? '<span style="background:rgba(16,185,129,.2);color:#10B981;padding:.3rem .7rem;border-radius:99px;font-size:.72rem;font-weight:700">✅ PAGADO</span>'
     : '<span style="background:rgba(249,115,22,.2);color:#f97316;padding:.3rem .7rem;border-radius:99px;font-size:.72rem;font-weight:700">🔄 EN CURSO</span>';
   let toggleLabel = !completado ? (incl
-    ? '<span style="background:rgba(5,150,105,.15);color:#047857;padding:.3rem .7rem;border-radius:99px;font-size:.72rem;font-weight:700;cursor:pointer" onclick="toggleIncluirCredito('+x.id+')">📊 En Resumen</span>'
-    : '<span style="background:rgba(107,114,128,.12);color:var(--gray2);padding:.3rem .7rem;border-radius:99px;font-size:.72rem;font-weight:700;cursor:pointer" onclick="toggleIncluirCredito('+x.id+')">📊 Excluido del Resumen</span>') : '';
+    ? '<button class="cred-summary-toggle is-included" onclick="toggleIncluirCredito('+x.id+')" title="Quitar este crédito del resumen mensual"><span>✓</span> Incluido en el mes</button>'
+    : '<button class="cred-summary-toggle is-excluded" onclick="toggleIncluirCredito('+x.id+')" title="Incluir este crédito en el resumen mensual"><span>—</span> No afecta el resumen</button>') : '';
 
   let pagos = (x.pagos || []).slice().reverse();
   let historialHtml = pagos.length > 0 ? `
@@ -5342,7 +5369,7 @@ function renderCreditoCard(x, completado) {
     </div>` : '';
 
   return `
-    <div class="cred-card" style="${!incl && !completado ? 'opacity:.75;border-left:3px solid var(--gray3)' : ''}">
+    <div class="cred-card ${completado?'credit-completed':incl?'credit-included':'credit-excluded'}">
       <div class="cred-header">
         <div class="cred-header-top">
           <div><div class="cred-title">💳 ${x.banco}</div><div class="cred-sub">${x.desc}</div></div>
@@ -5355,6 +5382,7 @@ function renderCreditoCard(x, completado) {
         </div>
       </div>
       <div class="cred-body">
+        ${!completado?`<div class="cred-summary-state">${incl?'<span class="state-icon">✓</span><div><strong>Incluido en tu planificación mensual</strong><small>La próxima cuota aparecerá entre tus gastos del mes.</small></div>':'<span class="state-icon">—</span><div><strong>Fuera de tu planificación mensual</strong><small>Este crédito se controla aquí, pero no modifica el resumen ni el disponible.</small></div>'}</div>`:''}
         <div class="cred-prog-wrap">
           <div class="cred-prog-info">
             <span>Avance del Crédito</span>
