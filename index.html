@@ -1237,6 +1237,24 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 @media(max-width:900px){.finance-layout{grid-template-columns:1fr}.finance-kpi-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.main{padding-left:16px!important;padding-right:16px!important}.finance-page-head{align-items:flex-start}.finance-page-head .pg-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}.finance-hero{padding:1.35rem;display:block;border-radius:24px}.projection-amount{text-align:left;margin-top:1.25rem;font-size:2rem}.scenario-switch{display:grid;grid-template-columns:repeat(3,1fr);width:100%}.scenario-switch button{padding:.62rem .25rem}.finance-kpi-grid{gap:.6rem}.finance-mini-kpi{padding:.85rem}.finance-mini-kpi strong{font-size:1rem}.finance-panel{padding:1rem;border-radius:22px}.calendar-strip{gap:.15rem}.calendar-day{padding:.45rem .1rem}.account-grid{grid-template-columns:1fr}.search-filters{overflow:auto}.search-filters button{white-space:nowrap}.topbar-brand{font-size:1.12rem}.topbar-actions{gap:.35rem}.topbar-actions>.topbar-logout:last-child{display:none}.commercial-grid{grid-template-columns:1fr}.commercial-card.featured{transform:none}.commercial-section{padding:3.2rem 1rem}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+/* ══════════════ VISUAL MENSUAL · ADMIN WORKSPACE · AUTH 2026 ══════════════ */
+.visual-month-toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0 0 1rem;padding:1rem 1.1rem;border:1px solid #dce8f3;border-radius:16px;background:linear-gradient(120deg,#f9fcff,#eef6ff)}
+.visual-month-toolbar div{display:flex;flex-direction:column;gap:.18rem}.visual-month-toolbar strong{font-size:.88rem;color:#25364c}.visual-month-toolbar span{font-size:.75rem;color:#718399}
+.monthly-customizer{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.65rem;margin:-.25rem 0 1rem;padding:.85rem;border:1px solid #dce8f3;border-radius:16px;background:#fff}
+.monthly-customizer-item{display:flex;align-items:center;gap:.55rem;padding:.65rem;border:1px solid #e2eaf1;border-radius:12px;background:#f8fbfd;font-size:.78rem;color:#42566e}.monthly-customizer-item strong{margin-right:auto}
+.monthly-customizer-item button,.module-order-actions button,.credit-order-actions button{width:32px;height:32px;border:1px solid #d9e4ec;border-radius:9px;background:#fff;color:#47617c;cursor:pointer;font:700 .85rem var(--font)}
+.monthly-module{position:relative}.monthly-module-tools{display:flex;align-items:center;justify-content:flex-end;gap:.35rem;margin:-.25rem 0 .55rem}.monthly-module-tools small{margin-right:auto;color:#8291a0;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}.module-order-actions{display:flex;gap:.3rem}
+.monthly-module.is-hidden{display:none!important}
+.balance-series-explainer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}.series-explainer-item{display:flex;align-items:center;gap:.65rem;padding:.75rem;border:1px solid #e1e9ef;border-radius:13px;background:#f9fbfd}.series-explainer-item>span{width:10px;height:38px;border-radius:99px}.series-explainer-item.income>span{background:#059669}.series-explainer-item.expenses>span{background:#f43f5e}.series-explainer-item.balance>span{background:#2563eb}.series-explainer-item div{display:flex;flex-direction:column}.series-explainer-item strong{font-size:.78rem;color:#25364c}.series-explainer-item small{font-size:.67rem;color:#7b8c9e;margin-top:.12rem}
+.visual-month-feed{display:flex!important;flex-direction:column!important;gap:1rem!important}.visual-month-feed>.resumen-detail-col{display:contents}
+.credit-order-actions{display:inline-flex;gap:.3rem;padding:.25rem;border-radius:11px;background:rgba(255,255,255,.12)}.credit-order-actions button{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.9)}.credit-order-label{font-size:.65rem;color:var(--gray);margin-right:.2rem}
+#page-centro .finance-page-head{padding-bottom:1.2rem;border-bottom:1px solid #dfe9f0}#page-centro .finance-hero{background:linear-gradient(125deg,#10243c,#174e77);box-shadow:0 22px 50px rgba(16,36,60,.18)}#page-centro .scenario-switch::before{content:"Elige cómo calcular la proyección:";font-size:.7rem;color:#718399;margin-right:.35rem}
+#page-admin{--admin-navy:#10243c;--admin-blue:#2868e8}#page-admin>.pg-header{padding:1.4rem 1.5rem;border-radius:20px;background:#fff;border:1px solid #dfe8ef;margin-bottom:.8rem}#page-admin .admin-area-tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.45rem;padding:.5rem;border:1px solid #dfe8ef;border-radius:16px;background:#fff;overflow:visible}#page-admin .admin-area-tab{display:flex;flex-direction:column;gap:.18rem;min-height:60px;border:0;border-radius:11px;background:transparent;font-size:.71rem;color:#617285}#page-admin .admin-area-tab span{font-size:.62rem;letter-spacing:.08em;opacity:.65}#page-admin .admin-area-tab.active{background:var(--admin-navy);color:#fff;box-shadow:0 9px 22px rgba(16,36,60,.2)}
+#page-admin .admin-welcome{grid-template-columns:1.7fr .8fr;gap:.8rem}#page-admin .admin-welcome-main{background:linear-gradient(130deg,#10243c,#174e77);padding:2rem;border-radius:20px}#page-admin .admin-welcome-main h2{font-size:1.75rem;letter-spacing:-.035em}.admin-kicker{display:block;font-size:.66rem;letter-spacing:.14em;color:#9cc5f8;margin-bottom:.7rem}#page-admin .admin-welcome-side{border:1px solid #dfe8ef;border-radius:20px;background:#fff;padding:1.45rem}#page-admin .admin-welcome-side ol{padding-left:1.2rem;margin:.7rem 0 0;color:#607185;font-size:.78rem;line-height:1.9}#page-admin .admin-task{border-radius:16px;border-color:#dde7ef;background:#fff;box-shadow:0 6px 18px rgba(46,73,94,.045)}#page-admin .admin-task:hover{border-color:#9fc0f7;transform:translateY(-3px)}
+.auth-shell{width:min(1100px,100%);min-height:min(720px,calc(100vh - 2.5rem));display:grid;grid-template-columns:1.1fr .9fr;border-radius:30px;overflow:hidden;background:#fff;box-shadow:0 40px 100px rgba(4,18,34,.42)}
+.auth-story{position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:3rem;color:#fff;background:radial-gradient(circle at 85% 20%,rgba(89,158,255,.3),transparent 28%),linear-gradient(145deg,#0c2036,#174e77)}.auth-story::after{content:"";position:absolute;width:360px;height:360px;right:-150px;bottom:-165px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 55px rgba(255,255,255,.035),0 0 0 110px rgba(255,255,255,.025)}.auth-story-brand{position:relative;z-index:1;color:#fff;font-size:1.25rem;font-weight:700;text-decoration:none}.auth-story-kicker{font-size:.7rem;letter-spacing:.16em;color:#9cc5f8}.auth-story h1{max-width:540px;margin:.8rem 0 1rem;font-size:clamp(2.3rem,4vw,4.2rem);line-height:.98;letter-spacing:-.055em}.auth-story p{max-width:480px;color:#cbdced;font-size:1rem;line-height:1.6}.auth-story-points{position:relative;z-index:1;display:flex;gap:1rem;flex-wrap:wrap}.auth-story-points span{font-size:.72rem;color:#d9e9f8}.auth-shell .auth-card{align-self:center;max-width:none;padding:3rem;border:0;border-radius:0;box-shadow:none;background:#fff}.auth-shell .auth-brand{text-align:left}.auth-shell .auth-brand h2{font-size:1.9rem}.auth-shell .auth-tabs{padding:5px;border-radius:14px}.auth-shell .fg input{min-height:52px;background:#f8fafc}.auth-shell .btn-full{min-height:52px}
+@media(max-width:900px){#page-admin .admin-area-tabs{display:flex;overflow-x:auto}#page-admin .admin-area-tab{min-width:105px}.auth-shell{grid-template-columns:1fr;min-height:0;max-width:520px}.auth-story{display:none}.auth-shell .auth-card{padding:2rem}}
+@media(max-width:640px){.visual-month-toolbar{align-items:flex-start;flex-direction:column}.visual-month-toolbar .btn{width:100%}.balance-series-explainer{grid-template-columns:1fr}.balance-series-explainer .balance-legend-item{grid-column:1/-1}.monthly-customizer{grid-template-columns:1fr}.monthly-module-tools{margin-top:0}.scenario-switch{align-items:stretch;flex-wrap:wrap}.scenario-switch::before{width:100%}#page-admin>.pg-header{padding:1rem}#page-admin .admin-area-tabs{position:sticky;display:flex;top:calc(var(--top-h) + env(safe-area-inset-top) + .3rem);margin:0 0 .8rem;padding:.4rem;background:#fff}#page-admin .admin-area-tab{min-width:96px;min-height:52px}#page-admin .admin-welcome{grid-template-columns:1fr}#page-admin .admin-welcome-main{padding:1.3rem}#page-admin .admin-welcome-main h2{font-size:1.35rem}.auth-shell .auth-card{padding:1.35rem}.auth-shell .auth-brand{margin-bottom:1.2rem}}
 </style>
 </head>
 <body>
@@ -1339,10 +1357,16 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 </div>
 
 <div id="auth" class="hidden">
+  <div class="auth-shell">
+  <section class="auth-story">
+    <a href="#" onclick="showLanding();return false" class="auth-story-brand">Finsave</a>
+    <div><span class="auth-story-kicker">TU DINERO, EN CALMA</span><h1>Entiende tu mes antes de que termine.</h1><p>Organiza ingresos, gastos, créditos y metas en un espacio sencillo, visual y privado.</p></div>
+    <div class="auth-story-points"><span>✓ Registro manual y consciente</span><span>✓ Tus datos siempre ordenados</span><span>✓ Diseñado para decisiones reales</span></div>
+  </section>
   <div class="auth-card">
     <div class="auth-brand">
       <h2>💰 <em>Fin</em>save</h2>
-      <p>Tu registro financiero, sin planillas complicadas</p>
+      <p>Bienvenido. Ingresa para continuar con tu planificación.</p>
     </div>
 <div class="auth-tabs" id="auth-tabs">
   <div class="auth-tab active" id="at-login" onclick="switchTab('login')">Ingresar</div>
@@ -1397,6 +1421,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     </div>
     <div class="back-land"><a href="#" onclick="showLanding();return false">← Volver al inicio</a></div>
   </div>
+  </div>
 </div>
 
 <div id="app" class="hidden">
@@ -1436,13 +1461,13 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
       <div class="sync-status offline" id="sync-badge"><div class="sync-dot"></div><span id="sync-txt">Sin conexión</span></div>
     </div>
     <div class="sb-sec">Mi dinero</div>
-    <div class="sb-item active" data-page="resumen" onclick="goTo('resumen')"><span class="sb-ic">🗓️</span> Plan mensual</div>
+    <div class="sb-item active" data-page="resumen" onclick="goTo('resumen')"><span class="sb-ic">◫</span> Visual mensual</div>
     <div class="sb-item" data-page="ingresos" onclick="goTo('ingresos')"><span class="sb-ic">📈</span> Ingresos</div>
     <div class="sb-item" data-page="gastos" onclick="goTo('gastos')"><span class="sb-ic">💸</span> Gastos</div>
     <div class="sb-item" data-page="creditos" onclick="goTo('creditos')"><span class="sb-ic">💳</span> Créditos</div>
     <div class="sb-item" data-page="ahorros" onclick="goTo('ahorros')"><span class="sb-ic">🏦</span> Ahorros</div>
     <div class="sb-sec">Planificación</div>
-    <div class="sb-item" data-page="centro" onclick="goTo('centro')"><span class="sb-ic">🧭</span> Centro financiero</div>
+    <div class="sb-item" data-page="centro" onclick="goTo('centro')"><span class="sb-ic">◷</span> Próximos movimientos</div>
     <div class="sb-item" data-page="anual" onclick="goTo('anual')"><span class="sb-ic">📅</span> Vista anual</div>
     <div class="sb-sec">Herramientas</div>
     <div class="sb-item" data-page="categorias" onclick="goTo('categorias')"><span class="sb-ic">🏷️</span> Categorías</div>
@@ -1452,7 +1477,6 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     <div class="sb-sec" id="sb-sec-admin" style="display:none">Administración</div>
     <div class="sb-item" id="sb-item-admin" data-page="admin" onclick="goTo('admin')" style="display:none"><span class="sb-ic">🛠️</span> Administrador</div>
     <div class="sb-bottom">
-      <div class="sb-help" onclick="restartTour()">🎓 Ver tutorial</div>
       <div class="sb-logout" onclick="doLogout()">🚪 Cerrar sesión</div>
       <div class="sb-version">Finsave v8.0 · 2026</div>
     </div>
@@ -1462,7 +1486,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 
 <div id="page-resumen" class="page active">
   <div class="pg-header">
-    <div><div class="pg-title" id="res-title">Plan mensual</div><div class="pg-sub">Registra y entiende el resultado real de tu mes</div></div>
+    <div><div class="pg-title" id="res-title">Visual mensual</div><div class="pg-sub">Tu mes completo, ordenado como prefieras</div></div>
     <div class="pg-actions">
       <div class="month-yr-sel">
         <select id="res-month" onchange="syncMonthSelectors(this.value); renderResumen();">
@@ -1478,6 +1502,11 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
       <button class="btn btn-ghost btn-sm" onclick="exportResumenPDF()">📥 PDF Resumen</button>
     </div>
   </div>
+  <div class="visual-month-toolbar">
+    <div><strong>Organiza esta vista</strong><span>Mueve los bloques, oculta lo que no necesitas y recupéralo cuando quieras.</span></div>
+    <button class="btn btn-outline btn-sm" onclick="toggleMonthlyCustomizer()">Personalizar vista</button>
+  </div>
+  <div class="monthly-customizer hidden" id="monthly-customizer"></div>
   <div class="plan-month-card card" id="plan-month-card">
     <div class="plan-month-head">
       <div><div class="plan-month-title">Resumen del mes</div><div class="plan-month-copy" id="plan-month-copy">Lo que ingresó, salió y quedó disponible.</div></div>
@@ -1491,21 +1520,19 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   </div>
   <div class="kpi-grid hidden" id="res-kpis" aria-hidden="true"></div>
 
-  <div class="card">
+  <div class="card" id="monthly-budget-card">
     <div class="card-head"><div><div class="card-title"><span class="card-title-ic">◎</span> Límites del mes</div><div class="card-sub">Presupuestos por categoría y alertas antes de excederte</div></div><button class="btn btn-outline btn-sm" onclick="openBudgetModal()">Configurar límites</button></div>
     <div id="res-budget-list"></div>
   </div>
-  <div class="card" style="padding-bottom:1.5rem">
+  <div class="card" id="monthly-balance-card" style="padding-bottom:1.5rem">
     <div class="card-head">
       <div class="card-title"><span class="card-title-ic">📈</span> Balance Operacional</div>
       <div class="card-sub" id="res-yr-lbl">2026</div>
     </div>
-    <div class="balance-series-controls" aria-label="Seleccionar información del gráfico">
-      <span class="balance-series-label">Mostrar en el gráfico:</span>
-      <button class="balance-series-toggle" id="balance-toggle-all" aria-pressed="true" onclick="setBalanceSeries('all')">Todo</button>
-      <button class="balance-series-toggle" data-balance-series="income" aria-pressed="true" style="--series-color:#059669" onclick="toggleBalanceSeries('income')"><span class="balance-legend-dot" style="background:#059669"></span>Ingresos</button>
-      <button class="balance-series-toggle" data-balance-series="expenses" aria-pressed="true" style="--series-color:#F43F5E" onclick="toggleBalanceSeries('expenses')"><span class="balance-legend-dot" style="background:#F43F5E"></span>Gastos</button>
-      <button class="balance-series-toggle" data-balance-series="balance" aria-pressed="true" style="--series-color:#2563EB" onclick="toggleBalanceSeries('balance')"><span class="balance-legend-dot" style="background:#2563EB;border-radius:50%"></span>Saldo líquido</button>
+    <div class="balance-series-controls balance-series-explainer" aria-label="Información incluida en el gráfico">
+      <div class="series-explainer-item income"><span></span><div><strong>Ingresos</strong><small>Dinero que entró</small></div></div>
+      <div class="series-explainer-item expenses"><span></span><div><strong>Gastos</strong><small>Dinero que salió</small></div></div>
+      <div class="series-explainer-item balance"><span></span><div><strong>Saldo líquido</strong><small>Lo que quedó cada mes</small></div></div>
       <div class="balance-legend-item" id="res-bal-trend" style="margin-left:auto"></div>
     </div>
     <div class="balance-chart-wrap" style="position:relative">
@@ -1515,7 +1542,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     <div class="balance-tip">💡 <span><b>El saldo líquido</b> representa la diferencia entre tus ganancias y gastos cada mes.</span></div>
   </div>
 
-  <div class="resumen-detail-grid">
+  <div class="resumen-detail-grid visual-month-feed" id="monthly-detail-grid">
     <div class="resumen-detail-col">
       <div class="card">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">📥</span> Flujos de Ingresos</div><div class="card-sub" id="res-in-tot">$0</div></div>
@@ -1562,14 +1589,14 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 
 <div id="page-centro" class="page">
   <div class="pg-header finance-page-head">
-    <div><div class="eyebrow">Tu centro de control</div><div class="pg-title">Planifica lo que viene</div><div class="pg-sub">Anticipa pagos, protege tus límites y toma decisiones antes de terminar el mes.</div></div>
+    <div><div class="eyebrow">Agenda financiera</div><div class="pg-title">Próximos movimientos</div><div class="pg-sub">Aquí ves qué cobros, cuotas e ingresos vienen después y cómo cambiarían el dinero disponible.</div></div>
     <div class="pg-actions"><button class="btn btn-outline btn-sm" onclick="openGlobalSearch()">⌕ Buscar</button><button class="btn btn-prim btn-sm" onclick="openPlannerItem()">＋ Planificar</button></div>
   </div>
   <div class="finance-hero">
     <div>
-      <span class="finance-hero-kicker">Proyección de cierre</span>
-      <h2 id="finance-projection-title">Tu mes está tomando forma</h2>
-      <p id="finance-projection-copy">Calculamos el resultado esperado usando tus movimientos, cuotas, pagos recurrentes y ahorro planificado.</p>
+      <span class="finance-hero-kicker">Qué pasaría al terminar el mes</span>
+      <h2 id="finance-projection-title">Resultado estimado</h2>
+      <p id="finance-projection-copy">Sumamos lo que ya registraste con tus próximas cuotas, pagos repetidos y movimientos planificados.</p>
     </div>
     <div class="projection-amount" id="finance-projection-amount">$0<small>disponible estimado</small></div>
   </div>
@@ -1718,7 +1745,6 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   <div class="pg-header">
     <div><div class="pg-title">Créditos y Financiamientos</div><div class="pg-sub">Monitorea tus deudas en cuotas y saldos pendientes</div></div>
     <div class="pg-actions" style="width:auto">
-      <button class="btn btn-outline btn-sm" onclick="openDebtPlan()">❄️ Simular estrategia</button>
       <button class="btn btn-ghost btn-sm" onclick="exportCreditosPDF()">📄 Descargar todos</button>
       <button class="btn btn-prim btn-sm" onclick="openModal('mod-cred')">＋ Nuevo Crédito</button>
     </div>
@@ -2038,21 +2064,21 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 
 <div id="page-admin" class="page">
   <div class="pg-header">
-    <div><div class="pg-title">🛠️ Administración Finsave</div><div class="pg-sub">Elige una tarea y avanza paso a paso. Cada área reúne solamente las acciones relacionadas.</div></div>
+    <div><div class="eyebrow">Operación interna</div><div class="pg-title">Panel de administración</div><div class="pg-sub">Personas, conversaciones, planes, pagos y documentos en un espacio de trabajo claro.</div></div>
   </div>
 
   <nav class="admin-area-tabs" aria-label="Secciones del panel de administrador">
-    <button class="admin-area-tab active" data-admin-area="overview" onclick="setAdminArea('overview')">🏠 Inicio</button>
-    <button class="admin-area-tab" data-admin-area="users" onclick="setAdminArea('users')">👥 Personas</button>
-    <button class="admin-area-tab" data-admin-area="support" onclick="setAdminArea('support')">💬 Atención <span id="adm-sac-tab-badge"></span></button>
-    <button class="admin-area-tab" data-admin-area="commercial" onclick="setAdminArea('commercial')">💎 Planes</button>
-    <button class="admin-area-tab" data-admin-area="payments" onclick="setAdminArea('payments')">💳 Cobros</button>
-    <button class="admin-area-tab" data-admin-area="tax" onclick="setAdminArea('tax')">🧾 Documentos SII</button>
-    <button class="admin-area-tab" data-admin-area="settings" onclick="setAdminArea('settings')">⚙️ Ajustes</button>
+    <button class="admin-area-tab active" data-admin-area="overview" onclick="setAdminArea('overview')"><span>01</span> Resumen</button>
+    <button class="admin-area-tab" data-admin-area="users" onclick="setAdminArea('users')"><span>02</span> Clientes</button>
+    <button class="admin-area-tab" data-admin-area="support" onclick="setAdminArea('support')"><span>03</span> Conversaciones <b id="adm-sac-tab-badge"></b></button>
+    <button class="admin-area-tab" data-admin-area="commercial" onclick="setAdminArea('commercial')"><span>04</span> Planes</button>
+    <button class="admin-area-tab" data-admin-area="payments" onclick="setAdminArea('payments')"><span>05</span> Pagos</button>
+    <button class="admin-area-tab" data-admin-area="tax" onclick="setAdminArea('tax')"><span>06</span> SII</button>
+    <button class="admin-area-tab" data-admin-area="settings" onclick="setAdminArea('settings')"><span>07</span> Configuración</button>
   </nav>
 
   <section class="admin-area-panel active" data-admin-panel="overview">
-    <div class="admin-welcome"><div class="admin-welcome-main"><h2>¿Qué necesitas hacer hoy?</h2><p>Usa los accesos de abajo para encontrar rápidamente cada tarea. Las funciones técnicas y delicadas están separadas de las operaciones diarias.</p></div><div class="admin-welcome-side"><strong>💡 Orden recomendado</strong><p>Primero atiende mensajes y pagos pendientes. Después revisa cobros y documentos tributarios. Los ajustes normalmente se modifican solo al configurar Finsave.</p></div></div>
+    <div class="admin-welcome"><div class="admin-welcome-main"><span class="admin-kicker">CENTRO DE OPERACIONES</span><h2>Todo lo importante, sin ruido.</h2><p>Empieza por la atención pendiente. Después revisa pagos y documentos; la configuración queda separada de la operación diaria.</p></div><div class="admin-welcome-side"><strong>Ruta recomendada</strong><ol><li>Conversaciones nuevas</li><li>Pagos por revisar</li><li>Documentos pendientes</li></ol></div></div>
     <div class="admin-task-grid">
       <button class="admin-task" onclick="setAdminArea('users')"><span class="admin-task-icon">👤</span><span><strong>Ayudar a una persona</strong><small>Buscar una cuenta, corregir su nombre, recuperar acceso o revisar sus datos.</small></span></button>
       <button class="admin-task" onclick="setAdminArea('support')"><span class="admin-task-icon">💬</span><span><strong>Responder una consulta</strong><small>Abrir la bandeja de atención, responder chats y revisar satisfacción.</small></span></button>
@@ -4633,7 +4659,7 @@ function resetAdminUI() {
 }
 /* ── TOUR DE BIENVENIDA ── */
 const TOUR_STEPS = [
-  { page:'resumen', title:'🗓️ Plan mensual', text:'Aquí comparas lo que planificaste con tus ingresos, gastos, ahorro y saldo real del mes.' },
+  { page:'resumen', title:'◫ Visual mensual', text:'Aquí revisas y ordenas tus ingresos, gastos, ahorro y saldo real del mes.' },
   { page:'ingresos', title:'📈 Ingresos', text:'Registra tu sueldo u otras entradas de plata del mes.' },
   { page:'gastos', title:'💸 Gastos', text:'Anota tus gastos fijos y variables. Puedes editarlos o eliminarlos cuando quieras.' },
   { page:'categorias', title:'🏷️ Categorías', text:'Personaliza las categorías con las que ordenas tus gastos.' },
@@ -5576,7 +5602,10 @@ function renderCreditoCard(x, completado) {
       <div class="cred-header">
         <div class="cred-header-top">
           <div><div class="cred-title">💳 ${x.banco}</div><div class="cred-sub">${x.desc}</div></div>
-          <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">${estadoBadge}${toggleLabel}</div>
+          <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">
+            ${!completado?`<span class="credit-order-label">ORDEN</span><span class="credit-order-actions"><button onclick="moveCredit(${x.id},-1)" title="Mover hacia arriba" aria-label="Mover crédito hacia arriba">↑</button><button onclick="moveCredit(${x.id},1)" title="Mover hacia abajo" aria-label="Mover crédito hacia abajo">↓</button></span>`:''}
+            ${estadoBadge}${toggleLabel}
+          </div>
         </div>
         <div class="cred-stats">
           <div class="cred-stat"><div class="cred-stat-val">$${formatMiles(x.montoCuota)}</div><div class="cred-stat-lbl">Valor Cuota</div></div>
@@ -7073,7 +7102,7 @@ function exportMonthExcel(){
     ...(window.db.ahorrosMes||[]).filter(x=>x.month===month&&x.year===year).map(x=>['Ahorro','',x.desc,'',x.monto,'Registrado'])
   ];
   let t=periodTotals(month,year),wb=XLSX.utils.book_new(),res=XLSX.utils.aoa_to_sheet([]),mov=XLSX.utils.aoa_to_sheet([]),period=`${FINSAVE_MONTHS[month]} ${year}`;
-  excelAddBrand(res,'Finsave · Plan mensual',`${period} · Generado el ${new Date().toLocaleDateString('es-CL')}`,6);
+  excelAddBrand(res,'Finsave · Visual mensual',`${period} · Generado el ${new Date().toLocaleDateString('es-CL')}`,6);
   excelMerge(res,'A5:B5','INGRESOS',excelStyle('kpiLabel'));excelMerge(res,'A6:B6',t.ingresos,excelStyle('kpiValue'));
   excelMerge(res,'C5:D5','GASTOS',excelStyle('kpiLabel'));excelMerge(res,'C6:D6',t.gastos,excelStyle('kpiValue'));
   excelMerge(res,'E5:F5','DISPONIBLE',excelStyle('kpiLabel'));excelMerge(res,'E6:F6',t.saldo,excelStyle('kpiValue'));
@@ -7163,6 +7192,52 @@ function searchItems(){
   let items=[];[...(window.db.ingresos||[])].forEach(x=>items.push({group:'movements',icon:'↗',title:x.desc,copy:`Ingreso · ${FINSAVE_MONTHS[x.month]} ${x.year}`,amount:x.monto,page:'ingresos'}));[...(window.db.gastosFijos||[]),...(window.db.gastosVariables||[])].forEach(x=>items.push({group:'movements',icon:'↘',title:x.desc,copy:`Gasto · ${FINSAVE_MONTHS[x.month]} ${x.year}`,amount:x.monto,page:'gastos'}));(window.db.creditos||[]).forEach(x=>items.push({group:'credits',icon:'▣',title:x.desc,copy:`${x.banco} · ${x.cuotaAct-1}/${x.cuotaTot} cuotas`,amount:x.montoCuota,page:'creditos'}));(window.db.metas||[]).forEach(x=>items.push({group:'goals',icon:'◎',title:x.name,copy:`Ahorrado $${formatMiles(x.act)} de $${formatMiles(x.obj)}`,amount:x.act,page:'ahorros'}));return items;
 }
 function renderGlobalSearch(){let box=document.getElementById('global-search-results');if(!box)return;let q=document.getElementById('global-search-input').value.trim().toLowerCase(),items=searchItems().filter(x=>(globalSearchFilter==='all'||x.group===globalSearchFilter)&&(!q||`${x.title} ${x.copy}`.toLowerCase().includes(q)));box.innerHTML=items.length?items.slice(0,80).map(x=>`<div class="search-result" onclick="closeModal('mod-global-search');goTo('${x.page}')"><span class="search-result-icon">${x.icon}</span><div class="search-result-main"><strong>${escAdmin(x.title)}</strong><small>${escAdmin(x.copy)}</small></div><strong>$${formatMiles(x.amount)}</strong></div>`).join(''):'<div class="search-empty">No encontramos resultados con esos datos.</div>';}
+
+/* ══════════════ VISTA MENSUAL PERSONALIZABLE ══════════════ */
+const MONTHLY_MODULES=[
+  {id:'plan-month-card',label:'Resumen del mes'},
+  {id:'monthly-budget-card',label:'Límites del mes'},
+  {id:'monthly-balance-card',label:'Balance operacional'},
+  {id:'monthly-detail-grid',label:'Detalle y diagnóstico'}
+];
+function monthlyViewState(){
+  try{return JSON.parse(localStorage.getItem('finsave_monthly_view')||'{}')}catch(e){return{}}
+}
+function saveMonthlyViewState(state){localStorage.setItem('finsave_monthly_view',JSON.stringify(state))}
+function setupMonthlyView(){
+  const page=document.getElementById('page-resumen'),anchor=document.getElementById('res-kpis');if(!page||!anchor)return;
+  const state=monthlyViewState(),order=Array.isArray(state.order)?state.order:MONTHLY_MODULES.map(x=>x.id);
+  MONTHLY_MODULES.forEach((cfg,index)=>{
+    const el=document.getElementById(cfg.id);if(!el)return;
+    el.dataset.monthlyModule=cfg.id;el.classList.add('monthly-module');
+    if(!el.querySelector(':scope > .monthly-module-tools')){
+      const tools=document.createElement('div');tools.className='monthly-module-tools';
+      tools.innerHTML=`<small>${cfg.label}</small><span class="module-order-actions"><button onclick="moveMonthlyModule('${cfg.id}',-1)" title="Mover arriba" aria-label="Mover ${cfg.label} arriba">↑</button><button onclick="moveMonthlyModule('${cfg.id}',1)" title="Mover abajo" aria-label="Mover ${cfg.label} abajo">↓</button><button onclick="setMonthlyModuleVisible('${cfg.id}',false)" title="Ocultar" aria-label="Ocultar ${cfg.label}">×</button></span>`;
+      el.prepend(tools);
+    }
+    el.classList.toggle('is-hidden',(state.hidden||[]).includes(cfg.id));
+  });
+  [...order,...MONTHLY_MODULES.map(x=>x.id).filter(id=>!order.includes(id))].forEach(id=>{const el=document.getElementById(id);if(el)page.insertBefore(el,anchor)});
+  renderMonthlyCustomizer();
+}
+function moveMonthlyModule(id,delta){
+  const state=monthlyViewState(),order=(state.order||MONTHLY_MODULES.map(x=>x.id)).filter(x=>MONTHLY_MODULES.some(m=>m.id===x)),at=order.indexOf(id),to=Math.max(0,Math.min(order.length-1,at+delta));if(at<0||at===to)return;
+  [order[at],order[to]]=[order[to],order[at]];state.order=order;saveMonthlyViewState(state);setupMonthlyView();
+}
+function setMonthlyModuleVisible(id,visible){
+  const state=monthlyViewState(),hidden=new Set(state.hidden||[]);visible?hidden.delete(id):hidden.add(id);state.hidden=[...hidden];saveMonthlyViewState(state);setupMonthlyView();
+}
+function toggleMonthlyCustomizer(){document.getElementById('monthly-customizer')?.classList.toggle('hidden');renderMonthlyCustomizer()}
+function renderMonthlyCustomizer(){
+  const box=document.getElementById('monthly-customizer');if(!box)return;const state=monthlyViewState(),hidden=new Set(state.hidden||[]);
+  box.innerHTML=MONTHLY_MODULES.map(x=>`<div class="monthly-customizer-item"><strong>${x.label}</strong><button onclick="moveMonthlyModule('${x.id}',-1)" aria-label="Subir">↑</button><button onclick="moveMonthlyModule('${x.id}',1)" aria-label="Bajar">↓</button><button onclick="setMonthlyModuleVisible('${x.id}',${hidden.has(x.id)})" title="${hidden.has(x.id)?'Mostrar':'Ocultar'}">${hidden.has(x.id)?'○':'✓'}</button></div>`).join('');
+}
+function moveCredit(id,delta){
+  const list=window.db.creditos||[],from=list.findIndex(x=>x.id===id);if(from<0)return;
+  const activeIndexes=list.map((x,i)=>({x,i})).filter(v=>(v.x.cuotaAct-1)<v.x.cuotaTot).map(v=>v.i),pos=activeIndexes.indexOf(from),targetPos=Math.max(0,Math.min(activeIndexes.length-1,pos+delta));if(pos===targetPos)return;
+  const to=activeIndexes[targetPos];[list[from],list[to]]=[list[to],list[from]];saveDB();renderCreditos();showToast('Orden de créditos actualizado');
+}
+document.addEventListener('DOMContentLoaded',setupMonthlyView);
 
 /* ══════════════ RESUMEN ══════════════ */
 function syncBalanceSeriesControls(){
