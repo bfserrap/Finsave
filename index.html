@@ -1164,6 +1164,21 @@ body,html{background:#f5f9fc;color:#25364c}
 .page.active>.pg-header{animation:tabHeaderIn .42s cubic-bezier(.2,.8,.2,1) both}.page.active>.pg-header+*{animation-delay:.06s}.page.active .kpi,.page.active .card,.page.active .meta-card,.page.active .cred-card,.page.active .annual-month,.page.active .budget-row{animation-name:tabContentIn;animation-duration:.52s;animation-timing-function:cubic-bezier(.2,.8,.2,1);animation-fill-mode:both}.page.active .kpi:nth-child(2),.page.active .card:nth-child(2),.page.active .meta-card:nth-child(2),.page.active .annual-month:nth-child(2){animation-delay:.07s}.page.active .kpi:nth-child(3),.page.active .card:nth-child(3),.page.active .meta-card:nth-child(3),.page.active .annual-month:nth-child(3){animation-delay:.14s}
 @keyframes creditCardIn{from{opacity:0;transform:translateY(18px) scale(.988)}to{opacity:1;transform:none}}@keyframes creditProgressGrow{from{transform:scaleX(0);filter:saturate(.7)}to{transform:scaleX(1);filter:none}}@keyframes tabHeaderIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}@keyframes tabContentIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @media(max-width:640px){#page-creditos .cred-header{padding:1rem}.cred-summary-state{align-items:flex-start}.cred-summary-toggle{min-height:36px}.cred-stats{gap:.4rem}.cred-stat-val{font-size:1rem}.cred-actions{display:grid;grid-template-columns:1fr 1fr}.cred-actions .btn{width:100%;min-width:0}.cred-actions .btn:last-child:nth-child(odd){grid-column:1/-1}}
+
+/* Ahorros: mismo sistema visual de Créditos con identidad menta */
+#page-ahorros .meta-card{position:relative;border:1px solid #cfe9df;border-radius:20px;background:#fff;box-shadow:0 12px 34px rgba(47,125,99,.07);animation:goalCardIn .58s cubic-bezier(.2,.8,.2,1) both;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+#page-ahorros .meta-card:nth-child(2){animation-delay:.08s}#page-ahorros .meta-card:nth-child(3){animation-delay:.16s}#page-ahorros .meta-card:nth-child(4){animation-delay:.24s}
+#page-ahorros .meta-card:hover{transform:translateY(-3px);box-shadow:0 20px 46px rgba(47,125,99,.11)}
+#page-ahorros .meta-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;z-index:3;background:linear-gradient(#67d3ad,#35b98b)}
+#page-ahorros .meta-header{padding:1.15rem 1.25rem 1.05rem;background:linear-gradient(135deg,#eafaf4,#f9fffc);color:#25364c}
+#page-ahorros .meta-title{font-size:1.08rem;font-weight:400}.meta-pct-badge{border:1px solid #bde4d5;background:#fff;color:#1c7d60;font-size:.72rem;font-weight:400}.meta-amount-val{color:#25364c;font-weight:400}.meta-amount-lbl{color:#718399;opacity:1}
+#page-ahorros .goal-active{border-color:#cfe9df}#page-ahorros .goal-advanced{border-color:#a9dec9}#page-ahorros .goal-advanced::before{background:linear-gradient(#45c997,#1f9f73)}
+#page-ahorros .goal-completed{border-color:#9dd9c2;background:#fbfffd}#page-ahorros .goal-completed::before{background:#19a974}#page-ahorros .goal-completed .meta-header{background:linear-gradient(135deg,#dff8ee,#f5fffb)}
+.goal-state{display:flex;align-items:center;gap:.7rem;margin:0 0 1rem;padding:.72rem .8rem;border:1px solid #cbe9dd;border-radius:13px;background:#effaf5;color:#1c7d60}.goal-state .state-icon{flex:0 0 30px;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#35b98b;color:#fff}.goal-state strong{display:block;font-size:.76rem;font-weight:400}.goal-state small{display:block;margin-top:.16rem;color:#658477;font-size:.65rem}.goal-completed .goal-state{background:#e4f8f0;border-color:#a9dec9}.goal-completed .goal-state .state-icon{background:#19a974}
+#page-ahorros .prog-track-lg{height:13px;background:#e3f0eb}#page-ahorros .goal-progress-fill{background:linear-gradient(90deg,#64d2aa,#35b98b);transform-origin:left;animation:goalProgressGrow 1.2s .18s cubic-bezier(.2,.8,.2,1) both}.goal-completed .goal-progress-fill{background:linear-gradient(90deg,#35b98b,#19a974)}
+#page-ahorros .meta-actions{display:flex;gap:.5rem}#page-ahorros .meta-actions .btn-prim{background:linear-gradient(135deg,#45c997,#24a97b);box-shadow:0 10px 22px rgba(36,169,123,.18)}
+@keyframes goalCardIn{from{opacity:0;transform:translateY(18px) scale(.988)}to{opacity:1;transform:none}}@keyframes goalProgressGrow{from{transform:scaleX(0);filter:saturate(.7)}to{transform:scaleX(1);filter:none}}
+@media(max-width:640px){#page-ahorros .meta-header{padding:1rem}.goal-state{align-items:flex-start}.meta-amounts{gap:.35rem}.meta-amount-val{font-size:.96rem}.meta-pct-badge{font-size:.66rem}.meta-actions{display:grid!important;grid-template-columns:1fr 1fr}.meta-actions .btn{width:100%;min-width:0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -5787,11 +5802,11 @@ function renderMetas() {
           </div>`).join('')}
         </div>` : '';
     wrapper.innerHTML += `
-    <div class="meta-card">
+    <div class="meta-card ${completada?'goal-completed':pct>=60?'goal-advanced':'goal-active'}">
       <div class="meta-header">
         <div class="meta-header-top">
           <div class="meta-title">🏦 ${x.name}</div>
-          <div class="meta-pct-badge">${Math.round(pct)}%</div>
+          <div class="meta-pct-badge">${completada?'✓ Meta cumplida':`${Math.round(pct)}% avanzado`}</div>
         </div>
         <div class="meta-amounts">
           <div class="meta-amount"><div class="meta-amount-val">$${formatMiles(x.act)}</div><div class="meta-amount-lbl">Ahorrado</div></div>
@@ -5800,11 +5815,12 @@ function renderMetas() {
         </div>
       </div>
       <div class="meta-body">
+        <div class="goal-state"><span class="state-icon">${completada?'✓':pct>=60?'↗':'◎'}</span><div><strong>${completada?'Objetivo alcanzado':pct>=60?'Vas muy bien':'Meta en progreso'}</strong><small>${completada?'Completaste el monto que te propusiste.':pct>=60?'Ya recorriste más de la mitad del camino.':'Cada abono hace visible tu avance hacia el objetivo.'}</small></div></div>
         <div class="meta-prog-info"><span>Progreso de la meta</span><span>${completada ? '✅ ¡Completada!' : `Faltan $${formatMiles(falta)}`}</span></div>
-        <div class="prog-track-lg"><div class="prog-fill-lg" style="width:${pct}%;background:linear-gradient(90deg,#6d28d9,#7c3aed)"></div></div>
+        <div class="prog-track-lg"><div class="prog-fill-lg goal-progress-fill" style="width:${pct}%"></div></div>
         ${abonosHtml}
         <div class="meta-actions">
-          ${!completada ? `<button class="btn btn-prim btn-sm" onclick="abrirAporte(${x.id})" style="background:var(--purple)">💰 Agregar Abono</button>` : ''}
+          ${!completada ? `<button class="btn btn-prim btn-sm" onclick="abrirAporte(${x.id})">💰 Agregar Abono</button>` : ''}
           <button class="btn btn-danger btn-sm" onclick="delMeta(${x.id})">🗑️ Eliminar</button>
         </div>
       </div>
