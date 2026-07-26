@@ -1115,6 +1115,20 @@ body,html{background:#f5f9fc;color:#25364c}
 .sidebar{background:#fff;border-right:1px solid #dfe8f0;box-shadow:8px 0 28px rgba(64,96,126,.04)}.sb-brand{border-color:#e8eef3}.sb-brand .brand-mark{background:var(--brand-grad)}.sb-brand-name,.sb-uname{color:#25364c}.sb-user-block{border-color:#e4ebf1;background:#f7faff}.sb-user-block:hover{background:#eef5ff}.sb-uemail,.sb-sec{color:#8797a7}.sb-item{color:#60758a}.sb-item:hover{background:#f1f6fb;color:#3978e6}.sb-item.active{background:#eaf2ff;color:#3978e6;box-shadow:inset 3px 0 #69a4ff}.sb-bottom{background:#fff;border-color:#e8eef3}.sb-help,.sb-logout{color:#718399}.sb-logout:hover{color:#d64b64}
 .main{background:radial-gradient(circle at 100% 0,rgba(110,165,255,.11),transparent 27%),#f5f9fc}.plan-month-card{background:linear-gradient(135deg,#edf5ff,#f8fbff);color:#25364c;border:1px solid #dce8f3;box-shadow:0 18px 45px rgba(70,112,150,.1)}.plan-month-title,.plan-month-copy{color:#25364c}.plan-month-copy{opacity:.72}.plan-summary-item{border-color:#dce7f0!important;background:rgba(255,255,255,.7)!important;color:#25364c}.plan-summary-label{color:#718399}
 .admin-welcome-main,.support-chat-head{background:linear-gradient(135deg,#5b95f5,#79b2ff)}.admin-area-tab.active{background:#4f8df7;border-color:#4f8df7}.support-msg.user{background:#4f8df7}.sac-filter:hover,.sac-filter.active,.sac-row:hover,.sac-row.active{background:#eef5ff;color:#3978e6}.topbar{background:rgba(250,253,255,.92)}
+
+/* Resumen mensual: resultado claro, compacto y semántico */
+.plan-month-card{padding:1.15rem!important;border:1px solid #e1e9ef!important;border-radius:18px!important;background:#fff!important;box-shadow:0 10px 32px rgba(54,88,120,.055)!important}
+.plan-month-card::after{display:none}.plan-month-head{align-items:center;margin-bottom:.9rem}.plan-month-title{font-size:1.05rem;font-weight:400;color:#25364c}.plan-month-copy{font-size:.76rem;color:#7a8b9c!important;opacity:1}
+.plan-month-actions{gap:.4rem}.plan-month-actions .btn{min-height:40px;padding:.5rem .78rem;border-radius:11px;box-shadow:none;font-size:.76rem}.plan-month-actions .btn-prim{box-shadow:0 8px 18px rgba(79,141,247,.16)}
+.plan-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(230px,1.25fr);gap:.55rem}
+.plan-summary-item{display:flex;flex-direction:column;justify-content:center;min-height:92px;padding:.78rem .9rem!important;border:1px solid #e5ecf2!important;border-radius:13px!important;background:#f8fafc!important;color:#25364c!important;backdrop-filter:none!important}
+.plan-summary-label{font-size:.64rem;font-weight:400;letter-spacing:.06em;color:#7c8d9d!important}.plan-summary-value{margin-top:.35rem;font-size:1.15rem;font-weight:400;color:#25364c}
+.plan-summary-available{position:relative;padding-left:1.05rem!important;border-color:#cbe9dd!important;background:#effaf5!important;overflow:hidden}.plan-summary-available::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#35b98b}.plan-summary-available .plan-summary-label{color:#397d65!important}.plan-summary-available .plan-summary-value{font-size:1.35rem;color:#1c7d60}.plan-summary-available small{display:block;margin-top:.18rem;color:#658477;font-size:.61rem}
+.plan-summary-available.is-negative{border-color:#f1cbd3!important;background:#fff4f6!important}.plan-summary-available.is-negative::before{background:#dc3f5d}.plan-summary-available.is-negative .plan-summary-label,.plan-summary-available.is-negative .plan-summary-value{color:#bd3650!important}.plan-summary-available.is-negative small{color:#956271}
+.plan-summary-available.is-neutral{border-color:#dde5eb!important;background:#f5f8fa!important}.plan-summary-available.is-neutral::before{background:#97a6b3}.plan-summary-available.is-neutral .plan-summary-label,.plan-summary-available.is-neutral .plan-summary-value{color:#687b8c!important}
+@media(max-width:1050px){.plan-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-summary-available{grid-column:1/-1}}
+@media(max-width:640px){.plan-month-card{padding:1rem!important}.plan-month-head{display:block}.plan-month-actions{grid-template-columns:1fr 1fr}.plan-month-actions .btn:last-child:nth-child(3){grid-column:1/-1}.plan-summary-item{min-height:82px}.plan-summary-available{min-height:96px}.plan-summary-available .plan-summary-value{font-size:1.25rem}}
+@media(max-width:370px){.plan-summary-grid{grid-template-columns:1fr}.plan-summary-available{grid-column:auto}.plan-month-actions{grid-template-columns:1fr}.plan-month-actions .btn:last-child:nth-child(3){grid-column:auto}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -1339,7 +1353,7 @@ body,html{background:#f5f9fc;color:#25364c}
   </div>
   <div class="plan-month-card card" id="plan-month-card">
     <div class="plan-month-head">
-      <div><div class="plan-month-title">🧭 Así va tu mes</div><div class="plan-month-copy" id="plan-month-copy">Tus ingresos, gastos, ahorro y dinero disponible en un solo lugar.</div></div>
+      <div><div class="plan-month-title">Resumen del mes</div><div class="plan-month-copy" id="plan-month-copy">Lo que ingresó, salió y quedó disponible.</div></div>
       <div class="plan-month-actions">
         <button class="btn btn-outline btn-sm" onclick="openCompareModal()">↔ Comparar meses</button>
         <button class="btn btn-outline btn-sm" onclick="prepareNextMonth()">➡ Copiar al mes siguiente</button>
@@ -6759,8 +6773,8 @@ function renderMonthlyPlan(){
     <div class="plan-summary-item"><div class="plan-summary-label">Ingresos registrados</div><div class="plan-summary-value">$${formatMiles(t.ingresos)}</div></div>
     <div class="plan-summary-item"><div class="plan-summary-label">Gastos registrados</div><div class="plan-summary-value">$${formatMiles(t.gastos)}</div></div>
     <div class="plan-summary-item"><div class="plan-summary-label">Ahorro registrado</div><div class="plan-summary-value">$${formatMiles(t.ahorro)}</div></div>
-    <div class="plan-summary-item"><div class="plan-summary-label">Disponible después de todo</div><div class="plan-summary-value" style="color:${free>=0?'var(--primary-dark)':'var(--danger)'}">$${formatMiles(free)}</div></div>`;
-  let copy=document.getElementById('plan-month-copy');if(copy)copy.textContent=closed?`Mes cerrado el ${new Date(closed.closedAt).toLocaleDateString('es-CL')}. Puedes reabrirlo si necesitas corregir algo.`:'Tus ingresos, gastos, ahorro y dinero disponible en un solo lugar.';
+    <div class="plan-summary-item plan-summary-available ${free>0?'is-positive':free<0?'is-negative':'is-neutral'}"><div class="plan-summary-label">Disponible</div><div class="plan-summary-value">$${formatMiles(free)}</div><small>${free>0?'Dinero libre después de gastos y ahorro':free<0?'Tus salidas superan los ingresos':'Sin saldo libre este mes'}</small></div>`;
+  let copy=document.getElementById('plan-month-copy');if(copy)copy.textContent=closed?`Mes cerrado el ${new Date(closed.closedAt).toLocaleDateString('es-CL')}. Puedes reabrirlo si necesitas corregir algo.`:'Lo que ingresó, salió y quedó disponible.';
   let btn=document.getElementById('btn-close-month');if(btn){btn.textContent=closed?'↻ Reabrir mes':'✓ Cerrar mes';btn.className=`btn ${closed?'btn-outline':'btn-prim'} btn-sm`;}
 }
 function renderBudgetSummary(month,year){
