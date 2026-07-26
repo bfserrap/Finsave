@@ -1243,7 +1243,8 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 .monthly-customizer{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.65rem;margin:-.25rem 0 1rem;padding:.85rem;border:1px solid #dce8f3;border-radius:16px;background:#fff}
 .monthly-customizer-item{display:flex;align-items:center;gap:.55rem;padding:.65rem;border:1px solid #e2eaf1;border-radius:12px;background:#f8fbfd;font-size:.78rem;color:#42566e}.monthly-customizer-item strong{margin-right:auto}
 .monthly-customizer-item button,.module-hide-button{width:34px;height:34px;border:1px solid #d9e4ec;border-radius:9px;background:#fff;color:#47617c;cursor:pointer;font:700 .85rem var(--font)}
-.monthly-module{position:relative;width:100%!important;max-width:none!important;min-width:0!important}.monthly-module-tools{display:flex;align-items:center;gap:.55rem;margin:-.25rem 0 .65rem}.monthly-module-tools small{margin-right:auto;color:#8291a0;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}
+.monthly-module{position:relative;width:100%!important;max-width:none!important;min-width:0!important}.monthly-module-tools{display:none;align-items:center;gap:.55rem;margin:-.25rem 0 .65rem;padding:.55rem .65rem;border-radius:11px;background:#eaf3ff;border:1px dashed #8cb4ec}.monthly-module-tools small{margin-right:auto;color:#315c91;font-size:.72rem;font-weight:700}
+.monthly-editing .monthly-module{cursor:grab!important;outline:1.5px dashed #93b9e9;outline-offset:5px;transition:transform .18s,box-shadow .18s}.monthly-editing .monthly-module:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(57,91,128,.13)!important}.monthly-editing .monthly-module-tools{display:flex}.monthly-editing .monthly-module:active{cursor:grabbing!important}
 .module-drag-handle,.credit-drag-handle{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:38px;padding:.45rem .7rem;border:1px solid #d9e4ec;border-radius:10px;background:#fff;color:#526b84;cursor:grab;font:700 .7rem var(--font);touch-action:none;user-select:none;-webkit-user-select:none}.module-drag-handle:active,.credit-drag-handle:active{cursor:grabbing}.drag-grip{font-size:1rem;letter-spacing:-.18em;transform:rotate(90deg)}
 .monthly-module.is-dragging,.cred-card.is-dragging{opacity:.55;transform:scale(.985);box-shadow:0 24px 55px rgba(40,78,118,.22)!important;z-index:20}.monthly-module.drag-over,.cred-card.drag-over{outline:2px dashed #4f8df7;outline-offset:6px}.drag-active,.drag-active *{cursor:grabbing!important}
 .monthly-module.is-hidden{display:none!important}
@@ -1506,7 +1507,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   </div>
   <div class="visual-month-toolbar">
     <div><strong>Organiza esta vista</strong><span>Mueve los bloques, oculta lo que no necesitas y recupéralo cuando quieras.</span></div>
-    <button class="btn btn-outline btn-sm" onclick="toggleMonthlyCustomizer()">Personalizar vista</button>
+    <button class="btn btn-outline btn-sm" id="monthly-edit-button" onclick="toggleMonthlyCustomizer()">Organizar tarjetas</button>
   </div>
   <div class="monthly-customizer hidden" id="monthly-customizer"></div>
   <div class="plan-month-card card" id="plan-month-card">
@@ -1546,15 +1547,15 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 
   <div class="resumen-detail-grid visual-month-feed" id="monthly-detail-grid">
     <div class="resumen-detail-col">
-      <div class="card">
+      <div class="card" id="monthly-income-card">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">📥</span> Flujos de Ingresos</div><div class="card-sub" id="res-in-tot">$0</div></div>
         <div class="flujos-table-wrap"><div class="tbl-wrap"><table><thead><tr><th>Descripción</th><th>Monto</th></tr></thead><tbody id="res-in-body"></tbody></table></div></div>
       </div>
-      <div class="card" style="padding-bottom:1.5rem">
+      <div class="card" id="monthly-categories-card" style="padding-bottom:1.5rem">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">🍩</span> Distribución de Egresos</div><div class="card-sub">Gastos del periodo</div></div>
         <div class="chart-box"><canvas id="chart-cats"></canvas></div>
       </div>
-      <div class="card" style="padding-bottom:1.5rem">
+      <div class="card" id="monthly-paid-card" style="padding-bottom:1.5rem">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">💰</span> Gastos vs Pagado</div><div class="card-sub">Estado de pago del mes</div></div>
         <div class="gp-total-row"><div class="gp-total-lbl">Total del mes</div><div class="gp-total-val" id="res-gp-total">$0</div></div>
         <div class="gp-flex">
@@ -1570,15 +1571,15 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
       </div>
     </div>
     <div class="resumen-detail-col">
-      <div class="card">
+      <div class="card" id="monthly-expenses-card">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">📤</span> Flujos de Gastos</div><div class="card-sub" id="res-out-tot">$0</div></div>
         <div class="flujos-table-wrap"><div class="tbl-wrap"><table><thead><tr><th>Descripción</th><th>Monto</th></tr></thead><tbody id="res-out-body"></tbody></table></div></div>
       </div>
-      <div class="card">
+      <div class="card" id="monthly-diagnosis-card">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">💡</span> Diagnóstico Finsave</div><div class="card-sub">Análisis automático de tu salud financiera</div></div>
         <div id="res-alerts" class="diagnostico-wrap"></div>
       </div>
-      <div class="card" style="padding-bottom:1.5rem">
+      <div class="card" id="monthly-savings-card" style="padding-bottom:1.5rem">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">🏦</span> Ahorro Anual</div><div class="card-sub" id="res-ahorro-yr-lbl">2026</div></div>
         <div class="kpi-grid" style="grid-template-columns:1fr;margin-bottom:1rem">
           <div class="kpi"><div class="kpi-lbl">Total Ahorrado en el Año</div><div class="kpi-val g" id="res-ahorro-total">$0</div></div>
@@ -7200,7 +7201,12 @@ const MONTHLY_MODULES=[
   {id:'plan-month-card',label:'Resumen del mes'},
   {id:'monthly-budget-card',label:'Límites del mes'},
   {id:'monthly-balance-card',label:'Balance operacional'},
-  {id:'monthly-detail-grid',label:'Detalle y diagnóstico'}
+  {id:'monthly-income-card',label:'Flujos de ingresos'},
+  {id:'monthly-categories-card',label:'Distribución de egresos'},
+  {id:'monthly-paid-card',label:'Gastos vs pagado'},
+  {id:'monthly-expenses-card',label:'Flujos de gastos'},
+  {id:'monthly-diagnosis-card',label:'Diagnóstico Finsave'},
+  {id:'monthly-savings-card',label:'Ahorro anual'}
 ];
 function monthlyViewState(){
   try{return JSON.parse(localStorage.getItem('finsave_monthly_view')||'{}')}catch(e){return{}}
@@ -7208,18 +7214,20 @@ function monthlyViewState(){
 function saveMonthlyViewState(state){localStorage.setItem('finsave_monthly_view',JSON.stringify(state))}
 function setupMonthlyView(){
   const page=document.getElementById('page-resumen'),anchor=document.getElementById('res-kpis');if(!page||!anchor)return;
-  const state=monthlyViewState(),order=Array.isArray(state.order)?state.order:MONTHLY_MODULES.map(x=>x.id);
+  const state=monthlyViewState(),validIds=MONTHLY_MODULES.map(x=>x.id),order=(Array.isArray(state.order)?state.order:validIds).filter(id=>validIds.includes(id));
   MONTHLY_MODULES.forEach((cfg,index)=>{
     const el=document.getElementById(cfg.id);if(!el)return;
     el.dataset.monthlyModule=cfg.id;el.classList.add('monthly-module');
     if(!el.querySelector(':scope > .monthly-module-tools')){
       const tools=document.createElement('div');tools.className='monthly-module-tools';
-      tools.innerHTML=`<small>${cfg.label}</small><button type="button" class="module-drag-handle" onpointerdown="pointerDragStart(event,'monthly','${cfg.id}')" aria-label="Mantener y arrastrar ${cfg.label} para cambiar su posición"><span class="drag-grip">•••</span> Mantén y arrastra</button><button class="module-hide-button" onclick="setMonthlyModuleVisible('${cfg.id}',false)" title="Ocultar" aria-label="Ocultar ${cfg.label}">×</button>`;
+      tools.innerHTML=`<small>⠿ Arrastra esta tarjeta completa para moverla</small><button class="module-hide-button" onclick="setMonthlyModuleVisible('${cfg.id}',false)" title="Ocultar" aria-label="Ocultar ${cfg.label}">×</button>`;
       el.prepend(tools);
     }
+    el.onpointerdown=e=>{if(document.getElementById('page-resumen')?.classList.contains('monthly-editing'))pointerDragStart(e,'monthly',cfg.id)};
     el.classList.toggle('is-hidden',(state.hidden||[]).includes(cfg.id));
   });
   [...order,...MONTHLY_MODULES.map(x=>x.id).filter(id=>!order.includes(id))].forEach(id=>{const el=document.getElementById(id);if(el)page.insertBefore(el,anchor)});
+  const oldGrid=document.getElementById('monthly-detail-grid');if(oldGrid)oldGrid.style.display='none';
   renderMonthlyCustomizer();
 }
 let pointerDrag=null;
@@ -7228,13 +7236,13 @@ function clearDragVisuals(){document.documentElement.classList.remove('drag-acti
 function setMonthlyModuleVisible(id,visible){
   const state=monthlyViewState(),hidden=new Set(state.hidden||[]);visible?hidden.delete(id):hidden.add(id);state.hidden=[...hidden];saveMonthlyViewState(state);setupMonthlyView();
 }
-function toggleMonthlyCustomizer(){document.getElementById('monthly-customizer')?.classList.toggle('hidden');renderMonthlyCustomizer()}
+function toggleMonthlyCustomizer(){const page=document.getElementById('page-resumen'),box=document.getElementById('monthly-customizer'),btn=document.getElementById('monthly-edit-button'),editing=!page.classList.contains('monthly-editing');page.classList.toggle('monthly-editing',editing);box?.classList.toggle('hidden',!editing);if(btn)btn.textContent=editing?'✓ Listo':'Organizar tarjetas';renderMonthlyCustomizer()}
 function renderMonthlyCustomizer(){
   const box=document.getElementById('monthly-customizer');if(!box)return;const state=monthlyViewState(),hidden=new Set(state.hidden||[]);
   box.innerHTML=MONTHLY_MODULES.map(x=>`<div class="monthly-customizer-item"><strong>${x.label}</strong><span>${hidden.has(x.id)?'Oculto':'Visible'}</span><button onclick="setMonthlyModuleVisible('${x.id}',${hidden.has(x.id)})" title="${hidden.has(x.id)?'Mostrar':'Ocultar'}">${hidden.has(x.id)?'○':'✓'}</button></div>`).join('');
 }
 function reorderCreditBefore(sourceId,targetId,pointerY=0){const list=window.db.creditos||[],from=list.findIndex(x=>x.id==sourceId),to=list.findIndex(x=>x.id==targetId);if(from<0||to<0||from===to)return;const targetEl=document.querySelector(`[data-credit-id="${targetId}"]`),after=targetEl&&pointerY>targetEl.getBoundingClientRect().top+targetEl.offsetHeight/2,item=list.splice(from,1)[0];let next=list.findIndex(x=>x.id==targetId);if(after)next++;list.splice(next,0,item);saveDB();renderCreditos();showToast('Orden de créditos actualizado')}
-function pointerDragStart(e,type,id){if(e.button!==undefined&&e.button!==0)return;e.preventDefault();const handle=e.currentTarget,source=type==='monthly'?document.getElementById(id):document.querySelector(`[data-credit-id="${id}"]`);if(!source)return;pointerDrag={type,id,handle,source,lastTarget:null};handle.setPointerCapture?.(e.pointerId);source.classList.add('is-dragging');document.documentElement.classList.add('drag-active');handle.onpointermove=pointerDragMove;handle.onpointerup=pointerDragEnd;handle.onpointercancel=pointerDragEnd}
+function pointerDragStart(e,type,id){if(e.button!==undefined&&e.button!==0)return;if(type==='monthly'&&e.target.closest('button,a,input,select,textarea'))return;e.preventDefault();const handle=e.currentTarget,source=type==='monthly'?document.getElementById(id):document.querySelector(`[data-credit-id="${id}"]`);if(!source)return;pointerDrag={type,id,handle,source,lastTarget:null};handle.setPointerCapture?.(e.pointerId);source.classList.add('is-dragging');document.documentElement.classList.add('drag-active');handle.onpointermove=pointerDragMove;handle.onpointerup=pointerDragEnd;handle.onpointercancel=pointerDragEnd}
 function pointerDragMove(e){if(!pointerDrag)return;e.preventDefault();if(e.clientY<90)window.scrollBy({top:-18,behavior:'auto'});else if(e.clientY>window.innerHeight-90)window.scrollBy({top:18,behavior:'auto'});const selector=pointerDrag.type==='monthly'?'[data-monthly-module]':'[data-credit-id]',target=document.elementFromPoint(e.clientX,e.clientY)?.closest(selector);document.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));if(!target||target===pointerDrag.source)return;target.classList.add('drag-over');pointerDrag.lastTarget=target;if(pointerDrag.type==='monthly'){const after=e.clientY>target.getBoundingClientRect().top+target.offsetHeight/2;target.parentNode.insertBefore(pointerDrag.source,after?target.nextSibling:target)}}
 function pointerDragEnd(e){if(!pointerDrag)return;const {type,id,handle,lastTarget}=pointerDrag;handle.releasePointerCapture?.(e.pointerId);handle.onpointermove=handle.onpointerup=handle.onpointercancel=null;if(type==='monthly'){persistMonthlyDomOrder();showToast('Orden de la vista actualizado')}else if(lastTarget&&lastTarget.dataset.creditId!=id)reorderCreditBefore(id,lastTarget.dataset.creditId,e.clientY);pointerDrag=null;clearDragVisuals()}
 document.addEventListener('DOMContentLoaded',setupMonthlyView);
