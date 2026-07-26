@@ -1179,6 +1179,35 @@ body,html{background:#f5f9fc;color:#25364c}
 #page-ahorros .meta-actions{display:flex;gap:.5rem}#page-ahorros .meta-actions .btn-prim{background:linear-gradient(135deg,#45c997,#24a97b);box-shadow:0 10px 22px rgba(36,169,123,.18)}
 @keyframes goalCardIn{from{opacity:0;transform:translateY(18px) scale(.988)}to{opacity:1;transform:none}}@keyframes goalProgressGrow{from{transform:scaleX(0);filter:saturate(.7)}to{transform:scaleX(1);filter:none}}
 @media(max-width:640px){#page-ahorros .meta-header{padding:1rem}.goal-state{align-items:flex-start}.meta-amounts{gap:.35rem}.meta-amount-val{font-size:.96rem}.meta-pct-badge{font-size:.66rem}.meta-actions{display:grid!important;grid-template-columns:1fr 1fr}.meta-actions .btn{width:100%;min-width:0}}
+
+/* Sistema móvil unificado: header, acciones y tarjetas */
+@media(max-width:640px){
+  :root{--top-h:64px}
+  .topbar{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;align-items:center;min-height:calc(var(--top-h) + env(safe-area-inset-top));padding:env(safe-area-inset-top) 12px 0;gap:8px}
+  .burger{grid-column:1;width:42px;height:42px;min-width:42px;border-radius:13px;background:#fff;border-color:#dfe8f0;box-shadow:0 4px 14px rgba(54,88,120,.05)}
+  .topbar-brand{grid-column:2;grid-row:1;justify-self:center;justify-content:center;min-width:0;font-size:1.08rem;white-space:nowrap}.topbar-brand .brand-mark{display:grid;width:29px;height:29px;flex-basis:29px;font-size:.78rem}
+  .topbar-actions{grid-column:3;grid-row:1;justify-self:end}.topbar-profile{display:none}.topbar-logout{width:42px;height:42px;border-radius:13px;font-size:1rem}
+  .notice-launch{right:62px;top:calc(env(safe-area-inset-top) + 11px);width:42px;height:42px;border-radius:13px;box-shadow:0 4px 14px rgba(54,88,120,.05)}
+  .main{padding-top:calc(var(--top-h) + env(safe-area-inset-top) + 24px);padding-left:16px;padding-right:16px}
+  .pg-header{margin-bottom:20px}.pg-title{font-size:1.85rem;line-height:1.08}.pg-sub{margin-top:7px;font-size:.84rem;line-height:1.4}
+  #page-resumen .pg-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+  #page-resumen .month-yr-sel{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+  #page-resumen .month-yr-sel select{width:100%;min-width:0;height:48px;border:1px solid #dfe8f0;border-radius:14px;background-color:#fff;box-shadow:none}
+  #page-resumen .pg-actions>.btn{width:100%;min-width:0;min-height:48px;padding:.55rem .65rem;border-radius:14px;font-size:.76rem;line-height:1.2;white-space:normal}
+  #page-resumen .pg-actions>.btn:last-child{grid-column:1/-1}
+  .plan-month-card{margin-top:4px;padding:16px!important;border-radius:18px!important}.plan-month-title{font-size:1.08rem}.plan-month-copy{margin-top:5px}
+  .plan-month-actions{gap:8px;margin-top:14px}.plan-month-actions .btn{min-height:44px;font-size:.72rem}.plan-month-actions .btn-prim{grid-column:1/-1}
+  .plan-summary-grid{gap:10px}.plan-summary-item{min-height:94px;padding:14px!important}.plan-summary-item:nth-child(3){grid-column:1/-1;min-height:78px}.plan-summary-available{grid-column:1/-1;min-height:104px}
+  .card{margin-bottom:20px;border-radius:18px!important}.card-head{gap:10px}.card-title{font-size:1rem}.card-title-ic{width:38px;height:38px;border-radius:12px}
+  .balance-series-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.balance-series-label{grid-column:1/-1;margin-bottom:2px}.balance-series-toggle{min-height:42px;padding:.45rem .55rem;border-width:1px;font-size:.72rem}
+  .balance-chart-wrap{border-radius:16px;padding:10px 6px}.chart-box-lg{height:340px}
+  .quick-add{right:18px;bottom:calc(18px + env(safe-area-inset-bottom));width:54px;height:54px;border-radius:50%;box-shadow:0 12px 28px rgba(79,141,247,.25)}
+  .cred-card,.meta-card{margin-bottom:18px;border-radius:18px!important}.cred-body,.meta-body{padding:16px}.cred-header-top,.meta-header-top{gap:10px}
+}
+@media(max-width:370px){
+  .topbar-brand{font-size:1rem}.topbar-brand .brand-mark{display:none}
+  #page-resumen .pg-actions{grid-template-columns:1fr}#page-resumen .month-yr-sel{grid-column:1}.plan-summary-grid{grid-template-columns:1fr}.plan-summary-item:nth-child(3){grid-column:auto}.plan-summary-available{grid-column:auto}
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 </head>
