@@ -1209,6 +1209,34 @@ body,html{background:#f5f9fc;color:#25364c}
   #page-resumen .pg-actions{grid-template-columns:1fr}#page-resumen .month-yr-sel{grid-column:1}.plan-summary-grid{grid-template-columns:1fr}.plan-summary-item:nth-child(3){grid-column:auto}.plan-summary-available{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+/* ══════════════ FINSAVE 8 · LIGHT FINANCIAL SYSTEM ══════════════ */
+:root{--primary:#087f6a;--primary-dark:#075f52;--primary-soft:#eaf8f4;--accent:#ffb258;--ink:#17233c;--canvas:#f4f7f6;--line:#dce7e3;--radius:18px;--radius-lg:26px;--shadow:0 14px 38px rgba(23,35,60,.08)}
+body{background:var(--canvas);color:var(--ink)}
+.main{background:radial-gradient(circle at 94% 0,rgba(255,178,88,.12),transparent 23%),radial-gradient(circle at 8% 12%,rgba(8,127,106,.08),transparent 20%),var(--canvas)}
+.sidebar{background:#fff;border-right:1px solid var(--line);box-shadow:none}
+.sb-brand{border-bottom:0}.sb-item{margin:.18rem .7rem;border-radius:14px;padding:.72rem .85rem}.sb-item.active{background:var(--primary-soft);color:var(--primary-dark);box-shadow:inset 3px 0 0 var(--primary)}.sb-item:hover{background:#f2f7f5}
+.topbar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-color:var(--line)}
+.card{border:1px solid rgba(201,218,211,.82);border-radius:var(--radius-lg);box-shadow:0 10px 30px rgba(23,35,60,.055);background:rgba(255,255,255,.96)}
+.card:hover{box-shadow:0 14px 34px rgba(23,35,60,.08)}
+.btn{min-height:48px;border-radius:14px;font-weight:600;letter-spacing:0;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}.btn:hover{transform:translateY(-1px)}.btn-prim{background:linear-gradient(135deg,#087f6a,#0da685);box-shadow:0 8px 18px rgba(8,127,106,.22)}.btn-danger{background:#e5485f}
+input,select,textarea{min-height:50px;border-radius:14px!important;border-color:var(--line)!important;background:#fbfdfc!important}
+.pg-title{letter-spacing:-.045em}.pg-sub{color:#68758a}.eyebrow,.finance-hero-kicker{display:block;color:var(--primary);font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin-bottom:.4rem}
+.finance-page-head{align-items:flex-end}.finance-hero{display:flex;justify-content:space-between;align-items:center;gap:2rem;padding:2rem;border-radius:30px;background:linear-gradient(125deg,#123f3a 0%,#087f6a 70%,#29aa89 100%);color:white;box-shadow:0 20px 50px rgba(8,95,82,.2);overflow:hidden;position:relative}
+.finance-hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-50px;top:-120px;background:rgba(255,255,255,.09)}
+.finance-hero h2{font-size:clamp(1.45rem,2vw,2.2rem);margin:.2rem 0 .45rem;letter-spacing:-.04em}.finance-hero p{max-width:630px;color:rgba(255,255,255,.75);line-height:1.55}.finance-hero-kicker{color:#c7fff0}.projection-amount{font-size:2.25rem;font-weight:800;white-space:nowrap;text-align:right;z-index:1}.projection-amount small{display:block;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.7);margin-top:.15rem}
+.scenario-switch{display:inline-flex;padding:5px;background:#e8efec;border-radius:14px;margin:1rem 0}.scenario-switch button,.search-filters button{border:0;background:transparent;border-radius:10px;padding:.62rem 1rem;color:#68758a;font:inherit;cursor:pointer}.scenario-switch button.active,.search-filters button.active{background:#fff;color:var(--primary-dark);box-shadow:0 5px 15px rgba(23,35,60,.08)}
+.finance-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1rem}.finance-mini-kpi{padding:1rem 1.1rem;border:1px solid var(--line);border-radius:18px;background:#fff}.finance-mini-kpi span{font-size:.72rem;color:#768399;display:block;margin-bottom:.45rem}.finance-mini-kpi strong{font-size:1.2rem;letter-spacing:-.03em}.finance-mini-kpi small{display:block;margin-top:.25rem;color:#8b96a8}
+.finance-layout{display:grid;grid-template-columns:1.35fr .85fr;gap:1rem;margin-bottom:1rem}.finance-panel{margin:0;padding:1.2rem}.icon-action{width:42px;height:42px;border:0;border-radius:13px;background:var(--primary-soft);color:var(--primary);font-size:1.25rem;cursor:pointer}.status-pill{min-width:34px;text-align:center;padding:.35rem .6rem;border-radius:99px;background:#fff2e2;color:#a65e05;font-weight:700}
+.calendar-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin:.2rem 0 1rem}.calendar-day{padding:.55rem .2rem;text-align:center;border-radius:13px;color:#778399;font-size:.7rem}.calendar-day b{display:block;font-size:.95rem;color:var(--ink);margin-top:.25rem}.calendar-day.today{background:var(--primary);color:#d8fff4}.calendar-day.today b{color:#fff}
+.timeline-item,.recurring-item,.alert-item{display:flex;align-items:center;gap:.75rem;padding:.8rem 0;border-bottom:1px solid #edf2f0}.timeline-item:last-child,.recurring-item:last-child,.alert-item:last-child{border-bottom:0}.timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px #fff4e7}.timeline-main,.alert-main{flex:1;min-width:0}.timeline-main strong,.alert-main strong{display:block;font-size:.88rem}.timeline-main small,.alert-main small{color:#7e899a;display:block;margin-top:.15rem}.timeline-amount{font-weight:700;font-size:.86rem}.alert-icon{width:38px;height:38px;border-radius:12px;background:#f1f6f4;display:grid;place-items:center}.alert-item.warning .alert-icon{background:#fff2e2}.alert-item.danger .alert-icon{background:#fff0f2}
+.account-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}.account-card{padding:1rem;border-radius:18px;background:linear-gradient(145deg,#f8fbfa,#edf6f3);border:1px solid var(--line);position:relative}.account-card.credit{background:linear-gradient(145deg,#fff8ef,#fff1de);border-color:#f4d7ad}.account-card span{font-size:.72rem;color:#778399}.account-card strong{display:block;font-size:1.15rem;margin-top:.5rem}.account-card button{position:absolute;right:.6rem;top:.6rem;border:0;background:transparent;color:#8d98a8;cursor:pointer}
+.search-command{display:flex;align-items:center;gap:.7rem;padding:.3rem .9rem;border:1.5px solid var(--line);border-radius:16px;background:#fbfdfc}.search-command input{border:0!important;background:transparent!important;flex:1;font-size:1rem}.search-filters{display:flex;gap:.25rem;margin:.7rem 0}.search-results{max-height:430px;overflow:auto}.search-result{display:flex;align-items:center;gap:.8rem;padding:.85rem;border-radius:14px;cursor:pointer}.search-result:hover{background:#f2f7f5}.search-result-icon{width:40px;height:40px;border-radius:13px;background:var(--primary-soft);display:grid;place-items:center}.search-result-main{flex:1}.search-result-main strong,.search-result-main small{display:block}.search-result-main small{color:#7d899a;margin-top:.12rem}.search-empty{text-align:center;padding:2rem;color:#7d899a}
+.modal-wide{max-width:720px}
+.commercial-section{max-width:1180px;margin:0 auto;padding:5rem 1.5rem}.commercial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}.commercial-card{padding:1.6rem;border-radius:24px;border:1px solid var(--line);background:#fff}.commercial-card.featured{background:#123f3a;color:#fff;transform:translateY(-8px);box-shadow:0 20px 45px rgba(18,63,58,.2)}.commercial-card h3{font-size:1.2rem;margin-bottom:.45rem}.commercial-card p{color:#778399;line-height:1.55}.commercial-card.featured p{color:#c5dbd5}.commercial-card ul{list-style:none;padding:0;margin:1.2rem 0}.commercial-card li{padding:.45rem 0;font-size:.86rem}.commercial-card li:before{content:"✓";color:#16aa87;font-weight:800;margin-right:.55rem}.commercial-price{font-size:1.8rem;font-weight:800;margin:1rem 0}.faq-list{max-width:820px;margin:2rem auto 0}.faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1rem 1.15rem;margin:.6rem 0}.faq-list summary{font-weight:700;cursor:pointer}.faq-list p{margin-top:.7rem;color:#6f7c8f;line-height:1.55}
+.page.active>.card,.page.active>.finance-hero,.page.active>.finance-layout,.page.active>.kpi-grid{animation:finsave-rise .48s cubic-bezier(.2,.8,.2,1) both}.page.active>*:nth-child(3){animation-delay:.06s}.page.active>*:nth-child(4){animation-delay:.11s}@keyframes finsave-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:900px){.finance-layout{grid-template-columns:1fr}.finance-kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.main{padding-left:16px!important;padding-right:16px!important}.finance-page-head{align-items:flex-start}.finance-page-head .pg-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}.finance-hero{padding:1.35rem;display:block;border-radius:24px}.projection-amount{text-align:left;margin-top:1.25rem;font-size:2rem}.scenario-switch{display:grid;grid-template-columns:repeat(3,1fr);width:100%}.scenario-switch button{padding:.62rem .25rem}.finance-kpi-grid{gap:.6rem}.finance-mini-kpi{padding:.85rem}.finance-mini-kpi strong{font-size:1rem}.finance-panel{padding:1rem;border-radius:22px}.calendar-strip{gap:.15rem}.calendar-day{padding:.45rem .1rem}.account-grid{grid-template-columns:1fr}.search-filters{overflow:auto}.search-filters button{white-space:nowrap}.topbar-brand{font-size:1.12rem}.topbar-actions{gap:.35rem}.topbar-actions>.topbar-logout:last-child{display:none}.commercial-grid{grid-template-columns:1fr}.commercial-card.featured{transform:none}.commercial-section{padding:3.2rem 1rem}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -1280,6 +1308,24 @@ body,html{background:#f5f9fc;color:#25364c}
       <div class="feat-card"><div class="feat-icon">02</div><h3>Créditos sin sorpresas</h3><p>Controla cada cuota pagada, lo que falta y el avance de tus créditos sin fórmulas escondidas.</p><div class="feat-credit"><span><i></i></span><small>18 de 24 cuotas</small></div></div>
       <div class="feat-card"><div class="feat-icon">03</div><h3>Metas que avanzan</h3><p>Crea objetivos de ahorro y mira cómo cada aporte te acerca a lo que quieres conseguir.</p><div class="feat-goal"><span><i></i></span><strong>68%</strong></div></div>
       <div class="feat-card"><div class="feat-icon">04</div><h3>Un año que se entiende</h3><p>Compara meses, identifica tendencias y mira tu evolución financiera en una sola vista.</p><div class="feat-line"><svg viewBox="0 0 180 54"><path d="M2 46 C25 42 30 31 52 35 S82 47 100 24 S132 30 148 13 S167 14 178 4"/></svg></div></div>
+    </div>
+  </section>
+  <section class="commercial-section">
+    <p class="s-eyebrow">Elige tu forma de avanzar</p>
+    <h2 class="s-title">Orden financiero sin volver a una planilla</h2>
+    <div class="commercial-grid">
+      <article class="commercial-card"><h3>Comienza</h3><p>Para ordenar tu mes y descubrir Finsave.</p><div class="commercial-price">Gratis</div><ul><li>Plan mensual</li><li>Ingresos y gastos</li><li>Metas de ahorro</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Crear cuenta</button></article>
+      <article class="commercial-card featured"><h3>Finsave Personal</h3><p>Todo tu sistema financiero personal en un lugar.</p><div class="commercial-price">Plan completo</div><ul><li>Créditos y cuotas</li><li>Proyecciones y presupuestos</li><li>Calendario y recurrencias</li><li>Exportación Excel y PDF</li></ul><button class="btn btn-prim btn-full" onclick="showAuth('register')">Empezar ahora</button></article>
+      <article class="commercial-card"><h3>Control anual</h3><p>Para quienes quieren comparar y decidir mejor.</p><div class="commercial-price">Vista total</div><ul><li>Comparación de meses</li><li>Balance anual</li><li>Alertas financieras</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Probar Finsave</button></article>
+    </div>
+  </section>
+  <section class="commercial-section" style="padding-top:1rem">
+    <p class="s-eyebrow">Preguntas frecuentes</p><h2 class="s-title">Claro desde el primer día</h2>
+    <div class="faq-list">
+      <details><summary>¿Finsave reemplaza mi Excel o Google Sheets?</summary><p>Sí. Mantienes el control manual, pero Finsave ordena tus registros, calcula avances y convierte los datos en información visual fácil de entender.</p></details>
+      <details><summary>¿Puedo llevar créditos y metas de ahorro?</summary><p>Sí. Puedes controlar cuotas, fechas, costos y progreso, además de crear metas con aportes recomendados y fecha objetivo.</p></details>
+      <details><summary>¿Mis datos son privados?</summary><p>Tu información queda asociada a tu cuenta. Puedes descargar una copia y eliminarla cuando quieras desde tu perfil.</p></details>
+      <details><summary>¿Tengo que conectar mi banco?</summary><p>No. Finsave está pensado para que registres y confirmes tus datos manualmente, sin entregar claves bancarias.</p></details>
     </div>
   </section>
   <div class="land-footer">
@@ -1358,6 +1404,7 @@ body,html{background:#f5f9fc;color:#25364c}
     <button class="burger" onclick="toggleSidebar()" aria-label="Abrir menú">☰</button>
     <div class="topbar-brand"><span class="brand-mark">F</span><em>Fin</em>save</div>
     <div class="topbar-actions">
+      <button class="topbar-logout" onclick="openGlobalSearch()" aria-label="Buscar" title="Buscar">⌕</button>
       <button class="topbar-profile" onclick="goTo('perfil')" aria-label="Abrir perfil"><span class="sb-av" id="top-av">JP</span></button>
       <button class="topbar-logout" onclick="doLogout()" aria-label="Cerrar sesión" title="Cerrar sesión">↪</button>
     </div>
@@ -1395,6 +1442,7 @@ body,html{background:#f5f9fc;color:#25364c}
     <div class="sb-item" data-page="creditos" onclick="goTo('creditos')"><span class="sb-ic">💳</span> Créditos</div>
     <div class="sb-item" data-page="ahorros" onclick="goTo('ahorros')"><span class="sb-ic">🏦</span> Ahorros</div>
     <div class="sb-sec">Planificación</div>
+    <div class="sb-item" data-page="centro" onclick="goTo('centro')"><span class="sb-ic">🧭</span> Centro financiero</div>
     <div class="sb-item" data-page="anual" onclick="goTo('anual')"><span class="sb-ic">📅</span> Vista anual</div>
     <div class="sb-sec">Herramientas</div>
     <div class="sb-item" data-page="categorias" onclick="goTo('categorias')"><span class="sb-ic">🏷️</span> Categorías</div>
@@ -1406,7 +1454,7 @@ body,html{background:#f5f9fc;color:#25364c}
     <div class="sb-bottom">
       <div class="sb-help" onclick="restartTour()">🎓 Ver tutorial</div>
       <div class="sb-logout" onclick="doLogout()">🚪 Cerrar sesión</div>
-      <div class="sb-version">Finsave v7.0 · 2026</div>
+      <div class="sb-version">Finsave v8.0 · 2026</div>
     </div>
   </div>
 
@@ -1443,6 +1491,10 @@ body,html{background:#f5f9fc;color:#25364c}
   </div>
   <div class="kpi-grid hidden" id="res-kpis" aria-hidden="true"></div>
 
+  <div class="card">
+    <div class="card-head"><div><div class="card-title"><span class="card-title-ic">◎</span> Límites del mes</div><div class="card-sub">Presupuestos por categoría y alertas antes de excederte</div></div><button class="btn btn-outline btn-sm" onclick="openBudgetModal()">Configurar límites</button></div>
+    <div id="res-budget-list"></div>
+  </div>
   <div class="card" style="padding-bottom:1.5rem">
     <div class="card-head">
       <div class="card-title"><span class="card-title-ic">📈</span> Balance Operacional</div>
@@ -1505,6 +1557,48 @@ body,html{background:#f5f9fc;color:#25364c}
         <div class="chart-box-lg"><canvas id="chart-ahorro-anual"></canvas></div>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="page-centro" class="page">
+  <div class="pg-header finance-page-head">
+    <div><div class="eyebrow">Tu centro de control</div><div class="pg-title">Planifica lo que viene</div><div class="pg-sub">Anticipa pagos, protege tus límites y toma decisiones antes de terminar el mes.</div></div>
+    <div class="pg-actions"><button class="btn btn-outline btn-sm" onclick="openGlobalSearch()">⌕ Buscar</button><button class="btn btn-prim btn-sm" onclick="openPlannerItem()">＋ Planificar</button></div>
+  </div>
+  <div class="finance-hero">
+    <div>
+      <span class="finance-hero-kicker">Proyección de cierre</span>
+      <h2 id="finance-projection-title">Tu mes está tomando forma</h2>
+      <p id="finance-projection-copy">Calculamos el resultado esperado usando tus movimientos, cuotas, pagos recurrentes y ahorro planificado.</p>
+    </div>
+    <div class="projection-amount" id="finance-projection-amount">$0<small>disponible estimado</small></div>
+  </div>
+  <div class="scenario-switch" role="tablist">
+    <button class="active" data-scenario="expected" onclick="setProjectionScenario('expected',this)">Esperado</button>
+    <button data-scenario="optimistic" onclick="setProjectionScenario('optimistic',this)">Optimista</button>
+    <button data-scenario="adjusted" onclick="setProjectionScenario('adjusted',this)">Ajustado</button>
+  </div>
+  <div class="finance-kpi-grid" id="finance-projection-grid"></div>
+  <div class="finance-layout">
+    <section class="card finance-panel finance-calendar">
+      <div class="card-head"><div><div class="card-title">Calendario financiero</div><div class="card-sub">Vencimientos, recurrencias y metas del mes</div></div><button class="icon-action" onclick="openPlannerItem()" aria-label="Agregar evento">＋</button></div>
+      <div class="calendar-strip" id="finance-calendar-strip"></div>
+      <div class="timeline-list" id="finance-timeline"></div>
+    </section>
+    <section class="card finance-panel">
+      <div class="card-head"><div><div class="card-title">Alertas importantes</div><div class="card-sub">Lo que merece tu atención ahora</div></div><span class="status-pill" id="finance-alert-count">0</span></div>
+      <div id="finance-alerts"></div>
+    </section>
+  </div>
+  <div class="finance-layout">
+    <section class="card finance-panel">
+      <div class="card-head"><div><div class="card-title">Cuentas y medios de pago</div><div class="card-sub">Separa tu saldo real del cupo de crédito</div></div><button class="btn btn-outline btn-sm" onclick="openAccountModal()">＋ Cuenta</button></div>
+      <div class="account-grid" id="finance-accounts"></div>
+    </section>
+    <section class="card finance-panel">
+      <div class="card-head"><div><div class="card-title">Pagos recurrentes</div><div class="card-sub">Finsave puede prepararlos cada mes</div></div><button class="btn btn-outline btn-sm" onclick="openRecurringModal()">＋ Recurrente</button></div>
+      <div id="finance-recurring"></div>
+    </section>
   </div>
 </div>
 
@@ -1927,6 +2021,14 @@ body,html{background:#f5f9fc;color:#25364c}
       <div id="p-pass-msg" style="display:none;font-size:.83rem;padding:.5rem .75rem;border-radius:var(--radius-sm);margin-bottom:.75rem"></div>
       <button class="btn btn-prim" style="width:100%" onclick="cambiarPassword()">Actualizar Contraseña</button>
     </div>
+    <div class="card">
+      <div class="card-head"><div><div class="card-title"><span class="card-title-ic">🛡️</span> Seguridad y tus datos</div><div class="card-sub">Controla tus sesiones y conserva una copia de tu información</div></div></div>
+      <div class="g2">
+        <button class="btn btn-outline" onclick="exportMyData()">Descargar mis datos</button>
+        <button class="btn btn-outline" onclick="closeOtherSessions()">Cerrar otras sesiones</button>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem;font-size:.8rem"><a href="#" onclick="showLegalPage('privacy');return false" style="color:var(--primary)">Privacidad</a><a href="#" onclick="showLegalPage('terms');return false" style="color:var(--primary)">Términos de uso</a></div>
+    </div>
     <div class="card" style="border:1px solid #fecaca">
       <div class="card-head"><div class="card-title" style="color:var(--danger)"><span class="card-title-ic" style="background:var(--danger-bg);color:var(--danger)">⚠️</span> Zona de Peligro</div><div class="card-sub">Elimina tu cuenta y todos tus datos de forma permanente</div></div>
       <button class="btn btn-danger" style="width:100%" onclick="openModal('mod-del-cuenta')">Eliminar Cuenta</button>
@@ -2345,6 +2447,49 @@ body,html{background:#f5f9fc;color:#25364c}
     <button class="btn btn-danger" style="width:100%" onclick="deleteAccount()">Eliminar mi cuenta definitivamente</button>
   </div>
 </div>
+<div class="modal-over hidden" id="mod-global-search">
+  <div class="modal modal-wide">
+    <div class="modal-head"><div><div class="modal-title">Buscar en Finsave</div><div class="card-sub">Movimientos, créditos, metas y categorías</div></div><button class="modal-close" onclick="closeModal('mod-global-search')">✕</button></div>
+    <div class="search-command"><span>⌕</span><input id="global-search-input" autocomplete="off" placeholder="Ej: supermercado, Waldo, julio…" oninput="renderGlobalSearch()"></div>
+    <div class="search-filters"><button class="active" data-search-filter="all" onclick="setSearchFilter('all',this)">Todo</button><button data-search-filter="movements" onclick="setSearchFilter('movements',this)">Movimientos</button><button data-search-filter="credits" onclick="setSearchFilter('credits',this)">Créditos</button><button data-search-filter="goals" onclick="setSearchFilter('goals',this)">Ahorros</button></div>
+    <div class="search-results" id="global-search-results"></div>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-budget">
+  <div class="modal modal-wide">
+    <div class="modal-head"><div><div class="modal-title">Límites por categoría</div><div class="card-sub" id="budget-period-label"></div></div><button class="modal-close" onclick="closeModal('mod-budget')">✕</button></div>
+    <div id="budget-fields" class="g2"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem"><button class="btn btn-outline" onclick="clearMonthBudget()">Quitar límites</button><button class="btn btn-prim" onclick="saveMonthBudget()">Guardar límites</button></div>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-account">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Nueva cuenta</div><button class="modal-close" onclick="closeModal('mod-account')">✕</button></div>
+    <div class="fg"><label>Nombre</label><input id="account-name" placeholder="Ej: Cuenta principal"></div>
+    <div class="fg"><label>Tipo</label><select id="account-type"><option value="debit">Cuenta / débito</option><option value="cash">Efectivo</option><option value="credit">Tarjeta de crédito</option></select></div>
+    <div class="fg"><label id="account-balance-label">Saldo actual</label><input id="account-balance" inputmode="numeric" oninput="formatInputMiles(this)" placeholder="0"></div>
+    <button class="btn btn-prim btn-full" onclick="saveAccount()">Guardar cuenta</button>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-recurring">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Pago recurrente</div><button class="modal-close" onclick="closeModal('mod-recurring')">✕</button></div>
+    <div class="fg"><label>Descripción</label><input id="recurring-name" placeholder="Ej: Internet hogar"></div>
+    <div class="g2"><div class="fg"><label>Monto estimado</label><input id="recurring-amount" inputmode="numeric" oninput="formatInputMiles(this)" placeholder="0"></div><div class="fg"><label>Día del mes</label><input id="recurring-day" type="number" min="1" max="31" value="5"></div></div>
+    <div class="fg"><label>Categoría</label><select id="recurring-category"></select></div>
+    <button class="btn btn-prim btn-full" onclick="saveRecurring()">Guardar recurrencia</button>
+  </div>
+</div>
+<div class="modal-over hidden" id="mod-planner">
+  <div class="modal">
+    <div class="modal-head"><div class="modal-title">Planificar el mes</div><button class="modal-close" onclick="closeModal('mod-planner')">✕</button></div>
+    <div class="fg"><label>¿Qué quieres planificar?</label><select id="planner-type" onchange="syncPlannerLabels()"><option value="income">Ingreso esperado</option><option value="saving">Ahorro planificado</option><option value="expense">Gasto previsto</option></select></div>
+    <div class="fg"><label>Descripción</label><input id="planner-name" placeholder="Ej: Bono, viaje o fondo de emergencia"></div>
+    <div class="g2"><div class="fg"><label>Monto</label><input id="planner-amount" inputmode="numeric" oninput="formatInputMiles(this)" placeholder="0"></div><div class="fg"><label>Fecha</label><input id="planner-date" type="date"></div></div>
+    <button class="btn btn-prim btn-full" onclick="savePlannerItem()">Agregar a la planificación</button>
+  </div>
+</div>
+
 <div class="modal-over hidden" id="mod-ing">
   <div class="modal">
     <div class="modal-head"><div class="modal-title">Agregar Ingreso</div><button class="modal-close" onclick="closeModal('mod-ing')">✕</button></div>
@@ -2478,6 +2623,7 @@ body,html{background:#f5f9fc;color:#25364c}
       <div id="cuota-preview-val" style="font-family:var(--font-brand);font-size:1.5rem;color:var(--brand-dark);font-weight:700">$0</div>
     </div>
     <div class="fg"><label>Ajuste manual cuota ($)</label><input type="text" id="mcr-val" oninput="formatInputMiles(this)" placeholder="Se calcula automáticamente"></div>
+    <div class="form-row"><div class="fg"><label>Tasa anual (%)</label><input type="number" id="mcr-rate" min="0" step="0.01" placeholder="Opcional"></div><div class="fg"><label>CAE (%)</label><input type="number" id="mcr-cae" min="0" step="0.01" placeholder="Opcional"></div></div>
     <div class="fg"><label>Fecha de vencimiento 1ª cuota</label><input type="date" id="mcr-fecha"><div style="font-size:.72rem;color:var(--gray2);margin-top:.3rem">Si no la indicas, se asumirá el día 30 del mes actual. Las cuotas siguientes replican ese mismo día cada mes.</div></div>
     <button class="btn btn-prim btn-full" onclick="saveCredito()">Crear Crédito</button>
   </div>
@@ -2514,6 +2660,7 @@ body,html{background:#f5f9fc;color:#25364c}
     <div class="fg"><label>Proyecto / Objetivo</label><input type="text" id="mmt-name" placeholder="Ej: Vacaciones 2027"></div>
     <div class="fg"><label>Monto Objetivo ($)</label><input type="text" id="mmt-obj" oninput="formatInputMiles(this)" placeholder="0"></div>
     <div class="fg" id="mmt-act-wrap"><label>Monto Ya Ahorrado ($)</label><input type="text" id="mmt-act" oninput="formatInputMiles(this)" value="0"></div>
+    <div class="fg"><label>Fecha objetivo</label><input type="date" id="mmt-date"><div style="font-size:.72rem;color:var(--gray2);margin-top:.3rem">Finsave calculará el aporte mensual recomendado.</div></div>
     <button class="btn btn-prim btn-full" id="mmt-save-btn" onclick="saveMeta()">Crear Objetivo</button>
   </div>
 </div>
@@ -2857,7 +3004,7 @@ const DEFAULT_CATS_VAR = [
 
 function createEmptyStructure() {
   return {
-    schemaVersion: 7,
+    schemaVersion: 8,
     perfil: { name: 'Usuario', email: '', fotob64: '' },
     ingresos: [],
     gastosFijos: [],
@@ -2874,6 +3021,10 @@ liqAhorros: [],
     liqAhorroMetas: [],
     ahorrosMes: [],
     presupuestos: [],
+    cuentas: [],
+    recurrentes: [],
+    planificados: [],
+    actividadSeguridad: [],
     cierresMensuales: [],
     preferencias: { quickAddType: 'gasto-variable' }
   };
@@ -2907,9 +3058,13 @@ if (!window.db.liqAhorros) window.db.liqAhorros = [];
 function migrateDBExtras() {
   if (!window.db) return;
   if (!Array.isArray(window.db.presupuestos)) window.db.presupuestos = [];
+  if (!Array.isArray(window.db.cuentas)) window.db.cuentas = [];
+  if (!Array.isArray(window.db.recurrentes)) window.db.recurrentes = [];
+  if (!Array.isArray(window.db.planificados)) window.db.planificados = [];
+  if (!Array.isArray(window.db.actividadSeguridad)) window.db.actividadSeguridad = [];
   if (!Array.isArray(window.db.cierresMensuales)) window.db.cierresMensuales = [];
   if (!window.db.preferencias || typeof window.db.preferencias !== 'object') window.db.preferencias = { quickAddType:'gasto-variable' };
-  window.db.schemaVersion = 7;
+  window.db.schemaVersion = 8;
   (window.db.creditos || []).forEach(cr => {
     if (!cr.fechaPrimeraCuota) cr.fechaPrimeraCuota = defaultFechaPrimeraCuota();
     if (!cr.vencimientosManual) cr.vencimientosManual = {};
@@ -4672,6 +4827,7 @@ function goTo(pageId, keepSidebarOpen) {
   if (!keepSidebarOpen) closeSidebar();
   if (!keepSidebarOpen) window.scrollTo({ top: 0, behavior: 'auto' });
   if (pageId === 'resumen') renderResumen();
+  if (pageId === 'centro') renderFinanceCenter();
   if (pageId === 'anual') renderAnnualView();
   if (pageId === 'ingresos') renderIngresos();
   if (pageId === 'gastos') renderGastos();
@@ -5212,13 +5368,15 @@ function saveCredito() {
     id: Date.now(), banco: b, desc: d,
     cuotaAct: pagadas + 1, cuotaTot: ct,
     montoCuota: v, montoTotal: montoTotal || v * ct,
+    tasaAnual: Number(document.getElementById('mcr-rate').value)||0,
+    cae: Number(document.getElementById('mcr-cae').value)||0,
     fechaPrimeraCuota: fechaInput || defaultFechaPrimeraCuota(),
     vencimientosManual: {},
     pagos: [], incluirEnResumen: true
   });
   syncGastosCreditos();
   saveDB(); closeModal('mod-cred'); showToast('Crédito añadido');
-  ['mcr-banco','mcr-desc','mcr-monto-total','mcr-val','mcr-fecha'].forEach(id => { document.getElementById(id).value = ''; });
+  ['mcr-banco','mcr-desc','mcr-monto-total','mcr-val','mcr-fecha','mcr-rate','mcr-cae'].forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('mcr-ct').value = '12';
   document.getElementById('mcr-pagadas').value = '0';
   document.getElementById('cuota-preview').style.display = 'none';
@@ -5387,6 +5545,7 @@ function renderCreditoCard(x, completado) {
   let incl = x.incluirEnResumen !== false; // default true para créditos antiguos
   let vencs = generarVencimientos(x);
   let proximoVenc = !completado ? vencs[cuotasPagadas] : null;
+  let fechaTermino=vencs.length?vencs[vencs.length-1]:null,totalPagare=x.montoCuota*x.cuotaTot,costoCredito=Math.max(0,totalPagare-(Number(x.montoTotal)||totalPagare));
   let mesesLargos = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   let notaGasto = (proximoVenc && incl) ? (() => {
     let [ny] = proximoVenc.split('-').map(Number);
@@ -5427,6 +5586,7 @@ function renderCreditoCard(x, completado) {
       </div>
       <div class="cred-body">
         ${!completado?`<div class="cred-summary-state">${incl?'<span class="state-icon">✓</span><div><strong>Incluido en tu planificación mensual</strong><small>La próxima cuota aparecerá entre tus gastos del mes.</small></div>':'<span class="state-icon">—</span><div><strong>Fuera de tu planificación mensual</strong><small>Este crédito se controla aquí, pero no modifica el resumen ni el disponible.</small></div>'}</div>`:''}
+        <div class="finance-kpi-grid" style="margin-bottom:1rem"><div class="finance-mini-kpi"><span>Termina</span><strong style="font-size:1rem">${fechaTermino?formatFechaCL(fechaTermino):'—'}</strong></div><div class="finance-mini-kpi"><span>Total a pagar</span><strong style="font-size:1rem">$${formatMiles(totalPagare)}</strong></div><div class="finance-mini-kpi"><span>Costo financiero</span><strong style="font-size:1rem">$${formatMiles(costoCredito)}</strong></div><div class="finance-mini-kpi"><span>CAE / tasa</span><strong style="font-size:1rem">${x.cae?x.cae+'%':x.tasaAnual?x.tasaAnual+'%':'No informada'}</strong></div></div>
         <div class="cred-prog-wrap">
           <div class="cred-prog-info">
             <span>Avance del Crédito</span>
@@ -5604,6 +5764,7 @@ function openMetaModal(id) {
     document.getElementById('mmt-id').value = id;
     document.getElementById('mmt-name').value = meta.name;
     document.getElementById('mmt-obj').value = formatMiles(meta.obj);
+    document.getElementById('mmt-date').value = meta.targetDate || '';
     titleEl.textContent = '✏️ Editar Meta de Ahorro';
     actWrap.style.display = 'none'; // al editar no se toca el monto ahorrado acá, eso se hace con Abonos
     saveBtn.textContent = 'Guardar Cambios';
@@ -5612,6 +5773,7 @@ function openMetaModal(id) {
     document.getElementById('mmt-name').value = '';
     document.getElementById('mmt-obj').value = '';
     document.getElementById('mmt-act').value = '0';
+    document.getElementById('mmt-date').value = '';
     titleEl.textContent = 'Nueva Meta de Ahorro';
     actWrap.style.display = '';
     saveBtn.textContent = 'Crear Objetivo';
@@ -5624,6 +5786,7 @@ function saveMeta() {
   let editId = document.getElementById('mmt-id').value;
   let n = document.getElementById('mmt-name').value.trim();
   let o = cleanMonto(document.getElementById('mmt-obj').value);
+  let targetDate = document.getElementById('mmt-date').value;
   if (!n || o <= 0) { showToast('Configura montos correctos', 'err'); return; }
 
   if (editId) {
@@ -5631,6 +5794,7 @@ function saveMeta() {
     if (idx > -1) {
       window.db.metas[idx].name = n;
       window.db.metas[idx].obj = o;
+      window.db.metas[idx].targetDate = targetDate;
       saveDB(); closeModal('mod-meta'); showToast('Meta actualizada');
       renderMetas();
     }
@@ -5638,7 +5802,7 @@ function saveMeta() {
   }
 
   let a = cleanMonto(document.getElementById('mmt-act').value);
-  window.db.metas.push({ id: Date.now(), name: n, obj: o, act: a, abonos: [] });
+  window.db.metas.push({ id: Date.now(), name: n, obj: o, act: a, targetDate, abonos: [] });
   saveDB(); closeModal('mod-meta'); showToast('Meta de ahorro creada');
   document.getElementById('mmt-name').value = '';
   document.getElementById('mmt-obj').value = '';
@@ -5817,6 +5981,7 @@ function renderMetas() {
     let pct = Math.min((x.act / x.obj) * 100, 100);
     let falta = Math.max(x.obj - x.act, 0);
     let completada = x.act >= x.obj;
+    let target=x.targetDate?new Date(x.targetDate+'T12:00:00'):null,monthsLeft=target?Math.max(1,Math.ceil((target-new Date())/2629800000)):0,recommended=monthsLeft?Math.ceil(falta/monthsLeft):0,targetCopy=target?`Para llegar el ${target.toLocaleDateString('es-CL')}, aporta cerca de $${formatMiles(recommended)} al mes.`:'Agrega una fecha objetivo para calcular un aporte mensual.';
     let abonos = (x.abonos || []).slice(-5).reverse();
     let abonosHtml = abonos.length > 0
       ? `<div style="margin-top:.75rem;border-top:1px solid var(--gray4);padding-top:.75rem">
@@ -5844,12 +6009,13 @@ function renderMetas() {
         </div>
       </div>
       <div class="meta-body">
-        <div class="goal-state"><span class="state-icon">${completada?'✓':pct>=60?'↗':'◎'}</span><div><strong>${completada?'Objetivo alcanzado':pct>=60?'Vas muy bien':'Meta en progreso'}</strong><small>${completada?'Completaste el monto que te propusiste.':pct>=60?'Ya recorriste más de la mitad del camino.':'Cada abono hace visible tu avance hacia el objetivo.'}</small></div></div>
+        <div class="goal-state"><span class="state-icon">${completada?'✓':pct>=60?'↗':'◎'}</span><div><strong>${completada?'Objetivo alcanzado':pct>=60?'Vas muy bien':'Meta en progreso'}</strong><small>${completada?'Completaste el monto que te propusiste.':targetCopy}</small></div></div>
         <div class="meta-prog-info"><span>Progreso de la meta</span><span>${completada ? '✅ ¡Completada!' : `Faltan $${formatMiles(falta)}`}</span></div>
         <div class="prog-track-lg"><div class="prog-fill-lg goal-progress-fill" style="width:${pct}%"></div></div>
         ${abonosHtml}
         <div class="meta-actions">
           ${!completada ? `<button class="btn btn-prim btn-sm" onclick="abrirAporte(${x.id})">💰 Agregar Abono</button>` : ''}
+          <button class="btn btn-outline btn-sm" onclick="openMetaModal(${x.id})">Editar meta</button>
           <button class="btn btn-danger btn-sm" onclick="delMeta(${x.id})">🗑️ Eliminar</button>
         </div>
       </div>
@@ -5867,6 +6033,9 @@ function savePerfil() {
   updateAvatarUI();
   syncNameToFinsaveUsers();
 }
+function exportMyData(){let blob=new Blob([JSON.stringify(window.db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`Finsave-datos-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),500);showToast('Copia de tus datos descargada');}
+async function closeOtherSessions(){if(!supabaseClient||!currentUser){showToast('No hay una sesión conectada','err');return;}if(!confirm('¿Cerrar Finsave en tus otros dispositivos? Esta sesión seguirá abierta.'))return;try{let {error}=await supabaseClient.auth.signOut({scope:'others'});if(error)throw error;showToast('Otras sesiones cerradas');}catch(e){showToast('No fue posible cerrar las otras sesiones','err');}}
+function showLegalPage(type){let privacy='Finsave guarda tu información financiera asociada a tu cuenta para prestar el servicio. Puedes descargarla o eliminarla desde este perfil. No vendemos tus datos personales.',terms='Finsave es una herramienta de organización personal y no reemplaza asesoría financiera, contable o legal. Eres responsable de revisar la exactitud de los registros ingresados.';alert(`${type==='privacy'?'Privacidad':'Términos de uso'}\n\n${type==='privacy'?privacy:terms}`);}
 
 async function cambiarPassword() {
   let passNew     = document.getElementById('p-pass-new').value;
@@ -6857,6 +7026,7 @@ function renderMonthlyPlan(){
     <div class="plan-summary-item plan-summary-available ${free>0?'is-positive':free<0?'is-negative':'is-neutral'}"><div class="plan-summary-label">Disponible</div><div class="plan-summary-value">$${formatMiles(free)}</div><small>${free>0?'Dinero libre después de gastos y ahorro':free<0?'Tus salidas superan los ingresos':'Sin saldo libre este mes'}</small></div>`;
   let copy=document.getElementById('plan-month-copy');if(copy)copy.textContent=closed?`Mes cerrado el ${new Date(closed.closedAt).toLocaleDateString('es-CL')}. Puedes reabrirlo si necesitas corregir algo.`:'Lo que ingresó, salió y quedó disponible.';
   let btn=document.getElementById('btn-close-month');if(btn){btn.textContent=closed?'↻ Reabrir mes':'✓ Cerrar mes';btn.className=`btn ${closed?'btn-outline':'btn-prim'} btn-sm`;}
+  renderBudgetSummary(month,year);
 }
 function renderBudgetSummary(month,year){
   let box=document.getElementById('res-budget-list');if(!box)return;let budgets=(window.db.presupuestos||[]).filter(x=>x.month===month&&x.year===year),cats=[...getAllCatsFijos(),...getAllCatsVar()];
@@ -6870,7 +7040,7 @@ function openBudgetModal(){
 }
 function saveMonthBudget(){let {month,year}=selectedPlanPeriod();window.db.presupuestos=(window.db.presupuestos||[]).filter(x=>!(x.month===month&&x.year===year));document.querySelectorAll('.budget-input').forEach(el=>{let amount=cleanMonto(el.value);if(amount>0)window.db.presupuestos.push({id:Date.now()+Math.floor(Math.random()*100000),month,year,cat:el.dataset.cat,amount});});saveDB();closeModal('mod-budget');renderMonthlyPlan();showToast('Presupuesto guardado');}
 function clearMonthBudget(){if(!confirm('¿Quitar el presupuesto de este mes? Tus gastos no se eliminarán.'))return;let {month,year}=selectedPlanPeriod();window.db.presupuestos=(window.db.presupuestos||[]).filter(x=>!(x.month===month&&x.year===year));saveDB();closeModal('mod-budget');renderMonthlyPlan();showToast('Presupuesto eliminado');}
-function toggleMonthClosure(){let {month,year}=selectedPlanPeriod(),idx=(window.db.cierresMensuales||[]).findIndex(x=>x.month===month&&x.year===year);if(idx>=0){if(!confirm('¿Reabrir este mes para continuar editándolo?'))return;window.db.cierresMensuales.splice(idx,1);showToast('Mes reabierto');}else{let t=periodTotals(month,year);if(!confirm(`Cerrar ${FINSAVE_MONTHS[month]} ${year}\n\nIngresos: $${formatMiles(t.ingresos)}\nGastos: $${formatMiles(t.gastos)}\nAhorro: $${formatMiles(t.ahorro)}\nSaldo: $${formatMiles(t.saldo)}\n\nPodrás reabrirlo después.`))return;window.db.cierresMensuales.push({id:Date.now(),month,year,closedAt:new Date().toISOString(),snapshot:t,note:''});showToast('Mes cerrado correctamente');}saveDB();renderMonthlyPlan();}
+function toggleMonthClosure(){let {month,year}=selectedPlanPeriod(),idx=(window.db.cierresMensuales||[]).findIndex(x=>x.month===month&&x.year===year);if(idx>=0){if(!confirm('¿Reabrir este mes para continuar editándolo?'))return;window.db.cierresMensuales.splice(idx,1);showToast('Mes reabierto');}else{let t=periodTotals(month,year),uncategorized=[...(window.db.gastosFijos||[]),...(window.db.gastosVariables||[])].filter(x=>x.month===month&&x.year===year&&(!x.cat||x.cat==='otros')).length,creditPending=(window.db.creditos||[]).filter(x=>x.incluirEnResumen!==false&&x.cuotaAct-1<x.cuotaTot).length,check=`REVISIÓN ANTES DE CERRAR\n\n${t.pendiente?'⚠':'✓'} Pagos pendientes: $${formatMiles(t.pendiente)}\n${uncategorized?'⚠':'✓'} Movimientos en “Otros”: ${uncategorized}\n${creditPending?'•':'✓'} Créditos activos incluidos: ${creditPending}\n✓ Ingresos registrados: $${formatMiles(t.ingresos)}\n✓ Ahorro registrado: $${formatMiles(t.ahorro)}\n\nResultado del mes: $${formatMiles(t.saldo)}\n\n¿Confirmas el cierre? Podrás reabrirlo después.`;if(!confirm(check))return;window.db.cierresMensuales.push({id:Date.now(),month,year,closedAt:new Date().toISOString(),snapshot:t,note:'',checklist:{pending:t.pendiente,uncategorized,creditPending}});showToast('Mes cerrado y revisión guardada');}saveDB();renderMonthlyPlan();}
 function prepareNextMonth(){
   let {month,year}=selectedPlanPeriod(),nextMonth=(month+1)%12,nextYear=month===11?year+1:year,inputs=(window.db.ingresos||[]).filter(x=>x.month===month&&x.year===year),fixed=(window.db.gastosFijos||[]).filter(x=>x.month===month&&x.year===year&&!x.creditoId);
   if(!inputs.length&&!fixed.length){showToast('No hay ingresos ni gastos fijos para copiar','err');return;}if(!confirm(`Preparar ${FINSAVE_MONTHS[nextMonth]} ${nextYear}\n\nSe copiarán ${inputs.length} ingreso(s) y ${fixed.length} gasto(s) fijo(s). Los registros que ya existan no se duplicarán.`))return;
@@ -6880,7 +7050,7 @@ function prepareNextMonth(){
 }
 function openCompareModal(){let {month,year}=selectedPlanPeriod(),prev=new Date(year,month-1,1);document.getElementById('compare-a').value=monthKey(prev.getMonth(),prev.getFullYear());document.getElementById('compare-b').value=monthKey(month,year);renderMonthComparison();openModal('mod-compare');}
 function parseMonthInput(v){let [y,m]=String(v||'').split('-').map(Number);return {year:y,month:m-1};}
-function renderMonthComparison(){let a=parseMonthInput(document.getElementById('compare-a').value),b=parseMonthInput(document.getElementById('compare-b').value);if(!a.year||!b.year)return;let A=periodTotals(a.month,a.year),B=periodTotals(b.month,b.year),delta=(v1,v2)=>`${v2-v1>=0?'+':'−'}$${formatMiles(Math.abs(v2-v1))}`,color=(v1,v2,goodUp=true)=>(v2>=v1)===goodUp?'var(--primary-dark)':'var(--danger)';document.getElementById('compare-content').innerHTML=`<div class="compare-grid"><div class="compare-box"><strong>${FINSAVE_MONTHS[a.month]} ${a.year}</strong><p class="budget-meta">Ingresos $${formatMiles(A.ingresos)} · Gastos $${formatMiles(A.gastos)} · Ahorro $${formatMiles(A.ahorro)}</p></div><div class="compare-box"><strong>${FINSAVE_MONTHS[b.month]} ${b.year}</strong><p class="budget-meta">Ingresos $${formatMiles(B.ingresos)} · Gastos $${formatMiles(B.gastos)} · Ahorro $${formatMiles(B.ahorro)}</p></div></div><div class="card" style="box-shadow:none;margin-top:.8rem"><div class="annual-month-line"><span>Cambio en ingresos</span><strong style="color:${color(A.ingresos,B.ingresos)}">${delta(A.ingresos,B.ingresos)}</strong></div><div class="annual-month-line"><span>Cambio en gastos</span><strong style="color:${color(A.gastos,B.gastos,false)}">${delta(A.gastos,B.gastos)}</strong></div><div class="annual-month-line"><span>Cambio en ahorro</span><strong style="color:${color(A.ahorro,B.ahorro)}">${delta(A.ahorro,B.ahorro)}</strong></div><div class="annual-month-line"><span>Cambio en saldo</span><strong style="color:${color(A.saldo,B.saldo)}">${delta(A.saldo,B.saldo)}</strong></div></div>`;}
+function renderMonthComparison(){let a=parseMonthInput(document.getElementById('compare-a').value),b=parseMonthInput(document.getElementById('compare-b').value);if(!a.year||!b.year)return;let A=periodTotals(a.month,a.year),B=periodTotals(b.month,b.year),delta=(v1,v2)=>`${v2-v1>=0?'+':'−'}$${formatMiles(Math.abs(v2-v1))}`,color=(v1,v2,goodUp=true)=>(v2>=v1)===goodUp?'var(--primary-dark)':'var(--danger)',cats=[...getAllCatsFijos(),...getAllCatsVar()].filter((x,i,all)=>all.findIndex(y=>y.id===x.id)===i),changes=cats.map(c=>({name:c.label,emoji:c.emoji,a:categorySpend(c.id,a.month,a.year),b:categorySpend(c.id,b.month,b.year)})).map(x=>({...x,d:x.b-x.a})).filter(x=>x.d).sort((x,y)=>Math.abs(y.d)-Math.abs(x.d)).slice(0,4),explain=changes[0]?`${changes[0].name} fue la categoría que más cambió: ${changes[0].d>0?'subió':'bajó'} $${formatMiles(Math.abs(changes[0].d))}.`:'No hubo cambios relevantes por categoría.';document.getElementById('compare-content').innerHTML=`<div class="compare-grid"><div class="compare-box"><strong>${FINSAVE_MONTHS[a.month]} ${a.year}</strong><p class="budget-meta">Ingresos $${formatMiles(A.ingresos)} · Gastos $${formatMiles(A.gastos)} · Ahorro $${formatMiles(A.ahorro)}</p></div><div class="compare-box"><strong>${FINSAVE_MONTHS[b.month]} ${b.year}</strong><p class="budget-meta">Ingresos $${formatMiles(B.ingresos)} · Gastos $${formatMiles(B.gastos)} · Ahorro $${formatMiles(B.ahorro)}</p></div></div><div class="card" style="box-shadow:none;margin-top:.8rem"><div class="annual-month-line"><span>Cambio en ingresos</span><strong style="color:${color(A.ingresos,B.ingresos)}">${delta(A.ingresos,B.ingresos)}</strong></div><div class="annual-month-line"><span>Cambio en gastos</span><strong style="color:${color(A.gastos,B.gastos,false)}">${delta(A.gastos,B.gastos)}</strong></div><div class="annual-month-line"><span>Cambio en ahorro</span><strong style="color:${color(A.ahorro,B.ahorro)}">${delta(A.ahorro,B.ahorro)}</strong></div><div class="annual-month-line"><span>Cambio en saldo</span><strong style="color:${color(A.saldo,B.saldo)}">${delta(A.saldo,B.saldo)}</strong></div></div><div class="info-banner new" style="margin-top:.8rem"><strong>Qué explica la diferencia</strong><br>${explain}</div>${changes.length?`<div class="card" style="box-shadow:none;margin-top:.8rem">${changes.map(x=>`<div class="annual-month-line"><span>${x.emoji} ${escAdmin(x.name)}</span><strong style="color:${x.d>0?'var(--danger)':'var(--primary-dark)'}">${x.d>0?'+':'−'}$${formatMiles(Math.abs(x.d))}</strong></div>`).join('')}</div>`:''}`;}
 
 function renderAnnualView(){let year=parseInt(document.getElementById('annual-year')?.value||new Date().getFullYear()),months=Array.from({length:12},(_,m)=>periodTotals(m,year)),totalIn=months.reduce((a,b)=>a+b.ingresos,0),totalOut=months.reduce((a,b)=>a+b.gastos,0),totalSave=months.reduce((a,b)=>a+b.ahorro,0);document.getElementById('annual-kpis').innerHTML=`<div class="kpi"><div class="kpi-lbl">Ingresos del año</div><div class="kpi-val g">$${formatMiles(totalIn)}</div></div><div class="kpi"><div class="kpi-lbl">Gastos del año</div><div class="kpi-val r">$${formatMiles(totalOut)}</div></div><div class="kpi"><div class="kpi-lbl">Ahorro registrado</div><div class="kpi-val p">$${formatMiles(totalSave)}</div></div><div class="kpi"><div class="kpi-lbl">Saldo acumulado</div><div class="kpi-val ${totalIn-totalOut>=0?'g':'r'}">$${formatMiles(totalIn-totalOut)}</div></div>`;document.getElementById('annual-grid').innerHTML=months.map((t,m)=>`<button class="annual-month" onclick="openAnnualMonth(${m},${year})" aria-label="Abrir ${FINSAVE_MONTHS[m]}"><div class="annual-month-name">${FINSAVE_MONTHS[m]} ${(window.db.cierresMensuales||[]).some(x=>x.month===m&&x.year===year)?'✓':''}</div><div class="annual-month-line"><span>Ingresos</span><strong>$${formatMiles(t.ingresos)}</strong></div><div class="annual-month-line"><span>Gastos</span><strong>$${formatMiles(t.gastos)}</strong></div><div class="annual-month-line"><span>Ahorro</span><strong>$${formatMiles(t.ahorro)}</strong></div><div class="annual-month-line"><span>Saldo</span><strong style="color:${t.saldo>=0?'var(--primary-dark)':'var(--danger)'}">$${formatMiles(t.saldo)}</strong></div></button>`).join('');}
 function openAnnualMonth(month,year){document.getElementById('res-month').value=month;document.getElementById('res-year').value=year;syncMonthSelectors(month);syncYearSelectors(year);goTo('resumen');}
@@ -6930,6 +7100,69 @@ function confirmImportRows(){let valid=pendingImportRows.filter(x=>x.valid);if(!
 
 function openDebtPlan(){if(!(window.db.creditos||[]).some(x=>Math.min(x.cuotaAct-1,x.cuotaTot)<x.cuotaTot)){showToast('No hay créditos activos para simular','err');return;}document.getElementById('debt-extra').value='0';renderDebtPlan();openModal('mod-debt-plan');}
 function renderDebtPlan(){let strategy=document.getElementById('debt-strategy').value,extra=cleanMonto(document.getElementById('debt-extra').value),items=(window.db.creditos||[]).map(x=>{let paid=Math.min(Math.max((x.pagos||[]).length,x.cuotaAct-1),x.cuotaTot),remaining=Math.max(0,x.cuotaTot-paid);return {...x,paid,remaining,balance:remaining*x.montoCuota};}).filter(x=>x.remaining>0);items.sort(strategy==='payment'?(a,b)=>b.montoCuota-a.montoCuota:strategy==='progress'?(a,b)=>a.remaining-b.remaining:(a,b)=>a.balance-b.balance);let monthly=items.reduce((a,b)=>a+b.montoCuota,0)+extra;document.getElementById('debt-plan-content').innerHTML=`<div class="info-banner new" style="margin-bottom:.75rem">Pago mensual actual: <strong>$${formatMiles(monthly-extra)}</strong>${extra?` · Con aporte extra: <strong>$${formatMiles(monthly)}</strong>`:''}. Esta simulación no modifica tus créditos.</div>${items.map((x,i)=>`<div class="budget-row" style="margin-bottom:.55rem"><div class="budget-row-head"><div><div class="budget-name">${i+1}. ${escAdmin(x.desc)}</div><div class="budget-meta">${x.remaining} cuotas restantes · cuota $${formatMiles(x.montoCuota)}</div></div><div class="budget-available">Saldo $${formatMiles(x.balance)}</div></div>${i===0&&extra?`<div class="budget-meta" style="color:var(--primary-dark);margin-top:.5rem">Aplicando $${formatMiles(extra)} adicionales aquí, el saldo bajaría a $${formatMiles(Math.max(0,x.balance-extra))}.</div>`:''}</div>`).join('')}`;}
+
+/* ══════════════ CENTRO FINANCIERO ══════════════ */
+let projectionScenario='expected',globalSearchFilter='all';
+function financePeriod(){let m=parseInt(document.getElementById('res-month')?.value??new Date().getMonth()),y=parseInt(document.getElementById('res-year')?.value??new Date().getFullYear());return {month:m,year:y};}
+function plannedForPeriod(type,month,year){return (window.db.planificados||[]).filter(x=>x.type===type&&new Date(x.date+'T12:00:00').getMonth()===month&&new Date(x.date+'T12:00:00').getFullYear()===year);}
+function financeProjection(){
+  let {month,year}=financePeriod(),t=periodTotals(month,year),plannedIncome=plannedForPeriod('income',month,year).reduce((a,b)=>a+(Number(b.amount)||0),0),plannedExpense=plannedForPeriod('expense',month,year).reduce((a,b)=>a+(Number(b.amount)||0),0),plannedSaving=plannedForPeriod('saving',month,year).reduce((a,b)=>a+(Number(b.amount)||0),0);
+  let recurring=(window.db.recurrentes||[]).filter(x=>x.active!==false).reduce((a,b)=>a+(Number(b.amount)||0),0),incomeFactor=projectionScenario==='optimistic'?1:projectionScenario==='adjusted'?.75:1,expenseFactor=projectionScenario==='optimistic'?.85:projectionScenario==='adjusted'?1.1:1;
+  let expectedIncome=t.ingresos+plannedIncome*incomeFactor,expectedOut=t.gastos+plannedExpense*expenseFactor+recurring,available=expectedIncome-expectedOut-t.ahorro-plannedSaving;
+  return {t,plannedIncome,plannedExpense,plannedSaving,recurring,expectedIncome,expectedOut,available,month,year};
+}
+function setProjectionScenario(value,btn){projectionScenario=value;document.querySelectorAll('[data-scenario]').forEach(x=>x.classList.toggle('active',x===btn));renderFinanceProjection();}
+function renderFinanceProjection(){
+  let p=financeProjection(),amount=document.getElementById('finance-projection-amount');if(!amount)return;
+  amount.innerHTML=`${p.available<0?'−':''}$${formatMiles(Math.abs(p.available))}<small>${p.available>=0?'disponible estimado':'déficit estimado'}</small>`;
+  document.getElementById('finance-projection-title').textContent=p.available>=0?'Vas camino a cerrar con saldo disponible':'Tu planificación necesita un ajuste';
+  document.getElementById('finance-projection-copy').textContent=p.available>=0?'Si mantienes este ritmo, podrás cubrir lo previsto y conservar dinero libre.':'Los compromisos previstos superan lo que ingresará. Revisa recurrencias, gastos o ahorro planificado.';
+  document.getElementById('finance-projection-grid').innerHTML=[
+    ['Ingresos esperados',p.expectedIncome,`+$${formatMiles(p.plannedIncome)} por recibir`],
+    ['Salidas estimadas',p.expectedOut,`$${formatMiles(p.recurring)} recurrentes`],
+    ['Ahorro planificado',p.t.ahorro+p.plannedSaving,`${p.plannedSaving?'Incluye próximos aportes':'Sin aportes futuros'}`],
+    ['Pagos pendientes',p.t.pendiente,p.t.pendiente?'Requieren confirmación':'Todo confirmado']
+  ].map(x=>`<div class="finance-mini-kpi"><span>${x[0]}</span><strong>$${formatMiles(x[1])}</strong><small>${x[2]}</small></div>`).join('');
+}
+function financeEvents(){
+  let {month,year}=financePeriod(),items=[];
+  (window.db.creditos||[]).forEach(cr=>{let paid=Math.max(0,cr.cuotaAct-1),date=generarVencimientos(cr)[paid];if(date&&new Date(date+'T12:00:00').getMonth()===month&&new Date(date+'T12:00:00').getFullYear()===year)items.push({date,name:`Cuota · ${cr.desc}`,amount:cr.montoCuota,type:'credit',id:cr.id});});
+  (window.db.recurrentes||[]).filter(x=>x.active!==false).forEach(x=>items.push({date:`${year}-${String(month+1).padStart(2,'0')}-${String(Math.min(x.day,new Date(year,month+1,0).getDate())).padStart(2,'0')}`,name:x.name,amount:x.amount,type:'recurring',id:x.id}));
+  plannedForPeriod('income',month,year).forEach(x=>items.push({date:x.date,name:x.name,amount:x.amount,type:'income',id:x.id}));plannedForPeriod('expense',month,year).forEach(x=>items.push({date:x.date,name:x.name,amount:x.amount,type:'expense',id:x.id}));plannedForPeriod('saving',month,year).forEach(x=>items.push({date:x.date,name:x.name,amount:x.amount,type:'saving',id:x.id}));
+  return items.sort((a,b)=>a.date.localeCompare(b.date));
+}
+function renderFinanceCalendar(){
+  let strip=document.getElementById('finance-calendar-strip'),line=document.getElementById('finance-timeline');if(!strip||!line)return;let today=new Date(),start=new Date(today);start.setDate(today.getDate()-3);
+  strip.innerHTML=Array.from({length:7},(_,i)=>{let d=new Date(start);d.setDate(start.getDate()+i);return `<div class="calendar-day ${d.toDateString()===today.toDateString()?'today':''}">${['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][d.getDay()]}<b>${d.getDate()}</b></div>`;}).join('');
+  let events=financeEvents();line.innerHTML=events.length?events.slice(0,8).map(x=>`<div class="timeline-item"><span class="timeline-dot" style="background:${x.type==='income'?'#0da685':x.type==='credit'?'#7c66d9':x.type==='saving'?'#2f80ed':'#ff9c4a'}"></span><div class="timeline-main"><strong>${escAdmin(x.name)}</strong><small>${formatFechaCL(x.date)} · ${x.type==='income'?'Por recibir':x.type==='saving'?'Aporte planificado':'Pago previsto'}</small></div><span class="timeline-amount">${x.type==='income'?'+':'−'}$${formatMiles(x.amount)}</span></div>`).join(''):'<div class="search-empty">No hay fechas planificadas para este mes.</div>';
+}
+function buildFinanceAlerts(){
+  let p=financeProjection(),alerts=[],budgets=(window.db.presupuestos||[]).filter(x=>x.month===p.month&&x.year===p.year);
+  budgets.forEach(b=>{let spent=categorySpend(b.cat,p.month,p.year),pct=b.amount?spent/b.amount*100:0;if(pct>=80)alerts.push({level:pct>=100?'danger':'warning',icon:pct>=100?'!':'%',title:pct>=100?'Presupuesto excedido':'Presupuesto cerca del límite',copy:`Has utilizado ${Math.round(pct)}% de ${b.cat}.`});});
+  let nextCredit=financeEvents().find(x=>x.type==='credit');if(nextCredit)alerts.push({level:'warning',icon:'◷',title:'Próxima cuota',copy:`${nextCredit.name} vence el ${formatFechaCL(nextCredit.date)}.`});
+  if(p.t.pendiente)alerts.push({level:'warning',icon:'✓',title:'Pagos por confirmar',copy:`Quedan $${formatMiles(p.t.pendiente)} sin marcar como pagados.`});
+  if(p.available<0)alerts.unshift({level:'danger',icon:'↘',title:'Cierre proyectado negativo',copy:`Faltarían $${formatMiles(Math.abs(p.available))} para cubrir el plan.`});
+  if(!alerts.length)alerts.push({level:'ok',icon:'✓',title:'Todo bajo control',copy:'No detectamos alertas críticas para este período.'});return alerts;
+}
+function renderFinanceAlerts(){let box=document.getElementById('finance-alerts');if(!box)return;let alerts=buildFinanceAlerts();document.getElementById('finance-alert-count').textContent=alerts.filter(x=>x.level!=='ok').length;box.innerHTML=alerts.slice(0,6).map(x=>`<div class="alert-item ${x.level}"><span class="alert-icon">${x.icon}</span><div class="alert-main"><strong>${x.title}</strong><small>${x.copy}</small></div></div>`).join('');}
+function renderFinanceAccounts(){let box=document.getElementById('finance-accounts');if(!box)return;let items=window.db.cuentas||[];box.innerHTML=items.length?items.map(x=>`<div class="account-card ${x.type==='credit'?'credit':''}"><button onclick="deleteAccount(${x.id})" aria-label="Eliminar">×</button><span>${x.type==='credit'?'Cupo disponible':x.type==='cash'?'Efectivo':'Saldo real'}</span><strong>$${formatMiles(x.balance)}</strong><small>${escAdmin(x.name)}</small></div>`).join(''):'<div class="search-empty" style="grid-column:1/-1">Agrega tus cuentas para distinguir saldo real y cupo de crédito.</div>';}
+function openAccountModal(){document.getElementById('account-name').value='';document.getElementById('account-balance').value='';openModal('mod-account');}
+function saveAccount(){let name=document.getElementById('account-name').value.trim(),type=document.getElementById('account-type').value,balance=cleanMonto(document.getElementById('account-balance').value);if(!name){showToast('Escribe un nombre para la cuenta','err');return;}window.db.cuentas.push({id:Date.now(),name,type,balance});saveDB();closeModal('mod-account');renderFinanceCenter();showToast('Cuenta guardada');}
+function deleteAccount(id){if(!confirm('¿Quitar esta cuenta de Finsave? No se eliminarán movimientos.'))return;window.db.cuentas=window.db.cuentas.filter(x=>x.id!==id);saveDB();renderFinanceAccounts();}
+function renderFinanceRecurring(){let box=document.getElementById('finance-recurring');if(!box)return;let items=window.db.recurrentes||[];box.innerHTML=items.length?items.map(x=>`<div class="recurring-item"><span class="alert-icon">↻</span><div class="alert-main"><strong>${escAdmin(x.name)}</strong><small>Día ${x.day} de cada mes</small></div><strong>$${formatMiles(x.amount)}</strong><button class="icon-action" onclick="deleteRecurring(${x.id})" aria-label="Eliminar" style="width:34px;height:34px">×</button></div>`).join(''):'<div class="search-empty">Agrega servicios, arriendo u otros pagos que se repitan.</div>';}
+function openRecurringModal(){let cats=getAllCatsFijos();document.getElementById('recurring-category').innerHTML=cats.map(c=>`<option value="${escAdmin(c.id)}">${c.emoji} ${escAdmin(c.label)}</option>`).join('');document.getElementById('recurring-name').value='';document.getElementById('recurring-amount').value='';openModal('mod-recurring');}
+function saveRecurring(){let name=document.getElementById('recurring-name').value.trim(),amount=cleanMonto(document.getElementById('recurring-amount').value),day=Math.min(31,Math.max(1,parseInt(document.getElementById('recurring-day').value)||1)),cat=document.getElementById('recurring-category').value;if(!name||!amount){showToast('Completa nombre y monto','err');return;}window.db.recurrentes.push({id:Date.now(),name,amount,day,cat,active:true});saveDB();closeModal('mod-recurring');renderFinanceCenter();showToast('Pago recurrente guardado');}
+function deleteRecurring(id){if(!confirm('¿Eliminar esta recurrencia?'))return;window.db.recurrentes=window.db.recurrentes.filter(x=>x.id!==id);saveDB();renderFinanceCenter();}
+function openPlannerItem(){document.getElementById('planner-name').value='';document.getElementById('planner-amount').value='';document.getElementById('planner-date').value=new Date().toISOString().slice(0,10);openModal('mod-planner');}
+function syncPlannerLabels(){}
+function savePlannerItem(){let type=document.getElementById('planner-type').value,name=document.getElementById('planner-name').value.trim(),amount=cleanMonto(document.getElementById('planner-amount').value),date=document.getElementById('planner-date').value;if(!name||!amount||!date){showToast('Completa descripción, monto y fecha','err');return;}window.db.planificados.push({id:Date.now(),type,name,amount,date});saveDB();closeModal('mod-planner');renderFinanceCenter();showToast('Planificación agregada');}
+function renderFinanceCenter(){renderFinanceProjection();renderFinanceCalendar();renderFinanceAlerts();renderFinanceAccounts();renderFinanceRecurring();}
+function openGlobalSearch(){globalSearchFilter='all';document.querySelectorAll('[data-search-filter]').forEach(x=>x.classList.toggle('active',x.dataset.searchFilter==='all'));document.getElementById('global-search-input').value='';renderGlobalSearch();openModal('mod-global-search');setTimeout(()=>document.getElementById('global-search-input')?.focus(),100);}
+function setSearchFilter(filter,btn){globalSearchFilter=filter;document.querySelectorAll('[data-search-filter]').forEach(x=>x.classList.toggle('active',x===btn));renderGlobalSearch();}
+function searchItems(){
+  let items=[];[...(window.db.ingresos||[])].forEach(x=>items.push({group:'movements',icon:'↗',title:x.desc,copy:`Ingreso · ${FINSAVE_MONTHS[x.month]} ${x.year}`,amount:x.monto,page:'ingresos'}));[...(window.db.gastosFijos||[]),...(window.db.gastosVariables||[])].forEach(x=>items.push({group:'movements',icon:'↘',title:x.desc,copy:`Gasto · ${FINSAVE_MONTHS[x.month]} ${x.year}`,amount:x.monto,page:'gastos'}));(window.db.creditos||[]).forEach(x=>items.push({group:'credits',icon:'▣',title:x.desc,copy:`${x.banco} · ${x.cuotaAct-1}/${x.cuotaTot} cuotas`,amount:x.montoCuota,page:'creditos'}));(window.db.metas||[]).forEach(x=>items.push({group:'goals',icon:'◎',title:x.name,copy:`Ahorrado $${formatMiles(x.act)} de $${formatMiles(x.obj)}`,amount:x.act,page:'ahorros'}));return items;
+}
+function renderGlobalSearch(){let box=document.getElementById('global-search-results');if(!box)return;let q=document.getElementById('global-search-input').value.trim().toLowerCase(),items=searchItems().filter(x=>(globalSearchFilter==='all'||x.group===globalSearchFilter)&&(!q||`${x.title} ${x.copy}`.toLowerCase().includes(q)));box.innerHTML=items.length?items.slice(0,80).map(x=>`<div class="search-result" onclick="closeModal('mod-global-search');goTo('${x.page}')"><span class="search-result-icon">${x.icon}</span><div class="search-result-main"><strong>${escAdmin(x.title)}</strong><small>${escAdmin(x.copy)}</small></div><strong>$${formatMiles(x.amount)}</strong></div>`).join(''):'<div class="search-empty">No encontramos resultados con esos datos.</div>';}
 
 /* ══════════════ RESUMEN ══════════════ */
 function syncBalanceSeriesControls(){
