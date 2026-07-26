@@ -1244,8 +1244,8 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 .monthly-customizer-item{display:flex;align-items:center;gap:.55rem;padding:.65rem;border:1px solid #e2eaf1;border-radius:12px;background:#f8fbfd;font-size:.78rem;color:#42566e}.monthly-customizer-item strong{margin-right:auto}
 .monthly-customizer-item button,.module-hide-button{width:34px;height:34px;border:1px solid #d9e4ec;border-radius:9px;background:#fff;color:#47617c;cursor:pointer;font:700 .85rem var(--font)}
 .monthly-module{position:relative;width:100%!important;max-width:none!important;min-width:0!important}.monthly-module-tools{display:flex;align-items:center;gap:.55rem;margin:-.25rem 0 .65rem}.monthly-module-tools small{margin-right:auto;color:#8291a0;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}
-.module-drag-handle,.credit-drag-handle{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:38px;padding:.45rem .7rem;border:1px solid #d9e4ec;border-radius:10px;background:#fff;color:#526b84;cursor:grab;font:700 .7rem var(--font);touch-action:none;user-select:none}.module-drag-handle:active,.credit-drag-handle:active{cursor:grabbing}.drag-grip{font-size:1rem;letter-spacing:-.18em;transform:rotate(90deg)}
-.monthly-module.is-dragging,.cred-card.is-dragging{opacity:.45;transform:scale(.985)}.monthly-module.drag-over,.cred-card.drag-over{outline:2px dashed #4f8df7;outline-offset:6px}
+.module-drag-handle,.credit-drag-handle{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:38px;padding:.45rem .7rem;border:1px solid #d9e4ec;border-radius:10px;background:#fff;color:#526b84;cursor:grab;font:700 .7rem var(--font);touch-action:none;user-select:none;-webkit-user-select:none}.module-drag-handle:active,.credit-drag-handle:active{cursor:grabbing}.drag-grip{font-size:1rem;letter-spacing:-.18em;transform:rotate(90deg)}
+.monthly-module.is-dragging,.cred-card.is-dragging{opacity:.55;transform:scale(.985);box-shadow:0 24px 55px rgba(40,78,118,.22)!important;z-index:20}.monthly-module.drag-over,.cred-card.drag-over{outline:2px dashed #4f8df7;outline-offset:6px}.drag-active,.drag-active *{cursor:grabbing!important}
 .monthly-module.is-hidden{display:none!important}
 .balance-series-explainer{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}.series-explainer-item{display:flex;align-items:center;gap:.65rem;padding:.75rem;border:1px solid #e1e9ef;border-radius:13px;background:#f9fbfd}.series-explainer-item>span{width:10px;height:38px;border-radius:99px}.series-explainer-item.income>span{background:#059669}.series-explainer-item.expenses>span{background:#f43f5e}.series-explainer-item.balance>span{background:#2563eb}.series-explainer-item div{display:flex;flex-direction:column}.series-explainer-item strong{font-size:.78rem;color:#25364c}.series-explainer-item small{font-size:.67rem;color:#7b8c9e;margin-top:.12rem}
 .visual-month-feed{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:1rem!important;width:100%!important;max-width:none!important}.visual-month-feed>.resumen-detail-col{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:1rem!important;width:100%!important;max-width:none!important;min-width:0!important}.visual-month-feed>.resumen-detail-col>.card{width:100%!important;max-width:none!important;min-width:0!important;margin:0!important}
@@ -5600,12 +5600,12 @@ function renderCreditoCard(x, completado) {
     </div>` : '';
 
   return `
-    <div class="cred-card ${completado?'credit-completed':incl?'credit-included':'credit-excluded'}" ${!completado?`data-credit-id="${x.id}" ondragover="creditDragOver(event,${x.id})" ondragleave="this.classList.remove('drag-over')" ondrop="creditDrop(event,${x.id})"`:''}>
+    <div class="cred-card ${completado?'credit-completed':incl?'credit-included':'credit-excluded'}" ${!completado?`data-credit-id="${x.id}"`:''}>
       <div class="cred-header">
         <div class="cred-header-top">
           <div><div class="cred-title">💳 ${x.banco}</div><div class="cred-sub">${x.desc}</div></div>
           <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">
-            ${!completado?`<button class="credit-drag-handle" draggable="true" ondragstart="creditDragStart(event,${x.id})" ondragend="finishCreditDrag()" onpointerdown="touchDragStart(event,'credit',${x.id})" aria-label="Arrastrar crédito para cambiar su orden"><span class="drag-grip">•••</span> Arrastrar</button>`:''}
+            ${!completado?`<button type="button" class="credit-drag-handle" onpointerdown="pointerDragStart(event,'credit',${x.id})" aria-label="Mantener y arrastrar crédito para cambiar su orden"><span class="drag-grip">•••</span> Mantén y arrastra</button>`:''}
             ${estadoBadge}${toggleLabel}
           </div>
         </div>
@@ -7214,21 +7214,17 @@ function setupMonthlyView(){
     el.dataset.monthlyModule=cfg.id;el.classList.add('monthly-module');
     if(!el.querySelector(':scope > .monthly-module-tools')){
       const tools=document.createElement('div');tools.className='monthly-module-tools';
-      tools.innerHTML=`<small>${cfg.label}</small><button class="module-drag-handle" draggable="true" ondragstart="monthlyDragStart(event,'${cfg.id}')" ondragend="finishMonthlyDrag()" onpointerdown="touchDragStart(event,'monthly','${cfg.id}')" aria-label="Arrastrar ${cfg.label} para cambiar su posición"><span class="drag-grip">•••</span> Arrastrar</button><button class="module-hide-button" onclick="setMonthlyModuleVisible('${cfg.id}',false)" title="Ocultar" aria-label="Ocultar ${cfg.label}">×</button>`;
+      tools.innerHTML=`<small>${cfg.label}</small><button type="button" class="module-drag-handle" onpointerdown="pointerDragStart(event,'monthly','${cfg.id}')" aria-label="Mantener y arrastrar ${cfg.label} para cambiar su posición"><span class="drag-grip">•••</span> Mantén y arrastra</button><button class="module-hide-button" onclick="setMonthlyModuleVisible('${cfg.id}',false)" title="Ocultar" aria-label="Ocultar ${cfg.label}">×</button>`;
       el.prepend(tools);
     }
-    el.ondragover=e=>monthlyDragOver(e,cfg.id);el.ondragleave=()=>el.classList.remove('drag-over');el.ondrop=e=>monthlyDrop(e,cfg.id);
     el.classList.toggle('is-hidden',(state.hidden||[]).includes(cfg.id));
   });
   [...order,...MONTHLY_MODULES.map(x=>x.id).filter(id=>!order.includes(id))].forEach(id=>{const el=document.getElementById(id);if(el)page.insertBefore(el,anchor)});
   renderMonthlyCustomizer();
 }
-let monthlyDraggedId=null,creditDraggedId=null,touchDrag=null;
+let pointerDrag=null;
 function persistMonthlyDomOrder(){const state=monthlyViewState();state.order=[...document.querySelectorAll('#page-resumen [data-monthly-module]')].map(x=>x.dataset.monthlyModule);saveMonthlyViewState(state)}
-function monthlyDragStart(e,id){monthlyDraggedId=id;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',id);document.getElementById(id)?.classList.add('is-dragging')}
-function monthlyDragOver(e,id){if(!monthlyDraggedId||monthlyDraggedId===id)return;e.preventDefault();document.getElementById(id)?.classList.add('drag-over')}
-function monthlyDrop(e,id){e.preventDefault();const source=document.getElementById(monthlyDraggedId),target=document.getElementById(id);if(source&&target&&source!==target){const after=e.clientY>target.getBoundingClientRect().top+target.offsetHeight/2;target.parentNode.insertBefore(source,after?target.nextSibling:target);persistMonthlyDomOrder()}finishMonthlyDrag()}
-function finishMonthlyDrag(){document.querySelectorAll('.monthly-module').forEach(x=>x.classList.remove('is-dragging','drag-over'));monthlyDraggedId=null}
+function clearDragVisuals(){document.documentElement.classList.remove('drag-active');document.querySelectorAll('.monthly-module,.cred-card').forEach(x=>x.classList.remove('is-dragging','drag-over'))}
 function setMonthlyModuleVisible(id,visible){
   const state=monthlyViewState(),hidden=new Set(state.hidden||[]);visible?hidden.delete(id):hidden.add(id);state.hidden=[...hidden];saveMonthlyViewState(state);setupMonthlyView();
 }
@@ -7237,14 +7233,10 @@ function renderMonthlyCustomizer(){
   const box=document.getElementById('monthly-customizer');if(!box)return;const state=monthlyViewState(),hidden=new Set(state.hidden||[]);
   box.innerHTML=MONTHLY_MODULES.map(x=>`<div class="monthly-customizer-item"><strong>${x.label}</strong><span>${hidden.has(x.id)?'Oculto':'Visible'}</span><button onclick="setMonthlyModuleVisible('${x.id}',${hidden.has(x.id)})" title="${hidden.has(x.id)?'Mostrar':'Ocultar'}">${hidden.has(x.id)?'○':'✓'}</button></div>`).join('');
 }
-function creditDragStart(e,id){creditDraggedId=id;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(id));document.querySelector(`[data-credit-id="${id}"]`)?.classList.add('is-dragging')}
-function creditDragOver(e,id){if(!creditDraggedId||creditDraggedId===id)return;e.preventDefault();document.querySelector(`[data-credit-id="${id}"]`)?.classList.add('drag-over')}
-function creditDrop(e,id){e.preventDefault();reorderCreditBefore(creditDraggedId,id,e.clientY);finishCreditDrag()}
 function reorderCreditBefore(sourceId,targetId,pointerY=0){const list=window.db.creditos||[],from=list.findIndex(x=>x.id==sourceId),to=list.findIndex(x=>x.id==targetId);if(from<0||to<0||from===to)return;const targetEl=document.querySelector(`[data-credit-id="${targetId}"]`),after=targetEl&&pointerY>targetEl.getBoundingClientRect().top+targetEl.offsetHeight/2,item=list.splice(from,1)[0];let next=list.findIndex(x=>x.id==targetId);if(after)next++;list.splice(next,0,item);saveDB();renderCreditos();showToast('Orden de créditos actualizado')}
-function finishCreditDrag(){document.querySelectorAll('.cred-card').forEach(x=>x.classList.remove('is-dragging','drag-over'));creditDraggedId=null}
-function touchDragStart(e,type,id){if(e.pointerType==='mouse')return;touchDrag={type,id,handle:e.currentTarget};e.currentTarget.setPointerCapture?.(e.pointerId);const card=type==='monthly'?document.getElementById(id):document.querySelector(`[data-credit-id="${id}"]`);card?.classList.add('is-dragging');e.currentTarget.onpointermove=touchDragMove;e.currentTarget.onpointerup=touchDragEnd;e.currentTarget.onpointercancel=touchDragEnd}
-function touchDragMove(e){if(!touchDrag)return;e.preventDefault();const target=document.elementFromPoint(e.clientX,e.clientY)?.closest(touchDrag.type==='monthly'?'[data-monthly-module]':'[data-credit-id]');if(!target)return;document.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));target.classList.add('drag-over');if(touchDrag.type==='monthly'){const source=document.getElementById(touchDrag.id);if(source&&target!==source){const after=e.clientY>target.getBoundingClientRect().top+target.offsetHeight/2;target.parentNode.insertBefore(source,after?target.nextSibling:target)}}}
-function touchDragEnd(e){if(!touchDrag)return;const {type,id,handle}=touchDrag,target=document.elementFromPoint(e.clientX,e.clientY)?.closest(type==='monthly'?'[data-monthly-module]':'[data-credit-id]');if(type==='monthly')persistMonthlyDomOrder();else if(target&&target.dataset.creditId!=id)reorderCreditBefore(id,target.dataset.creditId,e.clientY);handle.onpointermove=handle.onpointerup=handle.onpointercancel=null;touchDrag=null;finishMonthlyDrag();finishCreditDrag()}
+function pointerDragStart(e,type,id){if(e.button!==undefined&&e.button!==0)return;e.preventDefault();const handle=e.currentTarget,source=type==='monthly'?document.getElementById(id):document.querySelector(`[data-credit-id="${id}"]`);if(!source)return;pointerDrag={type,id,handle,source,lastTarget:null};handle.setPointerCapture?.(e.pointerId);source.classList.add('is-dragging');document.documentElement.classList.add('drag-active');handle.onpointermove=pointerDragMove;handle.onpointerup=pointerDragEnd;handle.onpointercancel=pointerDragEnd}
+function pointerDragMove(e){if(!pointerDrag)return;e.preventDefault();if(e.clientY<90)window.scrollBy({top:-18,behavior:'auto'});else if(e.clientY>window.innerHeight-90)window.scrollBy({top:18,behavior:'auto'});const selector=pointerDrag.type==='monthly'?'[data-monthly-module]':'[data-credit-id]',target=document.elementFromPoint(e.clientX,e.clientY)?.closest(selector);document.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));if(!target||target===pointerDrag.source)return;target.classList.add('drag-over');pointerDrag.lastTarget=target;if(pointerDrag.type==='monthly'){const after=e.clientY>target.getBoundingClientRect().top+target.offsetHeight/2;target.parentNode.insertBefore(pointerDrag.source,after?target.nextSibling:target)}}
+function pointerDragEnd(e){if(!pointerDrag)return;const {type,id,handle,lastTarget}=pointerDrag;handle.releasePointerCapture?.(e.pointerId);handle.onpointermove=handle.onpointerup=handle.onpointercancel=null;if(type==='monthly'){persistMonthlyDomOrder();showToast('Orden de la vista actualizado')}else if(lastTarget&&lastTarget.dataset.creditId!=id)reorderCreditBefore(id,lastTarget.dataset.creditId,e.clientY);pointerDrag=null;clearDragVisuals()}
 document.addEventListener('DOMContentLoaded',setupMonthlyView);
 
 /* ══════════════ RESUMEN ══════════════ */
