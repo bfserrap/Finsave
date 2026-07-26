@@ -1042,6 +1042,52 @@ button,input,select,textarea{font-family:'Questrial',sans-serif}
   .topbar-brand{font-size:1rem}.topbar-brand .brand-mark{display:none}.pg-actions{grid-template-columns:1fr}
   .plan-summary-grid{grid-template-columns:1fr}.sac-thread-actions{grid-template-columns:1fr 1fr}.sac-context-grid,.sac-context-actions{grid-template-columns:1fr 1fr}
 }
+
+/* ══════════════ FINSAVE CLARITY · PLANILLA A PROGRESO ══════════════ */
+:root{
+  --brand:#2868e8;--brand2:#174fc4;--brand3:#eaf1ff;--brand4:#b9cffd;--brand-dark:#123c91;
+  --brand-grad:linear-gradient(135deg,#3979f1 0%,#1f5ed8 100%);
+  --green:#19a974;--green2:#36c895;--green-bg:#e8f8f1;--green-dark:#08704e;
+  --dark:#10243c;--dark2:#162c45;--dark3:#30465c;--dark4:#4e6377;
+  --gray:#687b8c;--gray2:#97a6b3;--gray3:#dce5eb;--gray4:#edf2f5;--gray5:#f6f9fb;
+  --app-bg:#f2f6f8;--ink:#10243c;--muted:#687b8c;
+  --shadow:0 1px 2px rgba(16,36,60,.03),0 10px 28px rgba(16,36,60,.065);
+  --shadow-md:0 20px 48px rgba(16,36,60,.12);--shadow-brand:0 14px 30px rgba(40,104,232,.22);
+}
+body,html{background:#f2f6f8;color:#10243c}
+.brand-mark{background:#2868e8}.btn-prim{background:var(--brand-grad);box-shadow:var(--shadow-brand)}.btn-outline{color:#174fc4;border-color:#b9cffd}.btn-outline:hover{background:#eaf1ff}
+#landing{background:#f7fafc}
+#landing::before{background:linear-gradient(rgba(16,36,60,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(16,36,60,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,#000,transparent 82%)}
+.land-nav{border-color:rgba(16,36,60,.11);background:rgba(255,255,255,.82)}
+.pill-badge{color:#496073;border-color:#cfdae2}.pill-badge span,.trust-dot{background:#19a974}
+.hero{grid-template-columns:minmax(0,.9fr) minmax(520px,1.1fr);gap:4rem}
+.hero h1{color:#10243c}.hero h1 em{color:#2868e8}.hero p{color:#5f7385}
+.migration-demo{height:590px;display:block;position:relative}
+.sheet-preview{position:absolute;left:0;top:66px;width:255px;padding:14px;border:1px solid #dce5eb;border-radius:18px;background:rgba(255,255,255,.82);box-shadow:0 18px 44px rgba(16,36,60,.1);transform:rotate(-5deg);animation:sheetDrift 6s ease-in-out infinite}
+.sheet-top{display:flex;align-items:center;gap:7px;padding-bottom:11px;color:#687b8c;font-size:.66rem;border-bottom:1px solid #e7edf1}.sheet-top small{margin-left:auto;color:#97a6b3;font-size:.55rem;letter-spacing:.12em}.sheet-dot{width:9px;height:9px;border-radius:50%;background:#1baa75}
+.sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:12px 0;background:#dfe7ec;border:1px solid #dfe7ec}.sheet-grid i{height:25px;background:#fff}.sheet-grid i:nth-child(2),.sheet-grid i:nth-child(7),.sheet-grid i:nth-child(12){background:#eaf1ff}.sheet-grid i:nth-child(5),.sheet-grid i:nth-child(9){background:#e8f8f1}
+.sheet-formula{padding:8px 9px;border-radius:8px;background:#f0f4f6;color:#687b8c;font:400 .62rem monospace}
+.migration-arrow{position:absolute;left:178px;top:315px;z-index:3;display:flex;align-items:center;gap:8px;color:#2868e8;transform:rotate(-5deg)}.migration-arrow span{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:0 8px 24px rgba(40,104,232,.18);font-size:1.2rem;animation:arrowPulse 2.2s ease infinite}.migration-arrow small{width:82px;font-size:.58rem;line-height:1.3;color:#687b8c}
+.clarity-dashboard{position:absolute;right:0;top:28px;width:min(430px,72%);padding:1.55rem;border:1px solid rgba(255,255,255,.1);border-radius:26px;background:#10243c;color:#fff;box-shadow:0 34px 75px rgba(16,36,60,.25);overflow:hidden;animation:dashboardFloat 6s ease-in-out infinite}
+.clarity-dashboard::after{content:"";position:absolute;width:180px;height:180px;right:-75px;top:-85px;border-radius:50%;background:#2868e8;filter:blur(8px);opacity:.52}
+.clarity-top{position:relative;z-index:1;display:flex;justify-content:space-between;color:#aab8c4;font-size:.7rem}.clarity-live{color:#69dfb2}.clarity-balance-label{margin-top:1.7rem;color:#9eb0bf;font-size:.7rem}.clarity-balance{margin:.25rem 0 1.2rem;font-size:2.35rem;letter-spacing:-.04em}
+.clarity-chart{height:130px;display:flex;align-items:flex-end;gap:9px;padding:10px 2px 0;border-bottom:1px solid rgba(255,255,255,.09)}.clarity-chart span{flex:1;height:var(--h);border-radius:7px 7px 2px 2px;background:linear-gradient(#78a4ff,#2868e8);transform-origin:bottom;animation:clarityGrow 1.25s cubic-bezier(.2,.8,.2,1) both,barBreathe 3s ease-in-out 1.4s infinite}.clarity-chart span:nth-child(2){animation-delay:.08s,1.5s}.clarity-chart span:nth-child(3){animation-delay:.16s,1.6s}.clarity-chart span:nth-child(4){animation-delay:.24s,1.7s}.clarity-chart span:nth-child(5){animation-delay:.32s,1.8s}.clarity-chart span:nth-child(6){animation-delay:.4s,1.9s}.clarity-chart span:nth-child(7){animation-delay:.48s,2s}.clarity-chart span:nth-child(8){animation-delay:.56s,2.1s}
+.clarity-progress{margin-top:1rem}.clarity-progress>div{display:flex;justify-content:space-between;color:#b6c3cd;font-size:.66rem}.clarity-progress strong{color:#fff;font-weight:400}.clarity-progress>span{display:block;height:7px;margin-top:7px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden}.clarity-progress i{display:block;width:68%;height:100%;border-radius:inherit;background:#32c891;animation:progressGrow 1.4s .55s cubic-bezier(.2,.8,.2,1) both}
+.clarity-mini{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:1rem}.clarity-mini div{padding:.72rem;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:rgba(255,255,255,.055)}.clarity-mini small{display:block;color:#98aaba;font-size:.6rem}.clarity-mini strong{display:block;margin-top:4px;font-size:.8rem;font-weight:400}
+.clarity-float{position:absolute;z-index:4;display:flex;align-items:center;gap:9px;padding:.7rem .85rem;border:1px solid #dce5eb;border-radius:16px;background:rgba(255,255,255,.92);box-shadow:0 16px 38px rgba(16,36,60,.13);animation:floatCard 5s ease-in-out infinite}.clarity-float>span{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#e8f8f1;color:#08704e}.clarity-float small{display:block;color:#7c8d9b;font-size:.58rem}.clarity-float strong{display:block;margin-top:2px;color:#10243c;font-size:.74rem;font-weight:400}.clarity-float-a{right:-10px;top:110px}.clarity-float-b{left:76px;bottom:72px;animation-delay:-2s}
+.switch-strip{position:relative;z-index:3;max-width:1180px;margin:-34px auto 2rem;padding:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border:1px solid #dce5eb;border-radius:20px;background:#fff;box-shadow:0 18px 48px rgba(16,36,60,.08)}.switch-strip>div{padding:1rem 1.1rem;border-radius:14px;background:#f7fafc}.switch-strip span{display:block;color:#2868e8;font-size:.62rem;letter-spacing:.12em}.switch-strip strong{display:block;margin:.25rem 0;font-size:1rem;font-weight:400}.switch-strip small{color:#687b8c;font-size:.72rem}
+.s-eyebrow{color:#2868e8}.feat-card{position:relative;overflow:hidden;border-color:#dce5eb;background:#fff}.feat-card:hover{border-color:#a9c4fb}.feat-icon{background:#eaf1ff;color:#174fc4;font-size:.72rem}.feat-spark{height:48px;display:flex;align-items:flex-end;gap:5px;margin-top:1rem}.feat-spark i{flex:1;border-radius:5px 5px 2px 2px;background:#82aaff;animation:miniGrow 2.8s ease-in-out infinite alternate}.feat-spark i:nth-child(1){height:28%}.feat-spark i:nth-child(2){height:44%;animation-delay:.15s}.feat-spark i:nth-child(3){height:38%;animation-delay:.3s}.feat-spark i:nth-child(4){height:72%;animation-delay:.45s}.feat-spark i:nth-child(5){height:92%;animation-delay:.6s}
+.feat-credit,.feat-goal{margin-top:1.2rem}.feat-credit>span,.feat-goal>span{display:block;height:8px;border-radius:99px;background:#edf2f5;overflow:hidden}.feat-credit i,.feat-goal i{display:block;height:100%;border-radius:inherit;background:#2868e8;animation:progressGrow 1.6s ease both}.feat-credit i{width:75%}.feat-goal{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px}.feat-goal i{width:68%;background:#19a974}.feat-goal strong{font-weight:400;color:#08704e}.feat-credit small{display:block;margin-top:7px;color:#687b8c;font-size:.65rem}.feat-line{margin-top:1rem}.feat-line svg{width:100%;height:54px;overflow:visible}.feat-line path{fill:none;stroke:#2868e8;stroke-width:3;stroke-linecap:round;stroke-dasharray:240;stroke-dashoffset:240;animation:drawLine 2.2s .25s ease forwards}
+.sidebar{background:#10243c;border-color:#203951}.sb-brand .brand-mark{background:#2868e8}.sb-item.active{color:#10243c}.sb-bottom{background:#10243c}.main{background:radial-gradient(circle at 100% 0,rgba(40,104,232,.08),transparent 25%),#f2f6f8}.plan-month-card,.admin-welcome-main,.support-chat-head{background:#10243c}.card-title-ic,.admin-task-icon{background:#eaf1ff}.quick-add,.support-chat-launch{background:var(--brand-grad);box-shadow:0 16px 34px rgba(40,104,232,.28)}.admin-area-tab.active{background:#10243c;border-color:#10243c}.sac-filter:hover,.sac-filter.active,.sac-row:hover,.sac-row.active{background:#eaf1ff;color:#174fc4}.support-msg.user{background:#2868e8}.sac-mode-tab.active{color:#174fc4}.topbar-logout{border-color:#dce5eb;background:#fff;color:#174fc4}
+.kpi,.card,.cred-card,.meta-card{animation:cardReveal .5s cubic-bezier(.2,.8,.2,1) both}.kpi:nth-child(2),.cred-card:nth-child(2),.meta-card:nth-child(2){animation-delay:.07s}.kpi:nth-child(3),.cred-card:nth-child(3),.meta-card:nth-child(3){animation-delay:.14s}.kpi:nth-child(4),.cred-card:nth-child(4),.meta-card:nth-child(4){animation-delay:.21s}
+.kpi::after{background:#eaf1ff;animation:kpiGlow 4s ease-in-out infinite}.progress-fill,.meta-progress-fill,.cred-progress-fill{transform-origin:left;animation:progressScale 1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes clarityGrow{from{transform:scaleY(0);opacity:.25}to{transform:scaleY(1);opacity:1}}@keyframes progressGrow{from{width:0}}@keyframes progressScale{from{transform:scaleX(0)}}@keyframes drawLine{to{stroke-dashoffset:0}}@keyframes miniGrow{to{filter:brightness(1.06);transform:scaleY(.76);transform-origin:bottom}}@keyframes barBreathe{50%{filter:brightness(1.22);transform:scaleY(.94)}}@keyframes arrowPulse{50%{transform:translateX(7px);box-shadow:0 10px 28px rgba(40,104,232,.28)}}@keyframes sheetDrift{50%{transform:translateY(7px) rotate(-4deg)}}@keyframes dashboardFloat{50%{transform:translateY(-9px)}}@keyframes floatCard{50%{transform:translateY(-9px)}}@keyframes cardReveal{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}@keyframes kpiGlow{50%{transform:scale(1.18);opacity:.6}}
+@media(max-width:991px){.hero{grid-template-columns:1fr}.migration-demo{width:min(650px,100%);margin:auto}.switch-strip{margin:0 16px 2rem}.clarity-dashboard{width:min(430px,72%)}}
+@media(max-width:640px){
+  .hero{padding-top:3.75rem}.hero h1{font-size:clamp(2.6rem,13vw,3.7rem)}.migration-demo{height:520px}.sheet-preview{left:0;top:18px;width:195px;padding:10px}.sheet-grid i{height:20px}.migration-arrow{left:120px;top:220px}.migration-arrow small{display:none}
+  .clarity-dashboard{right:0;top:122px;width:88%;padding:1.05rem;border-radius:20px}.clarity-balance{font-size:1.9rem}.clarity-chart{height:90px;gap:6px}.clarity-float-a{right:0;top:180px}.clarity-float-b{left:0;bottom:20px}
+  .switch-strip{grid-template-columns:1fr;margin:0 16px 1rem}.switch-strip>div{display:grid;grid-template-columns:34px 1fr;column-gap:8px;padding:.8rem}.switch-strip span{grid-row:1/3}.switch-strip strong{margin:0}.switch-strip small{grid-column:2}
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -1062,40 +1108,58 @@ button,input,select,textarea{font-family:'Questrial',sans-serif}
   </nav>
   <section class="hero">
     <div class="hero-copy">
-      <div class="pill-badge"><span></span> Finanzas claras. Decisiones tranquilas.</div>
-      <h1>Tu dinero,<br><em>por fin en calma.</em></h1>
-      <p>Finsave transforma tus movimientos, créditos y metas en una visión simple de tu vida financiera. Sin fórmulas. Sin ruido. Con control real.</p>
+      <div class="pill-badge"><span></span> De la planilla a una vida financiera clara</div>
+      <h1>Registra como siempre.<br><em>Entiende mucho más.</em></h1>
+      <p>Finsave reemplaza tus planillas de Excel o Google Sheets por un espacio visual para ordenar ingresos, gastos, cuotas de créditos y metas de ahorro, sin perder el control manual.</p>
       <div class="hero-btns">
-        <button class="btn btn-prim btn-lg" onclick="showAuth('register')">Comenzar gratis <span>↗</span></button>
-        <button class="btn btn-outline btn-lg" onclick="showAuth('login')">Entrar a mi espacio</button>
+        <button class="btn btn-prim btn-lg" onclick="showAuth('register')">Dejar atrás mi planilla <span>→</span></button>
+        <button class="btn btn-outline btn-lg" onclick="showAuth('login')">Ya tengo una cuenta</button>
       </div>
       <div class="hero-trust">
-        <span class="trust-item"><span class="trust-dot"></span> Privado y seguro</span>
-        <span class="trust-item"><span class="trust-dot"></span> Diseñado para Chile</span>
-        <span class="trust-item"><span class="trust-dot"></span> Sin tarjeta</span>
+        <span class="trust-item"><span class="trust-dot"></span> Registro manual y simple</span>
+        <span class="trust-item"><span class="trust-dot"></span> Sin fórmulas</span>
+        <span class="trust-item"><span class="trust-dot"></span> Hecho para Chile</span>
       </div>
     </div>
-    <div class="hero-product" aria-hidden="true">
-      <div class="hero-orbit hero-orbit-a"></div><div class="hero-orbit hero-orbit-b"></div>
-      <div class="hero-dashboard">
-        <div class="hero-dashboard-top"><span>Vista mensual</span><span class="hero-live">● En línea</span></div>
-        <div class="hero-balance-label">Disponible este mes</div>
-        <div class="hero-balance">$842.400</div>
-        <div class="hero-chart-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="hero-mini-grid"><div><small>Ingresos</small><strong>$1.850.000</strong></div><div><small>Ahorrado</small><strong>$320.000</strong></div></div>
+    <div class="hero-product migration-demo" aria-hidden="true">
+      <div class="sheet-preview">
+        <div class="sheet-top"><span class="sheet-dot"></span><span>finanzas_julio.xlsx</span><small>ANTES</small></div>
+        <div class="sheet-grid">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="sheet-formula">=SUMA(B4:B18)-SUMA(C4:C18)</div>
       </div>
-      <div class="hero-float hero-float-a"><span>↗</span><div><small>Ahorro mensual</small><strong>+18,4%</strong></div></div>
-      <div class="hero-float hero-float-b"><span>✓</span><div><small>Todo al día</small><strong>4 pagos listos</strong></div></div>
+      <div class="migration-arrow"><span>→</span><small>Finsave ordena y visualiza</small></div>
+      <div class="clarity-dashboard">
+        <div class="clarity-top"><span>Mi plan de julio</span><span class="clarity-live">● Actualizado</span></div>
+        <div class="clarity-balance-label">Disponible para este mes</div>
+        <div class="clarity-balance">$842.400</div>
+        <div class="clarity-chart">
+          <span style="--h:32%"></span><span style="--h:48%"></span><span style="--h:42%"></span><span style="--h:66%"></span><span style="--h:58%"></span><span style="--h:78%"></span><span style="--h:70%"></span><span style="--h:94%"></span>
+        </div>
+        <div class="clarity-progress">
+          <div><small>Meta: Fondo de emergencia</small><strong>68%</strong></div>
+          <span><i></i></span>
+        </div>
+        <div class="clarity-mini"><div><small>Cuotas pagadas</small><strong>18 de 24</strong></div><div><small>Ahorro del mes</small><strong>+$320.000</strong></div></div>
+      </div>
+      <div class="clarity-float clarity-float-a"><span>↗</span><div><small>Tu ahorro creció</small><strong>+18,4%</strong></div></div>
+      <div class="clarity-float clarity-float-b"><span>✓</span><div><small>Crédito de consumo</small><strong>Cuota al día</strong></div></div>
     </div>
   </section>
+  <section class="switch-strip">
+    <div><span>01</span><strong>Registra</strong><small>Ingresos y gastos, como en tu planilla.</small></div>
+    <div><span>02</span><strong>Ordena</strong><small>Créditos, cuotas y metas en un solo lugar.</small></div>
+    <div><span>03</span><strong>Entiende</strong><small>Gráficos claros que muestran tu avance real.</small></div>
+  </section>
   <section class="feat-section">
-    <p class="s-eyebrow">¿Qué puedes hacer?</p>
-    <h2 class="s-title">Planifica, registra y entiende cada mes</h2>
+    <p class="s-eyebrow">Todo lo que tu planilla no te muestra</p>
+    <h2 class="s-title">Tus cuentas manuales, finalmente ordenadas y fáciles de entender</h2>
     <div class="feat-grid">
-      <div class="feat-card"><div class="feat-icon">🗓️</div><h3>Plan mensual</h3><p>Define cuánto esperas recibir, gastar y ahorrar. Luego compara tu plan con lo que realmente ocurrió.</p></div>
-      <div class="feat-card"><div class="feat-icon">💳</div><h3>Créditos bajo control</h3><p>Lleva el registro de tus créditos: cuántas cuotas llevas pagadas y cuántas te faltan por pagar. Se acabó perderle la pista en una planilla.</p></div>
-      <div class="feat-card"><div class="feat-icon">🎯</div><h3>Metas de Ahorro</h3><p>Define tus metas de ahorro y ve tu avance real, sin tener que sacar la calculadora.</p></div>
-      <div class="feat-card"><div class="feat-icon">📅</div><h3>Vista anual</h3><p>Revisa todos tus meses, compara resultados y entiende cómo evolucionaron tus finanzas durante el año.</p></div>
+      <div class="feat-card"><div class="feat-icon">01</div><h3>Tu mes en orden</h3><p>Registra ingresos y gastos manualmente, clasifícalos y descubre cuánto tienes realmente disponible.</p><div class="feat-spark"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="feat-card"><div class="feat-icon">02</div><h3>Créditos sin sorpresas</h3><p>Controla cada cuota pagada, lo que falta y el avance de tus créditos sin fórmulas escondidas.</p><div class="feat-credit"><span><i></i></span><small>18 de 24 cuotas</small></div></div>
+      <div class="feat-card"><div class="feat-icon">03</div><h3>Metas que avanzan</h3><p>Crea objetivos de ahorro y mira cómo cada aporte te acerca a lo que quieres conseguir.</p><div class="feat-goal"><span><i></i></span><strong>68%</strong></div></div>
+      <div class="feat-card"><div class="feat-icon">04</div><h3>Un año que se entiende</h3><p>Compara meses, identifica tendencias y mira tu evolución financiera en una sola vista.</p><div class="feat-line"><svg viewBox="0 0 180 54"><path d="M2 46 C25 42 30 31 52 35 S82 47 100 24 S132 30 148 13 S167 14 178 4"/></svg></div></div>
     </div>
   </section>
   <div class="land-footer">
