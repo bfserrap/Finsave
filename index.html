@@ -718,6 +718,121 @@ body{color:var(--ink)}
 .notice-launch{position:fixed;right:1.2rem;top:1rem;z-index:190;width:44px;height:44px;border:1px solid var(--gray3);border-radius:14px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.1);font-size:1.1rem;cursor:pointer}.notice-badge{position:absolute;right:-4px;top:-5px;display:none;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--danger);color:#fff;font-size:.65rem;font-weight:800;place-items:center}.notice-list{display:grid;gap:.65rem}.notice-item{padding:.9rem;border:1px solid var(--gray3);border-radius:14px;background:#fff}.notice-item.unread{border-color:#8ee7ca;background:#f1fdf8}.notice-item-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start}.notice-item p{margin:.35rem 0 0;color:var(--gray);font-size:.8rem;line-height:1.5}.billing-doc-list{display:grid;gap:.65rem}.billing-doc{padding:.85rem;border:1px solid var(--gray3);border-radius:14px;background:var(--gray5)}.billing-doc-top{display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start}.billing-doc-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.65rem}.plan-schedule-note{padding:.75rem;margin-top:.65rem;border:1px solid #f5c58c;border-radius:12px;background:#fff7ed;color:#9a3412;font-size:.78rem;line-height:1.5}.sac-mode-tabs{display:flex;gap:.35rem;margin-bottom:.45rem}.sac-mode-tab{border:1px solid var(--gray3);background:#fff;color:var(--gray);padding:.4rem .7rem;border-radius:10px;font:inherit;font-size:.72rem;font-weight:700;cursor:pointer}.sac-mode-tab.active{background:var(--mint);border-color:#a7f3d0;color:var(--brand)}.sac-note-list{display:grid;gap:.45rem;margin-top:.6rem;max-height:150px;overflow-y:auto;overscroll-behavior:contain;padding-right:.25rem;scrollbar-gutter:stable}.sac-note-list:empty{display:none}.sac-note{padding:.65rem;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:.75rem;line-height:1.45;overflow-wrap:anywhere}.support-quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem;margin-top:.6rem}.support-quick-grid .btn{min-width:0;white-space:normal}
 @media(max-width:768px){.balance-series-controls{align-items:stretch}.balance-series-label{width:100%}.balance-series-toggle{flex:1 1 calc(50% - .45rem);justify-content:center}.history-controls,.history-restore{grid-template-columns:1fr}.history-restore .btn{width:100%}.admin-row-actions{min-width:0;width:100%;display:grid;grid-template-columns:1fr 1fr}.admin-row-actions .btn{width:100%;white-space:normal;line-height:1.25}.sac-context-actions{position:static}.sac-client-panel[open]{max-height:min(42dvh,330px)}.sac-client-context{padding:.65rem}.sac-context-actions .btn{min-height:42px}.admin-section-intro .support-sync-state{margin-top:.25rem}}
 @media(max-width:768px){.notice-launch{right:5.3rem;top:1.15rem;width:40px;height:40px}.support-quick-grid{grid-template-columns:1fr}.billing-doc-top{display:block}.billing-doc-top .tag{margin-top:.45rem}.billing-doc-actions .btn{flex:1 1 calc(50% - .4rem)}}
+
+/* Mobile layout system: 16px page padding, 24px sections, 12px related controls */
+.sac-control-field{display:grid;gap:6px;min-width:132px}
+.sac-control-field>span{font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gray2)}
+.sac-customer-heading{display:flex;align-items:center;gap:12px;min-width:0}
+.sac-ticket-actions{display:flex;gap:8px}
+
+@media(max-width:991px){
+  .topbar{
+    height:calc(var(--top-h) + env(safe-area-inset-top));
+    padding:env(safe-area-inset-top) 16px 0;
+    gap:12px;
+  }
+  .topbar-brand{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:max-content;
+    max-width:42vw;
+    pointer-events:none;
+  }
+  .topbar .burger{width:44px;height:44px;min-width:44px;padding:0;border-radius:14px}
+  .topbar .sb-av{width:42px;height:42px;margin-left:auto}
+  .notice-launch{
+    top:calc(env(safe-area-inset-top) + 10px);
+    right:70px;
+    width:44px;
+    height:44px;
+    border-color:#E7EBE9;
+    border-radius:14px;
+    box-shadow:none;
+    background:#F6F8F7;
+  }
+  .main{
+    padding-left:16px;
+    padding-right:16px;
+    padding-bottom:calc(112px + env(safe-area-inset-bottom));
+  }
+}
+
+@media(max-width:768px){
+  .admin-section-intro{gap:12px;margin-bottom:24px}
+  .admin-section-intro p{line-height:1.55}
+  .sac-shell{
+    height:auto;
+    min-height:calc(100dvh - var(--top-h) - 128px);
+    border:0;
+    border-radius:18px;
+    box-shadow:0 12px 32px rgba(15,23,42,.08);
+    overflow:hidden;
+  }
+  .sac-nav{gap:8px;padding:12px;background:#F5F9F7}
+  .sac-filter{min-height:48px;padding:0 14px;border-radius:14px}
+  .sac-list-tools{padding:16px;border-bottom:0;background:#fff}
+  .sac-search{min-height:50px;padding:0 16px;border:1px solid #DDE5E1;border-radius:16px;background:#F8FAF9}
+  .sac-row{padding:16px;border-bottom:1px solid #EDF1EF}
+  .sac-row-preview{margin-top:6px;line-height:1.45}
+  .sac-thread{position:relative;min-height:calc(100dvh - var(--top-h) - 128px);background:#F5F7F6}
+  .sac-thread-head{padding:16px;gap:16px;border-bottom:0;background:#fff}
+  .sac-customer-heading{width:100%;align-items:flex-start}
+  .sac-mobile-back{width:48px!important;height:48px!important;min-width:48px;margin:0;border-color:#DDE5E1;color:var(--dark)}
+  .sac-thread-title{font-size:1rem;line-height:1.35}
+  .sac-thread-head .card-sub{margin-top:4px;font-size:.72rem;line-height:1.45}
+  .sac-thread-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+  .sac-control-field{min-width:0;gap:6px}
+  .sac-control-field>span{font-size:.64rem}
+  .sac-thread-actions select{
+    grid-column:auto;
+    width:100%;
+    min-height:50px;
+    padding:0 40px 0 14px;
+    border:1px solid #D7E1DD;
+    border-radius:16px;
+    background-color:#F8FAF9;
+    color:var(--dark);
+    box-shadow:none;
+  }
+  .sac-ticket-actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:4px}
+  .sac-ticket-actions .btn{min-height:48px!important;border-color:#D7E1DD;color:var(--dark);background:#fff;border-radius:16px}
+  .sac-workspace{gap:0;background:#F5F7F6}
+  .sac-client-panel{margin:0 16px 16px;border:0;border-radius:18px;background:#fff;box-shadow:0 6px 18px rgba(15,23,42,.06)}
+  .sac-client-panel:not([open]){max-height:52px}
+  .sac-client-panel summary{min-height:52px;padding:0 16px;border:0;border-radius:18px;font-size:.78rem}
+  .sac-client-context{padding:0 16px 16px}
+  .sac-context-grid{gap:12px}
+  .sac-context-item{min-height:72px;padding:12px;border:0;border-radius:14px;background:#F5F8F7}
+  .sac-context-actions{gap:12px;margin-top:12px;padding-top:0}
+  .sac-context-actions .btn{min-height:48px;border-radius:14px}
+  .sac-thread .support-chat-messages{padding:16px;gap:10px;min-height:220px;background:#F5F7F6}
+  .support-msg{padding:10px 12px;border-radius:16px;line-height:1.5;box-shadow:0 3px 10px rgba(15,23,42,.04)}
+  .support-msg.admin{border:0}
+  .sac-compose{padding:16px;border-top:0;background:#fff}
+  .sac-mode-tabs{gap:8px;margin-bottom:12px;padding:4px;border-radius:14px;background:#F2F5F4}
+  .sac-mode-tab{flex:1;min-height:42px;padding:0 10px;border:0;border-radius:11px;background:transparent}
+  .sac-mode-tab.active{background:#fff;color:var(--brand-dark);box-shadow:0 3px 10px rgba(15,23,42,.08)}
+  .sac-compose textarea{min-height:96px;max-height:160px;padding:14px 16px;border:1px solid #D7E1DD;border-radius:18px;background:#FBFCFC;line-height:1.5}
+  .sac-compose-foot{margin-top:12px}
+  .sac-compose-foot .btn{min-height:50px;margin-top:0;border-radius:16px}
+  .sac-macro-pop{left:16px;right:16px}
+  .quick-add{
+    right:24px;
+    bottom:calc(24px + env(safe-area-inset-bottom));
+    width:52px;
+    height:52px;
+    border-radius:18px;
+    box-shadow:0 12px 28px rgba(10,155,114,.28);
+  }
+}
+
+@media(max-width:390px){
+  .topbar-brand{font-size:1.08rem}
+  .sac-thread-actions{grid-template-columns:1fr}
+  .sac-ticket-actions{grid-column:1}
+  .sac-context-grid,.sac-context-actions{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -1480,7 +1595,7 @@ body{color:var(--ink)}
       <div class="sac-thread" id="adm-sac-thread">
         <div id="adm-sac-empty" class="sac-empty"><div><div style="font-size:2rem">💬</div><strong>Selecciona una conversación</strong><br><small>El historial completo aparecerá aquí.</small></div></div>
         <div id="adm-sac-active" class="hidden" style="display:contents">
-          <header class="sac-thread-head"><div><button class="btn btn-sm btn-outline sac-mobile-back" onclick="closeSacThread()">←</button><div class="sac-thread-title" id="adm-chat-user"></div><div class="card-sub" id="adm-chat-context"></div></div><div class="sac-thread-actions"><select id="adm-chat-category" onchange="updateAdminConversationCategory(this.value)" aria-label="Motivo"><option value="general">Consulta general</option><option value="access">Acceso</option><option value="billing">Facturación</option><option value="payment">Pago</option><option value="plan">Cambio de plan</option><option value="data">Datos financieros</option><option value="incident">Problema técnico</option></select><select id="adm-chat-priority" onchange="updateAdminConversationPriority(this.value)" aria-label="Prioridad"><option value="low">Prioridad baja</option><option value="normal">Normal</option><option value="high">Alta</option><option value="urgent">Urgente</option></select><button class="btn btn-sm btn-outline" onclick="snoozeAdminConversation()">🕓 Posponer</button><button class="btn btn-sm btn-outline" id="adm-chat-close-ticket" onclick="toggleAdminConversationStatus()">Cerrar</button></div></header>
+          <header class="sac-thread-head"><div class="sac-customer-heading"><button class="btn btn-sm btn-outline sac-mobile-back" onclick="closeSacThread()" aria-label="Volver a conversaciones">←</button><div><div class="sac-thread-title" id="adm-chat-user"></div><div class="card-sub" id="adm-chat-context"></div></div></div><div class="sac-thread-actions"><label class="sac-control-field"><span>Consulta</span><select id="adm-chat-category" onchange="updateAdminConversationCategory(this.value)" aria-label="Motivo"><option value="general">Consulta general</option><option value="access">Acceso</option><option value="billing">Facturación</option><option value="payment">Pago</option><option value="plan">Cambio de plan</option><option value="data">Datos financieros</option><option value="incident">Problema técnico</option></select></label><label class="sac-control-field"><span>Prioridad</span><select id="adm-chat-priority" onchange="updateAdminConversationPriority(this.value)" aria-label="Prioridad"><option value="low">Prioridad baja</option><option value="normal">Normal</option><option value="high">Alta</option><option value="urgent">Urgente</option></select></label><div class="sac-ticket-actions"><button class="btn btn-sm btn-outline" onclick="snoozeAdminConversation()">🕓 Posponer</button><button class="btn btn-sm btn-outline" id="adm-chat-close-ticket" onclick="toggleAdminConversationStatus()">Cerrar</button></div></div></header>
           <div class="sac-workspace"><div class="support-chat-messages" id="adm-chat-messages"><div class="support-chat-empty">Cargando…</div></div><details class="sac-client-panel" id="adm-chat-client-panel" open><summary>👤 Contexto del cliente</summary><div class="sac-client-context" id="adm-chat-client-context"><div class="support-chat-empty">Cargando contexto…</div></div></details></div>
           <div class="sac-compose"><div class="sac-mode-tabs"><button class="sac-mode-tab active" id="sac-mode-reply" onclick="setAdminComposeMode('reply')">Responder al cliente</button><button class="sac-mode-tab" id="sac-mode-note" onclick="setAdminComposeMode('note')">Nota interna</button></div><div id="adm-macro-pop" class="sac-macro-pop hidden"></div><div class="support-typing hidden" id="adm-chat-typing">El cliente está escribiendo</div><textarea id="adm-chat-input" maxlength="1500" rows="3" placeholder="Responder… Escribe # para usar una macro" oninput="handleMacroInput();notifySupportTyping('admin')" onkeydown="adminChatKeydown(event)"></textarea><div class="sac-compose-foot"><small id="adm-compose-hint" style="color:var(--gray)">El cliente verá esta respuesta · usa <strong>#</strong> para textos guardados</small><button class="btn btn-prim btn-sm" id="adm-compose-send" onclick="sendAdminSupportMessage()">Enviar respuesta ➤</button></div><div id="adm-support-notes" class="sac-note-list"></div></div>
         </div>
