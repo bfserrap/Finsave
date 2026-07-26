@@ -762,8 +762,8 @@ body{color:var(--ink)}
   .admin-section-intro{gap:12px;margin-bottom:24px}
   .admin-section-intro p{line-height:1.55}
   .sac-shell{
-    height:auto;
-    min-height:calc(100dvh - var(--top-h) - 128px);
+    height:calc(100dvh - var(--top-h) - 116px);
+    min-height:480px;
     border:0;
     border-radius:18px;
     box-shadow:0 12px 32px rgba(15,23,42,.08);
@@ -775,48 +775,48 @@ body{color:var(--ink)}
   .sac-search{min-height:50px;padding:0 16px;border:1px solid #DDE5E1;border-radius:16px;background:#F8FAF9}
   .sac-row{padding:16px;border-bottom:1px solid #EDF1EF}
   .sac-row-preview{margin-top:6px;line-height:1.45}
-  .sac-thread{position:relative;min-height:calc(100dvh - var(--top-h) - 128px);background:#F5F7F6}
-  .sac-thread-head{padding:16px;gap:16px;border-bottom:0;background:#fff}
-  .sac-customer-heading{width:100%;align-items:flex-start}
-  .sac-mobile-back{width:48px!important;height:48px!important;min-width:48px;margin:0;border-color:#DDE5E1;color:var(--dark)}
-  .sac-thread-title{font-size:1rem;line-height:1.35}
+  .sac-thread{position:absolute;inset:0;height:100%;min-height:0;background:#F5F7F6}
+  .sac-thread-head{padding:12px;gap:12px;border-bottom:1px solid #EDF1EF;background:#fff}
+  .sac-customer-heading{width:100%;align-items:center}
+  .sac-mobile-back{width:44px!important;height:44px!important;min-width:44px;margin:0;border-color:#DDE5E1;color:var(--dark);border-radius:14px}
+  .sac-thread-title{font-size:.95rem;line-height:1.3}
   .sac-thread-head .card-sub{margin-top:4px;font-size:.72rem;line-height:1.45}
-  .sac-thread-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+  .sac-thread-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;width:100%}
   .sac-control-field{min-width:0;gap:6px}
   .sac-control-field>span{font-size:.64rem}
   .sac-thread-actions select{
     grid-column:auto;
     width:100%;
-    min-height:50px;
-    padding:0 40px 0 14px;
+    min-height:48px;
+    padding:0 36px 0 12px;
     border:1px solid #D7E1DD;
-    border-radius:16px;
+    border-radius:14px;
     background-color:#F8FAF9;
     color:var(--dark);
     box-shadow:none;
   }
-  .sac-ticket-actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:4px}
-  .sac-ticket-actions .btn{min-height:48px!important;border-color:#D7E1DD;color:var(--dark);background:#fff;border-radius:16px}
-  .sac-workspace{gap:0;background:#F5F7F6}
-  .sac-client-panel{margin:0 16px 16px;border:0;border-radius:18px;background:#fff;box-shadow:0 6px 18px rgba(15,23,42,.06)}
-  .sac-client-panel:not([open]){max-height:52px}
-  .sac-client-panel summary{min-height:52px;padding:0 16px;border:0;border-radius:18px;font-size:.78rem}
-  .sac-client-context{padding:0 16px 16px}
-  .sac-context-grid{gap:12px}
-  .sac-context-item{min-height:72px;padding:12px;border:0;border-radius:14px;background:#F5F8F7}
-  .sac-context-actions{gap:12px;margin-top:12px;padding-top:0}
-  .sac-context-actions .btn{min-height:48px;border-radius:14px}
-  .sac-thread .support-chat-messages{padding:16px;gap:10px;min-height:220px;background:#F5F7F6}
+  .sac-ticket-actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:0}
+  .sac-ticket-actions .btn{min-height:44px!important;border-color:#D7E1DD;color:var(--dark);background:#fff;border-radius:14px}
+  .sac-workspace{grid-template-rows:auto minmax(0,1fr);gap:0;min-height:0;background:#F5F7F6}
+  .sac-client-panel{margin:0 12px 10px;border:0;border-radius:16px;background:#fff;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+  .sac-client-panel:not([open]){max-height:48px}
+  .sac-client-panel summary{min-height:48px;padding:0 14px;border:0;border-radius:16px;font-size:.76rem}
+  .sac-client-context{padding:0 14px 14px}
+  .sac-context-grid{gap:8px}
+  .sac-context-item{min-height:64px;padding:10px;border:0;border-radius:12px;background:#F5F8F7}
+  .sac-context-actions{gap:8px;margin-top:8px;padding-top:0}
+  .sac-context-actions .btn{min-height:44px;border-radius:12px}
+  .sac-thread .support-chat-messages{padding:12px;gap:8px;min-height:0;background:#F5F7F6}
   .support-msg{padding:10px 12px;border-radius:16px;line-height:1.5;box-shadow:0 3px 10px rgba(15,23,42,.04)}
   .support-msg.admin{border:0}
-  .sac-compose{padding:16px;border-top:0;background:#fff}
-  .sac-mode-tabs{gap:8px;margin-bottom:12px;padding:4px;border-radius:14px;background:#F2F5F4}
-  .sac-mode-tab{flex:1;min-height:42px;padding:0 10px;border:0;border-radius:11px;background:transparent}
+  .sac-compose{padding:12px;border-top:1px solid #EDF1EF;background:#fff}
+  .sac-mode-tabs{gap:6px;margin-bottom:8px;padding:3px;border-radius:12px;background:#F2F5F4}
+  .sac-mode-tab{flex:1;min-height:38px;padding:0 8px;border:0;border-radius:10px;background:transparent}
   .sac-mode-tab.active{background:#fff;color:var(--brand-dark);box-shadow:0 3px 10px rgba(15,23,42,.08)}
-  .sac-compose textarea{min-height:96px;max-height:160px;padding:14px 16px;border:1px solid #D7E1DD;border-radius:18px;background:#FBFCFC;line-height:1.5}
-  .sac-compose-foot{margin-top:12px}
-  .sac-compose-foot .btn{min-height:50px;margin-top:0;border-radius:16px}
-  .sac-macro-pop{left:16px;right:16px}
+  .sac-compose textarea{min-height:72px;max-height:112px;padding:12px 14px;border:1px solid #D7E1DD;border-radius:14px;background:#FBFCFC;line-height:1.45}
+  .sac-compose-foot{margin-top:8px}
+  .sac-compose-foot .btn{min-height:48px;margin-top:0;border-radius:14px}
+  .sac-macro-pop{left:12px;right:12px}
   .quick-add{
     right:24px;
     bottom:calc(24px + env(safe-area-inset-bottom));
@@ -829,9 +829,10 @@ body{color:var(--ink)}
 
 @media(max-width:390px){
   .topbar-brand{font-size:1.08rem}
-  .sac-thread-actions{grid-template-columns:1fr}
-  .sac-ticket-actions{grid-column:1}
-  .sac-context-grid,.sac-context-actions{grid-template-columns:1fr}
+  .sac-thread-head{padding:10px}
+  .sac-control-field>span{font-size:.6rem}
+  .sac-thread-actions select{font-size:.72rem!important}
+  .sac-context-grid,.sac-context-actions{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
