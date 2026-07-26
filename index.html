@@ -1129,6 +1129,14 @@ body,html{background:#f5f9fc;color:#25364c}
 @media(max-width:1050px){.plan-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-summary-available{grid-column:1/-1}}
 @media(max-width:640px){.plan-month-card{padding:1rem!important}.plan-month-head{display:block}.plan-month-actions{grid-template-columns:1fr 1fr}.plan-month-actions .btn:last-child:nth-child(3){grid-column:1/-1}.plan-summary-item{min-height:82px}.plan-summary-available{min-height:96px}.plan-summary-available .plan-summary-value{font-size:1.25rem}}
 @media(max-width:370px){.plan-summary-grid{grid-template-columns:1fr}.plan-summary-available{grid-column:auto}.plan-month-actions{grid-template-columns:1fr}.plan-month-actions .btn:last-child:nth-child(3){grid-column:auto}}
+/* Transición planilla → Finsave sin elementos superpuestos */
+.sheet-preview{left:0;top:92px;width:205px;z-index:1}
+.clarity-dashboard{right:0;top:28px;width:min(405px,68%);z-index:2}
+.migration-arrow{left:188px;top:248px;z-index:5;transform:none}
+.migration-arrow span{width:46px;height:46px;border:5px solid #f7fafc}
+.migration-arrow small{display:none}
+@media(max-width:991px){.sheet-preview{left:0}.clarity-dashboard{width:min(420px,66%)}.migration-arrow{left:190px}}
+@media(max-width:640px){.sheet-preview{left:0;top:18px;width:178px}.clarity-dashboard{right:0;top:132px;width:88%}.migration-arrow{left:150px;top:112px}.migration-arrow span{width:42px;height:42px;border-width:4px}.clarity-float-a{top:190px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -1170,7 +1178,7 @@ body,html{background:#f5f9fc;color:#25364c}
         </div>
         <div class="sheet-formula">=SUMA(B4:B18)-SUMA(C4:C18)</div>
       </div>
-      <div class="migration-arrow"><span>→</span><small>Finsave ordena y visualiza</small></div>
+      <div class="migration-arrow" aria-label="De la planilla a Finsave"><span>→</span></div>
       <div class="clarity-dashboard">
         <div class="clarity-top"><span>Mi plan de julio</span><span class="clarity-live">● Actualizado</span></div>
         <div class="clarity-balance-label">Disponible para este mes</div>
