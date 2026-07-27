@@ -1259,6 +1259,36 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 @media(max-width:900px){#page-admin .admin-area-tabs{display:flex;overflow-x:auto}#page-admin .admin-area-tab{min-width:105px}.auth-shell{grid-template-columns:1fr;min-height:0;max-width:520px}.auth-story{display:none}.auth-shell .auth-card{padding:2rem}}
 @media(max-width:640px){.visual-month-toolbar{align-items:flex-start;flex-direction:column}.visual-month-toolbar .btn{width:100%}.balance-series-explainer{grid-template-columns:1fr}.balance-series-explainer .balance-legend-item{grid-column:1/-1}.monthly-customizer{grid-template-columns:1fr}.monthly-module-tools{margin-top:0}.module-drag-handle,.credit-drag-handle{min-height:42px;padding:.5rem .65rem}.scenario-switch{align-items:stretch;flex-wrap:wrap}.scenario-switch::before{width:100%}#page-admin>.pg-header{padding:1rem}#page-admin .admin-area-tabs{position:sticky;display:flex;top:calc(var(--top-h) + env(safe-area-inset-top) + .3rem);margin:0 0 .8rem;padding:.4rem;background:#fff}#page-admin .admin-area-tab{min-width:96px;min-height:52px}#page-admin .admin-welcome{grid-template-columns:1fr}#page-admin .admin-welcome-main{padding:1.3rem}#page-admin .admin-welcome-main h2{font-size:1.35rem}.auth-shell .auth-card{padding:1.35rem}.auth-shell .auth-brand{margin-bottom:1.2rem}}
 .expense-ranking{display:grid;gap:.7rem}.expense-rank-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(140px,2fr) auto;gap:.8rem;align-items:center}.expense-rank-name{font-size:.78rem;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.expense-rank-track{height:10px;border-radius:99px;background:#edf2f0;overflow:hidden}.expense-rank-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--primary),#35b98b);transform-origin:left;animation:rankGrow .8s cubic-bezier(.2,.8,.2,1) both}.expense-rank-value{font-size:.78rem;font-weight:700;color:var(--dark);text-align:right}.expense-ranking-empty{padding:1.8rem;text-align:center;color:var(--gray);background:var(--gray5);border-radius:14px}@keyframes rankGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}.money-counting{font-variant-numeric:tabular-nums;letter-spacing:-.035em}.plan-summary-value{font-size:clamp(1.25rem,2vw,1.75rem)!important;font-weight:700!important}.plan-month-card{padding:1.35rem!important}.admin-command-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-bottom:1rem}.admin-command{padding:1rem;border:1px solid #dfe8ef;border-radius:16px;background:#fff;text-align:left;cursor:pointer}.admin-command:hover{border-color:var(--admin-blue);transform:translateY(-2px)}.admin-command span{display:block;color:#68758a;font-size:.7rem;margin-bottom:.35rem}.admin-command strong{font-size:1rem;color:var(--admin-navy)}.admin-command small{display:block;color:#7d8997;margin-top:.35rem}.plan-feature-editor{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.25rem 0 1rem}.plan-feature-option{display:flex;align-items:center;gap:.55rem;padding:.65rem;border:1px solid var(--line);border-radius:12px;background:#fbfdfc;font-size:.78rem}.plan-feature-list{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.65rem}.plan-feature-pill{padding:.25rem .5rem;border-radius:99px;background:var(--primary-soft);color:var(--primary-dark);font-size:.65rem;font-weight:700}.plan-lock{opacity:.58}.plan-lock::after{content:"Plan";margin-left:auto;padding:.15rem .4rem;border-radius:99px;background:#fff2e2;color:#9a5d14;font-size:.58rem}@media(max-width:800px){.admin-command-grid{grid-template-columns:1fr 1fr}.expense-rank-row{grid-template-columns:minmax(100px,1fr) minmax(80px,1.5fr);gap:.5rem}.expense-rank-value{grid-column:2}}@media(max-width:520px){.admin-command-grid,.plan-feature-editor{grid-template-columns:1fr}}
+/* FINSAVE SAC OS — entorno operativo independiente de la aplicación financiera */
+#page-admin{--sac-ink:#0b1118;--sac-panel:#111922;--sac-line:#263241;--sac-blue:#5f8cff;--sac-cyan:#46d6c5;--sac-text:#e8eef6;--sac-muted:#8492a6;margin:-1.5rem;padding:0;min-height:calc(100vh - var(--top-h));background:#eef2f6;color:#17212f}
+.sac-os-header{height:72px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;padding:0 1.35rem;background:var(--sac-ink);color:var(--sac-text);border-bottom:1px solid var(--sac-line)}
+.sac-os-brand{display:flex;align-items:center;gap:.7rem}.sac-os-brand>span{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--sac-blue),var(--sac-cyan));color:#081018;font-weight:900}.sac-os-brand strong,.sac-os-brand small{display:block}.sac-os-brand strong{font-size:.92rem}.sac-os-brand small{font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;color:var(--sac-muted);margin-top:.08rem}
+.sac-os-live{display:flex;align-items:center;gap:.45rem;padding:.42rem .7rem;border:1px solid #294039;border-radius:99px;background:#12221e;color:#8ee5c6;font-size:.68rem;font-weight:700}.sac-os-live i{width:7px;height:7px;border-radius:50%;background:#43d59d;box-shadow:0 0 0 4px rgba(67,213,157,.12)}
+.sac-os-header-actions{display:flex;justify-content:flex-end;gap:.45rem}.sac-os-header-actions button{height:36px;padding:0 .75rem;border:1px solid var(--sac-line);border-radius:9px;background:#151f2a;color:var(--sac-text);font:600 .68rem var(--font);cursor:pointer}.sac-os-header-actions button:first-child{background:var(--sac-blue);border-color:var(--sac-blue);color:#fff}
+.sac-os-layout{display:grid;grid-template-columns:218px minmax(0,1fr);min-height:calc(100vh - var(--top-h) - 72px)}
+#page-admin .admin-area-tabs{position:relative!important;top:auto!important;display:flex!important;flex-direction:column;align-items:stretch;gap:3px;margin:0!important;padding:1rem .7rem!important;border:0!important;border-radius:0!important;background:var(--sac-panel)!important;overflow-y:auto!important;box-shadow:none!important}
+#page-admin .sac-os-nav-label{padding:.8rem .75rem .35rem;color:#58697d;font-size:.56rem;font-weight:800;letter-spacing:.14em}
+#page-admin .admin-area-tab{position:relative;display:grid!important;grid-template-columns:28px 1fr auto;align-items:center;justify-content:start;gap:.45rem;width:100%;min-height:44px!important;padding:.55rem .7rem!important;border:0!important;border-radius:9px!important;background:transparent!important;color:#91a0b3!important;text-align:left;font-size:.72rem!important;box-shadow:none!important}
+#page-admin .admin-area-tab span{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;background:#182431;color:#8394aa;font-size:.78rem;letter-spacing:0;opacity:1}#page-admin .admin-area-tab b{font-weight:600}#page-admin .admin-area-tab em{min-width:20px;padding:.12rem .35rem;border-radius:99px;background:#ef526c;color:#fff;font-style:normal;font-size:.58rem;text-align:center}
+#page-admin .admin-area-tab:hover{background:#17222e!important;color:#fff!important;transform:none}#page-admin .admin-area-tab.active{background:#202d3b!important;color:#fff!important;box-shadow:inset 3px 0 0 var(--sac-blue)!important}#page-admin .admin-area-tab.active span{background:var(--sac-blue);color:#fff}
+.sac-os-agent{display:flex;align-items:center;gap:.6rem;margin:auto .4rem 0;padding:.8rem .5rem;border-top:1px solid var(--sac-line);color:#dfe7f1}.sac-os-agent>span{width:31px;height:31px;display:grid;place-items:center;border-radius:50%;background:#263647;color:#b9c7d8;font-size:.65rem;font-weight:800}.sac-os-agent strong,.sac-os-agent small{display:block}.sac-os-agent strong{font-size:.67rem}.sac-os-agent small{color:#6f8197;font-size:.58rem}
+#page-admin .admin-area-panel{grid-column:2;padding:1.35rem;min-width:0;background:#eef2f6;animation:sacPanelIn .24s ease both}#page-admin .admin-area-panel.active{display:block}
+.sac-os-section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:1rem}.sac-os-section-head span{font-size:.58rem;font-weight:900;letter-spacing:.15em;color:#6480a5}.sac-os-section-head h1{margin:.18rem 0 0;font-size:1.55rem;letter-spacing:-.04em}.sac-os-section-head p,.sac-os-section-head .support-sync-state{color:#718096;font-size:.68rem}
+.sac-os-priority-strip{display:flex;align-items:center;gap:.4rem;margin-bottom:1rem;padding:.7rem .8rem;border:1px solid #dce3eb;border-radius:12px;background:#fff}.sac-os-priority-strip strong{margin-right:auto;font-size:.7rem}.sac-os-priority-strip button{padding:.38rem .62rem;border:1px solid #d8e0e9;border-radius:8px;background:#f7f9fb;color:#405067;font:600 .65rem var(--font);cursor:pointer}
+#page-admin .admin-command-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem}#page-admin .admin-command{min-height:120px;border:1px solid #dbe2ea;border-radius:12px;background:#fff;box-shadow:none}#page-admin .admin-command:hover{border-color:var(--sac-blue);transform:none}#page-admin .admin-command span{color:#7b8ba0;font-size:.57rem;letter-spacing:.1em}#page-admin .admin-command strong{font-size:.95rem;color:#182435}#page-admin .admin-command small{font-size:.65rem;line-height:1.4}
+#page-admin #adm-stats .kpi,#page-admin #adm-stats>div{border:1px solid #dbe2ea!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important}
+#page-admin .admin-section-intro{margin-bottom:.85rem;padding:0}#page-admin .admin-section-intro h2{font-size:1.35rem;letter-spacing:-.035em}#page-admin .admin-section-intro p,#page-admin .admin-action-note,#page-admin .admin-flow{display:none!important}
+#page-admin .card{border:1px solid #dbe2ea!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important}#page-admin .card:hover{box-shadow:none!important}#page-admin .card-title{font-size:.86rem}#page-admin .card-sub{font-size:.65rem}
+#page-admin input,#page-admin select,#page-admin textarea{min-height:40px!important;border-radius:8px!important;background:#fff!important;font-size:.75rem!important}#page-admin .btn{min-height:38px;border-radius:8px;font-size:.68rem}
+#page-admin .tbl-wrap{border:1px solid #e1e7ee;border-radius:9px}#page-admin table thead{background:#f4f7fa}#page-admin table th{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#718096}#page-admin table td{font-size:.7rem}
+#page-admin .sac-shell{grid-template-columns:154px minmax(230px,300px) minmax(0,1fr);height:calc(100vh - 235px);min-height:620px;border:1px solid #273646;border-radius:12px;background:var(--sac-panel);box-shadow:0 18px 42px rgba(14,25,38,.12)}
+#page-admin .sac-nav{background:#101820;border-color:#263544;padding:.75rem .55rem}#page-admin .sac-nav-title{color:#5e7085;font-size:.54rem}#page-admin .sac-filter{min-height:38px;padding:.5rem .55rem;color:#98a7b8;font-size:.65rem}#page-admin .sac-filter:hover,#page-admin .sac-filter.active{background:#1e2b38;color:#fff}#page-admin .sac-filter-count{background:#263646;border:0;color:#b7c3d1}
+#page-admin .sac-list{background:#f8fafc;border-color:#dce3ea}#page-admin .sac-list-tools{background:#fff;border-color:#dce3ea}#page-admin .sac-row{padding:.75rem;background:#fff;border-color:#e7ebf0}#page-admin .sac-row:hover,#page-admin .sac-row.active{background:#edf3ff;color:#203352;box-shadow:inset 3px 0 0 var(--sac-blue)}
+#page-admin .sac-thread{background:#f4f7fa}#page-admin .sac-thread-head{min-height:70px;border-color:#dce3ea}#page-admin .sac-workspace{grid-template-columns:minmax(0,1fr) 260px}#page-admin .sac-client-panel{border-color:#dce3ea}#page-admin .support-msg.admin{border-color:#dce3ea;border-radius:4px 13px 13px 13px}#page-admin .support-msg.user{background:#dfe8ff;color:#253a65;border-radius:13px 4px 13px 13px}#page-admin .sac-compose{border-color:#dce3ea}
+#page-admin .admin-technical{border:1px solid #dbe2ea;border-radius:10px;background:#fff}#page-admin .admin-technical summary{font-size:.7rem}
+@keyframes sacPanelIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media(max-width:1050px){.sac-os-layout{grid-template-columns:78px minmax(0,1fr)}#page-admin .admin-area-tab{grid-template-columns:1fr;padding:.45rem!important;text-align:center}#page-admin .admin-area-tab b,#page-admin .admin-area-tab em,#page-admin .sac-os-nav-label,#page-admin .sac-os-agent div{display:none}#page-admin .admin-area-tab span{margin:auto}.sac-os-agent{justify-content:center}.sac-os-header{grid-template-columns:1fr auto}.sac-os-live{display:none}#page-admin .sac-shell{grid-template-columns:120px 240px minmax(0,1fr)}}
+@media(max-width:720px){#page-admin{margin:-1rem}.sac-os-header{height:64px;padding:0 .8rem}.sac-os-brand small,.sac-os-header-actions button:last-child{display:none}.sac-os-layout{display:block}.sac-os-layout>.admin-area-tabs{position:sticky!important;top:var(--top-h)!important;z-index:40;display:flex!important;flex-direction:row;overflow-x:auto!important;padding:.45rem!important}.sac-os-layout>.admin-area-tabs .admin-area-tab{min-width:52px!important;width:52px}.sac-os-agent{display:none}#page-admin .admin-area-panel{padding:.85rem}.sac-os-section-head h1{font-size:1.25rem}.sac-os-priority-strip{overflow-x:auto}.sac-os-priority-strip strong{display:none}#page-admin .admin-command-grid{grid-template-columns:1fr 1fr}#page-admin .sac-shell{grid-template-columns:1fr;height:calc(100vh - 220px)}#page-admin .sac-nav{display:flex;overflow-x:auto}#page-admin .sac-list{display:block}#page-admin .sac-thread{display:none}#page-admin .sac-shell.thread-open .sac-nav,#page-admin .sac-shell.thread-open .sac-list{display:none}#page-admin .sac-shell.thread-open .sac-thread{display:grid}.sac-os-header-actions button{height:34px;padding:0 .55rem}}
 </style>
 </head>
 <body>
@@ -2047,21 +2077,29 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 </div>
 
 <div id="page-admin" class="page">
-  <div class="pg-header">
-    <div><div class="eyebrow">Finsave Operations</div><div class="pg-title">Centro de control</div><div class="pg-sub">Operación, atención y facturación en tiempo real.</div></div>
-  </div>
-
-  <nav class="admin-area-tabs" aria-label="Secciones del panel de administrador">
-    <button class="admin-area-tab active" data-admin-area="overview" onclick="setAdminArea('overview')"><span>01</span> Resumen</button>
-    <button class="admin-area-tab" data-admin-area="users" onclick="setAdminArea('users')"><span>02</span> Clientes</button>
-    <button class="admin-area-tab" data-admin-area="support" onclick="setAdminArea('support')"><span>03</span> Conversaciones <b id="adm-sac-tab-badge"></b></button>
-    <button class="admin-area-tab" data-admin-area="commercial" onclick="setAdminArea('commercial')"><span>04</span> Planes</button>
-    <button class="admin-area-tab" data-admin-area="payments" onclick="setAdminArea('payments')"><span>05</span> Pagos</button>
-    <button class="admin-area-tab" data-admin-area="tax" onclick="setAdminArea('tax')"><span>06</span> SII</button>
-    <button class="admin-area-tab" data-admin-area="settings" onclick="setAdminArea('settings')"><span>07</span> Configuración</button>
+  <header class="sac-os-header">
+    <div class="sac-os-brand"><span>F</span><div><strong>Finsave SAC</strong><small>Service Operations Center</small></div></div>
+    <div class="sac-os-live"><i></i> Operación en línea</div>
+    <div class="sac-os-header-actions"><button onclick="setAdminArea('support')">Abrir bandeja</button><button onclick="loadAdminPanel()">↻ Sincronizar</button></div>
+  </header>
+  <div class="sac-os-layout">
+  <nav class="admin-area-tabs" aria-label="Módulos SAC">
+    <div class="sac-os-nav-label">OPERACIÓN</div>
+    <button class="admin-area-tab active" data-admin-area="overview" onclick="setAdminArea('overview')"><span>⌂</span><b>Command Center</b></button>
+    <button class="admin-area-tab" data-admin-area="support" onclick="setAdminArea('support')"><span>◉</span><b>Bandeja SAC</b><em id="adm-sac-tab-badge"></em></button>
+    <button class="admin-area-tab" data-admin-area="users" onclick="setAdminArea('users')"><span>◎</span><b>Clientes 360°</b></button>
+    <div class="sac-os-nav-label">NEGOCIO</div>
+    <button class="admin-area-tab" data-admin-area="payments" onclick="setAdminArea('payments')"><span>↗</span><b>Pagos</b></button>
+    <button class="admin-area-tab" data-admin-area="commercial" onclick="setAdminArea('commercial')"><span>◇</span><b>Planes</b></button>
+    <button class="admin-area-tab" data-admin-area="tax" onclick="setAdminArea('tax')"><span>▤</span><b>Facturación</b></button>
+    <div class="sac-os-nav-label">SISTEMA</div>
+    <button class="admin-area-tab" data-admin-area="settings" onclick="setAdminArea('settings')"><span>⚙</span><b>Equipo y ajustes</b></button>
+    <div class="sac-os-agent"><span>AD</span><div><strong>Ejecutivo activo</strong><small>Administrador</small></div></div>
   </nav>
 
   <section class="admin-area-panel active" data-admin-panel="overview">
+    <div class="sac-os-section-head"><div><span>COMMAND CENTER</span><h1>Operación de hoy</h1></div><p id="sac-os-clock">Actividad en tiempo real</p></div>
+    <div class="sac-os-priority-strip"><strong>Colas críticas</strong><button onclick="setAdminArea('support');setSacFilter('urgent')">Urgentes</button><button onclick="setAdminArea('support');setSacFilter('unread')">Sin responder</button><button onclick="setAdminArea('payments')">Pagos en revisión</button><button onclick="setAdminArea('tax')">DTE pendientes</button></div>
     <div class="admin-command-grid">
       <button class="admin-command" onclick="setAdminArea('support')"><span>COLA DE ATENCIÓN</span><strong>Conversaciones</strong><small>Tickets, SLA, prioridad y notas internas</small></button>
       <button class="admin-command" onclick="setAdminArea('payments')"><span>TESORERÍA</span><strong>Pagos por validar</strong><small>Transferencias y cambios de plan</small></button>
@@ -2095,7 +2133,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   </section>
 
   <section class="admin-area-panel" data-admin-panel="support">
-  <div class="admin-section-intro"><div><h2>Atención por chat</h2><p>Los mensajes se actualizan automáticamente. Los nuevos aparecen en “Pendientes”; posponer los oculta hasta la fecha elegida y cerrar envía la encuesta de satisfacción.</p></div><div class="support-sync-state" id="support-sync-state">Actualización automática activa</div></div>
+  <div class="sac-os-section-head"><div><span>SERVICE DESK</span><h1>Bandeja omnicanal</h1></div><div class="support-sync-state" id="support-sync-state">● Tiempo real</div></div>
     <div class="sac-shell" id="adm-sac-shell">
       <aside class="sac-nav">
         <div class="sac-nav-title">Bandejas</div>
@@ -2215,6 +2253,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     </div>
   </div>
   </section>
+  </div><!-- /sac-os-layout -->
 </div>
 
   <button class="notice-launch" id="notice-launch" onclick="openNotificationCenter()" aria-label="Abrir notificaciones">🔔<span class="notice-badge" id="notice-badge">0</span></button>
@@ -3968,6 +4007,7 @@ async function loadAdminPanel() {
   if (!isAdminUser) { goTo('resumen'); return; }
   await Promise.all([loadAdminUsersTable(), loadAdminAdminsList(), loadAdminPlans(), loadCommercialSettings(), loadAdminPaymentRequests(), loadAdminPlanRequests(), loadAdminBillingProfiles()]);
   await Promise.all([loadAdminBilling(),loadAdminSupportInbox(),loadAdminCsat()]);
+  renderAdminStats();
 }
 
 async function loadAdminUsersTable() {
@@ -4042,9 +4082,11 @@ function renderAdminStats() {
   let recientes = adminAccountsCache.filter(u => u.created_at && Date.now() - new Date(u.created_at).getTime() <= 30 * 86400000).length;
   let cobrado=adminPaymentsCache.reduce((a,p)=>a+(p.amount_clp||0),0);
   let deuda=adminInvoicesCache.filter(i=>['pending','overdue'].includes(i.status)).reduce((a,i)=>a+(i.amount_clp||0),0);
+  let abiertos=adminSupportInboxCache.filter(c=>c.status!=='closed').length,urgentes=adminSupportInboxCache.filter(c=>c.status!=='closed'&&c.priority==='urgent').length;
+  let respondidas=adminCsatCache.filter(x=>x.rating),csat=respondidas.length?(respondidas.reduce((a,x)=>a+Number(x.rating),0)/respondidas.length).toFixed(1):'—';
   box.innerHTML = [
-    ['👥','Usuarios',total,false], ['✅','Cuentas activas',activas,false], ['✨','Nuevas (30 días)',recientes,false], ['💰','Total cobrado',cobrado,true], ['⚠️','Por cobrar',deuda,true]
-  ].map(([ic,lbl,val,money]) => `<div class="card" style="padding:1rem;box-shadow:none"><div style="font-size:1.15rem">${ic}</div><div style="font-size:1.25rem;font-weight:700;color:var(--dark);margin:.2rem 0">${money?'$'+formatMiles(val):val}</div><div style="font-size:.78rem;color:var(--gray)">${lbl}</div></div>`).join('');
+    ['●','Casos abiertos',abiertos,false], ['!','Urgentes',urgentes,false], ['★','CSAT',csat==='—'?'—':csat+' / 5',false], ['◎','Clientes activos',activas,false], ['↗','Cobrado',cobrado,true], ['△','Por cobrar',deuda,true]
+  ].map(([ic,lbl,val,money]) => `<div class="card" style="padding:1rem;box-shadow:none"><div style="font-size:.72rem;color:var(--sac-blue);font-weight:900">${ic}</div><div style="font-size:1.3rem;font-weight:800;color:#17212f;margin:.35rem 0">${money?'$'+formatMiles(val):val}</div><div style="font-size:.65rem;color:#718096;text-transform:uppercase;letter-spacing:.06em">${lbl}</div></div>`).join('');
 }
 
 async function toggleUserActive(userId, currentlyActive) {
