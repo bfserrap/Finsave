@@ -1232,7 +1232,8 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 .account-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}.account-card{padding:1rem;border-radius:18px;background:linear-gradient(145deg,#f8fbfa,#edf6f3);border:1px solid var(--line);position:relative}.account-card.credit{background:linear-gradient(145deg,#fff8ef,#fff1de);border-color:#f4d7ad}.account-card span{font-size:.72rem;color:#778399}.account-card strong{display:block;font-size:1.15rem;margin-top:.5rem}.account-card button{position:absolute;right:.6rem;top:.6rem;border:0;background:transparent;color:#8d98a8;cursor:pointer}
 .search-command{display:flex;align-items:center;gap:.7rem;padding:.3rem .9rem;border:1.5px solid var(--line);border-radius:16px;background:#fbfdfc}.search-command input{border:0!important;background:transparent!important;flex:1;font-size:1rem}.search-filters{display:flex;gap:.25rem;margin:.7rem 0}.search-results{max-height:430px;overflow:auto}.search-result{display:flex;align-items:center;gap:.8rem;padding:.85rem;border-radius:14px;cursor:pointer}.search-result:hover{background:#f2f7f5}.search-result-icon{width:40px;height:40px;border-radius:13px;background:var(--primary-soft);display:grid;place-items:center}.search-result-main{flex:1}.search-result-main strong,.search-result-main small{display:block}.search-result-main small{color:#7d899a;margin-top:.12rem}.search-empty{text-align:center;padding:2rem;color:#7d899a}
 .modal-wide{max-width:720px}
-.commercial-section{max-width:1180px;margin:0 auto;padding:5rem 1.5rem}.commercial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}.commercial-card{padding:1.6rem;border-radius:24px;border:1px solid var(--line);background:#fff}.commercial-card.featured{background:#123f3a;color:#fff;transform:translateY(-8px);box-shadow:0 20px 45px rgba(18,63,58,.2)}.commercial-card h3{font-size:1.2rem;margin-bottom:.45rem}.commercial-card p{color:#778399;line-height:1.55}.commercial-card.featured p{color:#c5dbd5}.commercial-card ul{list-style:none;padding:0;margin:1.2rem 0}.commercial-card li{padding:.45rem 0;font-size:.86rem}.commercial-card li:before{content:"✓";color:#16aa87;font-weight:800;margin-right:.55rem}.commercial-price{font-size:1.8rem;font-weight:800;margin:1rem 0}.faq-list{max-width:820px;margin:2rem auto 0}.faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1rem 1.15rem;margin:.6rem 0}.faq-list summary{font-weight:700;cursor:pointer}.faq-list p{margin-top:.7rem;color:#6f7c8f;line-height:1.55}
+.commercial-section{max-width:1180px;margin:0 auto;padding:5rem 1.5rem}.commercial-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}.commercial-card{padding:1.6rem;border-radius:24px;border:1px solid var(--line);background:#fff}.commercial-card.featured{background:#123f3a;color:#fff;transform:translateY(-8px);box-shadow:0 20px 45px rgba(18,63,58,.2)}.commercial-card h3{font-size:1.2rem;margin-bottom:.45rem}.commercial-card p{color:#778399;line-height:1.55}.commercial-card.featured p{color:#c5dbd5}.commercial-card ul{list-style:none;padding:0;margin:1.2rem 0}.commercial-card li{padding:.45rem 0;font-size:.86rem}.commercial-card li:before{content:"✓";color:#16aa87;font-weight:800;margin-right:.55rem}.commercial-price{font-size:1.8rem;font-weight:800;margin:1rem 0}.commercial-access-note{margin:1.25rem 0 0;padding:.85rem 1rem;border-radius:14px;background:var(--primary-soft);color:var(--primary-dark);font-size:.78rem;line-height:1.5}.faq-list{max-width:820px;margin:2rem auto 0}.faq-list details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:1rem 1.15rem;margin:.6rem 0}.faq-list summary{font-weight:700;cursor:pointer}.faq-list p{margin-top:.7rem;color:#6f7c8f;line-height:1.55}
+@media(max-width:1000px){.commercial-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .page.active>.card,.page.active>.finance-hero,.page.active>.finance-layout,.page.active>.kpi-grid{animation:finsave-rise .48s cubic-bezier(.2,.8,.2,1) both}.page.active>*:nth-child(3){animation-delay:.06s}.page.active>*:nth-child(4){animation-delay:.11s}@keyframes finsave-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @media(max-width:900px){.finance-layout{grid-template-columns:1fr}.finance-kpi-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.main{padding-left:16px!important;padding-right:16px!important}.finance-page-head{align-items:flex-start}.finance-page-head .pg-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}.finance-hero{padding:1.35rem;display:block;border-radius:24px}.projection-amount{text-align:left;margin-top:1.25rem;font-size:2rem}.scenario-switch{display:grid;grid-template-columns:repeat(3,1fr);width:100%}.scenario-switch button{padding:.62rem .25rem}.finance-kpi-grid{gap:.6rem}.finance-mini-kpi{padding:.85rem}.finance-mini-kpi strong{font-size:1rem}.finance-panel{padding:1rem;border-radius:22px}.calendar-strip{gap:.15rem}.calendar-day{padding:.45rem .1rem}.account-grid{grid-template-columns:1fr}.search-filters{overflow:auto}.search-filters button{white-space:nowrap}.topbar-brand{font-size:1.12rem}.topbar-actions{gap:.35rem}.topbar-actions>.topbar-logout:last-child{display:none}.commercial-grid{grid-template-columns:1fr}.commercial-card.featured{transform:none}.commercial-section{padding:3.2rem 1rem}}
@@ -1361,13 +1362,16 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     </div>
   </section>
   <section class="commercial-section">
-    <p class="s-eyebrow">Elige tu forma de avanzar</p>
-    <h2 class="s-title">Orden financiero sin volver a una planilla</h2>
+    <p class="s-eyebrow">Todo Finsave, durante el tiempo que elijas</p>
+    <h2 class="s-title">Todos los planes incluyen todas las funciones</h2>
+    <p style="max-width:760px;color:#68758a;line-height:1.7">No limitamos herramientas según el pago. En cualquier plan personal puedes registrar movimientos, controlar créditos y ahorros, revisar el año completo, importar desde Excel y exportar tus informes. Solo cambia la duración del acceso.</p>
     <div class="commercial-grid">
-      <article class="commercial-card"><h3>Comienza</h3><p>Para ordenar tu mes y descubrir Finsave.</p><div class="commercial-price">Gratis</div><ul><li>Plan mensual</li><li>Ingresos y gastos</li><li>Metas de ahorro</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Crear cuenta</button></article>
-      <article class="commercial-card featured"><h3>Finsave Personal</h3><p>Todo tu sistema financiero personal en un lugar.</p><div class="commercial-price">Plan completo</div><ul><li>Créditos y cuotas</li><li>Proyecciones y presupuestos</li><li>Calendario y recurrencias</li><li>Exportación Excel y PDF</li></ul><button class="btn btn-prim btn-full" onclick="showAuth('register')">Empezar ahora</button></article>
-      <article class="commercial-card"><h3>Control anual</h3><p>Para quienes quieren comparar y decidir mejor.</p><div class="commercial-price">Vista total</div><ul><li>Comparación de meses</li><li>Balance anual</li><li>Alertas financieras</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Probar Finsave</button></article>
+      <article class="commercial-card"><h3>Prueba 14 días</h3><p>Conoce la plataforma completa sin funciones bloqueadas.</p><div class="commercial-price">14 días</div><ul><li>Visual mensual y anual</li><li>Ingresos, gastos y ahorros</li><li>Créditos, Excel y PDF</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Comenzar prueba</button></article>
+      <article class="commercial-card featured"><h3>Plan 30 días</h3><p>Acceso personal completo por un período mensual.</p><div class="commercial-price">30 días</div><ul><li>Todas las funciones</li><li>Importación desde Excel</li><li>Soporte dentro de Finsave</li></ul><button class="btn btn-prim btn-full" onclick="showAuth('register')">Elegir 30 días</button></article>
+      <article class="commercial-card"><h3>Plan anual</h3><p>La misma experiencia completa durante doce meses.</p><div class="commercial-price">365 días</div><ul><li>Todas las funciones</li><li>Continuidad durante el año</li><li>Historial y comparaciones</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Elegir anual</button></article>
+      <article class="commercial-card"><h3>Administrador</h3><p>Para ejecutivos responsables de operar Finsave.</p><div class="commercial-price">Operación</div><ul><li>Centro SAC y usuarios</li><li>Planes, pagos y facturación</li><li>Configuración administrativa</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('login')">Acceso ejecutivo</button></article>
     </div>
+    <div class="commercial-access-note"><strong>Funciones incluidas en los planes personales:</strong> resumen mensual, registro de ingresos y gastos, categorías, créditos y cuotas, metas de ahorro, liquidación, vista anual, gráficos de balance, importación Excel y exportación Excel/PDF.</div>
   </section>
   <section class="commercial-section" style="padding-top:1rem">
     <p class="s-eyebrow">Preguntas frecuentes</p><h2 class="s-title">Claro desde el primer día</h2>
@@ -2144,11 +2148,11 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   </section>
 
   <section class="admin-area-panel" data-admin-panel="commercial">
-  <div class="admin-section-intro"><div><h2>Planes y suscripciones</h2><p>Define lo que vendes y administra la continuidad de cada cliente sin quitarle días ya pagados.</p></div></div>
+  <div class="admin-section-intro"><div><h2>Planes y suscripciones</h2><p>Todos los planes entregan las mismas funciones. Aquí administras duración, precio, disponibilidad y acceso administrativo.</p></div></div>
   <div class="admin-flow"><div class="admin-flow-step"><span class="admin-flow-number">1</span><b>Plan vigente</b>El cliente conserva su acceso hasta el último día pagado.</div><div class="admin-flow-step"><span class="admin-flow-number">2</span><b>Cambio programado</b>El nuevo plan queda aprobado y espera el término del período actual.</div><div class="admin-flow-step"><span class="admin-flow-number">3</span><b>Activación automática</b>Finsave cambia el plan en la fecha informada y avisa al cliente.</div></div>
   <div class="card">
     <div class="card-head">
-      <div><div class="card-title">💎 Planes comerciales</div><div class="card-sub">Define nombre, valor, duración y disponibilidad de cada plan</div></div>
+      <div><div class="card-title">💎 Planes comerciales</div><div class="card-sub">Agrega, edita o elimina planes. Las funciones personales siempre están incluidas.</div></div>
       <button class="btn btn-prim btn-sm" onclick="openAdminPlanModal()">＋ Nuevo plan</button>
     </div>
     <div id="adm-plans-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem"><div style="color:var(--gray)">Cargando...</div></div>
@@ -2351,15 +2355,11 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     <div class="modal-head"><div class="modal-title" id="adm-plan-title">💎 Nuevo plan</div><button class="modal-close" onclick="closeModal('mod-adm-plan')">✕</button></div>
     <input type="hidden" id="adm-plan-id">
     <div class="form-row"><div class="fg"><label>Nombre del plan</label><input id="adm-plan-name" placeholder="Ej: Mensual"></div><div class="fg"><label>Valor ($ CLP)</label><input id="adm-plan-price" inputmode="numeric" oninput="formatInputMiles(this)" placeholder="4.990"></div></div>
-    <div class="form-row"><div class="fg"><label>Duración en días</label><input id="adm-plan-days" type="number" min="1" max="3650" placeholder="30"></div><div class="fg"><label>Disponibilidad</label><select id="adm-plan-active"><option value="true">Activo para asignar</option><option value="false">Oculto / descontinuado</option></select></div></div>
+    <div class="form-row"><div class="fg"><label>Duración en días</label><input id="adm-plan-days" type="number" min="1" max="3650" placeholder="30"></div><div class="fg"><label>Tipo de acceso</label><select id="adm-plan-kind"><option value="personal">Personal · todas las funciones</option><option value="admin">Administrador · operación y SAC</option></select></div></div>
+    <div class="fg"><label>Disponibilidad</label><select id="adm-plan-active"><option value="true">Activo para asignar</option><option value="false">Oculto / descontinuado</option></select></div>
     <label style="display:flex;gap:.55rem;align-items:center;font-size:.84rem;margin:-.25rem 0 .8rem"><input id="adm-plan-lifetime" type="checkbox" onchange="toggleAdminPlanLifetime()"> Plan indefinido, sin fecha de vencimiento</label>
     <div class="fg"><label>Descripción</label><textarea id="adm-plan-description" rows="2" placeholder="Qué incluye este plan" style="width:100%;padding:.75rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-family:inherit"></textarea></div>
-    <div class="fg"><label>Prestaciones habilitadas</label><div class="plan-feature-editor">
-      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="credits"> Créditos y cuotas</label>
-      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="annual"> Vista y balance anual</label>
-      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="exports"> Exportación Excel y PDF</label>
-      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="tools"> Categorías y liquidación</label>
-    </div></div>
+    <div class="info-banner new">✓ Los planes personales incluyen automáticamente todas las funciones de Finsave. El tipo Administrador agrega el Centro de control, SAC, planes, pagos y facturación.</div>
     <div style="padding:.75rem;background:#fff7ed;border:1px solid #fed7aa;border-radius:var(--radius-sm);margin-bottom:.8rem;font-size:.8rem;color:#9a3412">🔐 Por seguridad, confirma tu contraseña de administrador para guardar.</div>
     <div class="fg"><label>Contraseña de acceso</label><input id="adm-plan-password" type="password" autocomplete="current-password" placeholder="Tu contraseña"></div>
     <div id="adm-plan-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
@@ -4385,9 +4385,9 @@ async function loadAdminPlans() {
   } catch(e) { box.innerHTML='<div style="color:var(--danger);font-size:.84rem">Activa el módulo comercial en Supabase para administrar los planes.</div>'; }
 }
 const PLAN_FEATURE_LABELS={credits:'Créditos',annual:'Vista anual',exports:'Excel y PDF',tools:'Herramientas'};
-function planFeatures(plan){let match=String(plan?.description||'').match(/\[\[features:([a-z,]*)\]\]/i);if(match)return match[1].split(',').filter(Boolean);let name=String(plan?.name||'').toLowerCase();if(/completo|total|premium/.test(name))return ['credits','annual','exports','tools'];if(/personal/.test(name))return ['credits','exports','tools'];if(/anual|control/.test(name))return ['annual'];return []}
+const ALL_PLAN_FEATURES=['credits','annual','exports','tools'];
+function planFeatures(){return [...ALL_PLAN_FEATURES]}
 function planDescription(plan){return String(plan?.description||'').replace(/\s*\[\[features:[a-z,]*\]\]\s*/ig,'').trim()}
-function selectedPlanFeatures(){return [...document.querySelectorAll('[data-plan-feature]:checked')].map(x=>x.dataset.planFeature)}
 
 function renderAdminPlans() {
   let box=document.getElementById('adm-plans-grid'); if(!box)return;
@@ -4397,8 +4397,8 @@ function renderAdminPlans() {
     <div style="display:flex;justify-content:space-between;gap:.5rem"><strong>${escAdmin(p.name)}</strong><span class="tag ${p.is_active?'tag-g':'tag-r'}">${p.is_active?'Activo':'Oculto'}</span></div>
     <div style="font-size:1.35rem;font-weight:700;color:var(--brand);margin:.55rem 0">$${formatMiles(p.price_clp)} <small style="font-size:.72rem;color:var(--gray);font-weight:400">${p.is_lifetime?'· Indefinido':'/ '+p.duration_days+' días'}</small></div>
     <div style="font-size:.78rem;color:var(--gray);min-height:34px">${escAdmin(planDescription(p)||'Sin descripción')}</div>
-    <div class="plan-feature-list">${planFeatures(p).map(x=>`<span class="plan-feature-pill">${PLAN_FEATURE_LABELS[x]||x}</span>`).join('')||'<span class="plan-feature-pill">Funciones básicas</span>'}</div>
-    <button class="btn btn-outline btn-sm" style="margin-top:.7rem" onclick="openAdminPlanModal('${p.id}')">✏️ Editar plan</button>
+    <div class="plan-feature-list"><span class="plan-feature-pill">${p.is_admin_plan?'Operación administrativa':'Todas las funciones'}</span></div>
+    <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem"><button class="btn btn-outline btn-sm" onclick="openAdminPlanModal('${p.id}')">✏️ Editar</button><button class="btn btn-danger btn-sm" onclick="deleteAdminPlan('${p.id}')">🗑 Eliminar</button></div>
   </div>`).join('');
 }
 
@@ -4409,10 +4409,10 @@ function openAdminPlanModal(id='') {
   document.getElementById('adm-plan-name').value=p?.name||'';
   document.getElementById('adm-plan-price').value=p?formatMiles(p.price_clp):'';
   document.getElementById('adm-plan-days').value=p?.duration_days||30;
+  document.getElementById('adm-plan-kind').value=p?.is_admin_plan?'admin':'personal';
   document.getElementById('adm-plan-active').value=String(p?.is_active!==false);
   document.getElementById('adm-plan-lifetime').checked=!!p?.is_lifetime;
   document.getElementById('adm-plan-description').value=planDescription(p);
-  let features=new Set(planFeatures(p));document.querySelectorAll('[data-plan-feature]').forEach(x=>x.checked=features.has(x.dataset.planFeature));
   document.getElementById('adm-plan-password').value=''; document.getElementById('adm-plan-msg').style.display='none';
   openModal('mod-adm-plan');
   toggleAdminPlanLifetime();
@@ -4428,12 +4428,27 @@ async function saveAdminPlan() {
   setAdminBoxMessage('adm-plan-msg','Verificando y guardando...');
   try {
     await verifyCurrentAdminPassword(password);
-    let description=document.getElementById('adm-plan-description').value.trim(),features=selectedPlanFeatures();
-    let payload={name,price_clp:price,duration_days:days,is_lifetime:document.getElementById('adm-plan-lifetime').checked,is_active:document.getElementById('adm-plan-active').value==='true',description:`${description}${description?' ':''}[[features:${features.join(',')}]]`};
+    let description=document.getElementById('adm-plan-description').value.trim();
+    let payload={name,price_clp:price,duration_days:days,is_lifetime:document.getElementById('adm-plan-lifetime').checked,is_active:document.getElementById('adm-plan-active').value==='true',is_admin_plan:document.getElementById('adm-plan-kind').value==='admin',description};
     let q=id?supabaseClient.from('finsave_plans').update(payload).eq('id',id):supabaseClient.from('finsave_plans').insert(payload);
     const {error}=await q;if(error)throw error;
     closeModal('mod-adm-plan');showToast('Plan guardado correctamente');await loadAdminPlans();await loadAdminBilling();
   } catch(e){setAdminBoxMessage('adm-plan-msg',e.message||'No se pudo guardar.','err');}
+}
+
+async function deleteAdminPlan(id) {
+  let plan=adminPlansCache.find(x=>x.id===id);if(!plan)return;
+  if(!confirm(`¿Eliminar definitivamente el plan "${plan.name}"?\n\nSi tiene clientes o cobros asociados, Finsave impedirá eliminarlo para proteger el historial.`))return;
+  let password=prompt('Confirma tu contraseña de administrador para eliminar el plan:');if(!password)return;
+  try{
+    await verifyCurrentAdminPassword(password);
+    const {error}=await supabaseClient.from('finsave_plans').delete().eq('id',id);
+    if(error)throw error;
+    showToast('Plan eliminado correctamente');await loadAdminPlans();await loadAdminBilling();
+  }catch(e){
+    let linked=/foreign key|violates|reference/i.test(String(e.message||''));
+    showToast(linked?'Este plan tiene clientes o cobros asociados. Déjalo oculto para conservar el historial.':(e.message||'No se pudo eliminar el plan.'),'err');
+  }
 }
 
 async function loadAdminBilling() {
@@ -4862,15 +4877,14 @@ async function saveBillingProfile(){let userId=document.getElementById('bp-user-
 async function openUserPlanChangeModal(){try{let active=(window.myPlanChangeRequests||[]).find(r=>['pending_payment','payment_review','pending_approval','scheduled'].includes(r.status));if(active){showToast(active.status==='scheduled'?'Ya tienes un cambio aprobado y programado.':'Ya tienes una solicitud en curso.','err');return;}const {data,error}=await supabaseClient.from('finsave_plans').select('*').eq('is_active',true).eq('is_admin_plan',false).order('price_clp');if(error)throw error;window.userPlanOptions=data||[];let sel=document.getElementById('user-plan-request-plan');sel.innerHTML=(data||[]).map(p=>`<option value="${p.id}">${escAdmin(p.name)}</option>`).join('');if(!data?.length){showToast('No hay planes comerciales disponibles. Revisa su estado en el panel administrador.','err');return;}document.getElementById('user-plan-request-msg').style.display='none';renderUserPlanRequestPrice();openModal('mod-user-plan-request');}catch(e){console.error('Error cargando planes comerciales:',e);showToast('No fue posible cargar los planes. Intenta nuevamente.','err');}}
 function renderUserPlanRequestPrice(){let p=(window.userPlanOptions||[]).find(x=>x.id===document.getElementById('user-plan-request-plan').value),currentEnd=window.myCurrentSubscription?.ends_at;document.getElementById('user-plan-request-price').innerHTML=p?`<strong>${escAdmin(p.name)}</strong><br><span style="font-size:1.3rem;color:var(--primary)">$${formatMiles(p.price_clp)} CLP</span> · ${p.is_lifetime?'acceso indefinido':`${p.duration_days} días`}<div class="plan-schedule-note">${currentEnd?`Tu plan actual continúa hasta el ${new Date(currentEnd+'T12:00:00').toLocaleDateString('es-CL')}. Si se aprueba, el nuevo plan comenzará después y no perderás días.`:'El nuevo período comenzará cuando Finsave apruebe el pago.'}</div>`:'';}
 async function submitUserPlanChangeRequest(){let msg='user-plan-request-msg',plan=(window.userPlanOptions||[]).find(x=>x.id===document.getElementById('user-plan-request-plan').value);if(!plan)return;setAdminBoxMessage(msg,'Creando tu solicitud...');try{const {error}=await supabaseClient.rpc('submit_finsave_plan_request',{requested_plan:plan.id,method:'transfer'});if(error)throw error;setAdminBoxMessage(msg,'Solicitud creada. Ahora informa tu transferencia desde Medios de pago.','ok');await loadMyCommercialPlan();setTimeout(()=>closeModal('mod-user-plan-request'),1500);}catch(e){setAdminBoxMessage(msg,e.message||'No se pudo crear la solicitud.','err');}}
-const PLAN_PAGE_FEATURE={creditos:'credits',anual:'annual',categorias:'tools',liquidacion:'tools'};
+const PLAN_PAGE_FEATURE={};
 async function loadPlanAccess(){
-  if(isAdminUser){window.myPlanFeatures=['credits','annual','exports','tools'];window.myPlanAccessLoaded=true;return}
-  try{let s=(await supabaseClient.from('finsave_subscriptions').select('plan_id,status,ends_at').eq('user_id',currentUser.id).maybeSingle()).data,p=s&&(await supabaseClient.from('finsave_plans').select('name,description').eq('id',s.plan_id).maybeSingle()).data,active=s&&['active','trial','past_due'].includes(s.status);window.myPlanFeatures=active?planFeatures(p):[];}catch(e){window.myPlanFeatures=[]}
+  window.myPlanFeatures=[...ALL_PLAN_FEATURES];
   window.myPlanAccessLoaded=true;applyPlanAccessUI();
 }
 function applyPlanAccessUI(){document.querySelectorAll('.sb-item[data-page]').forEach(el=>{let feature=PLAN_PAGE_FEATURE[el.dataset.page];el.classList.toggle('plan-lock',!!feature&&!window.myPlanFeatures?.includes(feature))})}
-function hasPlanFeature(feature){return isAdminUser||window.myPlanFeatures?.includes(feature)}
-function requirePlanFeature(feature){if(hasPlanFeature(feature))return true;showToast(`Esta función no está incluida en tu plan. Puedes solicitar un cambio desde Perfil.`,'err');return false}
+function hasPlanFeature(){return true}
+function requirePlanFeature(){return true}
 /* ── NAVEGACIÓN ── */
 function goTo(pageId, keepSidebarOpen) {
   let required=PLAN_PAGE_FEATURE[pageId];
