@@ -1258,6 +1258,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 .auth-story{position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:3rem;color:#fff;background:radial-gradient(circle at 85% 20%,rgba(89,158,255,.3),transparent 28%),linear-gradient(145deg,#0c2036,#174e77)}.auth-story::after{content:"";position:absolute;width:360px;height:360px;right:-150px;bottom:-165px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 55px rgba(255,255,255,.035),0 0 0 110px rgba(255,255,255,.025)}.auth-story-brand{position:relative;z-index:1;color:#fff;font-size:1.25rem;font-weight:700;text-decoration:none}.auth-story-kicker{font-size:.7rem;letter-spacing:.16em;color:#9cc5f8}.auth-story h1{max-width:540px;margin:.8rem 0 1rem;font-size:clamp(2.3rem,4vw,4.2rem);line-height:.98;letter-spacing:-.055em}.auth-story p{max-width:480px;color:#cbdced;font-size:1rem;line-height:1.6}.auth-story-points{position:relative;z-index:1;display:flex;gap:1rem;flex-wrap:wrap}.auth-story-points span{font-size:.72rem;color:#d9e9f8}.auth-shell .auth-card{align-self:center;max-width:none;padding:3rem;border:0;border-radius:0;box-shadow:none;background:#fff}.auth-shell .auth-brand{text-align:left}.auth-shell .auth-brand h2{font-size:1.9rem}.auth-shell .auth-tabs{padding:5px;border-radius:14px}.auth-shell .fg input{min-height:52px;background:#f8fafc}.auth-shell .btn-full{min-height:52px}
 @media(max-width:900px){#page-admin .admin-area-tabs{display:flex;overflow-x:auto}#page-admin .admin-area-tab{min-width:105px}.auth-shell{grid-template-columns:1fr;min-height:0;max-width:520px}.auth-story{display:none}.auth-shell .auth-card{padding:2rem}}
 @media(max-width:640px){.visual-month-toolbar{align-items:flex-start;flex-direction:column}.visual-month-toolbar .btn{width:100%}.balance-series-explainer{grid-template-columns:1fr}.balance-series-explainer .balance-legend-item{grid-column:1/-1}.monthly-customizer{grid-template-columns:1fr}.monthly-module-tools{margin-top:0}.module-drag-handle,.credit-drag-handle{min-height:42px;padding:.5rem .65rem}.scenario-switch{align-items:stretch;flex-wrap:wrap}.scenario-switch::before{width:100%}#page-admin>.pg-header{padding:1rem}#page-admin .admin-area-tabs{position:sticky;display:flex;top:calc(var(--top-h) + env(safe-area-inset-top) + .3rem);margin:0 0 .8rem;padding:.4rem;background:#fff}#page-admin .admin-area-tab{min-width:96px;min-height:52px}#page-admin .admin-welcome{grid-template-columns:1fr}#page-admin .admin-welcome-main{padding:1.3rem}#page-admin .admin-welcome-main h2{font-size:1.35rem}.auth-shell .auth-card{padding:1.35rem}.auth-shell .auth-brand{margin-bottom:1.2rem}}
+.expense-ranking{display:grid;gap:.7rem}.expense-rank-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(140px,2fr) auto;gap:.8rem;align-items:center}.expense-rank-name{font-size:.78rem;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.expense-rank-track{height:10px;border-radius:99px;background:#edf2f0;overflow:hidden}.expense-rank-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--primary),#35b98b);transform-origin:left;animation:rankGrow .8s cubic-bezier(.2,.8,.2,1) both}.expense-rank-value{font-size:.78rem;font-weight:700;color:var(--dark);text-align:right}.expense-ranking-empty{padding:1.8rem;text-align:center;color:var(--gray);background:var(--gray5);border-radius:14px}@keyframes rankGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}.money-counting{font-variant-numeric:tabular-nums;letter-spacing:-.035em}.plan-summary-value{font-size:clamp(1.25rem,2vw,1.75rem)!important;font-weight:700!important}.plan-month-card{padding:1.35rem!important}.admin-command-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-bottom:1rem}.admin-command{padding:1rem;border:1px solid #dfe8ef;border-radius:16px;background:#fff;text-align:left;cursor:pointer}.admin-command:hover{border-color:var(--admin-blue);transform:translateY(-2px)}.admin-command span{display:block;color:#68758a;font-size:.7rem;margin-bottom:.35rem}.admin-command strong{font-size:1rem;color:var(--admin-navy)}.admin-command small{display:block;color:#7d8997;margin-top:.35rem}.plan-feature-editor{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.25rem 0 1rem}.plan-feature-option{display:flex;align-items:center;gap:.55rem;padding:.65rem;border:1px solid var(--line);border-radius:12px;background:#fbfdfc;font-size:.78rem}.plan-feature-list{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.65rem}.plan-feature-pill{padding:.25rem .5rem;border-radius:99px;background:var(--primary-soft);color:var(--primary-dark);font-size:.65rem;font-weight:700}.plan-lock{opacity:.58}.plan-lock::after{content:"Plan";margin-left:auto;padding:.15rem .4rem;border-radius:99px;background:#fff2e2;color:#9a5d14;font-size:.58rem}@media(max-width:800px){.admin-command-grid{grid-template-columns:1fr 1fr}.expense-rank-row{grid-template-columns:minmax(100px,1fr) minmax(80px,1.5fr);gap:.5rem}.expense-rank-value{grid-column:2}}@media(max-width:520px){.admin-command-grid,.plan-feature-editor{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1470,7 +1471,6 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     <div class="sb-item" data-page="creditos" onclick="goTo('creditos')"><span class="sb-ic">💳</span> Créditos</div>
     <div class="sb-item" data-page="ahorros" onclick="goTo('ahorros')"><span class="sb-ic">🏦</span> Ahorros</div>
     <div class="sb-sec">Planificación</div>
-    <div class="sb-item" data-page="centro" onclick="goTo('centro')"><span class="sb-ic">◷</span> Próximos movimientos</div>
     <div class="sb-item" data-page="anual" onclick="goTo('anual')"><span class="sb-ic">📅</span> Vista anual</div>
     <div class="sb-sec">Herramientas</div>
     <div class="sb-item" data-page="categorias" onclick="goTo('categorias')"><span class="sb-ic">🏷️</span> Categorías</div>
@@ -1505,28 +1505,14 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
       <button class="btn btn-ghost btn-sm" onclick="exportResumenPDF()">📥 PDF Resumen</button>
     </div>
   </div>
-  <div class="visual-month-toolbar">
-    <div><strong>Organiza esta vista</strong><span>Mueve los bloques, oculta lo que no necesitas y recupéralo cuando quieras.</span></div>
-    <button class="btn btn-outline btn-sm" id="monthly-edit-button" onclick="toggleMonthlyCustomizer()">Organizar tarjetas</button>
-  </div>
-  <div class="monthly-customizer hidden" id="monthly-customizer"></div>
   <div class="plan-month-card card" id="plan-month-card">
     <div class="plan-month-head">
       <div><div class="plan-month-title">Resumen del mes</div><div class="plan-month-copy" id="plan-month-copy">Lo que ingresó, salió y quedó disponible.</div></div>
-      <div class="plan-month-actions">
-        <button class="btn btn-outline btn-sm" onclick="openCompareModal()">↔ Comparar meses</button>
-        <button class="btn btn-outline btn-sm" onclick="prepareNextMonth()">➡ Copiar al mes siguiente</button>
-        <button class="btn btn-prim btn-sm" id="btn-close-month" onclick="toggleMonthClosure()">✓ Cerrar mes</button>
-      </div>
     </div>
     <div class="plan-summary-grid" id="plan-summary-grid"></div>
   </div>
   <div class="kpi-grid hidden" id="res-kpis" aria-hidden="true"></div>
 
-  <div class="card" id="monthly-budget-card">
-    <div class="card-head"><div><div class="card-title"><span class="card-title-ic">◎</span> Límites del mes</div><div class="card-sub">Presupuestos por categoría y alertas antes de excederte</div></div><button class="btn btn-outline btn-sm" onclick="openBudgetModal()">Configurar límites</button></div>
-    <div id="res-budget-list"></div>
-  </div>
   <div class="card" id="monthly-balance-card" style="padding-bottom:1.5rem">
     <div class="card-head">
       <div class="card-title"><span class="card-title-ic">📈</span> Balance Operacional</div>
@@ -1536,7 +1522,6 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
       <div class="series-explainer-item income"><span></span><div><strong>Ingresos</strong><small>Dinero que entró</small></div></div>
       <div class="series-explainer-item expenses"><span></span><div><strong>Gastos</strong><small>Dinero que salió</small></div></div>
       <div class="series-explainer-item balance"><span></span><div><strong>Saldo líquido</strong><small>Lo que quedó cada mes</small></div></div>
-      <div class="balance-legend-item" id="res-bal-trend" style="margin-left:auto"></div>
     </div>
     <div class="balance-chart-wrap" style="position:relative">
       <div class="chart-box-lg"><canvas id="chart-anual"></canvas></div>
@@ -1552,8 +1537,8 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
         <div class="flujos-table-wrap"><div class="tbl-wrap"><table><thead><tr><th>Descripción</th><th>Monto</th></tr></thead><tbody id="res-in-body"></tbody></table></div></div>
       </div>
       <div class="card" id="monthly-categories-card" style="padding-bottom:1.5rem">
-        <div class="card-head"><div class="card-title"><span class="card-title-ic">🍩</span> Distribución de Egresos</div><div class="card-sub">Gastos del periodo</div></div>
-        <div class="chart-box"><canvas id="chart-cats"></canvas></div>
+        <div class="card-head"><div><div class="card-title"><span class="card-title-ic">▤</span> Distribución de Egresos</div><div class="card-sub">Categorías ordenadas de mayor a menor</div></div></div>
+        <div class="expense-ranking" id="expense-ranking"></div>
       </div>
       <div class="card" id="monthly-paid-card" style="padding-bottom:1.5rem">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">💰</span> Gastos vs Pagado</div><div class="card-sub">Estado de pago del mes</div></div>
@@ -1575,10 +1560,6 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
         <div class="card-head"><div class="card-title"><span class="card-title-ic">📤</span> Flujos de Gastos</div><div class="card-sub" id="res-out-tot">$0</div></div>
         <div class="flujos-table-wrap"><div class="tbl-wrap"><table><thead><tr><th>Descripción</th><th>Monto</th></tr></thead><tbody id="res-out-body"></tbody></table></div></div>
       </div>
-      <div class="card" id="monthly-diagnosis-card">
-        <div class="card-head"><div class="card-title"><span class="card-title-ic">💡</span> Diagnóstico Finsave</div><div class="card-sub">Análisis automático de tu salud financiera</div></div>
-        <div id="res-alerts" class="diagnostico-wrap"></div>
-      </div>
       <div class="card" id="monthly-savings-card" style="padding-bottom:1.5rem">
         <div class="card-head"><div class="card-title"><span class="card-title-ic">🏦</span> Ahorro Anual</div><div class="card-sub" id="res-ahorro-yr-lbl">2026</div></div>
         <div class="kpi-grid" style="grid-template-columns:1fr;margin-bottom:1rem">
@@ -1590,7 +1571,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   </div>
 </div>
 
-<div id="page-centro" class="page">
+<div id="page-centro" class="page hidden" aria-hidden="true">
   <div class="pg-header finance-page-head">
     <div><div class="eyebrow">Agenda financiera</div><div class="pg-title">Próximos movimientos</div><div class="pg-sub">Aquí ves qué cobros, cuotas e ingresos vienen después y cómo cambiarían el dinero disponible.</div></div>
     <div class="pg-actions"><button class="btn btn-outline btn-sm" onclick="openGlobalSearch()">⌕ Buscar</button><button class="btn btn-prim btn-sm" onclick="openPlannerItem()">＋ Planificar</button></div>
@@ -2067,7 +2048,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 
 <div id="page-admin" class="page">
   <div class="pg-header">
-    <div><div class="eyebrow">Operación interna</div><div class="pg-title">Panel de administración</div><div class="pg-sub">Personas, conversaciones, planes, pagos y documentos en un espacio de trabajo claro.</div></div>
+    <div><div class="eyebrow">Finsave Operations</div><div class="pg-title">Centro de control</div><div class="pg-sub">Operación, atención y facturación en tiempo real.</div></div>
   </div>
 
   <nav class="admin-area-tabs" aria-label="Secciones del panel de administrador">
@@ -2081,17 +2062,13 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   </nav>
 
   <section class="admin-area-panel active" data-admin-panel="overview">
-    <div class="admin-welcome"><div class="admin-welcome-main"><span class="admin-kicker">CENTRO DE OPERACIONES</span><h2>Todo lo importante, sin ruido.</h2><p>Empieza por la atención pendiente. Después revisa pagos y documentos; la configuración queda separada de la operación diaria.</p></div><div class="admin-welcome-side"><strong>Ruta recomendada</strong><ol><li>Conversaciones nuevas</li><li>Pagos por revisar</li><li>Documentos pendientes</li></ol></div></div>
-    <div class="admin-task-grid">
-      <button class="admin-task" onclick="setAdminArea('users')"><span class="admin-task-icon">👤</span><span><strong>Ayudar a una persona</strong><small>Buscar una cuenta, corregir su nombre, recuperar acceso o revisar sus datos.</small></span></button>
-      <button class="admin-task" onclick="setAdminArea('support')"><span class="admin-task-icon">💬</span><span><strong>Responder una consulta</strong><small>Abrir la bandeja de atención, responder chats y revisar satisfacción.</small></span></button>
-      <button class="admin-task" onclick="setAdminArea('commercial')"><span class="admin-task-icon">💎</span><span><strong>Administrar planes</strong><small>Crear planes y revisar la suscripción o deuda de cada cliente.</small></span></button>
-      <button class="admin-task" onclick="setAdminArea('payments')"><span class="admin-task-icon">💳</span><span><strong>Revisar un pago</strong><small>Atender cambios de plan y transferencias enviadas por clientes.</small></span></button>
-      <button class="admin-task" onclick="setAdminArea('tax')"><span class="admin-task-icon">🧾</span><span><strong>Registrar lo emitido en SII</strong><small>Controlar documentos pendientes, facturados o anulados.</small></span></button>
-      <button class="admin-task" onclick="setAdminArea('settings')"><span class="admin-task-icon">⚙️</span><span><strong>Configurar la operación</strong><small>Actualizar la cuenta bancaria y los accesos de administradores.</small></span></button>
+    <div class="admin-command-grid">
+      <button class="admin-command" onclick="setAdminArea('support')"><span>COLA DE ATENCIÓN</span><strong>Conversaciones</strong><small>Tickets, SLA, prioridad y notas internas</small></button>
+      <button class="admin-command" onclick="setAdminArea('payments')"><span>TESORERÍA</span><strong>Pagos por validar</strong><small>Transferencias y cambios de plan</small></button>
+      <button class="admin-command" onclick="setAdminArea('tax')"><span>FACTURACIÓN</span><strong>Documentos SII</strong><small>Emisión, folios, PDF, XML y anulaciones</small></button>
+      <button class="admin-command" onclick="setAdminArea('users')"><span>CLIENTES</span><strong>Cuentas y acceso</strong><small>Perfil, actividad, respaldo y recuperación</small></button>
     </div>
     <div id="adm-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1rem"></div>
-    <details class="admin-guide"><summary>📘 Guía rápida: ¿dónde se hace cada cosa?</summary><div class="admin-guide-grid"><div class="admin-guide-item"><strong>El cliente no puede entrar</strong>Ve a <b>Personas</b>, busca su cuenta y elige “Ayudar”. Desde ahí puedes reactivar el acceso o enviar el correo de contraseña.</div><div class="admin-guide-item"><strong>El cliente transfirió</strong>Ve a <b>Cobros</b> y revisa “Transferencias informadas”. Acepta o rechaza después de comprobar el abono.</div><div class="admin-guide-item"><strong>Necesitas cambiar su plan</strong>Ve a <b>Planes</b>, busca al cliente y elige “Administrar suscripción y cobros”.</div><div class="admin-guide-item"><strong>Ya emitiste en el SII</strong>Ve a <b>Documentos SII</b>, abre “Pendientes de emitir” y registra tipo, folio y fecha.</div></div></details>
   </section>
 
   <section class="admin-area-panel" data-admin-panel="users">
@@ -2351,6 +2328,12 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     <div class="form-row"><div class="fg"><label>Duración en días</label><input id="adm-plan-days" type="number" min="1" max="3650" placeholder="30"></div><div class="fg"><label>Disponibilidad</label><select id="adm-plan-active"><option value="true">Activo para asignar</option><option value="false">Oculto / descontinuado</option></select></div></div>
     <label style="display:flex;gap:.55rem;align-items:center;font-size:.84rem;margin:-.25rem 0 .8rem"><input id="adm-plan-lifetime" type="checkbox" onchange="toggleAdminPlanLifetime()"> Plan indefinido, sin fecha de vencimiento</label>
     <div class="fg"><label>Descripción</label><textarea id="adm-plan-description" rows="2" placeholder="Qué incluye este plan" style="width:100%;padding:.75rem;border:1.5px solid var(--gray3);border-radius:var(--radius-sm);font-family:inherit"></textarea></div>
+    <div class="fg"><label>Prestaciones habilitadas</label><div class="plan-feature-editor">
+      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="credits"> Créditos y cuotas</label>
+      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="annual"> Vista y balance anual</label>
+      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="exports"> Exportación Excel y PDF</label>
+      <label class="plan-feature-option"><input type="checkbox" data-plan-feature="tools"> Categorías y liquidación</label>
+    </div></div>
     <div style="padding:.75rem;background:#fff7ed;border:1px solid #fed7aa;border-radius:var(--radius-sm);margin-bottom:.8rem;font-size:.8rem;color:#9a3412">🔐 Por seguridad, confirma tu contraseña de administrador para guardar.</div>
     <div class="fg"><label>Contraseña de acceso</label><input id="adm-plan-password" type="password" autocomplete="current-password" placeholder="Tu contraseña"></div>
     <div id="adm-plan-msg" style="display:none;font-size:.83rem;padding:.6rem;border-radius:var(--radius-sm);margin-bottom:.7rem"></div>
@@ -4372,6 +4355,10 @@ async function loadAdminPlans() {
     if(error)throw error; adminPlansCache=data||[]; renderAdminPlans();
   } catch(e) { box.innerHTML='<div style="color:var(--danger);font-size:.84rem">Activa el módulo comercial en Supabase para administrar los planes.</div>'; }
 }
+const PLAN_FEATURE_LABELS={credits:'Créditos',annual:'Vista anual',exports:'Excel y PDF',tools:'Herramientas'};
+function planFeatures(plan){let match=String(plan?.description||'').match(/\[\[features:([a-z,]*)\]\]/i);if(match)return match[1].split(',').filter(Boolean);let name=String(plan?.name||'').toLowerCase();if(/completo|total|premium/.test(name))return ['credits','annual','exports','tools'];if(/personal/.test(name))return ['credits','exports','tools'];if(/anual|control/.test(name))return ['annual'];return []}
+function planDescription(plan){return String(plan?.description||'').replace(/\s*\[\[features:[a-z,]*\]\]\s*/ig,'').trim()}
+function selectedPlanFeatures(){return [...document.querySelectorAll('[data-plan-feature]:checked')].map(x=>x.dataset.planFeature)}
 
 function renderAdminPlans() {
   let box=document.getElementById('adm-plans-grid'); if(!box)return;
@@ -4380,7 +4367,8 @@ function renderAdminPlans() {
   box.innerHTML=adminPageRows('plans',adminPlansCache).map(p=>`<div style="border:1px solid var(--gray3);border-radius:var(--radius);padding:1rem;background:${p.is_active?'var(--white)':'var(--gray5)'}">
     <div style="display:flex;justify-content:space-between;gap:.5rem"><strong>${escAdmin(p.name)}</strong><span class="tag ${p.is_active?'tag-g':'tag-r'}">${p.is_active?'Activo':'Oculto'}</span></div>
     <div style="font-size:1.35rem;font-weight:700;color:var(--brand);margin:.55rem 0">$${formatMiles(p.price_clp)} <small style="font-size:.72rem;color:var(--gray);font-weight:400">${p.is_lifetime?'· Indefinido':'/ '+p.duration_days+' días'}</small></div>
-    <div style="font-size:.78rem;color:var(--gray);min-height:34px">${escAdmin(p.description||'Sin descripción')}</div>
+    <div style="font-size:.78rem;color:var(--gray);min-height:34px">${escAdmin(planDescription(p)||'Sin descripción')}</div>
+    <div class="plan-feature-list">${planFeatures(p).map(x=>`<span class="plan-feature-pill">${PLAN_FEATURE_LABELS[x]||x}</span>`).join('')||'<span class="plan-feature-pill">Funciones básicas</span>'}</div>
     <button class="btn btn-outline btn-sm" style="margin-top:.7rem" onclick="openAdminPlanModal('${p.id}')">✏️ Editar plan</button>
   </div>`).join('');
 }
@@ -4394,7 +4382,8 @@ function openAdminPlanModal(id='') {
   document.getElementById('adm-plan-days').value=p?.duration_days||30;
   document.getElementById('adm-plan-active').value=String(p?.is_active!==false);
   document.getElementById('adm-plan-lifetime').checked=!!p?.is_lifetime;
-  document.getElementById('adm-plan-description').value=p?.description||'';
+  document.getElementById('adm-plan-description').value=planDescription(p);
+  let features=new Set(planFeatures(p));document.querySelectorAll('[data-plan-feature]').forEach(x=>x.checked=features.has(x.dataset.planFeature));
   document.getElementById('adm-plan-password').value=''; document.getElementById('adm-plan-msg').style.display='none';
   openModal('mod-adm-plan');
   toggleAdminPlanLifetime();
@@ -4410,7 +4399,8 @@ async function saveAdminPlan() {
   setAdminBoxMessage('adm-plan-msg','Verificando y guardando...');
   try {
     await verifyCurrentAdminPassword(password);
-    let payload={name,price_clp:price,duration_days:days,is_lifetime:document.getElementById('adm-plan-lifetime').checked,is_active:document.getElementById('adm-plan-active').value==='true',description:document.getElementById('adm-plan-description').value.trim()};
+    let description=document.getElementById('adm-plan-description').value.trim(),features=selectedPlanFeatures();
+    let payload={name,price_clp:price,duration_days:days,is_lifetime:document.getElementById('adm-plan-lifetime').checked,is_active:document.getElementById('adm-plan-active').value==='true',description:`${description}${description?' ':''}[[features:${features.join(',')}]]`};
     let q=id?supabaseClient.from('finsave_plans').update(payload).eq('id',id):supabaseClient.from('finsave_plans').insert(payload);
     const {error}=await q;if(error)throw error;
     closeModal('mod-adm-plan');showToast('Plan guardado correctamente');await loadAdminPlans();await loadAdminBilling();
@@ -4821,8 +4811,8 @@ async function loadMyCommercialPlan() {
       supabaseClient.from('finsave_plan_change_requests').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false})
     ]);
     if(subRes.error)throw subRes.error;if(invRes.error)throw invRes.error;
-    window.myPlanChangeRequests=reqRes.data||[];window.myPendingInvoices=invRes.data||[];let s=subRes.data;window.myCurrentSubscription=s||null;if(!s){box.innerHTML='<div style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm)">Aún no tienes un plan comercial asignado.</div><button class="btn btn-prim btn-sm" style="margin-top:.75rem" onclick="openUserPlanChangeModal()">Solicitar un plan</button>';await Promise.all([loadUserPaymentOptions(),loadMyBillingProfile(),loadMyBillingDocuments()]);return;}
-    let planRes=await supabaseClient.from('finsave_plans').select('*').eq('id',s.plan_id).maybeSingle();let p=planRes.data;
+    window.myPlanChangeRequests=reqRes.data||[];window.myPendingInvoices=invRes.data||[];let s=subRes.data;window.myCurrentSubscription=s||null;if(!s){window.myPlanFeatures=[];window.myPlanAccessLoaded=true;applyPlanAccessUI();box.innerHTML='<div style="padding:.8rem;background:var(--gray5);border-radius:var(--radius-sm)">Aún no tienes un plan comercial asignado.</div><button class="btn btn-prim btn-sm" style="margin-top:.75rem" onclick="openUserPlanChangeModal()">Solicitar un plan</button>';await Promise.all([loadUserPaymentOptions(),loadMyBillingProfile(),loadMyBillingDocuments()]);return;}
+    let planRes=await supabaseClient.from('finsave_plans').select('*').eq('id',s.plan_id).maybeSingle();let p=planRes.data;window.myPlanFeatures=planFeatures(p);window.myPlanAccessLoaded=true;applyPlanAccessUI();
     let debt=(invRes.data||[]).reduce((a,i)=>a+(i.amount_clp||0),0);
     let openReq=(window.myPlanChangeRequests||[]).find(r=>['pending_payment','payment_review','pending_approval','scheduled'].includes(r.status)),reqText=openReq?(openReq.status==='pending_payment'?'Esperando tu transferencia':openReq.status==='payment_review'?'Pago en revisión':openReq.status==='scheduled'?`Aprobado · comienza ${new Date(openReq.effective_at).toLocaleDateString('es-CL')}`:'Pendiente de aprobación'):'';
     let pendingPayment=(await supabaseClient.from('finsave_payment_requests').select('id').eq('user_id',currentUser.id).eq('status','pending').limit(1)).data?.length>0,grace=!!openReq||pendingPayment;
@@ -4843,8 +4833,20 @@ async function saveBillingProfile(){let userId=document.getElementById('bp-user-
 async function openUserPlanChangeModal(){try{let active=(window.myPlanChangeRequests||[]).find(r=>['pending_payment','payment_review','pending_approval','scheduled'].includes(r.status));if(active){showToast(active.status==='scheduled'?'Ya tienes un cambio aprobado y programado.':'Ya tienes una solicitud en curso.','err');return;}const {data,error}=await supabaseClient.from('finsave_plans').select('*').eq('is_active',true).eq('is_admin_plan',false).order('price_clp');if(error)throw error;window.userPlanOptions=data||[];let sel=document.getElementById('user-plan-request-plan');sel.innerHTML=(data||[]).map(p=>`<option value="${p.id}">${escAdmin(p.name)}</option>`).join('');if(!data?.length){showToast('No hay planes comerciales disponibles. Revisa su estado en el panel administrador.','err');return;}document.getElementById('user-plan-request-msg').style.display='none';renderUserPlanRequestPrice();openModal('mod-user-plan-request');}catch(e){console.error('Error cargando planes comerciales:',e);showToast('No fue posible cargar los planes. Intenta nuevamente.','err');}}
 function renderUserPlanRequestPrice(){let p=(window.userPlanOptions||[]).find(x=>x.id===document.getElementById('user-plan-request-plan').value),currentEnd=window.myCurrentSubscription?.ends_at;document.getElementById('user-plan-request-price').innerHTML=p?`<strong>${escAdmin(p.name)}</strong><br><span style="font-size:1.3rem;color:var(--primary)">$${formatMiles(p.price_clp)} CLP</span> · ${p.is_lifetime?'acceso indefinido':`${p.duration_days} días`}<div class="plan-schedule-note">${currentEnd?`Tu plan actual continúa hasta el ${new Date(currentEnd+'T12:00:00').toLocaleDateString('es-CL')}. Si se aprueba, el nuevo plan comenzará después y no perderás días.`:'El nuevo período comenzará cuando Finsave apruebe el pago.'}</div>`:'';}
 async function submitUserPlanChangeRequest(){let msg='user-plan-request-msg',plan=(window.userPlanOptions||[]).find(x=>x.id===document.getElementById('user-plan-request-plan').value);if(!plan)return;setAdminBoxMessage(msg,'Creando tu solicitud...');try{const {error}=await supabaseClient.rpc('submit_finsave_plan_request',{requested_plan:plan.id,method:'transfer'});if(error)throw error;setAdminBoxMessage(msg,'Solicitud creada. Ahora informa tu transferencia desde Medios de pago.','ok');await loadMyCommercialPlan();setTimeout(()=>closeModal('mod-user-plan-request'),1500);}catch(e){setAdminBoxMessage(msg,e.message||'No se pudo crear la solicitud.','err');}}
+const PLAN_PAGE_FEATURE={creditos:'credits',anual:'annual',categorias:'tools',liquidacion:'tools'};
+async function loadPlanAccess(){
+  if(isAdminUser){window.myPlanFeatures=['credits','annual','exports','tools'];window.myPlanAccessLoaded=true;return}
+  try{let s=(await supabaseClient.from('finsave_subscriptions').select('plan_id,status,ends_at').eq('user_id',currentUser.id).maybeSingle()).data,p=s&&(await supabaseClient.from('finsave_plans').select('name,description').eq('id',s.plan_id).maybeSingle()).data,active=s&&['active','trial','past_due'].includes(s.status);window.myPlanFeatures=active?planFeatures(p):[];}catch(e){window.myPlanFeatures=[]}
+  window.myPlanAccessLoaded=true;applyPlanAccessUI();
+}
+function applyPlanAccessUI(){document.querySelectorAll('.sb-item[data-page]').forEach(el=>{let feature=PLAN_PAGE_FEATURE[el.dataset.page];el.classList.toggle('plan-lock',!!feature&&!window.myPlanFeatures?.includes(feature))})}
+function hasPlanFeature(feature){return isAdminUser||window.myPlanFeatures?.includes(feature)}
+function requirePlanFeature(feature){if(hasPlanFeature(feature))return true;showToast(`Esta función no está incluida en tu plan. Puedes solicitar un cambio desde Perfil.`,'err');return false}
 /* ── NAVEGACIÓN ── */
 function goTo(pageId, keepSidebarOpen) {
+  let required=PLAN_PAGE_FEATURE[pageId];
+  if(required&&!window.myPlanAccessLoaded){loadPlanAccess().then(()=>{if(hasPlanFeature(required))goTo(pageId,keepSidebarOpen);else requirePlanFeature(required)});return}
+  if(required&&!requirePlanFeature(required))return;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
   let tp = document.getElementById(`page-${pageId}`);
@@ -5564,6 +5566,7 @@ function renderCreditos() {
   pagados.forEach(x => {
     wrapperPagados.innerHTML += renderCreditoCard(x, true);
   });
+  animateMoneyValues(document.getElementById('page-creditos'),620);
 }
 
 function renderCreditoCard(x, completado) {
@@ -5606,7 +5609,6 @@ function renderCreditoCard(x, completado) {
         <div class="cred-header-top">
           <div><div class="cred-title">💳 ${x.banco}</div><div class="cred-sub">${x.desc}</div></div>
           <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">
-            ${!completado?`<button type="button" class="credit-drag-handle" onpointerdown="pointerDragStart(event,'credit',${x.id})" aria-label="Mantener y arrastrar crédito para cambiar su orden"><span class="drag-grip">•••</span> Mantén y arrastra</button>`:''}
             ${estadoBadge}${toggleLabel}
           </div>
         </div>
@@ -5618,7 +5620,7 @@ function renderCreditoCard(x, completado) {
       </div>
       <div class="cred-body">
         ${!completado?`<div class="cred-summary-state">${incl?'<span class="state-icon">✓</span><div><strong>Incluido en tu planificación mensual</strong><small>La próxima cuota aparecerá entre tus gastos del mes.</small></div>':'<span class="state-icon">—</span><div><strong>Fuera de tu planificación mensual</strong><small>Este crédito se controla aquí, pero no modifica el resumen ni el disponible.</small></div>'}</div>`:''}
-        <div class="finance-kpi-grid" style="margin-bottom:1rem"><div class="finance-mini-kpi"><span>Termina</span><strong style="font-size:1rem">${fechaTermino?formatFechaCL(fechaTermino):'—'}</strong></div><div class="finance-mini-kpi"><span>Total a pagar</span><strong style="font-size:1rem">$${formatMiles(totalPagare)}</strong></div><div class="finance-mini-kpi"><span>Costo financiero</span><strong style="font-size:1rem">$${formatMiles(costoCredito)}</strong></div><div class="finance-mini-kpi"><span>CAE / tasa</span><strong style="font-size:1rem">${x.cae?x.cae+'%':x.tasaAnual?x.tasaAnual+'%':'No informada'}</strong></div></div>
+        <div class="finance-kpi-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:1rem"><div class="finance-mini-kpi"><span>Termina</span><strong style="font-size:1rem">${fechaTermino?formatFechaCL(fechaTermino):'—'}</strong></div><div class="finance-mini-kpi"><span>Total a pagar</span><strong class="money-counting" data-money="${totalPagare}" style="font-size:1rem">$0</strong></div></div>
         <div class="cred-prog-wrap">
           <div class="cred-prog-info">
             <span>Avance del Crédito</span>
@@ -6834,6 +6836,7 @@ async function exportLiqPDF() {
   doc.save(`Liquidacion-Finsave-${meses[lMesIdx]}-${lAnio}.pdf`);
 }
 async function exportResumenPDF() {
+  if(!requirePlanFeature('exports'))return;
   syncGastosCreditos();
   const { jsPDF } = window.jspdf;
   if (!jsPDF) { showToast('PDF no disponible', 'err'); return; }
@@ -7048,17 +7051,25 @@ function periodTotals(month,year){
 function categorySpend(cat,month,year){
   return [...(window.db.gastosFijos||[]),...(window.db.gastosVariables||[])].filter(x=>x.month===month&&x.year===year&&x.cat===cat).reduce((a,b)=>a+(Number(b.monto)||0),0);
 }
+function animateMoneyValues(scope=document,duration=760){
+  if(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)duration=1;
+  scope?.querySelectorAll?.('[data-money]').forEach(el=>{
+    const target=Number(el.dataset.money)||0,start=performance.now(),sign=target<0?'−':'';
+    cancelAnimationFrame(el._moneyFrame);
+    const tick=now=>{let p=Math.min(1,(now-start)/duration),eased=1-Math.pow(1-p,3),value=Math.round(Math.abs(target)*eased);el.textContent=`${sign}$${formatMiles(value)}`;if(p<1)el._moneyFrame=requestAnimationFrame(tick);};
+    el._moneyFrame=requestAnimationFrame(tick);
+  });
+}
 function renderMonthlyPlan(){
   let {month,year}=selectedPlanPeriod(),t=periodTotals(month,year),closed=(window.db.cierresMensuales||[]).find(x=>x.month===month&&x.year===year);
   let free=t.ingresos-t.gastos-t.ahorro;
   let grid=document.getElementById('plan-summary-grid');if(grid)grid.innerHTML=`
-    <div class="plan-summary-item"><div class="plan-summary-label">Ingresos registrados</div><div class="plan-summary-value">$${formatMiles(t.ingresos)}</div></div>
-    <div class="plan-summary-item"><div class="plan-summary-label">Gastos registrados</div><div class="plan-summary-value">$${formatMiles(t.gastos)}</div></div>
-    <div class="plan-summary-item"><div class="plan-summary-label">Ahorro registrado</div><div class="plan-summary-value">$${formatMiles(t.ahorro)}</div></div>
-    <div class="plan-summary-item plan-summary-available ${free>0?'is-positive':free<0?'is-negative':'is-neutral'}"><div class="plan-summary-label">Disponible</div><div class="plan-summary-value">$${formatMiles(free)}</div><small>${free>0?'Dinero libre después de gastos y ahorro':free<0?'Tus salidas superan los ingresos':'Sin saldo libre este mes'}</small></div>`;
-  let copy=document.getElementById('plan-month-copy');if(copy)copy.textContent=closed?`Mes cerrado el ${new Date(closed.closedAt).toLocaleDateString('es-CL')}. Puedes reabrirlo si necesitas corregir algo.`:'Lo que ingresó, salió y quedó disponible.';
-  let btn=document.getElementById('btn-close-month');if(btn){btn.textContent=closed?'↻ Reabrir mes':'✓ Cerrar mes';btn.className=`btn ${closed?'btn-outline':'btn-prim'} btn-sm`;}
-  renderBudgetSummary(month,year);
+    <div class="plan-summary-item"><div class="plan-summary-label">Ingresos registrados</div><div class="plan-summary-value money-counting" data-money="${t.ingresos}">$0</div></div>
+    <div class="plan-summary-item"><div class="plan-summary-label">Gastos registrados</div><div class="plan-summary-value money-counting" data-money="${t.gastos}">$0</div></div>
+    <div class="plan-summary-item"><div class="plan-summary-label">Ahorro registrado</div><div class="plan-summary-value money-counting" data-money="${t.ahorro}">$0</div></div>
+    <div class="plan-summary-item plan-summary-available ${free>0?'is-positive':free<0?'is-negative':'is-neutral'}"><div class="plan-summary-label">Disponible</div><div class="plan-summary-value money-counting" data-money="${free}">$0</div><small>${free>0?'Dinero libre después de gastos y ahorro':free<0?'Tus salidas superan los ingresos':'Sin saldo libre este mes'}</small></div>`;
+  let copy=document.getElementById('plan-month-copy');if(copy)copy.textContent='Tu control mensual, claro y sin volver a una planilla.';
+  animateMoneyValues(grid);
 }
 function renderBudgetSummary(month,year){
   let box=document.getElementById('res-budget-list');if(!box)return;let budgets=(window.db.presupuestos||[]).filter(x=>x.month===month&&x.year===year),cats=[...getAllCatsFijos(),...getAllCatsVar()];
@@ -7084,7 +7095,7 @@ function openCompareModal(){let {month,year}=selectedPlanPeriod(),prev=new Date(
 function parseMonthInput(v){let [y,m]=String(v||'').split('-').map(Number);return {year:y,month:m-1};}
 function renderMonthComparison(){let a=parseMonthInput(document.getElementById('compare-a').value),b=parseMonthInput(document.getElementById('compare-b').value);if(!a.year||!b.year)return;let A=periodTotals(a.month,a.year),B=periodTotals(b.month,b.year),delta=(v1,v2)=>`${v2-v1>=0?'+':'−'}$${formatMiles(Math.abs(v2-v1))}`,color=(v1,v2,goodUp=true)=>(v2>=v1)===goodUp?'var(--primary-dark)':'var(--danger)',cats=[...getAllCatsFijos(),...getAllCatsVar()].filter((x,i,all)=>all.findIndex(y=>y.id===x.id)===i),changes=cats.map(c=>({name:c.label,emoji:c.emoji,a:categorySpend(c.id,a.month,a.year),b:categorySpend(c.id,b.month,b.year)})).map(x=>({...x,d:x.b-x.a})).filter(x=>x.d).sort((x,y)=>Math.abs(y.d)-Math.abs(x.d)).slice(0,4),explain=changes[0]?`${changes[0].name} fue la categoría que más cambió: ${changes[0].d>0?'subió':'bajó'} $${formatMiles(Math.abs(changes[0].d))}.`:'No hubo cambios relevantes por categoría.';document.getElementById('compare-content').innerHTML=`<div class="compare-grid"><div class="compare-box"><strong>${FINSAVE_MONTHS[a.month]} ${a.year}</strong><p class="budget-meta">Ingresos $${formatMiles(A.ingresos)} · Gastos $${formatMiles(A.gastos)} · Ahorro $${formatMiles(A.ahorro)}</p></div><div class="compare-box"><strong>${FINSAVE_MONTHS[b.month]} ${b.year}</strong><p class="budget-meta">Ingresos $${formatMiles(B.ingresos)} · Gastos $${formatMiles(B.gastos)} · Ahorro $${formatMiles(B.ahorro)}</p></div></div><div class="card" style="box-shadow:none;margin-top:.8rem"><div class="annual-month-line"><span>Cambio en ingresos</span><strong style="color:${color(A.ingresos,B.ingresos)}">${delta(A.ingresos,B.ingresos)}</strong></div><div class="annual-month-line"><span>Cambio en gastos</span><strong style="color:${color(A.gastos,B.gastos,false)}">${delta(A.gastos,B.gastos)}</strong></div><div class="annual-month-line"><span>Cambio en ahorro</span><strong style="color:${color(A.ahorro,B.ahorro)}">${delta(A.ahorro,B.ahorro)}</strong></div><div class="annual-month-line"><span>Cambio en saldo</span><strong style="color:${color(A.saldo,B.saldo)}">${delta(A.saldo,B.saldo)}</strong></div></div><div class="info-banner new" style="margin-top:.8rem"><strong>Qué explica la diferencia</strong><br>${explain}</div>${changes.length?`<div class="card" style="box-shadow:none;margin-top:.8rem">${changes.map(x=>`<div class="annual-month-line"><span>${x.emoji} ${escAdmin(x.name)}</span><strong style="color:${x.d>0?'var(--danger)':'var(--primary-dark)'}">${x.d>0?'+':'−'}$${formatMiles(Math.abs(x.d))}</strong></div>`).join('')}</div>`:''}`;}
 
-function renderAnnualView(){let year=parseInt(document.getElementById('annual-year')?.value||new Date().getFullYear()),months=Array.from({length:12},(_,m)=>periodTotals(m,year)),totalIn=months.reduce((a,b)=>a+b.ingresos,0),totalOut=months.reduce((a,b)=>a+b.gastos,0),totalSave=months.reduce((a,b)=>a+b.ahorro,0);document.getElementById('annual-kpis').innerHTML=`<div class="kpi"><div class="kpi-lbl">Ingresos del año</div><div class="kpi-val g">$${formatMiles(totalIn)}</div></div><div class="kpi"><div class="kpi-lbl">Gastos del año</div><div class="kpi-val r">$${formatMiles(totalOut)}</div></div><div class="kpi"><div class="kpi-lbl">Ahorro registrado</div><div class="kpi-val p">$${formatMiles(totalSave)}</div></div><div class="kpi"><div class="kpi-lbl">Saldo acumulado</div><div class="kpi-val ${totalIn-totalOut>=0?'g':'r'}">$${formatMiles(totalIn-totalOut)}</div></div>`;document.getElementById('annual-grid').innerHTML=months.map((t,m)=>`<button class="annual-month" onclick="openAnnualMonth(${m},${year})" aria-label="Abrir ${FINSAVE_MONTHS[m]}"><div class="annual-month-name">${FINSAVE_MONTHS[m]} ${(window.db.cierresMensuales||[]).some(x=>x.month===m&&x.year===year)?'✓':''}</div><div class="annual-month-line"><span>Ingresos</span><strong>$${formatMiles(t.ingresos)}</strong></div><div class="annual-month-line"><span>Gastos</span><strong>$${formatMiles(t.gastos)}</strong></div><div class="annual-month-line"><span>Ahorro</span><strong>$${formatMiles(t.ahorro)}</strong></div><div class="annual-month-line"><span>Saldo</span><strong style="color:${t.saldo>=0?'var(--primary-dark)':'var(--danger)'}">$${formatMiles(t.saldo)}</strong></div></button>`).join('');}
+function renderAnnualView(){let year=parseInt(document.getElementById('annual-year')?.value||new Date().getFullYear()),months=Array.from({length:12},(_,m)=>periodTotals(m,year)),totalIn=months.reduce((a,b)=>a+b.ingresos,0),totalOut=months.reduce((a,b)=>a+b.gastos,0),totalSave=months.reduce((a,b)=>a+b.ahorro,0),kpis=document.getElementById('annual-kpis'),grid=document.getElementById('annual-grid');kpis.innerHTML=`<div class="kpi"><div class="kpi-lbl">Ingresos del año</div><div class="kpi-val g money-counting" data-money="${totalIn}">$0</div></div><div class="kpi"><div class="kpi-lbl">Gastos del año</div><div class="kpi-val r money-counting" data-money="${totalOut}">$0</div></div><div class="kpi"><div class="kpi-lbl">Ahorro registrado</div><div class="kpi-val p money-counting" data-money="${totalSave}">$0</div></div><div class="kpi"><div class="kpi-lbl">Saldo acumulado</div><div class="kpi-val ${totalIn-totalOut>=0?'g':'r'} money-counting" data-money="${totalIn-totalOut}">$0</div></div>`;grid.innerHTML=months.map((t,m)=>`<button class="annual-month" onclick="openAnnualMonth(${m},${year})" aria-label="Abrir ${FINSAVE_MONTHS[m]}"><div class="annual-month-name">${FINSAVE_MONTHS[m]} ${(window.db.cierresMensuales||[]).some(x=>x.month===m&&x.year===year)?'✓':''}</div><div class="annual-month-line"><span>Ingresos</span><strong class="money-counting" data-money="${t.ingresos}">$0</strong></div><div class="annual-month-line"><span>Gastos</span><strong class="money-counting" data-money="${t.gastos}">$0</strong></div><div class="annual-month-line"><span>Ahorro</span><strong class="money-counting" data-money="${t.ahorro}">$0</strong></div><div class="annual-month-line"><span>Saldo</span><strong class="money-counting" data-money="${t.saldo}" style="color:${t.saldo>=0?'var(--primary-dark)':'var(--danger)'}">$0</strong></div></button>`).join('');animateMoneyValues(kpis);animateMoneyValues(grid,520);}
 function openAnnualMonth(month,year){document.getElementById('res-month').value=month;document.getElementById('res-year').value=year;syncMonthSelectors(month);syncYearSelectors(year);goTo('resumen');}
 const FINSAVE_EXCEL={primary:'0A9B72',primaryDark:'08745A',navy:'14213D',mint:'E7F8F2',soft:'F5F8F7',line:'DDE8E4',white:'FFFFFF',muted:'6F7C8E',green:'138A68',red:'D94B63',amber:'C77612'};
 function excelStyle(kind='body'){let base={font:{name:'Questrial',sz:11,color:{rgb:FINSAVE_EXCEL.navy}},alignment:{vertical:'center'}};if(kind==='title')return {...base,font:{name:'Questrial',sz:22,bold:true,color:{rgb:FINSAVE_EXCEL.white}},fill:{fgColor:{rgb:FINSAVE_EXCEL.primaryDark}},alignment:{vertical:'center',horizontal:'left'}};if(kind==='subtitle')return {...base,font:{name:'Questrial',sz:11,color:{rgb:'DDF8EF'}},fill:{fgColor:{rgb:FINSAVE_EXCEL.primaryDark}},alignment:{vertical:'center',horizontal:'left'}};if(kind==='section')return {...base,font:{name:'Questrial',sz:12,bold:true,color:{rgb:FINSAVE_EXCEL.primaryDark}},fill:{fgColor:{rgb:FINSAVE_EXCEL.mint}},alignment:{vertical:'center',horizontal:'left'}};if(kind==='header')return {...base,font:{name:'Questrial',sz:11,bold:true,color:{rgb:FINSAVE_EXCEL.white}},fill:{fgColor:{rgb:FINSAVE_EXCEL.navy}},alignment:{vertical:'center',horizontal:'left',wrapText:true},border:{bottom:{style:'medium',color:{rgb:FINSAVE_EXCEL.primary}}}};if(kind==='kpiLabel')return {...base,font:{name:'Questrial',sz:10,bold:true,color:{rgb:FINSAVE_EXCEL.muted}},fill:{fgColor:{rgb:FINSAVE_EXCEL.soft}},alignment:{vertical:'center',horizontal:'left'}};if(kind==='kpiValue')return {...base,font:{name:'Questrial',sz:16,bold:true,color:{rgb:FINSAVE_EXCEL.primaryDark}},fill:{fgColor:{rgb:FINSAVE_EXCEL.soft}},alignment:{vertical:'center',horizontal:'left'},numFmt:'$#,##0;[Red]-$#,##0'};return base;}
@@ -7092,8 +7103,9 @@ function excelSet(ws,ref,value,style,type){ws[ref]={v:value,t:type||(typeof valu
 function excelMerge(ws,range,value,style){ws['!merges']=ws['!merges']||[];ws['!merges'].push(XLSX.utils.decode_range(range));excelSet(ws,range.split(':')[0],value,style);}
 function excelPaintTable(ws,headerRow,lastRow,lastCol,currencyCols=[],statusCol=''){let headerStyle=excelStyle('header'),bodyStyle=excelStyle();for(let c=0;c<lastCol;c++){let cell=ws[XLSX.utils.encode_cell({r:headerRow-1,c})];if(cell)cell.s=headerStyle;}for(let r=headerRow;r<lastRow;r++){for(let c=0;c<lastCol;c++){let ref=XLSX.utils.encode_cell({r,c}),cell=ws[ref];if(!cell)continue;cell.s={...bodyStyle,fill:{fgColor:{rgb:r%2?FINSAVE_EXCEL.white:FINSAVE_EXCEL.soft}},border:{bottom:{style:'thin',color:{rgb:FINSAVE_EXCEL.line}}}};if(currencyCols.includes(c))cell.s={...cell.s,numFmt:'$#,##0;[Red]-$#,##0',alignment:{vertical:'center',horizontal:'right'}};}if(statusCol){let cell=ws[`${statusCol}${r+1}`];if(cell){let good=['Cerrado','Pagado','Registrado'].includes(String(cell.v));cell.s={...cell.s,font:{name:'Questrial',sz:10,bold:true,color:{rgb:good?FINSAVE_EXCEL.green:FINSAVE_EXCEL.amber}},alignment:{vertical:'center',horizontal:'center'}};}}}ws['!autofilter']={ref:`A${headerRow}:${XLSX.utils.encode_col(lastCol-1)}${lastRow}`};}
 function excelAddBrand(ws,title,subtitle,lastCol){let end=XLSX.utils.encode_col(lastCol-1);excelMerge(ws,`A1:${end}2`,`💰  ${title}`,excelStyle('title'));excelMerge(ws,`A3:${end}3`,subtitle,excelStyle('subtitle'));ws['!rows']=ws['!rows']||[];ws['!rows'][0]={hpt:28};ws['!rows'][1]={hpt:16};ws['!rows'][2]={hpt:22};}
-function exportAnnualExcel(){if(!window.XLSX){showToast('Excel no disponible','err');return;}let year=parseInt(document.getElementById('annual-year').value),rows=Array.from({length:12},(_,month)=>{let t=periodTotals(month,year);return [FINSAVE_MONTHS[month],t.ingresos,t.gastos,t.ahorro,getTotalCreditosPeriodo(month,year),t.saldo,(window.db.cierresMensuales||[]).some(x=>x.month===month&&x.year===year)?'Cerrado':'En curso'];}),totals=rows.reduce((a,r)=>(a.ingresos+=r[1],a.gastos+=r[2],a.ahorro+=r[3],a.deuda+=r[4],a.saldo+=r[5],a),{ingresos:0,gastos:0,ahorro:0,deuda:0,saldo:0}),wb=XLSX.utils.book_new(),ws=XLSX.utils.aoa_to_sheet([]);excelAddBrand(ws,`Finsave · Vista anual ${year}`,`Tu año financiero en una sola vista · Generado el ${new Date().toLocaleDateString('es-CL')}`,7);excelMerge(ws,'A5:B5','INGRESOS DEL AÑO',excelStyle('kpiLabel'));excelMerge(ws,'A6:B6',totals.ingresos,excelStyle('kpiValue'));excelMerge(ws,'C5:D5','GASTOS DEL AÑO',excelStyle('kpiLabel'));excelMerge(ws,'C6:D6',totals.gastos,excelStyle('kpiValue'));excelMerge(ws,'E5:G5','BALANCE DEL AÑO',excelStyle('kpiLabel'));excelMerge(ws,'E6:G6',totals.saldo,excelStyle('kpiValue'));excelMerge(ws,'A8:G8','DETALLE MES A MES',excelStyle('section'));XLSX.utils.sheet_add_aoa(ws,[['Mes','Ingresos','Gastos','Ahorro','Deuda pagada','Saldo','Estado'],...rows,['TOTAL',totals.ingresos,totals.gastos,totals.ahorro,totals.deuda,totals.saldo,'']],{origin:'A9'});excelPaintTable(ws,9,21,7,[1,2,3,4,5],'G');delete ws['!autofilter'];for(let c=0;c<7;c++){let cell=ws[XLSX.utils.encode_cell({r:21,c})];if(cell)cell.s={...excelStyle('header'),alignment:{vertical:'center',horizontal:c?'right':'left'},numFmt:c>0&&c<6?'$#,##0;[Red]-$#,##0':undefined};}ws['!cols']=[{wch:18},{wch:18},{wch:18},{wch:18},{wch:20},{wch:18},{wch:16}];ws['!rows'][4]={hpt:22};ws['!rows'][5]={hpt:30};ws['!rows'][7]={hpt:24};ws['!rows'][8]={hpt:25};for(let i=9;i<22;i++)ws['!rows'][i]={hpt:22};ws['!sheetViews']=[{showGridLines:false}];XLSX.utils.book_append_sheet(wb,ws,`Resumen ${year}`);wb.Props={Title:`Finsave · Vista anual ${year}`,Subject:'Resumen financiero anual',Author:'Finsave',Company:'Finsave'};XLSX.writeFile(wb,`Finsave-Vista-Anual-${year}.xlsx`,{cellStyles:true});}
+function exportAnnualExcel(){if(!requirePlanFeature('exports'))return;if(!window.XLSX){showToast('Excel no disponible','err');return;}let year=parseInt(document.getElementById('annual-year').value),rows=Array.from({length:12},(_,month)=>{let t=periodTotals(month,year);return [FINSAVE_MONTHS[month],t.ingresos,t.gastos,t.ahorro,getTotalCreditosPeriodo(month,year),t.saldo,(window.db.cierresMensuales||[]).some(x=>x.month===month&&x.year===year)?'Cerrado':'En curso'];}),totals=rows.reduce((a,r)=>(a.ingresos+=r[1],a.gastos+=r[2],a.ahorro+=r[3],a.deuda+=r[4],a.saldo+=r[5],a),{ingresos:0,gastos:0,ahorro:0,deuda:0,saldo:0}),wb=XLSX.utils.book_new(),ws=XLSX.utils.aoa_to_sheet([]);excelAddBrand(ws,`Finsave · Vista anual ${year}`,`Tu año financiero en una sola vista · Generado el ${new Date().toLocaleDateString('es-CL')}`,7);excelMerge(ws,'A5:B5','INGRESOS DEL AÑO',excelStyle('kpiLabel'));excelMerge(ws,'A6:B6',totals.ingresos,excelStyle('kpiValue'));excelMerge(ws,'C5:D5','GASTOS DEL AÑO',excelStyle('kpiLabel'));excelMerge(ws,'C6:D6',totals.gastos,excelStyle('kpiValue'));excelMerge(ws,'E5:G5','BALANCE DEL AÑO',excelStyle('kpiLabel'));excelMerge(ws,'E6:G6',totals.saldo,excelStyle('kpiValue'));excelMerge(ws,'A8:G8','DETALLE MES A MES',excelStyle('section'));XLSX.utils.sheet_add_aoa(ws,[['Mes','Ingresos','Gastos','Ahorro','Deuda pagada','Saldo','Estado'],...rows,['TOTAL',totals.ingresos,totals.gastos,totals.ahorro,totals.deuda,totals.saldo,'']],{origin:'A9'});excelPaintTable(ws,9,21,7,[1,2,3,4,5],'G');delete ws['!autofilter'];for(let c=0;c<7;c++){let cell=ws[XLSX.utils.encode_cell({r:21,c})];if(cell)cell.s={...excelStyle('header'),alignment:{vertical:'center',horizontal:c?'right':'left'},numFmt:c>0&&c<6?'$#,##0;[Red]-$#,##0':undefined};}ws['!cols']=[{wch:18},{wch:18},{wch:18},{wch:18},{wch:20},{wch:18},{wch:16}];ws['!rows'][4]={hpt:22};ws['!rows'][5]={hpt:30};ws['!rows'][7]={hpt:24};ws['!rows'][8]={hpt:25};for(let i=9;i<22;i++)ws['!rows'][i]={hpt:22};ws['!sheetViews']=[{showGridLines:false}];XLSX.utils.book_append_sheet(wb,ws,`Resumen ${year}`);wb.Props={Title:`Finsave · Vista anual ${year}`,Subject:'Resumen financiero anual',Author:'Finsave',Company:'Finsave'};XLSX.writeFile(wb,`Finsave-Vista-Anual-${year}.xlsx`,{cellStyles:true});}
 function exportMonthExcel(){
+  if(!requirePlanFeature('exports'))return;
   if(!window.XLSX){showToast('Excel no disponible','err');return;}
   let {month,year}=selectedPlanPeriod();
   let cats=[...getAllCatsFijos(),...getAllCatsVar()];
@@ -7199,13 +7211,11 @@ function renderGlobalSearch(){let box=document.getElementById('global-search-res
 /* ══════════════ VISTA MENSUAL PERSONALIZABLE ══════════════ */
 const MONTHLY_MODULES=[
   {id:'plan-month-card',label:'Resumen del mes'},
-  {id:'monthly-budget-card',label:'Límites del mes'},
   {id:'monthly-balance-card',label:'Balance operacional'},
   {id:'monthly-income-card',label:'Flujos de ingresos'},
   {id:'monthly-categories-card',label:'Distribución de egresos'},
   {id:'monthly-paid-card',label:'Gastos vs pagado'},
   {id:'monthly-expenses-card',label:'Flujos de gastos'},
-  {id:'monthly-diagnosis-card',label:'Diagnóstico Finsave'},
   {id:'monthly-savings-card',label:'Ahorro anual'}
 ];
 function monthlyViewState(){
@@ -7329,32 +7339,14 @@ function renderResumen() {
       : outMes.map(x=>`<tr><td>${x.desc}</td><td style="color:var(--danger);font-weight:700">-$${formatMiles(x.monto)}</td></tr>`).join('');
   }
 
-  let alerts = document.getElementById('res-alerts');
-  alerts.innerHTML = '';
-  if (balanceo < 0) alerts.innerHTML += '<div class="diagnostico-item danger">⚠️ Tus gastos superan tus ingresos este período. Revisa tus egresos.</div>';
-  if (totalCred > (totalIn * 0.3) && totalIn > 0) alerts.innerHTML += '<div class="diagnostico-item warn">⚠️ Endeudamiento crítico: tu carga de deuda supera el 30% recomendado.</div>';
-  if (totalFijos > (totalIn * 0.5) && totalIn > 0) alerts.innerHTML += '<div class="diagnostico-item warn">📌 Más del 50% de tus ingresos van a gastos fijos. Considera reducirlos.</div>';
-  if (balanceo >= 0 && totalCred <= (totalIn * 0.3)) alerts.innerHTML += '<div class="diagnostico-item ok">🛡️ Salud financiera óptima para el período seleccionado.</div>';
-  if (!alerts.innerHTML) alerts.innerHTML = '<div class="diagnostico-item info">📊 Agrega ingresos y gastos para ver tu diagnóstico.</div>';
-
-  // Gráfico doughnut
+  // Distribución en barras: permite comparar montos sin depender de áreas o ángulos.
   let allCats = [...getAllCatsFijos(),...getAllCatsVar()];
   let catMap = {}; allCats.forEach(c=>{ catMap[c.id]=`${c.emoji} ${c.label}`; });
   let catData = {};
   window.db.gastosFijos.filter(x=>x.month===m&&x.year===y).forEach(x=>{ catData[x.cat]=(catData[x.cat]||0)+x.monto; });
   window.db.gastosVariables.filter(x=>x.month===m&&x.year===y).forEach(x=>{ catData[x.cat]=(catData[x.cat]||0)+x.monto; });
-  let labels = Object.keys(catData).filter(k=>catData[k]>0).map(k=>catMap[k]||k);
-  let values = Object.keys(catData).filter(k=>catData[k]>0).map(k=>catData[k]);
-
-  if (window.chartCatsRef) window.chartCatsRef.destroy();
-  let ctx1 = document.getElementById('chart-cats');
-  if (ctx1 && labels.length > 0) {
-    window.chartCatsRef = new Chart(ctx1, {
-      type:'doughnut',
-      data:{ labels, datasets:[{ data:values, backgroundColor:['#10B981','#10B981','#3b82f6','#7c3aed','#f59e0b','#ef4444','#ec4899','#14b8a6','#6b7280','#f97316','#84cc16'] }] },
-      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, position:'bottom', labels:{ font:{ family:'Questrial', size:11 }, padding:10 } } } }
-    });
-  }
+  let ranked=Object.entries(catData).filter(([,value])=>value>0).sort((a,b)=>b[1]-a[1]),maxCategory=ranked[0]?.[1]||1,ranking=document.getElementById('expense-ranking');
+  if(ranking)ranking.innerHTML=ranked.length?ranked.map(([key,value],index)=>`<div class="expense-rank-row"><div class="expense-rank-name">${index+1}. ${escAdmin(catMap[key]||key)}</div><div class="expense-rank-track"><div class="expense-rank-fill" style="width:${Math.max(4,value/maxCategory*100)}%;animation-delay:${index*.06}s"></div></div><div class="expense-rank-value">$${formatMiles(value)} · ${totalOut?Math.round(value/totalOut*100):0}%</div></div>`).join(''):'<div class="expense-ranking-empty">Registra gastos para ver cómo se distribuye tu dinero.</div>';
 
   // Gastos vs Pagado (mes seleccionado)
   let ffMesGP = window.db.gastosFijos.filter(x=>x.month===m&&x.year===y);
