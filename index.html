@@ -1282,6 +1282,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   .sidebar{height:100dvh!important;max-height:100dvh!important;padding-bottom:calc(env(safe-area-inset-bottom) + 18px)!important;overscroll-behavior:contain}.sidebar .sb-bottom{flex:0 0 auto!important;margin-top:1rem!important}
   .modal-over{padding:env(safe-area-inset-top) 0 0!important;align-items:flex-end!important;overflow:hidden!important}.modal{width:100vw!important;max-width:100vw!important;max-height:calc(100dvh - env(safe-area-inset-top))!important;margin:0!important;padding:22px 18px calc(22px + env(safe-area-inset-bottom))!important;border-radius:26px 26px 0 0!important;overflow-x:hidden!important;overflow-y:auto!important;box-sizing:border-box!important}.modal .form-row,.modal .g2{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important}.modal .fg,.modal input,.modal select,.modal textarea{min-width:0!important;max-width:100%!important;width:100%!important;box-sizing:border-box!important}.modal input[type="date"],.modal input[type="month"],.modal input[type="datetime-local"]{-webkit-appearance:none;appearance:none;font-size:16px!important}
   .annual-controls{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important}.annual-controls select,.annual-controls .btn{width:100%!important;min-width:0!important;min-height:48px!important;height:48px!important;padding:.55rem .7rem!important;font-size:.7rem!important}.pg-actions .btn{min-height:48px!important;height:auto!important;padding:.7rem .65rem!important;font-size:.7rem!important;line-height:1.2!important}
+  #monthly-balance-card{padding:14px!important;padding-bottom:14px!important}.balance-series-explainer{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;margin:0 0 8px!important}.series-explainer-item{min-width:0!important;min-height:52px!important;gap:6px!important;padding:7px 6px!important;border-radius:11px!important}.series-explainer-item>span{width:5px!important;height:28px!important;flex:0 0 5px!important}.series-explainer-item div{min-width:0!important}.series-explainer-item strong{font-size:.6rem!important;line-height:1.15!important;white-space:normal!important}.series-explainer-item small{display:none!important}.balance-chart-wrap{margin-top:6px!important;padding:8px 2px 4px!important}.balance-chart-wrap .chart-box-lg{height:230px!important}.balance-tip{margin-top:8px!important;padding:.55rem .65rem!important;font-size:.66rem!important;line-height:1.35!important}
   .support-chat-launch{bottom:calc(var(--mobile-nav-h) + env(safe-area-inset-bottom) + 14px)!important;right:14px!important;width:48px!important;height:48px!important;border-radius:15px!important}
 }
 @media(max-width:380px){.card{padding:14px!important}.expense-rank-value{font-size:.72rem!important}.mobile-app-nav{padding-left:3px;padding-right:3px}.mobile-app-nav button{font-size:.54rem}}
@@ -1457,7 +1458,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
 <div id="app" class="hidden">
   <div class="topbar">
     <button class="burger" onclick="toggleSidebar()" aria-label="Abrir menú">☰</button>
-    <div class="topbar-brand"><span class="topbar-money">💰</span><span>Finsave</span></div>
+    <div class="topbar-brand" style="transform:translateX(-54px)!important"><span class="topbar-money">💰</span><span>Finsave</span></div>
     <div class="topbar-actions">
       <button class="topbar-profile" onclick="goTo('perfil')" aria-label="Abrir perfil"><span class="sb-av" id="top-av">JP</span></button>
       <button class="topbar-logout" onclick="doLogout()" aria-label="Cerrar sesión" title="Cerrar sesión">↪</button>
@@ -7502,8 +7503,8 @@ function renderResumen() {
           }
         },
         scales:{
-          x:{ grid:{ display:false }, border:{ display:false }, ticks:{ color:'#64748B', font:{ family:'Questrial', size:11 } } },
-          y:{ grid:{ color:'#F1F5F9' }, border:{ display:false }, ticks:{ color:'#64748B', font:{ family:'Questrial', size:11 }, callback:v=>'$'+formatMiles(Math.abs(v)) } }
+          x:{ grid:{ display:false }, border:{ display:false }, ticks:{ color:'#64748B', autoSkip:true, maxTicksLimit:6, maxRotation:0, minRotation:0, font:{ family:'Montserrat', size:10, weight:'500' } } },
+          y:{ grid:{ color:'#F1F5F9' }, border:{ display:false }, ticks:{ color:'#64748B', maxTicksLimit:6, font:{ family:'Montserrat', size:9, weight:'500' }, callback:v=>(v<0?'-$':'$')+formatMiles(Math.abs(v)) } }
         }
       }
     });
