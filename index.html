@@ -1673,11 +1673,14 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   <div class="card">
     <div class="card-head">
       <div><div class="card-title">Ganancias Registradas</div><div class="card-sub">Ingresos percibidos para el mes seleccionado</div></div>
-      <button class="btn btn-prim btn-sm" onclick="openModal('mod-ing')">＋ Agregar</button>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-danger btn-sm hidden" id="ing-delete-selected" onclick="deleteSelectedIngresos()">🗑 Eliminar seleccionados</button>
+        <button class="btn btn-prim btn-sm" onclick="openModal('mod-ing')">＋ Agregar</button>
+      </div>
     </div>
     <div class="tbl-wrap">
       <table>
-        <thead><tr><th>Descripción</th><th>Monto</th><th>Acciones</th></tr></thead>
+        <thead><tr><th><input type="checkbox" id="ing-select-all" aria-label="Seleccionar todos los ingresos" onchange="toggleAllIngresos(this.checked)"></th><th>Descripción</th><th>Monto</th><th>Acciones</th></tr></thead>
         <tbody id="ing-tbody"></tbody>
       </table>
     </div>
@@ -1711,13 +1714,14 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
       <div class="card-head">
         <div><div class="card-title">Listado de Gastos Fijos</div><div class="card-sub">Compromisos financieros recurrentes</div></div>
         <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <button class="btn btn-danger btn-sm hidden" id="gf-delete-selected" onclick="deleteSelectedGastos('fijos')">🗑 Eliminar seleccionados</button>
           <button class="btn btn-ghost btn-sm" onclick="duplicarTodosGastosFijos()">🔁 Duplicar al próximo mes</button>
           <button class="btn btn-prim btn-sm" onclick="openModal('mod-gf')">＋ Agregar</button>
         </div>
       </div>
       <div class="tbl-wrap tbl-cards">
         <table>
-          <thead><tr><th>Descripción</th><th>Categoría</th><th>Monto</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <thead><tr><th><input type="checkbox" id="gf-select-all" aria-label="Seleccionar todos los gastos fijos" onchange="toggleAllGastos('fijos',this.checked)"></th><th>Descripción</th><th>Categoría</th><th>Monto</th><th>Estado</th><th>Acciones</th></tr></thead>
           <tbody id="gf-tbody"></tbody>
         </table>
       </div>
@@ -1727,11 +1731,11 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
     <div class="card">
       <div class="card-head">
         <div><div class="card-title">Gastos Variables</div><div class="card-sub">Transacciones y desembolsos esporádicos</div></div>
-        <button class="btn btn-prim btn-sm" onclick="openModal('mod-gv')">＋ Registrar</button>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="btn btn-danger btn-sm hidden" id="gv-delete-selected" onclick="deleteSelectedGastos('variables')">🗑 Eliminar seleccionados</button><button class="btn btn-prim btn-sm" onclick="openModal('mod-gv')">＋ Registrar</button></div>
       </div>
       <div class="tbl-wrap tbl-cards">
         <table>
-          <thead><tr><th>Fecha</th><th>Descripción</th><th>Categoría</th><th>Monto</th><th>Acciones</th></tr></thead>
+          <thead><tr><th><input type="checkbox" id="gv-select-all" aria-label="Seleccionar todos los gastos variables" onchange="toggleAllGastos('variables',this.checked)"></th><th>Fecha</th><th>Descripción</th><th>Categoría</th><th>Monto</th><th>Acciones</th></tr></thead>
           <tbody id="gv-tbody"></tbody>
         </table>
       </div>
@@ -5093,15 +5097,43 @@ function delIngreso(id) {
   saveDB(); showToast('Ingreso eliminado', 'err'); renderIngresos();
 }
 
+let selectedIngresoIds = new Set();
+let selectedGastoFijoIds = new Set();
+let selectedGastoVariableIds = new Set();
+
+function refreshBulkActionButtons() {
+  document.getElementById('ing-delete-selected')?.classList.toggle('hidden', selectedIngresoIds.size === 0);
+  document.getElementById('gf-delete-selected')?.classList.toggle('hidden', selectedGastoFijoIds.size === 0);
+  document.getElementById('gv-delete-selected')?.classList.toggle('hidden', selectedGastoVariableIds.size === 0);
+}
+
+function toggleIngresoSelection(id, checked) {
+  if (checked) selectedIngresoIds.add(id); else selectedIngresoIds.delete(id);
+  refreshBulkActionButtons();
+}
+
+function toggleAllIngresos(checked) {
+  let m = parseInt(document.getElementById('ing-month').value), y = parseInt(document.getElementById('ing-year').value);
+  window.db.ingresos.filter(x => x.month === m && x.year === y).forEach(x => checked ? selectedIngresoIds.add(x.id) : selectedIngresoIds.delete(x.id));
+  renderIngresos();
+}
+
+function deleteSelectedIngresos() {
+  if (!selectedIngresoIds.size || !confirm(`¿Eliminar ${selectedIngresoIds.size} ingreso(s) seleccionado(s)?`)) return;
+  window.db.ingresos = window.db.ingresos.filter(x => !selectedIngresoIds.has(x.id));
+  selectedIngresoIds.clear(); saveDB(); renderIngresos(); showToast('Ingresos seleccionados eliminados', 'err');
+}
+
 function renderIngresos() {
   let m = parseInt(document.getElementById('ing-month').value);
   let y = parseInt(document.getElementById('ing-year').value);
   let f = window.db.ingresos.filter(x => x.month === m && x.year === y);
   let b = document.getElementById('ing-tbody');
   b.innerHTML = '';
-  if (f.length === 0) { b.innerHTML = '<tr><td colspan="3" class="tbl-empty">No hay ingresos este mes</td></tr>'; return; }
+  if (f.length === 0) { b.innerHTML = '<tr><td colspan="4" class="tbl-empty">No hay ingresos este mes</td></tr>'; refreshBulkActionButtons(); return; }
   f.forEach(x => {
     b.innerHTML += `<tr>
+      <td><input type="checkbox" aria-label="Seleccionar ingreso" ${selectedIngresoIds.has(x.id)?'checked':''} onchange="toggleIngresoSelection(${x.id},this.checked)"></td>
       <td>${x.desc}</td>
       <td>$${formatMiles(x.monto)}</td>
       <td class="act-btns">
@@ -5110,6 +5142,9 @@ function renderIngresos() {
       </td>
     </tr>`;
   });
+  let all = document.getElementById('ing-select-all');
+  if (all) { all.checked = !!f.length && f.every(x => selectedIngresoIds.has(x.id)); all.indeterminate = f.some(x => selectedIngresoIds.has(x.id)) && !all.checked; }
+  refreshBulkActionButtons();
 }
 
 /* ══════════════ GASTOS ══════════════ */
@@ -5245,6 +5280,27 @@ function delGastoVar(id) {
   saveDB(); showToast('Transacción eliminada', 'err'); renderGastos();
 }
 
+function gastoSelectionSet(tipo) { return tipo === 'fijos' ? selectedGastoFijoIds : selectedGastoVariableIds; }
+function toggleGastoSelection(tipo, id, checked) {
+  let set = gastoSelectionSet(tipo);
+  if (checked) set.add(id); else set.delete(id);
+  refreshBulkActionButtons();
+}
+function toggleAllGastos(tipo, checked) {
+  let m = parseInt(document.getElementById('gas-month').value), y = parseInt(document.getElementById('gas-year').value);
+  let items = (tipo === 'fijos' ? window.db.gastosFijos : window.db.gastosVariables).filter(x => x.month === m && x.year === y && !(tipo === 'fijos' && x.creditoId));
+  let set = gastoSelectionSet(tipo);
+  items.forEach(x => checked ? set.add(x.id) : set.delete(x.id));
+  renderGastos();
+}
+function deleteSelectedGastos(tipo) {
+  let set = gastoSelectionSet(tipo);
+  if (!set.size || !confirm(`¿Eliminar ${set.size} gasto(s) seleccionado(s)?`)) return;
+  if (tipo === 'fijos') window.db.gastosFijos = window.db.gastosFijos.filter(x => !set.has(x.id) || x.creditoId);
+  else window.db.gastosVariables = window.db.gastosVariables.filter(x => !set.has(x.id));
+  set.clear(); saveDB(); renderGastos(); showToast('Gastos seleccionados eliminados', 'err');
+}
+
 function renderGastos() {
   syncGastosCreditos();
   let m = parseInt(document.getElementById('gas-month').value);
@@ -5261,7 +5317,7 @@ function renderGastos() {
   let bf = document.getElementById('gf-tbody');
   bf.innerHTML = '';
   if (ff.length === 0) {
-    bf.innerHTML = '<tr><td colspan="5" class="tbl-empty">No hay gastos fijos presupuestados</td></tr>';
+    bf.innerHTML = '<tr><td colspan="6" class="tbl-empty">No hay gastos fijos presupuestados</td></tr>';
   } else {
     ff.forEach(x => {
       let esCredito = !!x.creditoId;
@@ -5275,6 +5331,7 @@ function renderGastos() {
           <button class="btn-act" title="Editar" onclick="editGastoFijo(${x.id})">✏️</button>
           <button class="btn-act" title="Eliminar" onclick="delGastoFijo(${x.id})">🗑️</button>`;
 bf.innerHTML += `<tr>
+        <td><input type="checkbox" aria-label="Seleccionar gasto fijo" ${esCredito?'disabled title="Las cuotas se administran desde Créditos"':''} ${selectedGastoFijoIds.has(x.id)?'checked':''} onchange="toggleGastoSelection('fijos',${x.id},this.checked)"></td>
         <td data-label="Descripción">${x.desc}</td>
         <td data-label="Categoría"><span class="tag tag-b">${catLbl}</span></td>
         <td data-label="Monto">$${formatMiles(x.monto)}</td>
@@ -5287,13 +5344,14 @@ bf.innerHTML += `<tr>
   let jv = document.getElementById('gv-tbody');
   jv.innerHTML = '';
   if (fv.length === 0) {
-    jv.innerHTML = '<tr><td colspan="5" class="tbl-empty">No hay gastos diarios registrados</td></tr>';
+    jv.innerHTML = '<tr><td colspan="6" class="tbl-empty">No hay gastos diarios registrados</td></tr>';
   } else {
     fv.forEach(x => {
       let parts = (x.dateStr || '').split('-');
       let fShow = parts.length >= 3 ? parts[2] + '/' + parts[1] : x.dateStr;
       let catLbl = getCatLabel(catsVar, x.cat);
 jv.innerHTML += `<tr>
+        <td><input type="checkbox" aria-label="Seleccionar gasto variable" ${selectedGastoVariableIds.has(x.id)?'checked':''} onchange="toggleGastoSelection('variables',${x.id},this.checked)"></td>
         <td data-label="Fecha">${fShow}</td>
         <td data-label="Descripción">${x.desc}</td>
         <td data-label="Categoría"><span class="tag tag-p">${catLbl}</span></td>
@@ -5306,6 +5364,11 @@ jv.innerHTML += `<tr>
       </tr>`;
     });
   }
+  let gfAll=document.getElementById('gf-select-all'),gfSelectable=ff.filter(x=>!x.creditoId);
+  if(gfAll){gfAll.checked=!!gfSelectable.length&&gfSelectable.every(x=>selectedGastoFijoIds.has(x.id));gfAll.indeterminate=gfSelectable.some(x=>selectedGastoFijoIds.has(x.id))&&!gfAll.checked;}
+  let gvAll=document.getElementById('gv-select-all');
+  if(gvAll){gvAll.checked=!!fv.length&&fv.every(x=>selectedGastoVariableIds.has(x.id));gvAll.indeterminate=fv.some(x=>selectedGastoVariableIds.has(x.id))&&!gvAll.checked;}
+  refreshBulkActionButtons();
 }
 
 /* ══════════════ DUPLICAR GASTOS AL PRÓXIMO MES ══════════════ */
@@ -7704,7 +7767,7 @@ function renderResumen() {
     return 'gasto-variable';
   }
 
-  function pdfItemsToLines(items) {
+  function pdfItemsToRows(items) {
     const placed = items.filter(item => item.str && item.str.trim()).map(item => ({
       text: item.str.trim(), x: item.transform[4], y: item.transform[5]
     })).sort((a, b) => Math.abs(b.y - a.y) > 2.5 ? b.y - a.y : a.x - b.x);
@@ -7714,7 +7777,31 @@ function renderResumen() {
       if (!line) { line = { y: item.y, items: [] }; lines.push(line); }
       line.items.push(item);
     });
-    return lines.sort((a, b) => b.y - a.y).map(line => line.items.sort((a, b) => a.x - b.x).map(item => item.text).join('  '));
+    return lines.sort((a, b) => b.y - a.y).map(line => ({...line,items:line.items.sort((a,b)=>a.x-b.x)}));
+  }
+
+  function pdfRowsToLines(positionedRows) {
+    return positionedRows.map(row => row.items.map(item => item.text).join('  '));
+  }
+
+  function scotiabankExtractor(lines, context) {
+    const output = [];
+    (context.positionedRows || []).forEach((row, index) => {
+      const dateItem = row.items.find(item => item.x < 108 && /^\d{2}\/\d{2}\/\d{4}$/.test(item.text));
+      if (!dateItem) return;
+      const date = isoDate(dateItem.text, context.year);
+      const description = row.items.filter(item => item.x >= 108 && item.x < 298).map(item => item.text).join(' ').trim();
+      const cargoItem = row.items.find(item => item.x >= 350 && item.x < 425 && /^-?[\d.]+$/.test(item.text));
+      const abonoItem = row.items.find(item => item.x >= 425 && item.x < 490 && /^-?[\d.]+$/.test(item.text));
+      const type = abonoItem ? 'ingreso' : 'gasto-variable';
+      const amount = Math.abs(parseMoney(abonoItem?.text || cargoItem?.text || ''));
+      if (!date || !description || !amount) return;
+      output.push({
+        date, description, type, category: categoryFor(description, type),
+        amount, included: true, sourceLine: index + 1
+      });
+    });
+    return output;
   }
 
   function genericExtractor(lines, context) {
@@ -7753,6 +7840,7 @@ function renderResumen() {
   }
 
   const EXTRACTORS = [
+    { id: 'scotiabank', name: 'Scotiabank Chile', detects: text => /scotiabank|scotiadigital|consulta detalle de cartola emitida/.test(text), extract: scotiabankExtractor },
     { id: 'bancoestado', name: 'BancoEstado', detects: text => /bancoestado|banco del estado de chile/.test(text), extract: genericExtractor },
     { id: 'santander', name: 'Santander', detects: text => /banco santander|santander chile/.test(text), extract: genericExtractor },
     { id: 'generic', name: 'Formato bancario genérico', detects: () => true, extract: genericExtractor }
@@ -7762,12 +7850,14 @@ function renderResumen() {
     const pdfjs = window.pdfjsLib || await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs');
     pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
     const pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
-    const pages = [];
+    const pages = [], positionedRows = [];
     for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
       const page = await pdf.getPage(pageNumber);
-      pages.push(...pdfItemsToLines((await page.getTextContent()).items));
+      const pageRows = pdfItemsToRows((await page.getTextContent()).items);
+      positionedRows.push(...pageRows);
+      pages.push(...pdfRowsToLines(pageRows));
     }
-    return { lines: pages, pages: pdf.numPages };
+    return { lines: pages, positionedRows, pages: pdf.numPages };
   }
 
   function categoriesOptions(selected) {
@@ -7790,7 +7880,7 @@ function renderResumen() {
         <td><input type="date" value="${escapeHtml(row.date)}" onchange="updateBankStatementRow(${i},'date',this.value)"></td>
         <td><input type="text" maxlength="160" value="${escapeHtml(row.description)}" onchange="updateBankStatementRow(${i},'description',this.value)"></td>
         <td><select onchange="updateBankStatementRow(${i},'type',this.value)"><option value="gasto-variable" ${row.type === 'gasto-variable' ? 'selected' : ''}>Cargo · gasto</option><option value="ingreso" ${row.type === 'ingreso' ? 'selected' : ''}>Abono · ingreso</option></select></td>
-        <td><select ${row.type === 'ingreso' ? 'disabled' : ''} onchange="updateBankStatementRow(${i},'category',this.value)"><option value="otros">📦 Otros</option>${categoriesOptions(row.category)}</select></td>
+        <td><div style="display:flex;gap:.35rem;align-items:center"><select ${row.type === 'ingreso' ? 'disabled' : ''} onchange="updateBankStatementRow(${i},'category',this.value)">${categoriesOptions(row.category)}</select><button type="button" class="btn-act" ${row.type === 'ingreso' ? 'disabled' : ''} title="Crear categoría" onclick="addBankStatementCategory(${i})">＋</button></div></td>
         <td><input class="amount-input" inputmode="numeric" value="${escapeHtml(window.formatMiles ? window.formatMiles(row.amount) : row.amount)}" onchange="updateBankStatementRow(${i},'amount',this.value)"></td>
         <td>${validateRow(row) ? '✅ Lista' : '⚠️ Corrige los datos'}</td>
       </tr>`).join('')}</tbody></table>`;
@@ -7822,7 +7912,8 @@ function renderResumen() {
       if (!content.lines.join('').trim()) throw new Error('El PDF no contiene texto seleccionable. Los documentos escaneados todavía no son compatibles.');
       const fullText = content.lines.join('\n');
       const extractor = EXTRACTORS.find(candidate => candidate.detects(norm(fullText)));
-      rows = extractor.extract(content.lines, { year: findStatementYear(fullText, file.name), filename: file.name });
+      rows = extractor.extract(content.lines, { year: findStatementYear(fullText, file.name), filename: file.name, positionedRows: content.positionedRows });
+      rows.forEach((row,index)=>{row.importKey=`${norm(file.name)}|${row.sourceLine||index+1}|${row.date}|${row.type}|${row.amount}`;});
       sourceName = file.name;
       if (!rows.length) throw new Error('No encontramos movimientos con fecha y monto. Puede ser un formato bancario aún no compatible.');
       status.textContent = `${file.name} · ${content.pages} página(s) · ${extractor.name}`;
@@ -7843,6 +7934,24 @@ function renderResumen() {
     render();
   };
 
+  window.addBankStatementCategory = function (index) {
+    if (!rows[index] || rows[index].type === 'ingreso') return;
+    const label = prompt('Nombre de la nueva categoría:')?.trim();
+    if (!label) return;
+    const existing = (window.getAllCatsVar?.() || []).find(cat => norm(cat.label) === norm(label));
+    if (existing) { rows[index].category = existing.id; render(); return; }
+    const baseId = norm(label).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'categoria';
+    let id = `custom-${baseId}`, suffix = 2;
+    const used = new Set((window.getAllCatsVar?.() || []).map(cat => cat.id));
+    while (used.has(id)) id = `custom-${baseId}-${suffix++}`;
+    window.db.customCatsVar = window.db.customCatsVar || [];
+    window.db.customCatsVar.push({id, emoji:'🏷️', label});
+    rows[index].category = id;
+    window.saveDB();
+    render();
+    window.showToast(`Categoría "${label}" creada`);
+  };
+
   window.toggleAllStatementRows = function () {
     const select = rows.some(row => !row.included);
     rows.forEach(row => { row.included = select; });
@@ -7860,12 +7969,12 @@ function renderResumen() {
     const stamp = Date.now();
     selected.forEach((row, index) => {
       const date = new Date(`${row.date}T12:00:00`);
-      const base = { id: stamp + index, dateStr: row.date, date: row.date, month: date.getMonth(), year: date.getFullYear(), desc: row.description.trim(), monto: row.amount, importSource: sourceName };
+      const base = { id: stamp + index, dateStr: row.date, date: row.date, month: date.getMonth(), year: date.getFullYear(), desc: row.description.trim(), monto: row.amount, importSource: sourceName, importKey: row.importKey };
       if (row.type === 'ingreso') {
-        const duplicate = window.db.ingresos.some(item => item.month === base.month && item.year === base.year && item.desc === base.desc && item.monto === base.monto);
+        const duplicate = window.db.ingresos.some(item => item.importKey ? item.importKey === base.importKey : item.month === base.month && item.year === base.year && item.desc === base.desc && item.monto === base.monto);
         if (duplicate) duplicates++; else { window.db.ingresos.push(base); added++; }
       } else {
-        const duplicate = window.db.gastosVariables.some(item => (item.dateStr || item.date) === row.date && item.desc === base.desc && item.monto === base.monto);
+        const duplicate = window.db.gastosVariables.some(item => item.importKey ? item.importKey === base.importKey : (item.dateStr || item.date) === row.date && item.desc === base.desc && item.monto === base.monto);
         if (duplicate) duplicates++; else { window.db.gastosVariables.push({ ...base, cat: row.category || 'otros' }); added++; }
         const key = norm(row.description).split(' ').slice(0, 3).join(' ');
         if (key.length >= 4) {
