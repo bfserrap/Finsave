@@ -1367,13 +1367,13 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   <section class="commercial-section">
     <p class="s-eyebrow">Todo Finsave, durante el tiempo que elijas</p>
     <h2 class="s-title">Todos los planes incluyen todas las funciones</h2>
-    <p style="max-width:760px;color:#68758a;line-height:1.7">No limitamos herramientas según el pago. En cualquier plan personal puedes registrar movimientos, controlar créditos y ahorros, revisar el año completo, importar desde Excel y exportar tus informes. Solo cambia la duración del acceso.</p>
+    <p style="max-width:760px;color:#68758a;line-height:1.7">No limitamos herramientas según el pago. En cualquier plan personal puedes registrar movimientos, controlar créditos y ahorros, revisar el año completo y exportar tus informes. Solo cambia la duración del acceso.</p>
     <div class="commercial-grid" id="landing-plans-grid">
       <article class="commercial-card"><h3>Prueba 14 días</h3><p>Conoce la plataforma completa sin funciones bloqueadas.</p><div class="commercial-price">Gratis</div><ul><li>14 días de acceso</li><li>Todas las funciones</li><li>Excel, PDF y soporte incluidos</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Comenzar prueba</button></article>
       <article class="commercial-card featured"><h3>Plan 30 días</h3><p>Acceso personal completo por un período mensual.</p><div class="commercial-price">$4.990 CLP</div><ul><li>30 días de acceso</li><li>Todas las funciones</li><li>Excel, PDF y soporte incluidos</li></ul><button class="btn btn-prim btn-full" onclick="showAuth('register')">Elegir 30 días</button></article>
       <article class="commercial-card"><h3>Plan anual</h3><p>La misma experiencia completa durante doce meses.</p><div class="commercial-price">$49.900 CLP</div><ul><li>365 días de acceso</li><li>Todas las funciones</li><li>Excel, PDF y soporte incluidos</li></ul><button class="btn btn-outline btn-full" onclick="showAuth('register')">Elegir anual</button></article>
     </div>
-    <div class="commercial-access-note"><strong>Funciones incluidas en los planes personales:</strong> resumen mensual, registro de ingresos y gastos, categorías, créditos y cuotas, metas de ahorro, liquidación, vista anual, gráficos de balance, importación Excel y exportación Excel/PDF.</div>
+    <div class="commercial-access-note"><strong>Funciones incluidas en los planes personales:</strong> resumen mensual, registro de ingresos y gastos, categorías, créditos y cuotas, metas de ahorro, liquidación, vista anual, gráficos de balance y exportación Excel/PDF.</div>
   </section>
   <section class="commercial-section" style="padding-top:1rem">
     <p class="s-eyebrow">Preguntas frecuentes</p><h2 class="s-title">Claro desde el primer día</h2>
@@ -1533,8 +1533,6 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
         </select>
         <select id="res-year" onchange="syncYearSelectors(this.value); renderResumen();"></select>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="openModal('mod-import')">📥 Importar Excel</button>
-      <button class="btn btn-ghost btn-sm" onclick="openBankStatementImport()">📄 Importar cartola PDF</button>
       <button class="btn btn-ghost btn-sm" onclick="exportMonthExcel()">📊 Excel del mes</button>
       <button class="btn btn-ghost btn-sm" onclick="exportResumenPDF()">📥 PDF Resumen</button>
     </div>
