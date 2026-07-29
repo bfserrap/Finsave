@@ -700,6 +700,7 @@ body{color:var(--ink)}
 .annual-month{font:inherit;color:inherit;text-align:left}
 .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}.compare-box{border:1px solid var(--gray3);border-radius:14px;padding:.9rem;background:var(--gray5)}
 .import-preview{max-height:260px;overflow:auto;border:1px solid var(--gray3);border-radius:12px;margin:.75rem 0}.import-preview table{font-size:.72rem}
+.statement-drop{display:block;padding:1.2rem;border:2px dashed var(--gray3);border-radius:16px;background:var(--gray5);text-align:center;cursor:pointer;transition:.2s}.statement-drop:hover,.statement-drop.drag{border-color:var(--brand);background:var(--brand3)}.statement-drop strong{display:block;color:var(--brand-dark);font-size:.9rem}.statement-drop small{display:block;color:var(--gray);margin-top:.25rem}.statement-preview{max-height:55vh;overflow:auto;border:1px solid var(--gray3);border-radius:12px;margin:.75rem 0}.statement-preview table{min-width:850px;font-size:.72rem}.statement-preview input,.statement-preview select{font-size:.72rem!important;padding:.4rem;border:1px solid var(--gray3);border-radius:8px;background:#fff}.statement-preview input[type="text"]{min-width:220px}.statement-preview input[type="date"]{min-width:132px}.statement-preview .amount-input{min-width:100px;width:110px}.statement-error{background:var(--danger-bg)}.statement-toolbar{display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin:.75rem 0}.statement-file-meta{font-size:.74rem;color:var(--gray)}
 .month-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin:-.2rem 0 1rem}.month-guide-step{display:flex;gap:.65rem;align-items:center;padding:.78rem .85rem;border:1px solid #E1EAE7;border-radius:14px;background:rgba(255,255,255,.82);min-width:0}.month-guide-num{display:grid;place-items:center;flex:0 0 29px;width:29px;height:29px;border-radius:10px;background:var(--primary-soft);color:var(--primary-dark);font-size:.75rem;font-weight:700}.month-guide-step strong{display:block;font-size:.76rem}.month-guide-step span{display:block;margin-top:.12rem;color:var(--muted);font-size:.65rem;line-height:1.35}.annual-controls{display:flex;gap:.5rem;align-items:center}.annual-controls select{appearance:none;min-width:110px;min-height:42px;padding:.55rem 2.2rem .55rem .8rem;border:1.5px solid #D8E3DF;border-radius:12px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2308745A' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right .75rem center;color:var(--ink);font:600 .8rem var(--font);cursor:pointer}
 @media(max-width:900px){.plan-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.annual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){
@@ -1533,6 +1534,7 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
         <select id="res-year" onchange="syncYearSelectors(this.value); renderResumen();"></select>
       </div>
       <button class="btn btn-ghost btn-sm" onclick="openModal('mod-import')">📥 Importar Excel</button>
+      <button class="btn btn-ghost btn-sm" onclick="openBankStatementImport()">📄 Importar cartola PDF</button>
       <button class="btn btn-ghost btn-sm" onclick="exportMonthExcel()">📊 Excel del mes</button>
       <button class="btn btn-ghost btn-sm" onclick="exportResumenPDF()">📥 PDF Resumen</button>
     </div>
@@ -2814,6 +2816,24 @@ input,select,textarea{min-height:50px;border-radius:14px!important;border-color:
   </div>
 </div>
 
+<div class="modal-over hidden" id="mod-statement-import">
+  <div class="modal" style="max-width:1050px">
+    <div class="modal-head"><div><div class="modal-title">📄 Importar cartola bancaria</div><div class="card-sub">Finsave lee PDFs con texto y ordena cada movimiento en el mes indicado por su fecha</div></div><button class="modal-close" onclick="closeBankStatementImport()">✕</button></div>
+    <div class="info-banner new"><strong>Antes de guardar podrás corregir todo.</strong> Revisa especialmente fecha, cargo/abono y monto. Los PDF escaneados todavía no son compatibles.</div>
+    <label class="statement-drop" id="statement-drop">
+      <strong>Seleccionar cartola en PDF</strong>
+      <small>Máximo 15 MB · el archivo debe contener texto seleccionable</small>
+      <input type="file" id="statement-file" accept="application/pdf,.pdf" hidden onchange="processBankStatementFile(this.files[0])">
+    </label>
+    <div id="statement-status" class="statement-file-meta" style="margin-top:.7rem" role="status"></div>
+    <div id="statement-review" class="hidden">
+      <div class="statement-toolbar"><div id="statement-summary"></div><button class="btn btn-ghost btn-sm" onclick="toggleAllStatementRows()">Seleccionar / quitar todas</button></div>
+      <div id="statement-preview" class="statement-preview"></div>
+      <button class="btn btn-prim btn-full" id="statement-confirm" onclick="confirmBankStatementImport()">Guardar movimientos confirmados</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-over hidden" id="mod-debt-plan">
   <div class="modal" style="max-width:720px">
     <div class="modal-head"><div><div class="modal-title">❄️ Simulador de deudas</div><div class="card-sub">Ordena tus créditos sin modificar sus registros</div></div><button class="modal-close" onclick="closeModal('mod-debt-plan')">✕</button></div>
@@ -3152,7 +3172,7 @@ function saveDB() {
 
 /* ── SUPABASE SYNC ── */
 async function syncToSupabase() {
-  if (!supabaseClient || !currentUser) return;
+  if (!supabaseClient || !currentUser) return null;
   setSyncStatus('syncing');
   try {
     const payload = {
@@ -3165,8 +3185,10 @@ async function syncToSupabase() {
       .upsert(payload, { onConflict: 'user_id' });
     if (error) throw error;
     setSyncStatus('online');
+    return true;
   } catch(e) {
     setSyncStatus('offline');
+    return false;
   }
 }
 
@@ -7582,6 +7604,296 @@ function renderResumen() {
     });
   }
 }
+
+</script>
+<script>
+(function () {
+  'use strict';
+
+  const MAX_FILE_SIZE = 15 * 1024 * 1024;
+  const MONTHS = {
+    ene: 1, enero: 1, feb: 2, febrero: 2, mar: 3, marzo: 3, abr: 4, abril: 4,
+    may: 5, mayo: 5, jun: 6, junio: 6, jul: 7, julio: 7, ago: 8, agosto: 8,
+    sep: 9, sept: 9, septiembre: 9, oct: 10, octubre: 10, nov: 11, noviembre: 11,
+    dic: 12, diciembre: 12
+  };
+  const CATEGORY_RULES = [
+    { cat: 'alimentacion', words: ['lider', 'jumbo', 'unimarc', 'tottus', 'santa isabel', 'supermercado', 'restaurant', 'restaurante', 'cafe', 'delivery', 'pedidosya', 'rappi'] },
+    { cat: 'transporte', words: ['uber', 'didi', 'cabify', 'metro', 'bip', 'copec', 'shell', 'petrobras', 'estacionamiento', 'peaje', 'autopista'] },
+    { cat: 'entretencion', words: ['netflix', 'spotify', 'disney', 'hbo', 'cinemark', 'cinepolis', 'steam', 'playstation'] },
+    { cat: 'servicios', words: ['enel', 'aguas andinas', 'metrogas', 'movistar', 'entel', 'wom', 'claro', 'internet', 'electricidad', 'gas natural'] },
+    { cat: 'salud', words: ['farmacia', 'cruz verde', 'salcobrand', 'ahumada', 'clinica', 'clinica', 'isapre', 'fonasa', 'redsalud'] },
+    { cat: 'educacion', words: ['colegio', 'universidad', 'instituto', 'matricula', 'udemy', 'coursera'] },
+    { cat: 'vivienda', words: ['arriendo', 'dividendo', 'gastos comunes'] },
+    { cat: 'compras', words: ['falabella', 'ripley', 'paris', 'mercadolibre', 'mercado libre', 'amazon', 'aliexpress', 'retail'] }
+  ];
+  const INCOME_WORDS = ['abono', 'deposito', 'deposito', 'remuneracion', 'sueldo', 'honorario', 'devolucion', 'transferencia recibida', 'pago recibido'];
+  const EXPENSE_WORDS = ['cargo', 'compra', 'pago', 'giro', 'retiro', 'comision', 'transferencia enviada', 'pac ', 'pat '];
+  let rows = [];
+  let sourceName = '';
+
+  function norm(value) {
+    return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+
+  function escapeHtml(value) {
+    if (typeof window.escAdmin === 'function') return window.escAdmin(String(value || ''));
+    const el = document.createElement('div');
+    el.textContent = String(value || '');
+    return el.innerHTML;
+  }
+
+  function parseMoney(value) {
+    let clean = String(value || '').replace(/[^\d,.\-]/g, '');
+    if (!clean) return 0;
+    const negative = clean.startsWith('-') || String(value).includes('(');
+    clean = clean.replace(/-/g, '');
+    const lastComma = clean.lastIndexOf(',');
+    const lastDot = clean.lastIndexOf('.');
+    const decimalAt = Math.max(lastComma, lastDot);
+    if (decimalAt > -1 && clean.length - decimalAt <= 3) {
+      clean = clean.slice(0, decimalAt).replace(/[.,]/g, '') + '.' + clean.slice(decimalAt + 1);
+    } else clean = clean.replace(/[.,]/g, '');
+    const amount = Math.round(Number(clean) || 0);
+    return negative ? -amount : amount;
+  }
+
+  function findStatementYear(text, filename) {
+    const period = norm(text).match(/(?:periodo|desde|entre|cartola)[^\n]{0,50}\b(20\d{2})\b/);
+    const inName = String(filename || '').match(/\b(20\d{2})\b/);
+    const any = String(text).match(/\b(20\d{2})\b/);
+    return Number(period?.[1] || inName?.[1] || any?.[1] || new Date().getFullYear());
+  }
+
+  function isoDate(raw, fallbackYear) {
+    const value = norm(raw).replace(/[,.]/g, ' ');
+    let match = value.match(/\b(20\d{2})[-/](\d{1,2})[-/](\d{1,2})\b/);
+    if (match) return validIso(+match[1], +match[2], +match[3]);
+    match = value.match(/\b(\d{1,2})[-/](\d{1,2})(?:[-/](\d{2,4}))?\b/);
+    if (match) {
+      let year = +(match[3] || fallbackYear);
+      if (year < 100) year += 2000;
+      return validIso(year, +match[2], +match[1]);
+    }
+    match = value.match(/\b(\d{1,2})\s+(ene(?:ro)?|feb(?:rero)?|mar(?:zo)?|abr(?:il)?|may(?:o)?|jun(?:io)?|jul(?:io)?|ago(?:sto)?|sep(?:t(?:iembre)?)?|oct(?:ubre)?|nov(?:iembre)?|dic(?:iembre)?)(?:\s+(20\d{2}))?\b/);
+    if (match) return validIso(+(match[3] || fallbackYear), MONTHS[match[2]], +match[1]);
+    return '';
+  }
+
+  function validIso(year, month, day) {
+    const d = new Date(year, month - 1, day);
+    if (d.getFullYear() !== year || d.getMonth() !== month - 1 || d.getDate() !== day) return '';
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  }
+
+  function categoryFor(description, type) {
+    if (type === 'ingreso') return '';
+    const text = norm(description);
+    const learned = window.db?.preferencias?.statementCategoryRules || {};
+    const learnedKey = Object.keys(learned).find(key => text.includes(key));
+    if (learnedKey) return learned[learnedKey];
+    return CATEGORY_RULES.find(rule => rule.words.some(word => text.includes(norm(word))))?.cat || 'otros';
+  }
+
+  function typeFor(description, signedAmount, hint) {
+    const text = norm(`${description} ${hint || ''}`);
+    if (INCOME_WORDS.some(word => text.includes(norm(word)))) return 'ingreso';
+    if (EXPENSE_WORDS.some(word => text.includes(norm(word)))) return 'gasto-variable';
+    // En una cartola, un monto sin signo suele ser un cargo. Solo tratamos
+    // una fila como ingreso cuando existe una señal explícita de abono.
+    return 'gasto-variable';
+  }
+
+  function pdfItemsToLines(items) {
+    const placed = items.filter(item => item.str && item.str.trim()).map(item => ({
+      text: item.str.trim(), x: item.transform[4], y: item.transform[5]
+    })).sort((a, b) => Math.abs(b.y - a.y) > 2.5 ? b.y - a.y : a.x - b.x);
+    const lines = [];
+    placed.forEach(item => {
+      let line = lines.find(entry => Math.abs(entry.y - item.y) <= 2.5);
+      if (!line) { line = { y: item.y, items: [] }; lines.push(line); }
+      line.items.push(item);
+    });
+    return lines.sort((a, b) => b.y - a.y).map(line => line.items.sort((a, b) => a.x - b.x).map(item => item.text).join('  '));
+  }
+
+  function genericExtractor(lines, context) {
+    const output = [];
+    const dateStart = /^(?:\s*)(\d{1,2}[-/]\d{1,2}(?:[-/]\d{2,4})?|\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}\s+[A-Za-zÁÉÍÓÚáéíóúñÑ]+)/;
+    for (let index = 0; index < lines.length; index++) {
+      let line = lines[index].replace(/\s+/g, ' ').trim();
+      const start = line.match(dateStart);
+      if (!start) continue;
+      const date = isoDate(start[1], context.year);
+      const moneyMatches = [...line.matchAll(/(?:^|\s)(-?\$?\s*\d{1,3}(?:[.\s]\d{3})+(?:,\d{1,2})?|-?\$?\s*\d{4,})(?=\s|$)/g)];
+      if (!moneyMatches.length) continue;
+      const monetary = moneyMatches.map(match => ({ raw: match[1], index: match.index || 0, amount: parseMoney(match[1]) })).filter(x => x.amount);
+      if (!monetary.length) continue;
+      const header = norm(lines.slice(Math.max(0, index - 25), index).join(' '));
+      // El último importe suele ser el saldo de la cuenta; el primer importe
+      // posterior a la descripción suele ser el movimiento.
+      let selected = monetary[0];
+      let hint = '';
+      if (monetary.length >= 2 && /(cargo|debe).{0,30}(abono|haber)/.test(header)) {
+        const debit = monetary[monetary.length - 2];
+        const credit = monetary[monetary.length - 1];
+        if (debit.amount && !credit.amount) { selected = debit; hint = 'cargo'; }
+        else if (credit.amount) { selected = credit; hint = 'abono'; }
+      }
+      const descEnd = monetary[0].index;
+      const description = line.slice(start[0].length, descEnd).replace(/\s{2,}/g, ' ').replace(/^[-–|]+|[-–|]+$/g, '').trim();
+      if (!description || /saldo\s+(anterior|inicial|final|disponible)/i.test(description)) continue;
+      const type = typeFor(description, selected.amount, hint);
+      output.push({
+        date, description, type, category: categoryFor(description, type),
+        amount: Math.abs(selected.amount), included: true, sourceLine: index + 1
+      });
+    }
+    return output;
+  }
+
+  const EXTRACTORS = [
+    { id: 'bancoestado', name: 'BancoEstado', detects: text => /bancoestado|banco del estado de chile/.test(text), extract: genericExtractor },
+    { id: 'santander', name: 'Santander', detects: text => /banco santander|santander chile/.test(text), extract: genericExtractor },
+    { id: 'generic', name: 'Formato bancario genérico', detects: () => true, extract: genericExtractor }
+  ];
+
+  async function readPdf(file) {
+    const pdfjs = window.pdfjsLib || await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs');
+    pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+    const pdf = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+    const pages = [];
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+      const page = await pdf.getPage(pageNumber);
+      pages.push(...pdfItemsToLines((await page.getTextContent()).items));
+    }
+    return { lines: pages, pages: pdf.numPages };
+  }
+
+  function categoriesOptions(selected) {
+    const cats = typeof window.getAllCatsVar === 'function' ? window.getAllCatsVar() : [];
+    return cats.map(cat => `<option value="${escapeHtml(cat.id)}" ${cat.id === selected ? 'selected' : ''}>${escapeHtml(cat.emoji)} ${escapeHtml(cat.label)}</option>`).join('');
+  }
+
+  function validateRow(row) {
+    return !!row.date && /^\d{4}-\d{2}-\d{2}$/.test(row.date) && !!row.description.trim() && row.amount > 0 && ['ingreso', 'gasto-variable'].includes(row.type);
+  }
+
+  function render() {
+    const preview = document.getElementById('statement-preview');
+    const valid = rows.filter(row => row.included && validateRow(row)).length;
+    const invalid = rows.filter(row => row.included && !validateRow(row)).length;
+    document.getElementById('statement-summary').innerHTML = `<strong>${valid}</strong> listos para guardar · <strong style="color:${invalid ? 'var(--danger)' : 'var(--brand-dark)'}">${invalid}</strong> por revisar`;
+    preview.innerHTML = `<table><thead><tr><th>Incluir</th><th>Fecha</th><th>Descripción</th><th>Cargo / abono</th><th>Categoría</th><th>Monto</th><th>Estado</th></tr></thead><tbody>${rows.map((row, i) => `
+      <tr class="${validateRow(row) ? '' : 'statement-error'}">
+        <td><input type="checkbox" ${row.included ? 'checked' : ''} onchange="updateBankStatementRow(${i},'included',this.checked)"></td>
+        <td><input type="date" value="${escapeHtml(row.date)}" onchange="updateBankStatementRow(${i},'date',this.value)"></td>
+        <td><input type="text" maxlength="160" value="${escapeHtml(row.description)}" onchange="updateBankStatementRow(${i},'description',this.value)"></td>
+        <td><select onchange="updateBankStatementRow(${i},'type',this.value)"><option value="gasto-variable" ${row.type === 'gasto-variable' ? 'selected' : ''}>Cargo · gasto</option><option value="ingreso" ${row.type === 'ingreso' ? 'selected' : ''}>Abono · ingreso</option></select></td>
+        <td><select ${row.type === 'ingreso' ? 'disabled' : ''} onchange="updateBankStatementRow(${i},'category',this.value)"><option value="otros">📦 Otros</option>${categoriesOptions(row.category)}</select></td>
+        <td><input class="amount-input" inputmode="numeric" value="${escapeHtml(window.formatMiles ? window.formatMiles(row.amount) : row.amount)}" onchange="updateBankStatementRow(${i},'amount',this.value)"></td>
+        <td>${validateRow(row) ? '✅ Lista' : '⚠️ Corrige los datos'}</td>
+      </tr>`).join('')}</tbody></table>`;
+    document.getElementById('statement-confirm').disabled = valid === 0 || invalid > 0;
+  }
+
+  window.openBankStatementImport = function () {
+    rows = [];
+    sourceName = '';
+    document.getElementById('statement-file').value = '';
+    document.getElementById('statement-status').textContent = '';
+    document.getElementById('statement-review').classList.add('hidden');
+    window.openModal('mod-statement-import');
+  };
+
+  window.closeBankStatementImport = function () {
+    window.closeModal('mod-statement-import');
+  };
+
+  window.processBankStatementFile = async function (file) {
+    const status = document.getElementById('statement-status');
+    document.getElementById('statement-review').classList.add('hidden');
+    if (!file) return;
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) return window.showToast('Selecciona un archivo PDF', 'err');
+    if (file.size > MAX_FILE_SIZE) return window.showToast('El PDF supera el máximo de 15 MB', 'err');
+    status.textContent = 'Leyendo el texto de la cartola…';
+    try {
+      const content = await readPdf(file);
+      if (!content.lines.join('').trim()) throw new Error('El PDF no contiene texto seleccionable. Los documentos escaneados todavía no son compatibles.');
+      const fullText = content.lines.join('\n');
+      const extractor = EXTRACTORS.find(candidate => candidate.detects(norm(fullText)));
+      rows = extractor.extract(content.lines, { year: findStatementYear(fullText, file.name), filename: file.name });
+      sourceName = file.name;
+      if (!rows.length) throw new Error('No encontramos movimientos con fecha y monto. Puede ser un formato bancario aún no compatible.');
+      status.textContent = `${file.name} · ${content.pages} página(s) · ${extractor.name}`;
+      document.getElementById('statement-review').classList.remove('hidden');
+      render();
+    } catch (error) {
+      rows = [];
+      status.textContent = error?.message || 'No fue posible leer la cartola.';
+      window.showToast('No fue posible procesar el PDF', 'err');
+    }
+  };
+
+  window.updateBankStatementRow = function (index, field, value) {
+    if (!rows[index]) return;
+    if (field === 'amount') value = Math.abs(parseMoney(value));
+    rows[index][field] = value;
+    if (field === 'description' || field === 'type') rows[index].category = categoryFor(rows[index].description, rows[index].type);
+    render();
+  };
+
+  window.toggleAllStatementRows = function () {
+    const select = rows.some(row => !row.included);
+    rows.forEach(row => { row.included = select; });
+    render();
+  };
+
+  window.confirmBankStatementImport = async function () {
+    const selected = rows.filter(row => row.included);
+    if (!selected.length || selected.some(row => !validateRow(row))) return window.showToast('Corrige o excluye las filas con errores', 'err');
+    const button = document.getElementById('statement-confirm');
+    button.disabled = true;
+    button.textContent = 'Guardando…';
+    let added = 0;
+    let duplicates = 0;
+    const stamp = Date.now();
+    selected.forEach((row, index) => {
+      const date = new Date(`${row.date}T12:00:00`);
+      const base = { id: stamp + index, dateStr: row.date, date: row.date, month: date.getMonth(), year: date.getFullYear(), desc: row.description.trim(), monto: row.amount, importSource: sourceName };
+      if (row.type === 'ingreso') {
+        const duplicate = window.db.ingresos.some(item => item.month === base.month && item.year === base.year && item.desc === base.desc && item.monto === base.monto);
+        if (duplicate) duplicates++; else { window.db.ingresos.push(base); added++; }
+      } else {
+        const duplicate = window.db.gastosVariables.some(item => (item.dateStr || item.date) === row.date && item.desc === base.desc && item.monto === base.monto);
+        if (duplicate) duplicates++; else { window.db.gastosVariables.push({ ...base, cat: row.category || 'otros' }); added++; }
+        const key = norm(row.description).split(' ').slice(0, 3).join(' ');
+        if (key.length >= 4) {
+          window.db.preferencias.statementCategoryRules = window.db.preferencias.statementCategoryRules || {};
+          window.db.preferencias.statementCategoryRules[key] = row.category || 'otros';
+        }
+      }
+    });
+    window.saveDB();
+    const syncResult = await window.syncToSupabase();
+    rows = [];
+    window.closeBankStatementImport();
+    button.textContent = 'Guardar movimientos confirmados';
+    const syncNote = syncResult === false ? ' · guardados localmente, sincronización pendiente' : '';
+    window.showToast(`${added} movimiento(s) guardados${duplicates ? ` · ${duplicates} duplicado(s) omitidos` : ''}${syncNote}`, syncResult === false ? 'err' : 'ok');
+    if (document.getElementById('page-resumen')?.classList.contains('active')) window.renderResumen();
+    if (document.getElementById('page-ingresos')?.classList.contains('active')) window.renderIngresos();
+    if (document.getElementById('page-gastos')?.classList.contains('active')) window.renderGastos();
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const drop = document.getElementById('statement-drop');
+    if (!drop) return;
+    ['dragenter', 'dragover'].forEach(event => drop.addEventListener(event, e => { e.preventDefault(); drop.classList.add('drag'); }));
+    ['dragleave', 'drop'].forEach(event => drop.addEventListener(event, e => { e.preventDefault(); drop.classList.remove('drag'); }));
+    drop.addEventListener('drop', e => window.processBankStatementFile(e.dataTransfer.files[0]));
+  });
+})();
 
 </script>
 </body>
